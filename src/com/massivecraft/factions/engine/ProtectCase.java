@@ -3,6 +3,7 @@ package com.massivecraft.factions.engine;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.util.EnumerationUtil;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
@@ -29,6 +30,8 @@ public enum ProtectCase
 		switch (this)
 		{
 			case BUILD:
+				Block block = (Block) object;
+				if (block.getType() == Material.MOB_SPAWNER) return MPerm.getPermSpawners();
 				return MPerm.getPermBuild();
 			
 			case USE_ITEM:
@@ -49,6 +52,7 @@ public enum ProtectCase
 				if (EnumerationUtil.isMaterialEditOnInteract(material)) return MPerm.getPermBuild();
 				if (EnumerationUtil.isMaterialContainer(material)) return MPerm.getPermContainer();
 				if (EnumerationUtil.isMaterialDoor(material)) return MPerm.getPermDoor();
+				if (EnumerationUtil.isMaterialExplosive(material)) return MPerm.getPermExplosives();
 				if (material == Material.STONE_BUTTON) return MPerm.getPermButton();
 				if (material == Material.LEVER) return MPerm.getPermLever();
 				

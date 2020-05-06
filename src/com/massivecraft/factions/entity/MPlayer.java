@@ -1,11 +1,6 @@
 package com.massivecraft.factions.entity;
 
-import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.FactionsIndex;
-import com.massivecraft.factions.FactionsParticipator;
-import com.massivecraft.factions.Perm;
-import com.massivecraft.factions.Rel;
-import com.massivecraft.factions.RelationParticipator;
+import com.massivecraft.factions.*;
 import com.massivecraft.factions.event.EventFactionsChunkChangeType;
 import com.massivecraft.factions.event.EventFactionsChunksChange;
 import com.massivecraft.factions.event.EventFactionsDisband;
@@ -13,12 +8,11 @@ import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
 import com.massivecraft.factions.mixin.PowerMixin;
 import com.massivecraft.factions.util.RelationUtil;
+import com.massivecraft.massivecore.collections.MassiveSet;
 import com.massivecraft.massivecore.mixin.MixinSenderPs;
 import com.massivecraft.massivecore.mixin.MixinTitle;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.ps.PSFormatHumanSpace;
-import com.massivecraft.massivecore.store.Coll;
-import com.massivecraft.massivecore.store.Modification;
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.MUtil;
@@ -29,10 +23,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.lang.ref.WeakReference;
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -69,10 +63,13 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.setMapAutoUpdating(that.mapAutoUpdating);
 		this.setOverriding(that.overriding);
 		this.setTerritoryInfoTitles(that.territoryInfoTitles);
-
+		this.setChat(that.chat);
+		this.setIgnoredPlayers(that.ignoredPlayers);
+		this.setAlt(that.alt);
+		this.setAutoFly(that.autoFly);
 		return this;
 	}
-	
+
 	// -------------------------------------------- //
 	// IS DEFAULT
 	// -------------------------------------------- //
@@ -166,6 +163,45 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// For that reason the value is to be considered correct when you pick it. Do not call the power update method.
 	// Null means default.
 	private Double power = null;
+
+	// A player can choose to enable stealth mode, by default it's false / off.
+	// When stealth mode is enabled, flight for enemy players won't be disabled.
+	private boolean stealth = false;
+
+	// A player can choose to spy on faction chats using /f spy.
+	// A very mean feature since it's an invasion of privacy :(
+	private boolean spying = false;
+
+	// Each player can toggle faction fly in their own faction territory.
+	// By default this is off however, upon entering a claim the player's fly will be enabled automatically.
+	// Null means off.
+	private boolean flying = false;
+
+	// Each player can choose their chat mode.
+	// Chat modes are public, truce, ally and faction.
+	// Default chat mode is public.
+	private Chat chat = null;
+
+	// A player can choose to inspect their own faction land by using /f inspect.
+	// When inspecting, if the player right clicks a block they will receive information on who's interacted with it.
+	// By default inspect is off.
+	private boolean inspecting = false;
+
+	// Each player can choose to ignore another player.
+	// This will prevent them from seeing messages from faction, truce and ally chat.
+	// By default nobody is ignored.
+	private MassiveSet<String> ignoredPlayers = new MassiveSet<>();
+
+	// When a player uses /f inspect, the last block they inspected will be put here.
+	// By default this is null.
+	private String lastInspected = null;
+
+	// If a player joins a faction as an alt, this will be set to true.
+	private boolean alt = false;
+
+	// Determines whether or not a player's fly should automatically enable if they enter their own faction land.
+	// By default this is true because who wouldn't want auto fly :shrug:
+	private boolean autoFly = true;
 
 	// Has this player requested an auto-updating ascii art map?
 	// Null means false
@@ -400,14 +436,248 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.changed();
 	}
 
-	public boolean hasPowerBoost()
+	// -------------------------------------------- //
+	// FIELD: stealth
+	// -------------------------------------------- //
+
+	public boolean isStealth()
 	{
-		return this.getPowerBoost() != 0D;
+		return stealth;
 	}
+
+	public void setStealth(boolean stealth)
+	{
+		// Detect Nochange
+		if (this.stealth == stealth) return;
+
+		// Apply
+		this.stealth = stealth;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: spying
+	// -------------------------------------------- //
+
+	public boolean isSpying()
+	{
+		return spying;
+	}
+
+	public void setSpying(boolean spying)
+	{
+		// Detect Nochange
+		if (this.spying == spying) return;
+
+		// Apply
+		this.spying = spying;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: flying
+	// -------------------------------------------- //
+
+	public boolean isFlying()
+	{
+		return flying;
+	}
+
+	public void setFlying(boolean flying)
+	{
+		// Update
+		Player player = this.getPlayer();
+		player.setAllowFlight(flying);
+		player.setFlying(flying);
+
+		// Apply
+		this.flying = flying;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: chat
+	// -------------------------------------------- //
+
+	public Chat getChat()
+	{
+		if (this.chat == null) return Chat.PUBLIC;
+		return this.chat;
+	}
+
+	public void setChat(Chat role)
+	{
+		// Clean input
+		Chat target = role;
+
+		// Detect Nochange
+		if (MUtil.equals(this.chat, target)) return;
+
+		// Apply
+		this.chat = target;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: inspecting
+	// -------------------------------------------- //
+
+	public boolean isInspecting()
+	{
+		return this.inspecting;
+	}
+
+	public void setInspecting(boolean inspecting)
+	{
+		// Detect Nochange
+		if (this.inspecting == inspecting) return;
+
+		// Apply
+		this.inspecting = inspecting;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: lastInspected
+	// -------------------------------------------- //
+
+	public String getLastInspected()
+	{
+		String target = this.lastInspected;
+
+		if (target == null || target.equals("")) target = null;
+
+		return target;
+	}
+
+	public void setLastInspected(String lastInspected)
+	{
+		// Clean input
+		String target = lastInspected;
+
+		if (target == null || target.equals("")) target = null;
+
+		// Detect Nochange
+		if (MUtil.equals(this.lastInspected, target)) return;
+
+		// Apply
+		this.lastInspected = target;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: alt
+	// -------------------------------------------- //
+
+	public boolean isAlt()
+	{
+		return this.alt;
+	}
+
+	public void setAlt(boolean alt)
+	{
+		// Detect Nochange
+		if (this.alt == alt) return;
+
+		// Apply
+		this.alt = alt;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: autoFly
+	// -------------------------------------------- //
+
+	public boolean isAutoFlying()
+	{
+		return this.autoFly;
+	}
+
+	public void setAutoFly(boolean autoFly)
+	{
+		// Detect Nochange
+		if (this.autoFly == autoFly) return;
+
+		// Apply
+		this.autoFly = autoFly;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: ignoredPlayers
+	// -------------------------------------------- //
+
+	public void setIgnoredPlayers(MassiveSet<String> ignoredPlayers)
+	{
+		this.ignoredPlayers = ignoredPlayers;
+	}
+
+	public boolean isIgnoring(MPlayer mPlayer)
+	{
+		return this.isIgnoring(mPlayer.getId());
+	}
+
+	public boolean isIgnoring(String playerId)
+	{
+		return this.ignoredPlayers.contains(playerId);
+	}
+
+	public void ignore(MPlayer mPlayer)
+	{
+		this.ignore(mPlayer.getId());
+	}
+
+	public void ignore(String playerId)
+	{
+		this.ignoredPlayers.add(playerId);
+
+		// Mark as changed
+		this.changed();
+	}
+
+	public void unignore(MPlayer mPlayer)
+	{
+		this.unignore(mPlayer.getId());
+	}
+
+	public void unignore(String playerId)
+	{
+		this.ignoredPlayers.remove(playerId);
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: alt
+	// -------------------------------------------- //
+
+
 
 	// -------------------------------------------- //
 	// FIELD: power
 	// -------------------------------------------- //
+
+	public boolean hasPowerBoost()
+	{
+		return this.getPowerBoost() != 0D;
+	}
 
 	// MIXIN: RAW
 
@@ -533,7 +803,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	public boolean isOverriding()
 	{
 		if (this.overriding == null) return false;
-		if (this.overriding == false) return false;
+		if (!this.overriding) return false;
 
 		if (!this.hasPermission(Perm.OVERRIDE, true))
 		{
@@ -754,7 +1024,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 			}
 		}
 
+		this.setPowerBoost(0.0D);
 		this.resetFactionData();
+		this.setAlt(false);
 
 		if (myFaction.isNormal() && !permanent && myFaction.getMPlayers().isEmpty())
 		{

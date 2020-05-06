@@ -11,6 +11,7 @@ import com.massivecraft.factions.event.EventFactionsCreate;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
 import com.massivecraft.massivecore.MassiveException;
+import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.mson.Mson;
 import com.massivecraft.massivecore.store.MStore;
 import org.bukkit.ChatColor;
@@ -30,6 +31,7 @@ public class CmdFactionsCreate extends FactionsCommand
 		this.addParameter(TypeFactionNameStrict.get(), "name");
 		
 		// Requirements
+		this.addRequirements(RequirementIsPlayer.get());
 		this.addRequirements(ReqHasntFaction.get());
 	}
 	

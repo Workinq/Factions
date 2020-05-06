@@ -20,7 +20,6 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 import java.util.List;
 
-
 public class EngineSpigot extends Engine
 {
 	// -------------------------------------------- //

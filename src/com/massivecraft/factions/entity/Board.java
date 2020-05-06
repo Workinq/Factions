@@ -7,6 +7,9 @@ import com.massivecraft.massivecore.collections.MassiveSet;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.xlib.gson.reflect.TypeToken;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.WorldBorder;
 
 import java.lang.reflect.Type;
 import java.util.Collections;
@@ -14,12 +17,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Board extends Entity<Board> implements BoardInterface
 {
 	public static final transient Type MAP_TYPE = new TypeToken<Map<PS, TerritoryAccess>>(){}.getType();
-	
+
 	// -------------------------------------------- //
 	// META
 	// -------------------------------------------- //
@@ -54,8 +57,9 @@ public class Board extends Entity<Board> implements BoardInterface
 	// -------------------------------------------- //
 	
 	// TODO: Make TerritoryAccess immutable.
-	
-	private ConcurrentSkipListMap<PS, TerritoryAccess> map;
+
+	private transient String world;
+	public Map<PS, TerritoryAccess> map;
 	public Map<PS, TerritoryAccess> getMap() { return Collections.unmodifiableMap(this.map); }
 	public Map<PS, TerritoryAccess> getMapRaw() { return this.map; }
 	
@@ -65,12 +69,12 @@ public class Board extends Entity<Board> implements BoardInterface
 	
 	public Board()
 	{
-		this.map = new ConcurrentSkipListMap<>();
+		this.map = new ConcurrentHashMap<>();
 	}
 	
 	public Board(Map<PS, TerritoryAccess> map)
 	{
-		this.map = new ConcurrentSkipListMap<>(map);
+		this.map = new ConcurrentHashMap<>(map);
 	}
 	
 	// -------------------------------------------- //
@@ -149,7 +153,14 @@ public class Board extends Entity<Board> implements BoardInterface
 			this.removeAt(ps);
 		}
 	}
-	
+
+	// WORLD
+
+	public String getWorld()
+	{
+		return world != null ? world : (world = this.getId().split("\\.")[0]);
+	}
+
 	// CHUNKS
 	
 	@Override
@@ -201,6 +212,26 @@ public class Board extends Entity<Board> implements BoardInterface
 		}
 		
 		return ret;
+	}
+
+	public boolean isChunkOutsideBorder(PS ps) {
+		ps = ps.withWorld(this.getWorld());
+		World world = Bukkit.getWorld(this.getWorld());
+		return world == null || !this.isEntireChunkInsideBorder(world, ps.getChunkX(), ps.getChunkZ());
+	}
+
+	private boolean isEntireChunkInsideBorder(World world, int x, int z)
+	{
+		return this.isInsideBorder(world, x << 4, z << 4) && this.isInsideBorder(world, (x << 4) + 15, (z << 4) + 15);
+	}
+
+	private boolean isInsideBorder(World world, int x, int z)
+	{
+		WorldBorder border = world.getWorldBorder();
+		double cX = border.getCenter().getX();
+		double cZ = border.getCenter().getZ();
+		double size = border.getSize() / 2.0D;
+		return (double) (x + 1) > cX - size && (double) x < cX + size && (double) (z + 1) > cZ - size && (double) z < cZ + size;
 	}
 	
 	// COUNT

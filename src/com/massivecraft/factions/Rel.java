@@ -49,7 +49,12 @@ public enum Rel implements Colorized, Named
 		"an officer in your faction", "officers in your faction", "", "",
 		"Officer", "Moderator"
 	) { @Override public String getPrefix() { return MConf.get().prefixOfficer; } },
-	
+
+	COLEADER(
+			"a coleader in your faction", "coleaders in your faction", "", "",
+			"Coleader"
+	) { @Override public String getPrefix() { return MConf.get().prefixColeader; } },
+
 	LEADER(
 		"your faction leader", "your faction leader", "", "",
 		"Leader", "Admin", "Owner"

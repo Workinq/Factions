@@ -100,6 +100,7 @@ public class Econ
 	{
 		return transferMoney(from, to, invoker, amount, true);
 	}
+
 	public static boolean transferMoney(EconomyParticipator from, EconomyParticipator to, EconomyParticipator by, double amount, boolean notify)
 	{
 		if ( ! isEnabled()) return false;
@@ -189,7 +190,7 @@ public class Econ
 		{
 			for (MPlayer recipient : recipients)
 			{
-				recipient.msg("<h>%s<i> was transfered from <h>%s<i> to <h>%s<i>.", Money.format(amount), from.describeTo(recipient), to.describeTo(recipient));
+				recipient.msg("<h>%s<i> was transferred from <h>%s<i> to <h>%s<i>.", Money.format(amount), from.describeTo(recipient), to.describeTo(recipient));
 			}
 		}
 		else if (invoker == from)
@@ -210,7 +211,7 @@ public class Econ
 		{
 			for (MPlayer recipient : recipients)
 			{
-				recipient.msg("<h>%s<i> transfered <h>%s<i> from <h>%s<i> to <h>%s<i>.", invoker.describeTo(recipient, true), Money.format(amount), from.describeTo(recipient), to.describeTo(recipient));
+				recipient.msg("<h>%s<i> transferred <h>%s<i> from <h>%s<i> to <h>%s<i>.", invoker.describeTo(recipient, true), Money.format(amount), from.describeTo(recipient), to.describeTo(recipient));
 			}
 		}
 	}
@@ -248,11 +249,11 @@ public class Econ
 			{
 				if (delta > 0)
 				{
-					ep.msg("<h>%s<i> gained <h>%s<i> since %s did %s.", You, Money.format(delta), you, actionDescription);
+					ep.msg("<h>%s<i> gained <h>%s<i> since <h>%s<i> did <h>%s<i>.", You, Money.format(delta), you, actionDescription);
 				}
 				else
 				{
-					ep.msg("<h>%s<i> lost <h>%s<i> since %s did %s.", You, Money.format(-delta), you, actionDescription);
+					ep.msg("<h>%s<i> lost <h>%s<i> since <h>%s<i> did <h>%s<i>.", You, Money.format(-delta), you, actionDescription);
 				}
 			}
 			return true;
@@ -263,15 +264,15 @@ public class Econ
 			{
 				if (delta > 0)
 				{
-					ep.msg("<h>%s<i> would have gained <h>%s<i> since %s did %s, but the deposit failed.", You, Money.format(delta), you, actionDescription);
+					ep.msg("<h>%s<i> would have gained <h>%s<i> since <h>%s<i> did <h>%s<i>, but the deposit failed.", You, Money.format(delta), you, actionDescription);
 				}
 				else
 				{
-					ep.msg("<h>%s<i> can't afford <h>%s<i> to %s.", You, Money.format(-delta), actionDescription);
+					ep.msg("<h>%s<i> can't afford <h>%s<i> to <h>%s<i>.", You, Money.format(-delta), actionDescription);
 				}
 			}
 			return false;
 		}
 	}
-	
+
 }

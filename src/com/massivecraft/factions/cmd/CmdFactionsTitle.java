@@ -1,11 +1,13 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Perm;
+import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.event.EventFactionsTitleChange;
 import com.massivecraft.massivecore.MassiveException;
+import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.command.type.primitive.TypeString;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.ChatColor;
@@ -21,6 +23,10 @@ public class CmdFactionsTitle extends FactionsCommand
 		// Parameters
 		this.addParameter(TypeMPlayer.get(), "player");
 		this.addParameter(TypeString.get(), "title", "", true);
+
+		// Requirements
+		this.addRequirements(RequirementIsPlayer.get());
+		this.addRequirements(ReqHasFaction.get());
 	}
 
 	// -------------------------------------------- //

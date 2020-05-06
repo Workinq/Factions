@@ -19,13 +19,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
 
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class EngineFlagExplosion extends Engine
 {
@@ -97,6 +91,21 @@ public class EngineFlagExplosion extends Engine
 			cancellable.setCancelled(true);
 			return;
 		}
+
+		// Get a new calendar.
+		int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+		// Check if the faction is shielded.
+		if (faction.isShieldedAt(hour))
+		{
+			PS at = PS.valueOf(location.getChunk());
+			if (faction.getBaseRegion().contains(at) && BoardColl.get().getFactionAt(at) == faction)
+			{
+				cancellable.setCancelled(true);
+				return;
+			}
+		}
+
 		faction2allowed.put(faction, allowed);
 		
 		// Individually check the flag state for each block
@@ -106,12 +115,13 @@ public class EngineFlagExplosion extends Engine
 			Block block = iterator.next();
 			faction = BoardColl.get().getFactionAt(PS.valueOf(block));
 			allowed = faction2allowed.get(faction);
+
 			if (allowed == null)
 			{
-				allowed = faction.isExplosionsAllowed();
+				allowed = faction.isExplosionsAllowed() || ! faction.isShieldedAt(hour);
 				faction2allowed.put(faction, allowed);
 			}
-			
+
 			if (!allowed) iterator.remove();
 		}
 	}

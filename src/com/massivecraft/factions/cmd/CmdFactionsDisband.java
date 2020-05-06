@@ -2,18 +2,15 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.cmd.type.TypeFaction;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.FactionColl;
-import com.massivecraft.factions.entity.MConf;
-import com.massivecraft.factions.entity.MFlag;
-import com.massivecraft.factions.entity.MPerm;
-import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.event.EventFactionsDisband;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.Txt;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.inventory.Inventory;
 
 public class CmdFactionsDisband extends FactionsCommand
 {
@@ -51,8 +48,6 @@ public class CmdFactionsDisband extends FactionsCommand
 		EventFactionsDisband event = new EventFactionsDisband(me, faction);
 		event.run();
 		if (event.isCancelled()) return;
-
-		// Merged Apply and Inform
 		
 		// Run event for each player in the faction
 		for (MPlayer mplayer : faction.getMPlayers())
@@ -69,8 +64,22 @@ public class CmdFactionsDisband extends FactionsCommand
 		
 		if (msenderFaction != faction)
 		{
-			msender.msg("<i>You disbanded <h>%s<i>." , faction.describeTo(msender));
+			msg("<i>You disbanded <h>%s<i>." , faction.describeTo(msender));
 		}
+
+		Inventory factionInventory = faction.getInventory();
+		for (HumanEntity entity : factionInventory.getViewers())
+		{
+			entity.closeInventory();
+		}
+		for (int i = 0; i < factionInventory.getSize(); i++)
+		{
+			if (factionInventory.getItem(i) == null) continue;
+
+			me.getWorld().dropItemNaturally(me.getLocation(), factionInventory.getItem(i));
+			factionInventory.setItem(i, null);
+		}
+		msender.msg("<i>As result of disbanding <h>%s<i>, all /f chest contents have been dropped at your feet.", new Object[] { faction.describeTo(this.msender) });
 		
 		// Log
 		if (MConf.get().logFactionDisband)

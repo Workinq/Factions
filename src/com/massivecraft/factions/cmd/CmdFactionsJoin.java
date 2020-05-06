@@ -4,9 +4,10 @@ import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
+import com.massivecraft.factions.comparator.ComparatorMPlayerInactivity;
 import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MConf;
-import com.massivecraft.factions.entity.MFlag;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
@@ -14,6 +15,8 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.mson.Mson;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.ChatColor;
+
+import java.util.List;
 
 public class CmdFactionsJoin extends FactionsCommand
 {
@@ -90,7 +93,59 @@ public class CmdFactionsJoin extends FactionsCommand
 			return;
 		}
 
-		if( ! (faction.getFlag(MFlag.getFlagOpen()) || faction.isInvited(mplayer) || msender.isOverriding()))
+		if (faction.isBanned(msender))
+		{
+			msg("<b>You've been banned from joining %s<b>.", faction.describeTo(msender));
+			return;
+		}
+
+		if (faction.isInvitedAlt(mplayer))
+		{
+			msg("<b>You can't join this faction as a member, use /f alt join instead.");
+			return;
+		}
+
+		if ( ! faction.isInRoster(mplayer))
+		{
+			msg("<b>You must be added to this faction's roster in order to join.");
+			return;
+		}
+
+		if (faction.isFull())
+		{
+			// Args
+			List<MPlayer> mplayers = faction.getMPlayers();
+
+			// Sort by inactivity
+			mplayers.sort(new ComparatorMPlayerInactivity());
+
+			MPlayer toKick = null;
+			for (MPlayer member : mplayers)
+			{
+				if (member.isOnline()) continue;
+				toKick = member;
+			}
+
+			if (toKick == null)
+			{
+				msg("<b>There are no players that can be kicked at the moment.");
+				return;
+			}
+
+			// Event
+			EventFactionsMembershipChange event = new EventFactionsMembershipChange(sender, toKick, FactionColl.get().getNone(), MembershipChangeReason.KICK);
+			event.run();
+			if (event.isCancelled())
+			{
+				msg("<b>There are no players that can be kicked at the moment.");
+				return;
+			}
+
+			// Apply
+			toKick.resetFactionData();
+		}
+
+		/*if ( ! (faction.getFlag(MFlag.getFlagOpen()) || faction.isInvited(mplayer) || msender.isOverriding()))
 		{
 			msg("<i>This faction requires invitation.");
 			if (samePlayer)
@@ -98,7 +153,7 @@ public class CmdFactionsJoin extends FactionsCommand
 				faction.msg("%s<i> tried to join your faction.", mplayer.describeTo(faction, true));
 			}
 			return;
-		}
+		}*/
 
 		// Event
 		EventFactionsMembershipChange membershipChangeEvent = new EventFactionsMembershipChange(sender, msender, faction, MembershipChangeReason.JOIN);
@@ -111,7 +166,7 @@ public class CmdFactionsJoin extends FactionsCommand
 			mplayer.msg("<i>%s <i>moved you into the faction %s<i>.", msender.describeTo(mplayer, true), faction.getName(mplayer));
 		}
 		faction.msg("<i>%s <i>joined <lime>your faction<i>.", mplayer.describeTo(faction, true));
-		msender.msg("<i>%s <i>successfully joined %s<i>.", mplayer.describeTo(msender, true), faction.getName(msender));
+		msg("<i>%s <i>successfully joined %s<i>.", mplayer.describeTo(msender, true), faction.getName(msender));
 		
 		// Apply
 		mplayer.resetFactionData();

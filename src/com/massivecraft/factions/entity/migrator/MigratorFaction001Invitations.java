@@ -13,8 +13,8 @@ public class MigratorFaction001Invitations extends MigratorRoot
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 	
-	private static com.massivecraft.factions.entity.migrator.MigratorFaction001Invitations i = new com.massivecraft.factions.entity.migrator.MigratorFaction001Invitations();
-	public static com.massivecraft.factions.entity.migrator.MigratorFaction001Invitations get() { return i; }
+	private static MigratorFaction001Invitations i = new MigratorFaction001Invitations();
+	public static MigratorFaction001Invitations get() { return i; }
 	private MigratorFaction001Invitations()
 	{
 		super(Faction.class);

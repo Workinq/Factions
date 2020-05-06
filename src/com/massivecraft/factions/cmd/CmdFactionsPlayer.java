@@ -47,17 +47,17 @@ public class CmdFactionsPlayer extends FactionsCommand
 		}
 		
 		int progressbarWidth = (int) Math.round(mplayer.getPowerMax() / mplayer.getPowerMaxUniversal() * 100);
-		msg("<a>Power: <v>%s", Progressbar.HEALTHBAR_CLASSIC.withQuota(progressbarQuota).withWidth(progressbarWidth).render());
+		this.msg("<a>Power: <v>%s", Progressbar.HEALTHBAR_CLASSIC.withQuota(progressbarQuota).withWidth(progressbarWidth).render());
 				
 		// INFO: Power (as digits)
-		msg("<a>Power: <v>%.2f / %.2f", mplayer.getPower(), mplayer.getPowerMax());
+		this.msg("<a>Power: <v>%.2f / %.2f", mplayer.getPower(), mplayer.getPowerMax());
 		
 		// INFO: Power Boost
 		if (mplayer.hasPowerBoost())
 		{
 			double powerBoost = mplayer.getPowerBoost();
 			String powerBoostType = (powerBoost > 0 ? "bonus" : "penalty");
-			msg("<a>Power Boost: <v>%f <i>(a manually granted %s)", powerBoost, powerBoostType);
+			this.msg("<a>Power Boost: <v>%f <i>(a manually granted %s)", powerBoost, powerBoostType);
 		}
 		
 		// INFO: Power per Hour

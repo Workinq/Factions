@@ -5,26 +5,21 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MFlag;
 import com.massivecraft.factions.entity.MPlayer;
-import com.massivecraft.factions.event.EventFactionsChunkChangeType;
 import com.massivecraft.factions.event.EventFactionsFactionShowAsync;
 import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.util.TimeUtil;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.PriorityLines;
 import com.massivecraft.massivecore.money.Money;
-import com.massivecraft.massivecore.util.TimeDiffUtil;
-import com.massivecraft.massivecore.util.TimeUnit;
+import com.massivecraft.massivecore.mson.Mson;
 import com.massivecraft.massivecore.util.Txt;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.Map.Entry;
 
 public class EngineShow extends Engine
@@ -39,20 +34,24 @@ public class EngineShow extends Engine
 	public static final String SHOW_ID_FACTION_ID = BASENAME_ + "id";
 	public static final String SHOW_ID_FACTION_DESCRIPTION = BASENAME_ + "description";
 	public static final String SHOW_ID_FACTION_AGE = BASENAME_ + "age";
+	public static final String SHOW_ID_FACTION_SHIELD = BASENAME_ + "shield";
+	public static final String SHOW_ID_FACTION_STRIKES = BASENAME_ + "strikes";
+	public static final String SHOW_ID_FACTION_BANS = BASENAME_ + "bans";
 	public static final String SHOW_ID_FACTION_FLAGS = BASENAME_ + "flags";
 	public static final String SHOW_ID_FACTION_POWER = BASENAME_ + "power";
-	public static final String SHOW_ID_FACTION_LANDVALUES = BASENAME_ + "landvalue";
 	public static final String SHOW_ID_FACTION_BANK = BASENAME_ + "bank";
 	public static final String SHOW_ID_FACTION_FOLLOWERS = BASENAME_ + "followers";
 	
 	public static final int SHOW_PRIORITY_FACTION_ID = 1000;
 	public static final int SHOW_PRIORITY_FACTION_DESCRIPTION = 2000;
 	public static final int SHOW_PRIORITY_FACTION_AGE = 3000;
-	public static final int SHOW_PRIORITY_FACTION_FLAGS = 4000;
-	public static final int SHOW_PRIORITY_FACTION_POWER = 5000;
-	public static final int SHOW_PRIORITY_FACTION_LANDVALUES = 6000;
-	public static final int SHOW_PRIORITY_FACTION_BANK = 7000;
-	public static final int SHOW_PRIORITY_FACTION_FOLLOWERS = 9000;
+	public static final int SHOW_PRIORITY_FACTION_SHIELD = 4000;
+	public static final int SHOW_PRIORITY_FACTION_STRIKES = 5000;
+	public static final int SHOW_PRIORITY_FACTION_BANS = 6000;
+	public static final int SHOW_PRIORITY_FACTION_FLAGS = 7000;
+	public static final int SHOW_PRIORITY_FACTION_POWER = 8000;
+	public static final int SHOW_PRIORITY_FACTION_BANK = 9000;
+	public static final int SHOW_PRIORITY_FACTION_FOLLOWERS = 10000;
 	
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
@@ -89,10 +88,24 @@ public class EngineShow extends Engine
 		if (normal)
 		{
 			// AGE
-			long ageMillis = faction.getCreatedAtMillis() - System.currentTimeMillis();
-			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(ageMillis, TimeUnit.getAllButMillis()), 3);
-			String ageDesc = TimeDiffUtil.formatedVerboose(ageUnitcounts, "<i>");
-			show(idPriorityLiness, SHOW_ID_FACTION_AGE, SHOW_PRIORITY_FACTION_AGE, "Age", ageDesc);
+			long ageMillis = System.currentTimeMillis() - faction.getCreatedAtMillis();
+			String ageString = TimeUtil.formatTime(ageMillis, true);
+			show(idPriorityLiness, SHOW_ID_FACTION_AGE, SHOW_PRIORITY_FACTION_AGE, "Age", ageString);
+
+			// SHIELD
+			Calendar now = Calendar.getInstance();
+			boolean active = faction.isShieldedAt(now.get(Calendar.HOUR_OF_DAY));
+			String shieldString = Txt.parse(active ? "<g><bold>ACTIVE" : "<b><bold>INACTIVE");
+			show(idPriorityLiness, SHOW_ID_FACTION_SHIELD, SHOW_PRIORITY_FACTION_SHIELD, "Shield", shieldString);
+
+			// STRIKES
+			int strikes = faction.getStrikes().size();
+			int strikePoints = faction.getStrikePoints();
+			show(idPriorityLiness, SHOW_ID_FACTION_STRIKES, SHOW_PRIORITY_FACTION_STRIKES, "Strikes / Points", Txt.parse("%d/%d", strikes, strikePoints));
+
+			// BANS
+			int bans = faction.getBannedMembers().size();
+			show(idPriorityLiness, SHOW_ID_FACTION_BANS, SHOW_PRIORITY_FACTION_BANS, "Bans", Txt.parse("%d", bans));
 
 			// FLAGS
 			// We display all editable and non default ones. The rest we skip.
@@ -126,30 +139,6 @@ public class EngineShow extends Engine
 			// SECTION: ECON
 			if (Econ.isEnabled())
 			{
-				// LANDVALUES
-				List<String> landvalueLines = new LinkedList<>();
-				long landCount = faction.getLandCount();
-				for (EventFactionsChunkChangeType type : EventFactionsChunkChangeType.values())
-				{
-					Double money = MConf.get().econChunkCost.get(type);
-					if (money == null) continue;
-					if (money == 0) continue;
-					money *= landCount;
-
-					String word = "Cost";
-					if (money <= 0)
-					{
-						word = "Reward";
-						money *= -1;
-					}
-
-					String key = Txt.parse("Total Land %s %s", type.toString().toLowerCase(), word);
-					String value = Txt.parse("<h>%s", Money.format(money));
-					String line = show(key, value);
-					landvalueLines.add(line);
-				}
-				idPriorityLiness.put(SHOW_ID_FACTION_LANDVALUES, new PriorityLines(SHOW_PRIORITY_FACTION_LANDVALUES, landvalueLines));
-
 				// BANK
 				if (MConf.get().bankEnabled)
 				{
@@ -170,6 +159,8 @@ public class EngineShow extends Engine
 		Collections.sort(followers, ComparatorMPlayerRole.get());
 		for (MPlayer follower : followers)
 		{
+			if (follower.isAlt()) continue;
+
 			if (follower.isOnline(sender))
 			{
 				followerNamesOnline.add(follower.getNameAndTitle(mplayer));

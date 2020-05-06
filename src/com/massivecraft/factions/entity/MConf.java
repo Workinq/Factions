@@ -20,8 +20,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventPriority;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -80,7 +78,6 @@ public class MConf extends Entity<MConf>
 	public WorldExceptionSet worldsClaimingEnabled = new WorldExceptionSet();
 	public WorldExceptionSet worldsPowerLossEnabled = new WorldExceptionSet();
 	public WorldExceptionSet worldsPowerGainEnabled = new WorldExceptionSet();
-	
 	public WorldExceptionSet worldsPvpRulesEnabled = new WorldExceptionSet();
 	
 	// -------------------------------------------- //
@@ -177,7 +174,49 @@ public class MConf extends Entity<MConf>
 	// Can players with negative power leave their faction?
 	// NOTE: This only makes sense to set to false if your "powerMin" setting is negative.
 	public boolean canLeaveWithNegativePower = true;
-	
+
+	// -------------------------------------------- //
+	// FLY
+	// -------------------------------------------- //
+
+	public boolean flyEnabled = true;
+	public boolean usePearlsFlying = false;
+	public double enemyCheckRadius = 50.0D;
+
+	// -------------------------------------------- //
+	// GRACE
+	// -------------------------------------------- //
+
+	public boolean graceEnabled = true;
+
+	// -------------------------------------------- //
+	// WARPS
+	// -------------------------------------------- //
+
+	public int amountOfWarps = 5;
+	public boolean warpsMustBeInClaimedTerritory = true;
+	public int warpWarmup = 10;
+
+	// -------------------------------------------- //
+	// MISSIONS
+	// -------------------------------------------- //
+
+	public String missionGuiName = "<gray>Faction Missions";
+	public int missionGuiSize = 27;
+	public Material missionItemType = Material.WATCH;
+	public String missionItemName = "<k><bold>Start Mission";
+	public byte missionItemData = 0;
+	public int missionItemSlot = 13;
+	public List<String> missionItemLore = MUtil.list(
+			"<n>Progress: <k>%progress%",
+			"",
+			"<n>Challenge: <k>%description%",
+			"",
+			"<n>Reward: <k>%reward% tokens",
+			"",
+			"<n>Time Remaining: <k>%time%"
+	);
+
 	// -------------------------------------------- //
 	// CORE
 	// -------------------------------------------- //
@@ -185,10 +224,17 @@ public class MConf extends Entity<MConf>
 	// Is there a maximum amount of members per faction?
 	// 0 means there is not. If you set it to 100 then there can at most be 100 members per faction.
 	public int factionMemberLimit = 0;
+
+	// Is there a maximum amount of alts per faction?
+	// 0 means there is not. If you set it to 100 then there can at most be 100 alts per faction.
+	public int factionAltLimit = 0;
 	
 	// Is there a maximum faction power cap?
 	// 0 means there is not. Set it to a positive value in case you wan't to use this feature.
 	public double factionPowerMax = 0.0;
+
+	// What's the maximum number of kicks a faction can have?
+	public int maximumKicks = 6;
 	
 	// Limit the length of faction names here.
 	public int factionNameLengthMin = 3;
@@ -208,6 +254,9 @@ public class MConf extends Entity<MConf>
 	
 	// When using fill setting of faction territory, what is the maximum chunk count allowed?
 	public int setFillMax = 1000;
+
+	// When using line setting of faction territory, what is the maximum length allowed?
+	public int setLineMax = 35;
 	
 	// -------------------------------------------- //
 	// CLAIMS
@@ -216,7 +265,7 @@ public class MConf extends Entity<MConf>
 	// Must claims be connected to each other?
 	// If you set this to false you will allow factions to claim more than one base per world map.
 	// That would makes outposts possible but also potentially ugly weird claims messing up your Dynmap and ingame experiance.
-	public boolean claimsMustBeConnected = true;
+	public boolean claimsMustBeConnected = false;
 	
 	// Would you like to allow unconnected claims when conquering land from another faction?
 	// Setting this to true would allow taking over someone elses base even if claims normally have to be connected.
@@ -244,6 +293,9 @@ public class MConf extends Entity<MConf>
 	
 	// The max amount of worlds in which a player can have claims in.
 	public int claimedWorldsMax = -1;
+
+	// The maximum distance to claim from using click to claim map.
+	public int maximumClaimDistance = 20;
 	
 	// -------------------------------------------- //
 	// PROTECTION
@@ -444,6 +496,26 @@ public class MConf extends Entity<MConf>
 	// At which event priority should the faction chat tags be parsed in such case?
 	// Choose between: LOWEST, LOW, NORMAL, HIGH, HIGHEST.
 	public EventPriority chatParseTagsAt = EventPriority.LOW;
+
+	// What should the format be when a player speaks with faction chat?
+	public String chatFormat = "%s:" + ChatColor.WHITE + " %s";
+
+	// What should the chat spy format be?
+	public String spyChatFormat = "<i>[Faction Spy] %s <i>sent a <h>%s <i>message: <a>%s";
+
+	public String healthBarFormat = "&c\u2764";
+
+	// -------------------------------------------- //
+	// TNT
+	// -------------------------------------------- //
+
+	public int maximumFillRadius = 20;
+
+	// -------------------------------------------- //
+	// ROSTER
+	// -------------------------------------------- //
+
+	public int rosterMemberLimit = 15;
 	
 	// -------------------------------------------- //
 	// COLORS
@@ -457,6 +529,8 @@ public class MConf extends Entity<MConf>
 	public ChatColor colorTruce = ChatColor.LIGHT_PURPLE;
 	public ChatColor colorNeutral = ChatColor.WHITE;
 	public ChatColor colorEnemy = ChatColor.RED;
+	public ChatColor colorWilderness = ChatColor.DARK_GREEN;
+	public ChatColor colorFocused = ChatColor.BLUE;
 	
 	// This one is for example applied to SafeZone since that faction has the pvp flag set to false.
 	public ChatColor colorNoPVP = ChatColor.GOLD;
@@ -469,7 +543,8 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 	
 	// Here you may edit the name prefixes associated with different faction ranks.
-	public String prefixLeader = "**";
+	public String prefixLeader = "***";
+	public String prefixColeader = "**";
 	public String prefixOfficer = "*";
 	public String prefixMember = "+";
 	public String prefixRecruit = "-";
@@ -518,12 +593,17 @@ public class MConf extends Entity<MConf>
 	
 	public boolean logFactionCreate = true;
 	public boolean logFactionDisband = true;
+	public boolean logFactionInvite = true;
 	public boolean logFactionJoin = true;
 	public boolean logFactionKick = true;
 	public boolean logFactionLeave = true;
+	public boolean logFactionBan = true;
+	public boolean logFactionUnban = true;
 	public boolean logLandClaims = true;
 	public boolean logMoneyTransactions = true;
-	
+	public boolean logCreditsTransactions = true;
+	public boolean logTntTransactions = true;
+
 	// -------------------------------------------- //
 	// ENUMERATIONS
 	// -------------------------------------------- //
@@ -545,6 +625,9 @@ public class MConf extends Entity<MConf>
 	
 	// Interacting with these materials placed in the terrain results in opening a container.
 	public BackstringSet<Material> materialsContainer = new BackstringSet<>(Material.class);
+
+	// Interacting with these materials placed in the terrain results in placing an explosive.
+	public BackstringSet<Material> materialsExplosive = new BackstringSet<>(Material.class);
 	
 	// Interacting with these entities results in an edit.
 	public BackstringSet<EntityType> entityTypesEditOnInteract = new BackstringSet<>(EntityType.class);
@@ -560,61 +643,9 @@ public class MConf extends Entity<MConf>
 	
 	// List of entities considered to be animals.
 	public BackstringSet<EntityType> entityTypesAnimals = new BackstringSet<>(EntityType.class);
-	
-	// -------------------------------------------- //
-	// INTEGRATION: HeroChat
-	// -------------------------------------------- //
-	
-	// I you are using the chat plugin HeroChat Factions ship with built in integration.
-	// The two channels Faction and Allies will be created.
-	// Their data is actually stored right here in the factions config.
-	// NOTE: HeroChat will create it's own database files for these two channels.
-	// You should ignore those and edit the channel settings from here.
-	// Those HeroChat channel database files aren't read for the Faction and Allies channels.
-	
-	// The Faction Channel
-	public String herochatFactionName = "Faction";
-	public String herochatFactionNick = "F";
-	public String herochatFactionFormat = "{color}[&l{nick}&r{color} &l{factions_roleprefix}&r{color}{factions_title|rp}{sender}{color}] &f{msg}";
-	public ChatColor herochatFactionColor = ChatColor.GREEN;
-	public int herochatFactionDistance = 0;
-	public boolean herochatFactionIsShortcutAllowed = false;
-	public boolean herochatFactionCrossWorld = true;
-	public boolean herochatFactionMuted = false;
-	public Set<String> herochatFactionWorlds = new HashSet<>();
-	
-	// The Allies Channel
-	public String herochatAlliesName = "Allies";
-	public String herochatAlliesNick = "A";
-	public String herochatAlliesFormat = "{color}[&l{nick}&r&f {factions_relcolor}&l{factions_roleprefix}&r{factions_relcolor}{factions_name|rp}{sender}{color}] &f{msg}";
-	public ChatColor herochatAlliesColor = ChatColor.DARK_PURPLE;
-	public int herochatAlliesDistance = 0;
-	public boolean herochatAlliesIsShortcutAllowed = false;
-	public boolean herochatAlliesCrossWorld = true;
-	public boolean herochatAlliesMuted = false;
-	public Set<String> herochatAlliesWorlds = new HashSet<>();
-	
-	// -------------------------------------------- //
-	// INTEGRATION: LWC
-	// -------------------------------------------- //
-	
-	// Do you need faction build rights in the territory to create an LWC protection there?
-	public boolean lwcMustHaveBuildRightsToCreate = true;
-	
-	// The config option above does not handle situations where a player creates an LWC protection in Faction territory and then leaves the faction.
-	// The player would then have an LWC protection in a territory where they can not build.
-	// Set this config option to true to enable an automatic removal feature.
-	// LWC protections that couldn't be created will be removed on an attempt to open them by any player.
-	public boolean lwcRemoveIfNoBuildRights = false;
-	
-	// WARN: Experimental and semi buggy.
-	// If you change this to true: alien LWC protections will be removed upon using /f set.
-	public Map<EventFactionsChunkChangeType, Boolean> lwcRemoveOnChange = MUtil.map(
-		EventFactionsChunkChangeType.BUY, false, // when claiming from wilderness
-		EventFactionsChunkChangeType.SELL, false, // when selling back to wilderness
-		EventFactionsChunkChangeType.CONQUER, false, // when claiming from another player faction
-		EventFactionsChunkChangeType.PILLAGE, false // when unclaiming (to wilderness) from another player faction
-	);
+
+	// List of entities to drop shard items.
+	public BackstringSet<EntityType> entityTypesShards = new BackstringSet<>(EntityType.class);
 	
 	// -------------------------------------------- //
 	// INTEGRATION: WorldGuard
@@ -626,6 +657,12 @@ public class MConf extends Entity<MConf>
 	// Enable the WorldGuard check per-world 
 	// Specify which worlds the WorldGuard Check can be used in
 	public WorldExceptionSet worldguardCheckWorldsEnabled = new WorldExceptionSet();
+
+	// -------------------------------------------- //
+	// INTEGRATION: CoreProtect
+	// -------------------------------------------- //
+
+	public int inspectResultLimit = 100;
 	
 	// -------------------------------------------- //
 	// INTEGRATION: ECONOMY
@@ -645,14 +682,14 @@ public class MConf extends Entity<MConf>
 	
 	// What is the price per chunk when using /f set?
 	public Map<EventFactionsChunkChangeType, Double> econChunkCost = MUtil.map(
-		EventFactionsChunkChangeType.BUY, 1.0, // when claiming from wilderness
+		EventFactionsChunkChangeType.BUY, 0.0, // when claiming from wilderness
 		EventFactionsChunkChangeType.SELL, 0.0, // when selling back to wilderness
 		EventFactionsChunkChangeType.CONQUER, 0.0, // when claiming from another player faction
 		EventFactionsChunkChangeType.PILLAGE, 0.0 // when unclaiming (to wilderness) from another player faction
 	);
 	
 	// What is the price to create a faction?
-	public double econCostCreate = 100.0;
+	public double econCostCreate = 0.0;
 	
 	// And so on and so forth ... you get the idea.
 	public double econCostSethome = 0.0;
@@ -666,6 +703,10 @@ public class MConf extends Entity<MConf>
 	public double econCostDescription = 0.0;
 	public double econCostTitle = 0.0;
 	public double econCostFlag = 0.0;
+	public double econCostSetwarp = 10000.0;
+	public double econCostBan = 0.0;
+	public double econCostUnban = 0.0;
+	public double econCostSpawnerUpgrade = 1000000.0;
 	
 	public Map<Rel, Double> econRelCost = MUtil.map(
 		Rel.ENEMY, 0.0,
@@ -681,5 +722,35 @@ public class MConf extends Entity<MConf>
 	// That costs should the faciton bank take care of?
 	// If you set this to false the player executing the command will pay instead.
 	public boolean bankFactionPaysCosts = true;
+
+	// -------------------------------------------- //
+	// SHARDS
+	// -------------------------------------------- //
+
+	public Material shardMaterial = Material.NETHER_STAR;
+	public String shardName = "<k><bold>Shard";
+	public int shardData = 0;
+	public List<String> shardLore = MUtil.list(
+			"<n>Right click this shard to redeem it into your",
+			"<n>faction balance. <k>Shards <n>can be used to",
+			"<n> purchase useful items from <k>/f shards shop<n>.");
+
+	// Store the number of shards a mob will drop.
+	// This stores the entity type along with a list with 2 numbers, the minimum and maximum shards.
+	public Map<EntityType, List<Integer>> shardChances = MUtil.map(
+			EntityType.SILVERFISH, MUtil.list(1, 5),
+			EntityType.VILLAGER, MUtil.list(3, 7),
+			EntityType.ENDERMITE, MUtil.list(7, 12),
+			EntityType.BLAZE, MUtil.list(1, 3),
+			EntityType.WITCH, MUtil.list(12, 20)
+	);
+
+	// -------------------------------------------- //
+	// ITEMS
+	// -------------------------------------------- //
+
+	public Material fillerItemMaterial = Material.STAINED_GLASS_PANE;
+	public String fillerItemName = " ";
+	public byte fillerItemData = 8;
 
 }

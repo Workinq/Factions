@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Parent -->
@@ -16,15 +17,28 @@
 
     <!-- Info -->
     <name>${project.artifactId}</name>
-    <description>${massiveColorInfo}${project.name} allows the players to team up and claim land as their own and start wars with other factions. This way we hope to inspire politics, intrigue, and team spirit. ${massiveDescriptionSuffix}</description>
+    <description>${massiveColorInfo}${project.name} allows the players to team up and claim land as their own and start
+        wars with other factions. This way we hope to inspire politics, intrigue, and team spirit.
+        ${massiveDescriptionSuffix}
+    </description>
     <url>${massiveBaseUrl}/factions</url>
 
     <!-- Dependencies -->
     <dependencies>
         <!-- Spigot -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
+        </dependency>-->
+        <!-- Paper API -->
+        <dependency>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+        </dependency>
+        <!-- NMS -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
         </dependency>
         <!-- MassiveCore -->
         <dependency>
@@ -43,18 +57,28 @@
         </dependency>
         <!-- Vault -->
         <dependency>
-            <groupId>net.milkbowl.vault</groupId>
-            <artifactId>Vault</artifactId>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
         </dependency>
-        <!-- Herochat -->
+        <!-- CoreProtect -->
         <dependency>
-            <groupId>com.dthielke.herochat</groupId>
-            <artifactId>Herochat</artifactId>
+            <groupId>net.coreprotect</groupId>
+            <artifactId>coreprotect</artifactId>
         </dependency>
-        <!-- LWC -->
+        <!-- Essentials -->
         <dependency>
-            <groupId>com.griefcraft</groupId>
-            <artifactId>lwc</artifactId>
+            <groupId>net.ess3</groupId>
+            <artifactId>EssentialsX</artifactId>
+        </dependency>
+        <!-- Citizens -->
+        <dependency>
+            <groupId>net.citizensnpcs</groupId>
+            <artifactId>citizens</artifactId>
+        </dependency>
+        <!-- PlaceholderAPI -->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
         </dependency>
     </dependencies>
 
@@ -71,11 +95,21 @@
                 </includes>
             </resource>
             <!-- OpenSource -->
-            <resource>
-                <directory>${project.build.sourceDirectory}</directory>
-                <filtering>false</filtering>
-            </resource>
+            <!--<resource>-->
+            <!--<directory>${project.build.sourceDirectory}</directory>-->
+            <!--<filtering>false</filtering>-->
+            <!--</resource>-->
         </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
-    
+
 </project>

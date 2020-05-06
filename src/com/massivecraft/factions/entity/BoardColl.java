@@ -9,8 +9,6 @@ import com.massivecraft.massivecore.util.MUtil;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -226,15 +224,7 @@ public class BoardColl extends Coll<Board> implements BoardInterface
 			for (Entry<Faction, Integer> entry : factionToCount.entrySet())
 			{
 				Faction faction = entry.getKey();
-				Integer count = ret.get(faction);
-				if (count == null)
-				{
-					ret.put(faction, entry.getValue());
-				}
-				else
-				{
-					ret.put(faction, count + entry.getValue());
-				}
+				ret.merge(faction, entry.getValue(), Integer::sum);
 			}
 		}
 		

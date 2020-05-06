@@ -43,7 +43,8 @@ public class CmdFactionsList extends FactionsCommand
 		// We run it asynchronously to spare the primary server thread.
 		
 		// Pager Create
-		final Pager<Faction> pager = new Pager<>(this, "Faction List", page, new Stringifier<Faction>() {
+		final Pager<Faction> pager = new Pager<>(this, "Faction List", page, new Stringifier<Faction>()
+		{
 			@Override
 			public String toString(Faction faction, int index)
 			{

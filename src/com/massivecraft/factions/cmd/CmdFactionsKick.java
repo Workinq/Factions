@@ -2,6 +2,7 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Rel;
+import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
@@ -11,6 +12,7 @@ import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
 import com.massivecraft.massivecore.MassiveException;
+import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.util.IdUtil;
 import org.bukkit.ChatColor;
 
@@ -24,6 +26,10 @@ public class CmdFactionsKick extends FactionsCommand
 	{
 		// Parameters
 		this.addParameter(TypeMPlayer.get(), "player");
+
+		// Requirements
+		this.addRequirements(RequirementIsPlayer.get());
+		this.addRequirements(ReqHasFaction.get());
 	}
 
 	// -------------------------------------------- //

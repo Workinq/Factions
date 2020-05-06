@@ -37,7 +37,7 @@ public class CmdFactionsOverride extends FactionsCommand
 		// Inform
 		String desc = Txt.parse(msender.isOverriding() ? "<g>ENABLED" : "<b>DISABLED");
 		
-		String messageYou = Txt.parse("<i>%s %s <i>override mode.", msender.getDisplayName(msender), desc);
+		String messageYou = Txt.parse("<i>%s %s <i>override mode.", msender.describeTo(msender, true), desc);
 		String messageLog = Txt.parse("<i>%s %s <i>override mode.", msender.getDisplayName(IdUtil.getConsole()), desc);
 		
 		msender.message(messageYou);

@@ -118,6 +118,21 @@ public class EnumerationUtil
 		"WHITE_SHULKER_BOX", // Minecraft 1.11
 		"YELLOW_SHULKER_BOX" // Minecraft 1.11
 	);
+
+	// -------------------------------------------- //
+	// MATERIAL EXPLOSIVE
+	// -------------------------------------------- //
+
+	public static final BackstringSet<Material> MATERIALS_EXPLOSIVE = new BackstringSet<>(Material.class,
+			"TNT", // Minecraft 1.?
+			"FIREBALL", // Minecraft 1.?
+			"MONSTER_EGG" // Minecraft 1.?
+	);
+
+	public static boolean isMaterialExplosive(Material material)
+	{
+		return MATERIALS_EXPLOSIVE.contains(material) || MConf.get().materialsExplosive.contains(material);
+	}
 	
 	public static boolean isMaterialContainer(Material material)
 	{

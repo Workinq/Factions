@@ -4,6 +4,7 @@ import com.massivecraft.factions.RelationParticipator;
 import com.massivecraft.factions.entity.Board;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.mson.Mson;
 import com.massivecraft.massivecore.ps.PS;
@@ -33,16 +34,17 @@ public class AsciiMap
 	
 	// Map Heights & Widths
 	private static final int WIDTH = 49;
-	private static final int WIDTH_HALF = WIDTH / 2;
+	private static final int WIDTH_HALF = 24;
 	private static final int HEIGHT = 8;
-	private static final int HEIGHT_HALF = HEIGHT / 2;
+	private static final int HEIGHT_HALF = 4;
 	private static final int HEIGHT_EXTRA = 17;
-	private static final int HEIGHT_EXTRA_HALF = HEIGHT_EXTRA / 2;
+	private static final int HEIGHT_EXTRA_HALF = 8;
 	
 	private static final String TITLE_FORMAT = "(%d,%d) %s";
 	private static final Mson KEY_MIDDLE = mson("+").color(ChatColor.AQUA);
 	private static final Mson KEY_WILDERNESS = mson("-").color(ChatColor.GRAY).tooltip();
 	private static final Mson KEY_OVERFLOW = mson("-").style(ChatColor.MAGIC).add(mson("").style(ChatColor.RESET));
+	private static final Mson KEY_BORDER = mson("-").color(ChatColor.DARK_GRAY);
 	private static final Mson OVERFLOW_MESSAGE = Mson.format("%s: Too Many Factions (>%d) on this Map.", KEY_OVERFLOW.toPlain(true), FACTION_KEY_CHARS.length);
 	private static final Mson LEGEND_SEPARATOR = mson(": ");
 	
@@ -93,7 +95,7 @@ public class AsciiMap
 		this.topLeft = this.center.plusChunkCoords(-WIDTH_HALF, -this.heightHalf);
 		this.board = BoardColl.get().get(this.center.getWorld());
 	}
-	
+
 	// -------------------------------------------- //
 	// RENDER
 	// -------------------------------------------- //
@@ -112,7 +114,7 @@ public class AsciiMap
 		return ret;
 	}
 	
-	private Mson getTitle()
+	public Mson getTitle()
 	{
 		// Prepare
 		PS chunk = this.getCenter();
@@ -120,81 +122,144 @@ public class AsciiMap
 		int chunkX = chunk.getChunkX();
 		int chunkZ = chunk.getChunkZ();
 		String factionName = faction.getName(this.getRelationParticipator());
-		
+
 		// Titleize
 		return Txt.titleize(String.format(TITLE_FORMAT, chunkX, chunkZ, factionName));
 	}
-	
-	private List<Mson> getLines()
+
+	public List<Mson> getLines()
 	{
 		// Create
 		List<Mson> ret = new MassiveList<>();
 		List<String> asciiCompass = AsciiCompass.getAsciiCompass(this.getAngle());
-		
+
 		// Fill
 		for (int deltaZ = 0; deltaZ < this.getHeight(); deltaZ++)
 		{
 			ret.add(this.getLine(deltaZ, asciiCompass));
 		}
-		
+
 		// Return
 		return ret;
 	}
-	
+
 	private Mson getLine(int deltaZ, List<String> asciiCompass)
 	{
 		// Create
 		boolean isCompassLine = deltaZ < asciiCompass.size();
 		int startX = isCompassLine ? 3 : 0;
 		Mson ret = isCompassLine ? mson(asciiCompass.get(deltaZ)) : EMPTY;
-		Mson factionChar;
-		
+
 		// Fill
 		for (int deltaX = startX; deltaX < WIDTH; deltaX++)
 		{
 			boolean isMiddle = deltaX == WIDTH_HALF && deltaZ == this.getHeightHalf();
-			factionChar = isMiddle ? KEY_MIDDLE : this.getCharFaction(deltaZ, deltaX);
-			ret = ret.add(factionChar);
+			PS chunk = this.getTopLeft().plusChunkCoords(deltaX, deltaZ);
+			Board board = BoardColl.get().get(chunk);
+			Faction hereFaction = board.getFactionAt(chunk);
+			Mson factionChar = isMiddle ? KEY_MIDDLE : this.getCharFaction(hereFaction);
+
+			if (isMiddle)
+			{
+				ret = ret.add(factionChar);
+			}
+			else if (Board.get(chunk).isChunkOutsideBorder(chunk))
+			{
+				ret = ret.add(KEY_BORDER);
+			}
+			else
+			{
+				MPlayer mplayer = MPlayer.get(this.relationParticipator);
+				if ( ! mplayer.getFaction().isNone())
+				{
+					if (mplayer.getFaction() == hereFaction)
+					{
+						ret = ret.add(factionChar.tooltip(Txt.parse("<a>Click to unclaim %,d:%,d", chunk.getChunkX(), chunk.getChunkZ())).command("/f unclaim at " + chunk.getChunkX() + " " + chunk.getChunkZ() + " true"));
+					}
+					else if (hereFaction.isNone())
+					{
+						ret = ret.add(KEY_WILDERNESS.tooltip(Txt.parse("<a>Click to claim %,d:%,d", chunk.getChunkX(), chunk.getChunkZ())).command("/f claim at " + mplayer.getFaction().getName() + " " + chunk.getChunkX() + " " + chunk.getChunkZ() + " true"));
+					}
+					else
+					{
+						ret = ret.add(factionChar.tooltip(Txt.parse("<a>Claimed by %s", hereFaction.describeTo(mplayer))));
+					}
+				}
+				else
+				{
+					ret = ret.add(factionChar.tooltip(Txt.parse("<a>Claimed by %s", hereFaction.describeTo(mplayer))));
+				}
+			}
+
+			/*if (isMiddle)
+			{
+				ret = ret.add(factionChar);
+			}
+			else if (Board.get(chunk).isChunkOutsideBorder(chunk))
+			{
+				ret = ret.add(KEY_BORDER);
+			}
+			else
+			{
+				MPlayer mPlayer = MPlayer.get(this.getRelationParticipator());
+				if (!mPlayer.getFaction().isNone())
+				{
+					if (mPlayer.getFaction() == hereFaction)
+					{
+						ret = ret.add(factionChar.tooltip(Txt.parse("<a>Click to unclaim %,d:%,d", chunk.getChunkX(), chunk.getChunkZ())).command("/f unclaim at " + chunk.getChunkX() + " " + chunk.getChunkZ() + " true"));
+					}
+					else if (hereFaction.isNone())
+					{
+						ret = ret.add(KEY_WILDERNESS.tooltip(Txt.parse("<a>Click to claim %,d:%,d", chunk.getChunkX(), chunk.getChunkZ())).command("/f claim at " + mPlayer.getFaction().getName() + " " + chunk.getChunkX() + " " + chunk.getChunkZ() + " true"));
+					}
+					else
+					{
+						ret = ret.add(factionChar.tooltip(Txt.parse("<a>Claimed by %s", hereFaction.describeTo(mPlayer))));
+					}
+				}
+				else
+				{
+					ret = ret.add(factionChar.tooltip(Txt.parse("<a>Claimed by %s", hereFaction.describeTo(mPlayer))));
+				}
+			}*/
 		}
-		
+
 		// Return
 		return ret;
 	}
-	
-	private Mson getCharFaction(int deltaZ, int deltaX)
+
+	private Mson getCharFaction(Faction hereFaction)
 	{
 		// Calculate overflow
 		int index = this.getFactionChars().size();
 		if (!this.isOverflown() && index >= KEY_SIZE) this.setOverflown(true);
-		
-		PS herePs = this.getTopLeft().plusChunkCoords(deltaX, deltaZ);
-		Faction hereFaction = this.getBoard().getFactionAt(herePs);
+
 		Mson factionChar = this.getFactionChars().get(hereFaction);
-		
+
 		// Is Wilderness or known?
 		if (hereFaction.isNone()) return KEY_WILDERNESS;
 		if (factionChar != null) return factionChar;
-		
+
 		// Create descriptions
-		ChatColor color = hereFaction.getColorTo(this.getRelationParticipator());
-		String name = hereFaction.getName(this.getRelationParticipator());
+		ChatColor color = hereFaction.getColorTo(this.relationParticipator);
+		String name = hereFaction.getName(this.relationParticipator);
 		String tooltip = color.toString() + name;
-		
+
 		// Is overflown?
 		if (this.isOverflown()) return KEY_OVERFLOW.tooltip(tooltip);
-		
+
 		// Create new one
-		factionChar = mson(String.valueOf(FACTION_KEY_CHARS[index])).color(color);
+		factionChar = Mson.mson(String.valueOf(FACTION_KEY_CHARS[index])).color(color);
 		factionChar = factionChar.tooltip(tooltip);
-		
+
 		// Store for later use
 		this.getFactionChars().put(hereFaction, factionChar);
-		
+
 		// Return
 		return factionChar;
 	}
 	
-	private Mson getFactionLegend()
+	public Mson getFactionLegend()
 	{
 		// Create
 		List<Mson> ret = new MassiveList<>();
@@ -204,7 +269,7 @@ public class AsciiMap
 		{
 			Faction here = entry.getKey();
 			Mson factionChar = entry.getValue();
-			ChatColor color = here.getColorTo(this.getRelationParticipator());
+			ChatColor color = here.getColorTo(this.relationParticipator);
 			
 			ret.add(mson(factionChar, LEGEND_SEPARATOR, here.getName()).color(color));
 		}

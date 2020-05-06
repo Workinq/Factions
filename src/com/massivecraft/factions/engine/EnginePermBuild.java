@@ -2,13 +2,7 @@ package com.massivecraft.factions.engine;
 
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.TerritoryAccess;
-import com.massivecraft.factions.entity.Board;
-import com.massivecraft.factions.entity.BoardColl;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.FactionColl;
-import com.massivecraft.factions.entity.MConf;
-import com.massivecraft.factions.entity.MPerm;
-import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.integration.spigot.IntegrationSpigot;
 import com.massivecraft.factions.util.EnumerationUtil;
 import com.massivecraft.massivecore.Engine;
@@ -24,17 +18,9 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.event.block.BlockFromToEvent;
-import org.bukkit.event.block.BlockPistonExtendEvent;
-import org.bukkit.event.block.BlockPistonRetractEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityCombustByEntityEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
@@ -51,7 +37,7 @@ public class EnginePermBuild extends Engine
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
 
-	private static EnginePermBuild i = new EnginePermBuild();
+	private static final EnginePermBuild i = new EnginePermBuild();
 	public static EnginePermBuild get() { return i; }
 
 	// -------------------------------------------- //
@@ -136,7 +122,7 @@ public class EnginePermBuild extends Engine
 	public void build(BlockBreakEvent event) { build(event.getPlayer(), event.getBlock(), event); }
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	public void build(BlockDamageEvent event) { build(event.getPlayer(), event.getBlock(), event); }
+	public void build(BlockDamageEvent event) { if (event.getInstaBreak()) build(event.getPlayer(), event.getBlock(), event); }
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void build(SignChangeEvent event) { build(event.getPlayer(), event.getBlock(), event); }

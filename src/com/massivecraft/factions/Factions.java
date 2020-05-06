@@ -8,22 +8,21 @@ import com.massivecraft.factions.chat.ChatActive;
 import com.massivecraft.factions.cmd.type.TypeFactionChunkChangeType;
 import com.massivecraft.factions.cmd.type.TypeRel;
 import com.massivecraft.factions.engine.EngineEcon;
-import com.massivecraft.factions.entity.Board;
-import com.massivecraft.factions.entity.BoardColl;
-import com.massivecraft.factions.entity.FactionColl;
-import com.massivecraft.factions.entity.MConfColl;
-import com.massivecraft.factions.entity.MFlagColl;
-import com.massivecraft.factions.entity.MPermColl;
-import com.massivecraft.factions.entity.MPlayerColl;
+import com.massivecraft.factions.engine.EngineScoreboard;
+import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.event.EventFactionsChunkChangeType;
+import com.massivecraft.factions.mission.MissionsManager;
 import com.massivecraft.factions.mixin.PowerMixin;
+import com.massivecraft.factions.upgrade.UpgradesManager;
 import com.massivecraft.massivecore.MassivePlugin;
 import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.command.type.RegistryType;
 import com.massivecraft.massivecore.store.migrator.MigratorUtil;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.xlib.gson.GsonBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -80,6 +79,17 @@ public class Factions extends MassivePlugin
 		this.activateAuto();
 		this.activate(this.getClassesActive("chat", ChatActive.class));
 
+		// Load Add-ons
+		MissionsManager.get().load();
+		UpgradesManager.get().load();
+		EngineScoreboard.get().load();
+	}
+
+	@Override
+	public void onDisable()
+	{
+		for (Player player : Bukkit.getOnlinePlayers()) player.closeInventory();
+		super.onDisable();
 	}
 
 	@Override
@@ -99,7 +109,11 @@ public class Factions extends MassivePlugin
 			MPermColl.class,
 			FactionColl.class,
 			MPlayerColl.class,
-			BoardColl.class
+			BoardColl.class,
+			MShopColl.class,
+			FPermColl.class,
+			MUpgradeColl.class,
+			MMissionColl.class
 		);
 	}
 

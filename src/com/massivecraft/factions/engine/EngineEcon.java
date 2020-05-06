@@ -5,21 +5,8 @@ import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
-import com.massivecraft.factions.event.EventFactionsAbstractSender;
-import com.massivecraft.factions.event.EventFactionsChunkChangeType;
-import com.massivecraft.factions.event.EventFactionsChunksChange;
-import com.massivecraft.factions.event.EventFactionsCreate;
-import com.massivecraft.factions.event.EventFactionsDescriptionChange;
-import com.massivecraft.factions.event.EventFactionsDisband;
-import com.massivecraft.factions.event.EventFactionsFlagChange;
-import com.massivecraft.factions.event.EventFactionsHomeChange;
-import com.massivecraft.factions.event.EventFactionsHomeTeleport;
-import com.massivecraft.factions.event.EventFactionsInvitedChange;
-import com.massivecraft.factions.event.EventFactionsMembershipChange;
+import com.massivecraft.factions.event.*;
 import com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
-import com.massivecraft.factions.event.EventFactionsNameChange;
-import com.massivecraft.factions.event.EventFactionsRelationChange;
-import com.massivecraft.factions.event.EventFactionsTitleChange;
 import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.money.Money;
@@ -184,13 +171,31 @@ public class EngineEcon extends Engine
 		
 		payForAction(event, cost, desc);
 	}
-	
+
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	public void payForCommand(EventFactionsWarpCreate event)
+	{
+		Double cost = MConf.get().econCostSetwarp;
+		String desc = CmdFactions.get().cmdFactionsSetwarp.getDesc();
+
+		payForAction(event, cost, desc);
+	}
+
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void payForCommand(EventFactionsCreate event)
 	{
 		Double cost = MConf.get().econCostCreate;
 		String desc = CmdFactions.get().cmdFactionsCreate.getDesc();
 		
+		payForAction(event, cost, desc);
+	}
+
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	public void payForCommand(EventFactionsSpawnerUpgrade event)
+	{
+		Double cost = MConf.get().econCostSpawnerUpgrade;
+		String desc = CmdFactions.get().cmdFactionsSpawnerUpgrade.getDesc();
+
 		payForAction(event, cost, desc);
 	}
 	
@@ -234,8 +239,17 @@ public class EngineEcon extends Engine
 	public void payForCommand(EventFactionsInvitedChange event)
 	{
 		Double cost = event.isNewInvited() ? MConf.get().econCostInvite : MConf.get().econCostDeinvite;
-		String desc = CmdFactions.get().cmdFactionsInvite.getDesc();
+		String desc = "manage invites";
 		
+		payForAction(event, cost, desc);
+	}
+
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	public void payForCommand(EventFactionsBanChange event)
+	{
+		Double cost = event.isNewBanned() ? MConf.get().econCostBan : MConf.get().econCostUnban;
+		String desc = "manage bans";
+
 		payForAction(event, cost, desc);
 	}
 	

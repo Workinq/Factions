@@ -202,6 +202,8 @@ public class TerritoryAccess
 	
 	public AccessStatus getTerritoryAccess(MPlayer mplayer)
 	{
+		if (mplayer.isAlt()) return AccessStatus.DECREASED;
+
 		if (this.isMPlayerGranted(mplayer)) return AccessStatus.ELEVATED;
 		
 		String factionId = mplayer.getFaction().getId();

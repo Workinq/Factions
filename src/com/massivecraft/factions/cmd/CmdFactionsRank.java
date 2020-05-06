@@ -68,7 +68,7 @@ public class CmdFactionsRank extends FactionsCommand
 	{
 		// This sets target and much other.
 		this.registerFields();
-			
+
 		// Sometimes we just want to show the rank.
 		if ( ! this.argIsSet(1))
 		{
@@ -123,7 +123,6 @@ public class CmdFactionsRank extends FactionsCommand
 		target = this.readArg(msender);
 		targetFaction = target.getFaction();
 		
-		
 		// Ranks
 		senderRank = msender.getRole();
 		targetRank = target.getRole();
@@ -138,7 +137,6 @@ public class CmdFactionsRank extends FactionsCommand
 		// Changing peoples faction.
 		endFaction = this.readArgAt(2, targetFaction);
 		factionChange = (endFaction != targetFaction);
-
 	}
 	
 	private void unregisterFields()
@@ -217,6 +215,12 @@ public class CmdFactionsRank extends FactionsCommand
 		{
 			// You can't set ranks higher than your own.
 			throw new MassiveException().addMsg("<b>You can't set ranks higher than your own.");
+		}
+
+		if (target.isAlt())
+		{
+			// You can't set the rank of an alt.
+			throw new MassiveException().addMsg("<b>You can't set the rank for an alt.");
 		}
 	}
 	
@@ -382,7 +386,7 @@ public class CmdFactionsRank extends FactionsCommand
 		String rankName = Txt.getNicedEnum(rank).toLowerCase();
 
 		// Send message
-		for(MPlayer recipient : recipients)
+		for (MPlayer recipient : recipients)
 		{
 			String targetName = target.describeTo(recipient, true);
 			String wasWere = (recipient == target) ? "were" : "was";

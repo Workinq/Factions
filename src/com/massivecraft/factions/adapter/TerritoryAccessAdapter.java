@@ -26,7 +26,7 @@ public class TerritoryAccessAdapter implements JsonDeserializer<TerritoryAccess>
 	public static final String PLAYER_IDS = "playerIds";
 	
 	public static final Type SET_OF_STRING_TYPE = new TypeToken<Set<String>>(){}.getType();
-			
+
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //

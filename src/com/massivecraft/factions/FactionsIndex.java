@@ -128,7 +128,7 @@ public class FactionsIndex
 	// MAP
 	// -------------------------------------------- //
 	
-	private static abstract class WeakHashMapCreative<K, V> extends java.util.WeakHashMap<K, V>
+	private static abstract class WeakHashMapCreative<K, V> extends WeakHashMap<K, V>
 	{
 		@SuppressWarnings("unchecked")
 		@Override
