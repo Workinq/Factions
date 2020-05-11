@@ -5,9 +5,11 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.Engine;
+import com.massivecraft.massivecore.money.Money;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Location;
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -48,14 +50,14 @@ public class EngineShards extends Engine
     // -------------------------------------------- //
 
     @EventHandler
-    public void onMobSpawn(CreatureSpawnEvent event)
+    public void onShardDrop(CreatureSpawnEvent event)
     {
         if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.SPAWNER) return;
 
         // Args
         EntityType type = event.getEntityType();
         if ( ! MConf.get().shardChances.containsKey(type)) return;
-        if (MConf.get().entityTypesShards.contains(type)) return;
+        if ( ! MConf.get().entityTypesShards.contains(type)) return;
 
         Location location = event.getLocation();
         if (location == null) return;
@@ -76,6 +78,37 @@ public class EngineShards extends Engine
 
         // Apply
         at.addShards(ThreadLocalRandom.current().nextInt(minimum, maximum));
+    }
+
+    @EventHandler
+    public void onMoneyDrop(CreatureSpawnEvent event)
+    {
+        if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.SPAWNER) return;
+
+        // Args
+        EntityType type = event.getEntityType();
+        if ( ! MConf.get().moneyChances.containsKey(type)) return;
+        if ( ! MConf.get().entityTypesMoney.contains(type)) return;
+
+        Location location = event.getLocation();
+        if (location == null) return;
+
+        Faction at = BoardColl.get().getFactionAt(PS.valueOf(location));
+        if (at.isSystemFaction()) return;
+
+        PS chunk = PS.valueOf(location.getChunk());
+        if (at.getBaseRegion() == null) return;
+        if ( ! at.getBaseRegion().contains(chunk)) return;
+
+        // Cancel
+        event.setCancelled(true);
+
+        // Args
+        int minimum = MConf.get().moneyChances.get(type).get(0);
+        int maximum = MConf.get().moneyChances.get(type).get(1);
+
+        // Apply
+        Money.spawn(at, null, ThreadLocalRandom.current().nextInt(minimum, maximum));
     }
 
     @EventHandler

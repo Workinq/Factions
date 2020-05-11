@@ -4,30 +4,35 @@ import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.store.EntityInternal;
 import org.bukkit.Location;
 
-import java.util.UUID;
+public class SandAlt extends EntityInternal<SandAlt>
+{
 
-public class SandAlt extends EntityInternal<SandAlt> {
-
-    private final String uuid;
-    private final String ownerUuid;
-    private final PS loc;
+    private final String npcId;
+    private final String factionId;
+    private final PS location;
     private boolean paused;
-    private int amountRemaining;
-    private final int maximumDurability;
 
-    public SandAlt(String uuid, String ownerUuid, Location location, int amountRemaining, int maximumDurability)
+    public SandAlt(String npcId, String factionId, Location location)
     {
-        this.uuid = uuid;
-        this.ownerUuid = ownerUuid;
-        this.loc = PS.valueOf(location);
-        this.amountRemaining = amountRemaining;
+        this.npcId = npcId;
+        this.factionId = factionId;
+        this.location = PS.valueOf(location);
         this.paused = false;
-        this.maximumDurability = maximumDurability;
     }
 
-    public PS getPs()
+    public String getNpcId()
     {
-        return loc;
+        return npcId;
+    }
+
+    public String getFactionId()
+    {
+        return factionId;
+    }
+
+    public PS getLocation()
+    {
+        return location;
     }
 
     public void setPaused(boolean paused)
@@ -42,46 +47,9 @@ public class SandAlt extends EntityInternal<SandAlt> {
         this.changed();
     }
 
-    public UUID getUniqueId()
-    {
-        return UUID.fromString(uuid);
-    }
-
-    public UUID getOwnerUniqueId()
-    {
-        return UUID.fromString(ownerUuid);
-    }
-
-    public Location getLocation()
-    {
-        return loc.asBukkitLocation(true);
-    }
-
-    public Boolean isPaused()
+    public boolean isPaused()
     {
         return paused;
-    }
-
-    public Integer getAmountRemaining()
-    {
-        return amountRemaining;
-    }
-
-    public void setAmountRemaining(int amountRemaining)
-    {
-        // Detect Nochange
-        if (this.amountRemaining == amountRemaining) return;
-
-        // Apply
-        this.amountRemaining = amountRemaining;
-
-        // Mark as changed.
-        this.changed();
-    }
-
-    public int getMaximumDurability()
-    {
-        return maximumDurability;
     }
 
 }

@@ -6,6 +6,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+
 public class InventoryUtil
 {
 
@@ -45,11 +47,18 @@ public class InventoryUtil
 
     public static void fillInventory(Inventory inventory)
     {
+        fillInventory(inventory, new int[]{});
+    }
+
+    public static void fillInventory(Inventory inventory, int[] slots)
+    {
         ItemStack filler = new ItemBuilder(MConf.get().fillerItemMaterial).name(Txt.parse(MConf.get().fillerItemName)).durability(MConf.get().fillerItemData);
         for (int i = 0; i < inventory.getSize(); i++)
         {
-            if (inventory.getItem(i) != null) continue;
-            inventory.setItem(i, filler);
+            final int slot = i;
+            if (Arrays.stream(slots).anyMatch(num -> num == slot)) continue;
+            if (inventory.getItem(slot) != null) continue;
+            inventory.setItem(slot, filler);
         }
     }
 

@@ -177,6 +177,7 @@ permissions:
   factions.roster.setrank: {description: set a player's rank in the roster, default: false}
   factions.roster.list: {description: list the factions roster list, default: false}
   factions.roster.list.any: {description: list other factions roster list, default: false}
+  factions.drain: {description: drain members money into the faction, default: false}
 
   # -------------------------------------------- #
   # STAR NOTATION
@@ -352,6 +353,7 @@ permissions:
       factions.roster.setrank: true
       factions.roster.list: true
       factions.roster.list.any: true
+      factions.drain: true
 
   # -------------------------------------------- #
   # KITS
@@ -530,6 +532,7 @@ permissions:
       factions.roster.remove: true
       factions.roster.setrank: true
       factions.roster.list: true
+      factions.drain: true
   factions.kit.default:
     default: true
     children:

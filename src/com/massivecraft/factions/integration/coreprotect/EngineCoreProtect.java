@@ -13,7 +13,6 @@ import com.massivecraft.massivecore.util.Txt;
 import net.coreprotect.database.Database;
 import net.coreprotect.database.Lookup;
 import net.coreprotect.model.Config;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -27,7 +26,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 
 public class EngineCoreProtect extends Engine
 {
@@ -41,7 +43,7 @@ public class EngineCoreProtect extends Engine
     // INSTANCE & CONSTRUCT
     // -------------------------------------------- //
 
-    private static EngineCoreProtect i = new EngineCoreProtect();
+    private static final EngineCoreProtect i = new EngineCoreProtect();
     public static EngineCoreProtect get() { return i; }
 
     // -------------------------------------------- //
@@ -161,7 +163,15 @@ public class EngineCoreProtect extends Engine
                 info = Txt.parse("<a>%s <i>%s <a>%s <n>%s", player, action, material, time);
                 inspectData.add(Mson.mson(info));
             }
-            final Pager<Mson> pager = new Pager<>(CmdFactions.get().cmdFactionsLastInspected, "Inspect Log", 1, inspectData, (Msonifier<Mson>) (item, index) -> inspectData.get(index));
+            final Pager<Mson> pager = new Pager<>(CmdFactions.get().cmdFactionsLastInspected, "Inspect Log", 1, inspectData, new Msonifier<Mson>()
+            {
+                @Override
+                public Mson toMson(Mson item, int index)
+                {
+                    return inspectData.get(index);
+                }
+            });
+            // final Pager<Mson> pager = new Pager<>(CmdFactions.get().cmdFactionsLastInspected, "Inspect Log", 1, inspectData, (Msonifier<Mson>) (item, index) -> inspectData.get(index));
             pager.setSender(mPlayer.getSender());
 
             // Send pager

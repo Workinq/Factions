@@ -178,7 +178,7 @@ public class EngineExtras extends Engine {
         if (event.getBlockPlaced().getType() != Material.MOB_SPAWNER) return;
 
         MPlayer mPlayer = MPlayer.get(event.getPlayer());
-        if (mPlayer.isOverriding() || event.getPlayer().isOp()) return;
+        if (mPlayer.isOverriding()) return;
 
         Faction faction = mPlayer.getFaction();
         if (faction.isSystemFaction()) return;

@@ -27,21 +27,21 @@ public class ItemBuilder extends ItemStack
 
     public ItemBuilder amount(int amount)
     {
-        setAmount(amount);
+        this.setAmount(amount);
         return this;
     }
 
     public ItemBuilder name(String name)
     {
-        ItemMeta meta = getItemMeta();
+        ItemMeta meta = this.getItemMeta();
         meta.setDisplayName(name);
-        setItemMeta(meta);
+        this.setItemMeta(meta);
         return this;
     }
 
     public ItemBuilder setLore(List<String> text)
     {
-        ItemMeta meta = getItemMeta();
+        ItemMeta meta = this.getItemMeta();
         List<String> lore = meta.getLore();
         if (lore == null)
         {
@@ -49,13 +49,13 @@ public class ItemBuilder extends ItemStack
         }
         lore.addAll(text);
         meta.setLore(lore);
-        setItemMeta(meta);
+        this.setItemMeta(meta);
         return this;
     }
 
     public ItemBuilder addLore(String text)
     {
-        ItemMeta meta = getItemMeta();
+        ItemMeta meta = this.getItemMeta();
         List<String> lore = meta.getLore();
         if (lore == null)
         {
@@ -63,13 +63,13 @@ public class ItemBuilder extends ItemStack
         }
         lore.add(text);
         meta.setLore(lore);
-        setItemMeta(meta);
+        this.setItemMeta(meta);
         return this;
     }
 
     public ItemBuilder lore(String text)
     {
-        ItemMeta meta = getItemMeta();
+        ItemMeta meta = this.getItemMeta();
         List<String> lore = meta.getLore();
         if (lore == null)
         {
@@ -77,67 +77,67 @@ public class ItemBuilder extends ItemStack
         }
         lore.add(text);
         meta.setLore(lore);
-        setItemMeta(meta);
+        this.setItemMeta(meta);
         return this;
     }
 
     public ItemBuilder unbreakable(boolean unbreakable)
     {
-        ItemMeta meta = getItemMeta();
+        ItemMeta meta = this.getItemMeta();
         meta.spigot().setUnbreakable(unbreakable);
-        setItemMeta(meta);
+        this.setItemMeta(meta);
         return this;
     }
 
     public ItemBuilder durability(int durability)
     {
-        setDurability((short) durability);
+        this.setDurability((short) durability);
         return this;
     }
 
     public ItemStack flag(ItemFlag flag)
     {
-        ItemMeta meta = getItemMeta();
+        ItemMeta meta = this.getItemMeta();
         meta.addItemFlags(flag);
-        setItemMeta(meta);
+        this.setItemMeta(meta);
         return this;
     }
 
     public ItemBuilder data(int data)
     {
-        setData(new MaterialData(getType(), (byte) data));
+        this.setData(new MaterialData(getType(), (byte) data));
         return this;
     }
 
     public ItemBuilder enchantment(Enchantment enchantment, int level)
     {
-        addUnsafeEnchantment(enchantment, level);
+        this.addUnsafeEnchantment(enchantment, level);
         return this;
     }
 
     public ItemBuilder enchantment(Enchantment enchantment)
     {
-        addUnsafeEnchantment(enchantment, 1);
+        this.addUnsafeEnchantment(enchantment, 1);
         return this;
     }
 
     public ItemBuilder type(Material material)
     {
-        setType(material);
+        this.setType(material);
         return this;
     }
 
     public ItemBuilder clearLore()
     {
-        ItemMeta meta = getItemMeta();
+        ItemMeta meta = this.getItemMeta();
         meta.setLore(new ArrayList<>());
-        setItemMeta(meta);
+        this.setItemMeta(meta);
         return this;
     }
 
     public ItemBuilder clearEnchantments()
     {
-        getEnchantments().keySet().forEach(this::removeEnchantment);
+        this.getEnchantments().keySet().forEach(this::removeEnchantment);
         return this;
     }
 
@@ -145,9 +145,9 @@ public class ItemBuilder extends ItemStack
     {
         if (getType() == Material.LEATHER_BOOTS || getType() == Material.LEATHER_CHESTPLATE || getType() == Material.LEATHER_HELMET || getType() == Material.LEATHER_LEGGINGS)
         {
-            LeatherArmorMeta meta = (LeatherArmorMeta) getItemMeta();
+            LeatherArmorMeta meta = (LeatherArmorMeta) this.getItemMeta();
             meta.setColor(color);
-            setItemMeta(meta);
+            this.setItemMeta(meta);
             return this;
         }
         throw new IllegalArgumentException("color() only applicable for leather armor!");

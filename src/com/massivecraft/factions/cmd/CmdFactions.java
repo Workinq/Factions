@@ -141,6 +141,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsAutoFly cmdFactionsAutoFly = new CmdFactionsAutoFly();
 	public CmdFactionsSpawnerUpgrade cmdFactionsSpawnerUpgrade = new CmdFactionsSpawnerUpgrade();
 	public CmdFactionsRoster cmdFactionsRoster = new CmdFactionsRoster();
+	public CmdFactionsDrain cmdFactionsDrain = new CmdFactionsDrain();
 	public MassiveCommandVersion cmdFactionsVersion = new MassiveCommandVersion(Factions.get()).setAliases("v", "version").addRequirements(RequirementHasPerm.get(Perm.VERSION));
 
 	// -------------------------------------------- //

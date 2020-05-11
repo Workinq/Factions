@@ -516,6 +516,19 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 
 	public int rosterMemberLimit = 15;
+
+	// -------------------------------------------- //
+	// DRAIN
+	// -------------------------------------------- //
+
+	public Rel drainRank = Rel.MEMBER;
+
+	// -------------------------------------------- //
+	// SAND ALTS
+	// -------------------------------------------- //
+
+	public String sandAltGuiName = "<gray>Faction Sand Alts";
+	public int sandAltGuiSize = 54;
 	
 	// -------------------------------------------- //
 	// COLORS
@@ -645,7 +658,18 @@ public class MConf extends Entity<MConf>
 	public BackstringSet<EntityType> entityTypesAnimals = new BackstringSet<>(EntityType.class);
 
 	// List of entities to drop shard items.
-	public BackstringSet<EntityType> entityTypesShards = new BackstringSet<>(EntityType.class);
+	public BackstringSet<EntityType> entityTypesShards = new BackstringSet<>(EntityType.class,
+			"SILVERFISH",
+			"VILLAGER",
+			"ENDERMITE",
+			"BLAZE",
+			"WITCH"
+	);
+
+	// List of entities to add to faction money.
+	public BackstringSet<EntityType> entityTypesMoney = new BackstringSet<>(EntityType.class,
+			"PIG_ZOMBIE"
+	);
 	
 	// -------------------------------------------- //
 	// INTEGRATION: WorldGuard
@@ -743,6 +767,14 @@ public class MConf extends Entity<MConf>
 			EntityType.ENDERMITE, MUtil.list(7, 12),
 			EntityType.BLAZE, MUtil.list(1, 3),
 			EntityType.WITCH, MUtil.list(12, 20)
+	);
+
+	// -------------------------------------------- //
+	// MONEY
+	// -------------------------------------------- //
+
+	public Map<EntityType, List<Integer>> moneyChances = MUtil.map(
+			EntityType.PIG_ZOMBIE, MUtil.list(20, 30)
 	);
 
 	// -------------------------------------------- //

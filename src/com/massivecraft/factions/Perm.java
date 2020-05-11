@@ -179,6 +179,7 @@ public enum Perm implements Identified
 	ROSTER_SETRANK,
 	ROSTER_LIST,
 	ROSTER_LIST_ANY,
+	DRAIN,
 
 	// END OF LIST
 	;

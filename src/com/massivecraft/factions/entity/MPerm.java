@@ -75,6 +75,8 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient String ID_INVSEE = "invsee";
 	public final static transient String ID_SPAWNERUPGRADE = "spawnerupgrade";
 	public final static transient String ID_ROSTER = "roster";
+	public final static transient String ID_DRAIN = "drain";
+	public final static transient String ID_SANDALT = "sandalt";
 //	public final static transient String ID_BANNER = "banner";
 //	public final static transient String ID_ASSIST = "assist";
 
@@ -127,6 +129,8 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_INVSEE = 46000;
 	public final static transient int PRIORITY_SPAWNERUPGRADE = 47000;
 	public final static transient int PRIORITY_ROSTER = 48000;
+	public final static transient int PRIORITY_DRAIN = 49000;
+	public final static transient int PRIORITY_SANDALT = 50000;
 //	public final static transient int PRIORITY_BANNER = 47000;
 //	public final static transient int PRIORITY_ASSIST = 48000;
 
@@ -202,6 +206,8 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		getPermInvsee();
 		getPermSpawnerupgrade();
 		getPermRoster();
+		getPermDrain();
+		getPermSandalt();
 //		getPermBanner();
 //		getPermAssist();
 	}
@@ -212,7 +218,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public static MPerm getPermButton() { return getCreative(PRIORITY_BUTTON, ID_BUTTON, ID_BUTTON, "use stone buttons", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER, Rel.RECRUIT, Rel.ALLY), true, true, true); }
 	public static MPerm getPermLever() { return getCreative(PRIORITY_LEVER, ID_LEVER, ID_LEVER, "use levers", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER, Rel.RECRUIT, Rel.ALLY), true, true, true); }
 	public static MPerm getPermContainer() { return getCreative(PRIORITY_CONTAINER, ID_CONTAINER, ID_CONTAINER, "use containers", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER), true, true, true); }
-	
+
 	public static MPerm getPermName() { return getCreative(PRIORITY_NAME, ID_NAME, ID_NAME, "set name", MUtil.set(Rel.LEADER), false, true, true); }
 	public static MPerm getPermDesc() { return getCreative(PRIORITY_DESC, ID_DESC, ID_DESC, "set description", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermMotd() { return getCreative(PRIORITY_MOTD, ID_MOTD, ID_MOTD, "set motd", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
@@ -255,6 +261,8 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public static MPerm getPermInvsee() { return getCreative(PRIORITY_INVSEE, ID_INVSEE, ID_INVSEE, "view a members inventory", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermSpawnerupgrade() { return getCreative(PRIORITY_SPAWNERUPGRADE, ID_SPAWNERUPGRADE, ID_SPAWNERUPGRADE, "upgrade zombie pigman spawners", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermRoster() { return getCreative(PRIORITY_ROSTER, ID_ROSTER, ID_ROSTER, "manage the faction roster", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
+	public static MPerm getPermDrain() { return getCreative(PRIORITY_DRAIN, ID_DRAIN, ID_DRAIN, "drain members balances", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
+	public static MPerm getPermSandalt() { return getCreative(PRIORITY_SANDALT, ID_SANDALT, ID_SANDALT, "mange faction sandalts", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 //	public static MPerm getPermBanner() { return getCreative(PRIORITY_BANNER, ID_BANNER, ID_BANNER, "manage faction banner", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 //	public static MPerm getPermAssist() { return getCreative(PRIORITY_ASSIST, ID_ASSIST, ID_ASSIST, "teleport to faction banner", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER), false, true, true); }
 

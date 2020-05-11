@@ -171,6 +171,7 @@ public class CmdFactionsJoin extends FactionsCommand
 		// Apply
 		mplayer.resetFactionData();
 		mplayer.setFaction(faction);
+		mplayer.setRole(faction.getRosterRole(mplayer));
 		
 		faction.uninvite(mplayer);
 

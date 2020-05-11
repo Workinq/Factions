@@ -95,6 +95,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setShards(that.shards);
 		this.setBanner(that.banner);
 		this.setRoster(that.roster);
+		this.setSandAlts(that.sandAlts);
 		return this;
 	}
 
@@ -241,6 +242,10 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This will store the faction roster, you can add and remove members from the roster using /f roster.
 	// By default the roster will be empty however, the owner might be in it.
 	private MassiveMap<String, Rel> roster = new MassiveMap<>();
+
+	// This will store the faction's currently active sand alts.
+	// By default there will be none, obviously.
+	private MassiveSet<SandAlt> sandAlts = new MassiveSet<>();
 
 	// This will store a list of all the banned members.
 	// By default it's empty and members can be banned using /f ban <player>.
@@ -1265,8 +1270,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		// Apply
 		this.roster.replace(mplayer.getId(), role);
 
-		// Mark as changed.
+		// Mark as changed
 		this.changed();
+	}
+
+	public Rel getRosterRole(MPlayer mplayer)
+	{
+		return this.roster.get(mplayer.getId());
 	}
 
 	public boolean isInRoster(MPlayer mplayer)
@@ -1277,6 +1287,83 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public void setRoster(MassiveMap<String, Rel> roster)
 	{
 		this.roster = roster;
+	}
+
+	// -------------------------------------------- //
+	// FIELD: sandAlts
+	// -------------------------------------------- //
+
+	public void setSandAlts(MassiveSet<SandAlt> sandAlts)
+	{
+		// Apply
+		this.sandAlts = sandAlts;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	public int getSandAltsNum()
+	{
+		return this.sandAlts.size();
+	}
+
+	public void addSandAlt(SandAlt sandAlt)
+	{
+		this.sandAlts.add(sandAlt);
+	}
+
+	public void removeSandAlt(SandAlt sandAlt)
+	{
+		this.sandAlts.remove(sandAlt);
+	}
+
+	public SandAlt getSandAltAt(PS location)
+	{
+		if (this.sandAlts.isEmpty()) return null;
+		for (SandAlt sandAlt : this.sandAlts)
+		{
+			if (sandAlt.getLocation().equals(location)) return sandAlt;
+		}
+		return null;
+	}
+
+	public void startAllSandAlts()
+	{
+		for (SandAlt sandAlt : this.sandAlts)
+		{
+			if ( ! sandAlt.isPaused()) continue;
+			sandAlt.setPaused(false);
+			sandAlt.changed();
+		}
+
+		// Mark as changed
+		this.changed();
+	}
+
+	public void stopAllSandAlts()
+	{
+		for (SandAlt sandAlt : this.sandAlts)
+		{
+			if (sandAlt.isPaused()) continue;
+			sandAlt.setPaused(true);
+			sandAlt.changed();
+		}
+
+		// Mark as changed
+		this.changed();
+	}
+
+	public void despawnAllSandAlts()
+	{
+		for (SandAlt sandAlt : this.sandAlts)
+		{
+			// Do stuff
+		}
+	}
+
+	public MassiveSet<SandAlt> getSandAlts()
+	{
+		return sandAlts;
 	}
 
 	// -------------------------------------------- //
