@@ -527,8 +527,14 @@ public class MConf extends Entity<MConf>
 	// SAND ALTS
 	// -------------------------------------------- //
 
+	public String sandAltName = "&c&lSAND ALT";
+	public String altSkin = "Steve";
 	public String sandAltGuiName = "<gray>Faction Sand Alts";
 	public int sandAltGuiSize = 54;
+	public double sandCost = 10.0D;
+	public Material sandSpawnMaterial = Material.LAPIS_BLOCK;
+	public int sandSpawnRadius = 6;
+	public long sandSpawnDelay = 500L;
 	
 	// -------------------------------------------- //
 	// COLORS
@@ -746,6 +752,14 @@ public class MConf extends Entity<MConf>
 	// That costs should the faciton bank take care of?
 	// If you set this to false the player executing the command will pay instead.
 	public boolean bankFactionPaysCosts = true;
+
+	// -------------------------------------------- //
+	// INTEGRATION: HOLOGRAPHIC DISPLAYS
+	// -------------------------------------------- //
+
+	// How long is the Hologram update period?
+	// Requires a server restart to take effect.
+	public int holographicDisplayUpdatePeriod = 30 * 20;
 
 	// -------------------------------------------- //
 	// SHARDS

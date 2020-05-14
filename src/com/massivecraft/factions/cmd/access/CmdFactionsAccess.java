@@ -12,6 +12,7 @@ public class CmdFactionsAccess extends FactionsCommand
 	public CmdFactionsAccessView cmdFactionsAccessView = new CmdFactionsAccessView();
 	public CmdFactionsAccessPlayer cmdFactionsAccessPlayer = new CmdFactionsAccessPlayer();
 	public CmdFactionsAccessFaction cmdFactionsAccessFaction = new CmdFactionsAccessFaction();
+	public CmdFactionsAccessClear cmdFactionsAccessClear = new CmdFactionsAccessClear();
 	
 	// -------------------------------------------- //
 	// CONSTRUCT

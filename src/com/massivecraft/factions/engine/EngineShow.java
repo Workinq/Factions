@@ -11,14 +11,11 @@ import com.massivecraft.factions.util.TimeUtil;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.PriorityLines;
 import com.massivecraft.massivecore.money.Money;
-import com.massivecraft.massivecore.mson.Mson;
 import com.massivecraft.massivecore.util.Txt;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -41,6 +38,7 @@ public class EngineShow extends Engine
 	public static final String SHOW_ID_FACTION_POWER = BASENAME_ + "power";
 	public static final String SHOW_ID_FACTION_BANK = BASENAME_ + "bank";
 	public static final String SHOW_ID_FACTION_FOLLOWERS = BASENAME_ + "followers";
+	public static final String SHOW_ID_FACTION_ALTS = BASENAME_ + "alts";
 	
 	public static final int SHOW_PRIORITY_FACTION_ID = 1000;
 	public static final int SHOW_PRIORITY_FACTION_DESCRIPTION = 2000;
@@ -52,6 +50,7 @@ public class EngineShow extends Engine
 	public static final int SHOW_PRIORITY_FACTION_POWER = 8000;
 	public static final int SHOW_PRIORITY_FACTION_BANK = 9000;
 	public static final int SHOW_PRIORITY_FACTION_FOLLOWERS = 10000;
+	public static final int SHOW_PRIORITY_FACTION_ALTS = 11000;
 	
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
@@ -172,8 +171,8 @@ public class EngineShow extends Engine
 			}
 		}
 
-		String headerOnline = Txt.parse("<a>Followers Online (%s):", followerNamesOnline.size());
-		followerLines.add(headerOnline);
+		String headerFollowersOnline = Txt.parse("<a>Followers Online (%s):", followerNamesOnline.size());
+		followerLines.add(headerFollowersOnline);
 		if (followerNamesOnline.isEmpty())
 		{
 			followerLines.add(none);
@@ -185,8 +184,8 @@ public class EngineShow extends Engine
 
 		if (normal)
 		{
-			String headerOffline = Txt.parse("<a>Followers Offline (%s):", followerNamesOffline.size());
-			followerLines.add(headerOffline);
+			String headerFollowersOffline = Txt.parse("<a>Followers Offline (%s):", followerNamesOffline.size());
+			followerLines.add(headerFollowersOffline);
 			if (followerNamesOffline.isEmpty())
 			{
 				followerLines.add(none);
@@ -197,6 +196,55 @@ public class EngineShow extends Engine
 			}
 		}
 		idPriorityLiness.put(SHOW_ID_FACTION_FOLLOWERS, new PriorityLines(SHOW_PRIORITY_FACTION_FOLLOWERS, followerLines));
+
+		// ALTS
+		List<String> altLines = new ArrayList<>();
+
+		List<String> altNamesOnline = new ArrayList<>();
+		List<String> altNamesOffline = new ArrayList<>();
+
+		List<MPlayer> alts = faction.getMPlayers();
+		Collections.sort(alts, ComparatorMPlayerRole.get());
+		for (MPlayer alt : alts)
+		{
+			if ( ! alt.isAlt()) continue;
+
+			if (alt.isOnline(sender))
+			{
+				altNamesOnline.add(alt.getNameAndTitle(mplayer));
+			}
+			else if (normal)
+			{
+				// For the non-faction we skip the offline members since they are far to many (infinite almost)
+				altNamesOffline.add(alt.getNameAndTitle(mplayer));
+			}
+		}
+
+		String headerAltsOnline = Txt.parse("<a>Alts Online (%s):", altNamesOnline.size());
+		altLines.add(headerAltsOnline);
+		if (altNamesOnline.isEmpty())
+		{
+			altLines.add(none);
+		}
+		else
+		{
+			altLines.addAll(table(altNamesOnline, tableCols));
+		}
+
+		if (normal)
+		{
+			String headerAltsOffline = Txt.parse("<a>Alts Offline (%s):", altNamesOffline.size());
+			altLines.add(headerAltsOffline);
+			if (altNamesOffline.isEmpty())
+			{
+				altLines.add(none);
+			}
+			else
+			{
+				altLines.addAll(table(altNamesOffline, tableCols));
+			}
+		}
+		idPriorityLiness.put(SHOW_ID_FACTION_ALTS, new PriorityLines(SHOW_PRIORITY_FACTION_ALTS, altLines));
 	}
 
 	public static String show(String key, String value)

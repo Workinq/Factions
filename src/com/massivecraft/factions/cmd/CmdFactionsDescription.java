@@ -17,7 +17,7 @@ public class CmdFactionsDescription extends FactionsCommand
 	public CmdFactionsDescription()
 	{
 		// Parameters
-		this.addParameter(TypeString.get(), "desc", true);
+		this.addParameter(TypeString.getFiltered(), "desc", true);
 
 		// Requirements
 		this.addRequirements(ReqHasFaction.get());

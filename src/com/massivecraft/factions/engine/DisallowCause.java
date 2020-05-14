@@ -12,5 +12,5 @@ public enum DisallowCause
 	OWN_TERRITORY
 	
 	// END OF LIST
-	
+
 }

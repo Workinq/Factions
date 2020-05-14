@@ -67,17 +67,17 @@ public class CmdFactionsDisband extends FactionsCommand
 			msg("<i>You disbanded <h>%s<i>." , faction.describeTo(msender));
 		}
 
-		Inventory factionInventory = faction.getInventory();
-		for (HumanEntity entity : factionInventory.getViewers())
+		Inventory inventory = faction.getInventory();
+		for (HumanEntity entity : inventory.getViewers())
 		{
 			entity.closeInventory();
 		}
-		for (int i = 0; i < factionInventory.getSize(); i++)
+		for (int i = 0; i < inventory.getSize(); i++)
 		{
-			if (factionInventory.getItem(i) == null) continue;
+			if (inventory.getItem(i) == null) continue;
 
-			me.getWorld().dropItemNaturally(me.getLocation(), factionInventory.getItem(i));
-			factionInventory.setItem(i, null);
+			me.getWorld().dropItemNaturally(me.getLocation(), inventory.getItem(i));
+			inventory.setItem(i, null);
 		}
 		msender.msg("<i>As result of disbanding <h>%s<i>, all /f chest contents have been dropped at your feet.", new Object[] { faction.describeTo(this.msender) });
 		
@@ -85,7 +85,7 @@ public class CmdFactionsDisband extends FactionsCommand
 		if (MConf.get().logFactionDisband)
 		{
 			Factions.get().log(Txt.parse("<i>The faction <h>%s <i>(<h>%s<i>) was disbanded by <h>%s<i>.", faction.getName(), faction.getId(), msender.getDisplayName(IdUtil.getConsole())));
-		}		
+		}
 		
 		// Apply
 		faction.detach();

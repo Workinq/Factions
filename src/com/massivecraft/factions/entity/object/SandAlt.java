@@ -4,15 +4,17 @@ import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.store.EntityInternal;
 import org.bukkit.Location;
 
+import java.util.UUID;
+
 public class SandAlt extends EntityInternal<SandAlt>
 {
 
-    private final String npcId;
+    private final UUID npcId;
     private final String factionId;
     private final PS location;
     private boolean paused;
 
-    public SandAlt(String npcId, String factionId, Location location)
+    public SandAlt(UUID npcId, String factionId, Location location)
     {
         this.npcId = npcId;
         this.factionId = factionId;
@@ -20,7 +22,7 @@ public class SandAlt extends EntityInternal<SandAlt>
         this.paused = false;
     }
 
-    public String getNpcId()
+    public UUID getNpcId()
     {
         return npcId;
     }
@@ -30,9 +32,14 @@ public class SandAlt extends EntityInternal<SandAlt>
         return factionId;
     }
 
-    public PS getLocation()
+    public PS getPs()
     {
         return location;
+    }
+
+    public Location getLocation()
+    {
+        return location.asBukkitLocation(true);
     }
 
     public void setPaused(boolean paused)

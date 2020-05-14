@@ -5,7 +5,7 @@ website: ${project.url}
 description: ${project.description}
 authors: [Cayorion, Madus, Ulumulu1510, MarkehMe, Brettflan, Kieraaaan]
 depend: [MassiveCore]
-softdepend: [PermissionsEx, Permissions, Essentials, EssentialsChat, iChat, LocalAreaChat, nChat, ChatManager, AuthMe, Vault, Spout, WorldEdit, WorldGuard, AuthDB, CaptureThePoints, CombatTag, CoreProtect, Citizens]
+softdepend: [PermissionsEx, Permissions, Essentials, EssentialsChat, iChat, LocalAreaChat, nChat, ChatManager, AuthMe, Vault, Spout, WorldEdit, WorldGuard, AuthDB, CaptureThePoints, CombatTag, CoreProtect, Citizens, HolographicDisplays]
 permissions:
   # -------------------------------------------- #
   # THE REAL NODES
@@ -13,6 +13,7 @@ permissions:
   factions.access: {description: manage access, with the proper fperm, default: false}
   factions.access.faction: {description: grant faction access, with the proper fperm, default: false}
   factions.access.player: {description: grant player access, with the proper fperm, default: false}
+  factions.access.clear: {description: clear player & faction access, with the proper fperm, default: false}
   factions.access.view: {description: view access, default: false}
   factions.override: {description: enable override mode, default: false}
   factions.basecommand: {description: use factions base command, default: false}
@@ -69,6 +70,7 @@ permissions:
   factions.rank.show: {description: show rank, default: false}
   factions.rank.action: {description: change rank, default: false}
   factions.relation: {description: manage faction relations, default: false}
+  factions.relation.check: {description: check relation between two factions, default: false}
   factions.relation.list: {description: list all factions with certain relation, default: false}
   factions.relation.set: {description: set relation wish to another faction, default: false}
   factions.relation.wishes: {description: list the relation wishes, default: false}
@@ -178,6 +180,9 @@ permissions:
   factions.roster.list: {description: list the factions roster list, default: false}
   factions.roster.list.any: {description: list other factions roster list, default: false}
   factions.drain: {description: drain members money into the faction, default: false}
+  factions.sandalt: {description: manage faction sandalts, default: false}
+  factions.sandalt.gui: {description: open faction sandalts gui, default: false}
+  factions.sandalt.killall: {description: despawn all sandalts for all factions, default: false}
 
   # -------------------------------------------- #
   # STAR NOTATION
@@ -187,6 +192,7 @@ permissions:
       factions.access: true
       factions.access.faction: true
       factions.access.player: true
+      factions.access.clear: true
       factions.access.view: true
       factions.override: true
       factions.basecommand: true
@@ -246,6 +252,7 @@ permissions:
       factions.powerboost.set: true
       factions.promote: true
       factions.relation: true
+      factions.relation.check: true
       factions.relation.list: true
       factions.relation.set: true
       factions.relation.wishes: true
@@ -354,6 +361,9 @@ permissions:
       factions.roster.list: true
       factions.roster.list.any: true
       factions.drain: true
+      factions.sandalt: true
+      factions.sandalt.gui: true
+      factions.sandalt.killall: true
 
   # -------------------------------------------- #
   # KITS
@@ -390,6 +400,7 @@ permissions:
       factions.access: true
       factions.access.faction: true
       factions.access.player: true
+      factions.access.clear: true
       factions.access.view: true
       factions.basecommand: true
       factions.claim: true
@@ -446,6 +457,7 @@ permissions:
       factions.rank.show: true
       factions.rank.action: true
       factions.relation: true
+      factions.relation.check: true
       factions.relation.list: true
       factions.relation.set: true
       factions.relation.wishes: true
@@ -533,6 +545,8 @@ permissions:
       factions.roster.setrank: true
       factions.roster.list: true
       factions.drain: true
+      factions.sandalt: true
+      factions.sandalt.gui: true
   factions.kit.default:
     default: true
     children:

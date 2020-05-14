@@ -80,6 +80,11 @@
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
         </dependency>
+        <!-- HolographicDisplays -->
+        <dependency>
+            <groupId>com.gmail.filoghost.holographicdisplays</groupId>
+            <artifactId>holographicdisplays-api</artifactId>
+        </dependency>
     </dependencies>
 
     <!-- Build -->

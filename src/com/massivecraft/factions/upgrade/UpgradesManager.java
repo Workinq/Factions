@@ -93,6 +93,7 @@ public class UpgradesManager
         upgrades.add(new TNTStorageUpgrade());
         upgrades.add(new WarpUpgrade());
         upgrades.add(new PowerboostUpgrade());
+        upgrades.add(new SandAltUpgrade());
     }
 
     public Upgrade getUpgradeByName(String string)

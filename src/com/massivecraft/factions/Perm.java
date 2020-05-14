@@ -14,6 +14,7 @@ public enum Perm implements Identified
 	ACCESS_VIEW,
 	ACCESS_PLAYER,
 	ACCESS_FACTION,
+	ACCESS_CLEAR,
 	OVERRIDE,
 	BASECOMMAND,
 	CLAIM,
@@ -69,6 +70,7 @@ public enum Perm implements Identified
 	RANK_ACTION,
 	RELATION,
 	RELATION_SET,
+	RELATION_CHECK,
 	RELATION_LIST,
 	RELATION_WISHES,
 	SEECHUNK,
@@ -180,6 +182,9 @@ public enum Perm implements Identified
 	ROSTER_LIST,
 	ROSTER_LIST_ANY,
 	DRAIN,
+	SANDALT,
+	SANDALT_GUI,
+	SANDALT_KILLALL,
 
 	// END OF LIST
 	;

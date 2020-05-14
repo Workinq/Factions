@@ -48,10 +48,10 @@ public class TaskPlayerPowerUpdate extends ModuloRepeatTask
 			
 			// ... in a faction territory that permits power gain ...
 			Faction faction = BoardColl.get().getFactionAt(PS.valueOf(player));
-			if (!faction.getFlag(flagPowerGain)) return;
+			if (!faction.getFlag(flagPowerGain)) continue;
 			
 			// ... in a world that permits power gain ...
-			if (!MConf.get().worldsPowerGainEnabled.contains(player)) return;
+			if (!MConf.get().worldsPowerGainEnabled.contains(player)) continue;
 			
 			MPlayer mplayer = MPlayer.get(player);
 			

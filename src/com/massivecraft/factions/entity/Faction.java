@@ -26,7 +26,11 @@ import com.massivecraft.massivecore.store.SenderColl;
 import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.event.DespawnReason;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
@@ -1302,27 +1306,39 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public int getSandAltsNum()
-	{
-		return this.sandAlts.size();
-	}
-
 	public void addSandAlt(SandAlt sandAlt)
 	{
-		this.sandAlts.add(sandAlt);
+		// Apply
+		sandAlts.add(sandAlt);
+
+		// Mark as changed
+		this.changed();
 	}
 
-	public void removeSandAlt(SandAlt sandAlt)
+	public void despawnSandAlt(SandAlt sandAlt)
 	{
-		this.sandAlts.remove(sandAlt);
+		// Args
+		NPC npc = CitizensAPI.getNPCRegistry().getByUniqueId(sandAlt.getNpcId());
+
+		// Destroy
+		if (npc != null)
+		{
+			npc.despawn(DespawnReason.PLUGIN);
+			npc.destroy();
+		}
+
+		// Apply
+		sandAlts.remove(sandAlt);
+
+		// Mark as changed
+		this.changed();
 	}
 
 	public SandAlt getSandAltAt(PS location)
 	{
-		if (this.sandAlts.isEmpty()) return null;
 		for (SandAlt sandAlt : this.sandAlts)
 		{
-			if (sandAlt.getLocation().equals(location)) return sandAlt;
+			if (sandAlt.getPs().equals(location)) return sandAlt;
 		}
 		return null;
 	}
@@ -1355,10 +1371,27 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public void despawnAllSandAlts()
 	{
+		// Loop - Sand Alts
+		for (SandAlt sandAlt : new MassiveList<>(this.sandAlts))
+		{
+			this.despawnSandAlt(sandAlt);
+		}
+
+		// Mark as changed
+		this.changed();
+	}
+
+	public Set<SandAlt> getSandAltsInChunk(PS chunk)
+	{
+		Set<SandAlt> sandAlts = new MassiveSet<>();
 		for (SandAlt sandAlt : this.sandAlts)
 		{
-			// Do stuff
+			if (sandAlt.getPs().getChunk(true).equals(chunk))
+			{
+				sandAlts.add(sandAlt);
+			}
 		}
+		return sandAlts;
 	}
 
 	public MassiveSet<SandAlt> getSandAlts()
@@ -2176,6 +2209,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		if (target.isEmpty()) target = null;
 
 		return target;
+	}
+
+	@Override
+	public Faction detach()
+	{
+		this.despawnAllSandAlts();
+		return super.detach();
 	}
 
 }

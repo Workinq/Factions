@@ -27,6 +27,7 @@ import com.massivecraft.factions.cmd.power.CmdFactionsSetpower;
 import com.massivecraft.factions.cmd.rel.CmdFactionsRelation;
 import com.massivecraft.factions.cmd.rel.CmdFactionsRelationOld;
 import com.massivecraft.factions.cmd.roster.CmdFactionsRoster;
+import com.massivecraft.factions.cmd.sand.CmdFactionsSandAlt;
 import com.massivecraft.factions.cmd.shard.CmdFactionsShards;
 import com.massivecraft.factions.cmd.shield.CmdFactionsShield;
 import com.massivecraft.factions.cmd.strike.CmdFactionsStrike;
@@ -142,6 +143,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsSpawnerUpgrade cmdFactionsSpawnerUpgrade = new CmdFactionsSpawnerUpgrade();
 	public CmdFactionsRoster cmdFactionsRoster = new CmdFactionsRoster();
 	public CmdFactionsDrain cmdFactionsDrain = new CmdFactionsDrain();
+	public CmdFactionsSandAlt cmdFactionsSandAlt = new CmdFactionsSandAlt();
 	public MassiveCommandVersion cmdFactionsVersion = new MassiveCommandVersion(Factions.get()).setAliases("v", "version").addRequirements(RequirementHasPerm.get(Perm.VERSION));
 
 	// -------------------------------------------- //
