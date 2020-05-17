@@ -98,23 +98,14 @@ public class EngineSand extends Engine
         Player player = event.getClicker();
         MPlayer mplayer = MPlayer.get(player);
 
-        if (faction != mplayer.getFaction())
-        {
-            mplayer.msg("<b>You can't manage sand alts belonging to other factions.");
-            return;
-        }
+        // Verify - Sand Alt
+        SandAlt sandAlt = faction.getSandAltAt(ps);
+        if (sandAlt == null) return;
 
         // MPerm
         if ( ! MPerm.getPermSandalt().has(mplayer, faction, true)) return;
 
-        SandAlt sandAlt = faction.getSandAltAt(ps);
-
-        if (sandAlt == null)
-        {
-            mplayer.msg("<b>This sand alt is invalid. Please contact an administrator.");
-            return;
-        }
-
+        // Inventory
         player.openInventory(this.getEditGui(sandAlt, faction, mplayer));
     }
 

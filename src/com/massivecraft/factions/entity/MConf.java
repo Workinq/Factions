@@ -511,6 +511,11 @@ public class MConf extends Entity<MConf>
 
 	public int maximumFillRadius = 20;
 
+	// What is the minimum and maximum tnt to be added to /f tnt.
+	public Map<EntityType, List<Integer>> tntChances = MUtil.map(
+			EntityType.CREEPER, MUtil.list(1, 3)
+	);
+
 	// -------------------------------------------- //
 	// ROSTER
 	// -------------------------------------------- //
@@ -667,14 +672,17 @@ public class MConf extends Entity<MConf>
 	public BackstringSet<EntityType> entityTypesShards = new BackstringSet<>(EntityType.class,
 			"SILVERFISH",
 			"VILLAGER",
-			"ENDERMITE",
-			"BLAZE",
-			"WITCH"
+			"ENDERMITE"
 	);
 
 	// List of entities to add to faction money.
 	public BackstringSet<EntityType> entityTypesMoney = new BackstringSet<>(EntityType.class,
 			"PIG_ZOMBIE"
+	);
+
+	// List of entities to add to faction tnt.
+	public BackstringSet<EntityType> entityTypesTnt = new BackstringSet<>(EntityType.class,
+			"CREEPER"
 	);
 	
 	// -------------------------------------------- //

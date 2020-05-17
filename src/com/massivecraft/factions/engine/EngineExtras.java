@@ -207,31 +207,6 @@ public class EngineExtras extends Engine {
         }
     }
 
-    /*@EventHandler(priority = EventPriority.HIGH)
-    public void onSpawnerMine(BlockBreakEvent event)
-    {
-        if (event.getBlock().getType() != Material.MOB_SPAWNER)
-        {
-            return;
-        }
-        MPlayer mPlayer = MPlayer.get(event.getPlayer());
-        if (!mPlayer.isOverriding() && mPlayer.getRelationTo(mPlayer.getFaction()) != Rel.LEADER && mPlayer.getRelationTo(mPlayer.getFaction()) != Rel.COLEADER && ! mPlayer.canMineSpawers())
-        {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onSpawnerMine(SilkSpawnersSpawnerBreakEvent event)
-    {
-        MPlayer mPlayer = MPlayer.get(event.getPlayer());
-        if (!mPlayer.isOverriding() && mPlayer.getRelationTo(mPlayer.getFaction()) != Rel.LEADER && mPlayer.getRelationTo(mPlayer.getFaction()) != Rel.COLEADER && !mPlayer.canMineSpawers())
-        {
-            event.setCancelled(true);
-            mPlayer.msg("<b>Your faction does not allow you to mine spawners! (Ask a leader to permit you using /f spawners!)");
-        }
-    }*/
-
     /*@EventHandler
     public void onEntityExplodeEvent(EntityExplodeEvent event)
     {

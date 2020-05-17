@@ -4,6 +4,7 @@ import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.event.EventFactionsShardsChange;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.money.Money;
 import com.massivecraft.massivecore.ps.PS;
@@ -75,9 +76,15 @@ public class EngineShards extends Engine
         // Args
         int minimum = MConf.get().shardChances.get(type).get(0);
         int maximum = MConf.get().shardChances.get(type).get(1);
+        int amount = ThreadLocalRandom.current().nextInt(minimum, maximum);
+
+        // Event
+        EventFactionsShardsChange shardsEvent = new EventFactionsShardsChange(at, amount);
+        shardsEvent.run();
+        if (shardsEvent.isCancelled()) return;
 
         // Apply
-        at.addShards(ThreadLocalRandom.current().nextInt(minimum, maximum));
+        at.addShards(shardsEvent.getShards());
     }
 
     @EventHandler
@@ -115,7 +122,7 @@ public class EngineShards extends Engine
     public void onKillEntity(EntityDeathEvent event)
     {
         EntityType type = event.getEntityType();
-        if ( ! MConf.get().entityTypesShards.contains(type)) return;
+        if ( ! MConf.get().shardChances.containsKey(type)) return;
 
         // Args
         int minimum = MConf.get().shardChances.get(type).get(0);
@@ -143,9 +150,19 @@ public class EngineShards extends Engine
             return;
         }
 
+        // Args
         Faction faction = mplayer.getFaction();
         int totalShards = getShardsIn(player.getInventory());
-        faction.addShards(totalShards);
+
+        // Event
+        EventFactionsShardsChange shardsEvent = new EventFactionsShardsChange(faction, totalShards);
+        shardsEvent.run();
+        if (shardsEvent.isCancelled()) return;
+
+        // Apply
+        faction.addShards(shardsEvent.getShards());
+
+        // Inform
         mplayer.msg("%s <i>deposited <h>%,d <i>shards into %s's <i>shard balance.", mplayer.describeTo(mplayer, true), totalShards, faction.describeTo(mplayer));
     }
 

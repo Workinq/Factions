@@ -1,23 +1,22 @@
 package com.massivecraft.factions.mission.missions;
 
 import com.massivecraft.factions.entity.conf.ConfMission;
-import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.event.EventFactionsShardsChange;
 import com.massivecraft.factions.mission.Mission;
 import com.massivecraft.factions.mission.MissionsManager;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.BlockPlaceEvent;
 
-public class MissionCactus extends Mission
+public class MissionShards extends Mission
 {
 
-   private final ConfMission confMission = MissionsManager.get().getConfMissionByName("Cactus");
+   private final ConfMission confMission = MissionsManager.get().getConfMissionByName("Shards");
 
    @Override
    public String getName()
    {
-      return "Cactus";
+      return "Shards";
    }
 
    @Override
@@ -57,12 +56,9 @@ public class MissionCactus extends Mission
    }
 
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-   public void onBlockBreak(BlockPlaceEvent event)
+   public void onShardsChange(EventFactionsShardsChange event)
    {
-      if (event.getBlock() != null && event.getBlock().getType() == Material.CACTUS)
-      {
-         MissionsManager.get().incrementProgress(this, MPlayer.get(event.getPlayer()));
-      }
+      MissionsManager.get().incrementProgress(this, event.getFaction(), event.getShards());
    }
 
 }

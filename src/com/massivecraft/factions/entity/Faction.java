@@ -1057,6 +1057,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public void setBaseRegion(MassiveSet<PS> baseRegion)
 	{
+		// Apply
 		this.baseRegion = baseRegion;
 
 		// Mark as changed

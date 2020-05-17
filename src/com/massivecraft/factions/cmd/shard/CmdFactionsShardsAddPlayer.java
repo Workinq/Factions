@@ -5,6 +5,7 @@ import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.event.EventFactionsShardsChange;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.type.primitive.TypeBooleanTrue;
@@ -49,9 +50,20 @@ public class CmdFactionsShardsAddPlayer extends FactionsCommand
         // Check Negative
         if (amount < 0) amount *= -1;
 
-        // Apply
         Faction faction = mplayer.getFaction();
-        faction.addShards(amount);
+        if (faction.isSystemFaction())
+        {
+            msg("<b>You can't add shards to a system faction.");
+            return;
+        }
+
+        // Event
+        EventFactionsShardsChange event = new EventFactionsShardsChange(faction, amount);
+        event.run();
+        if (event.isCancelled()) return;
+
+        // Apply
+        faction.addShards(event.getShards());
 
         // Inform
         msg("%s <i>gave <h>%,dx <i>shards to %s<i>.", msender.describeTo(msender, true), amount, mplayer.describeTo(msender));
