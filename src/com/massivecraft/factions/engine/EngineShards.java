@@ -6,11 +6,9 @@ import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.event.EventFactionsShardsChange;
 import com.massivecraft.massivecore.Engine;
-import com.massivecraft.massivecore.money.Money;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Location;
-import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -88,37 +86,6 @@ public class EngineShards extends Engine
     }
 
     @EventHandler
-    public void onMoneyDrop(CreatureSpawnEvent event)
-    {
-        if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.SPAWNER) return;
-
-        // Args
-        EntityType type = event.getEntityType();
-        if ( ! MConf.get().moneyChances.containsKey(type)) return;
-        if ( ! MConf.get().entityTypesMoney.contains(type)) return;
-
-        Location location = event.getLocation();
-        if (location == null) return;
-
-        Faction at = BoardColl.get().getFactionAt(PS.valueOf(location));
-        if (at.isSystemFaction()) return;
-
-        PS chunk = PS.valueOf(location.getChunk());
-        if (at.getBaseRegion() == null) return;
-        if ( ! at.getBaseRegion().contains(chunk)) return;
-
-        // Cancel
-        event.setCancelled(true);
-
-        // Args
-        int minimum = MConf.get().moneyChances.get(type).get(0);
-        int maximum = MConf.get().moneyChances.get(type).get(1);
-
-        // Apply
-        Money.spawn(at, null, ThreadLocalRandom.current().nextInt(minimum, maximum));
-    }
-
-    @EventHandler
     public void onKillEntity(EntityDeathEvent event)
     {
         EntityType type = event.getEntityType();
@@ -163,7 +130,7 @@ public class EngineShards extends Engine
         faction.addShards(shardsEvent.getShards());
 
         // Inform
-        mplayer.msg("%s <i>deposited <h>%,d <i>shards into %s's <i>shard balance.", mplayer.describeTo(mplayer, true), totalShards, faction.describeTo(mplayer));
+        mplayer.msg("%s <i>deposited <h>%,d <i>shards into %s's <i>shard balance.", mplayer.describeTo(mplayer, true), shardsEvent.getShards(), faction.describeTo(mplayer));
     }
 
     private int getShardsIn(Inventory inventory)

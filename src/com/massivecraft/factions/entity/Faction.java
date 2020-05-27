@@ -1,8 +1,8 @@
 package com.massivecraft.factions.entity;
 
 import com.massivecraft.factions.*;
-import com.massivecraft.factions.entity.object.*;
 import com.massivecraft.factions.entity.object.Invitation;
+import com.massivecraft.factions.entity.object.*;
 import com.massivecraft.factions.mission.Mission;
 import com.massivecraft.factions.mission.MissionsManager;
 import com.massivecraft.factions.predicate.PredicateCommandSenderFaction;
@@ -30,7 +30,6 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
@@ -779,7 +778,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public String getDiscord()
 	{
 		String ret = this.discord;
-		if (ret == null) ret = "";
+		if (ret == null) ret = "none";
 		return ret;
 	}
 
@@ -1087,7 +1086,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		if (this.shieldedHour == null) return false;
 
 		int minimum = this.shieldedHour;
-		int maximum = this.shieldedHour + 10;
+		int maximum = this.shieldedHour + MConf.get().shieldHours;
 
 		if (maximum >= 24)
 		{

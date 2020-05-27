@@ -12,8 +12,6 @@ import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.entity.object.FactionPermission;
 import com.massivecraft.factions.util.InventoryUtil;
 import com.massivecraft.massivecore.MassiveException;
-import com.massivecraft.massivecore.chestgui.ChestAction;
-import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
 import com.massivecraft.massivecore.chestgui.ChestGui;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.util.MUtil;
@@ -21,7 +19,6 @@ import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -56,7 +53,13 @@ public class CmdFactionsPermGui extends FactionsCommand
         ChestGui chestGui = ChestGui.getCreative(inventory);
         int slot = 0;
 
-        // Loop
+        // Chest Setup
+        chestGui.setAutoclosing(true);
+        chestGui.setAutoremoving(true);
+        chestGui.setSoundOpen(null);
+        chestGui.setSoundClose(null);
+
+        // Loop - Permissions
         for (FactionPermission permission : FPerm.get().factionPermissions)
         {
             // Args
@@ -67,20 +70,11 @@ public class CmdFactionsPermGui extends FactionsCommand
             // Verify
             if ( ! mPerm.isEditable()) continue;
 
+            // Item Setup
             meta.setDisplayName(Txt.parse("<k>%s", permission.getMPermString()));
             meta.setLore(Txt.parse(MUtil.list("<n>Click here to modify what roles", "<n>have this permission")));
             item.setItemMeta(meta);
             chestGui.getInventory().setItem(slot, item);
-
-            /*chestGui.setAction(slot, new ChestAction()
-            {
-                @Override
-                public boolean onClick(InventoryClickEvent event)
-                {
-                    event.getWhoClicked().openInventory(getPermissionGui(msender, mPerm));
-                    return true;
-                }
-            });*/
 
             chestGui.setAction(slot, new ActionOpenRelations(permission.getMPerm(), msender));
             slot++;

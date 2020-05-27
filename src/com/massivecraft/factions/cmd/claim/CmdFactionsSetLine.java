@@ -54,7 +54,8 @@ public class CmdFactionsSetLine extends CmdFactionsSetX
     // OVERRIDE
     // -------------------------------------------- //
 
-    public Integer getRadius() throws MassiveException {
+    public Integer getRadius() throws MassiveException
+    {
         int radius = this.readArgAt(0);
 
         // Radius Claim Min
@@ -65,7 +66,7 @@ public class CmdFactionsSetLine extends CmdFactionsSetX
         }
 
         // Radius Claim Max
-        if (radius > MConf.get().setLineMax && !msender.isOverriding())
+        if (radius > MConf.get().setLineMax && ! msender.isOverriding() )
         {
             msg("<b>The maximum amount allowed is <h>%s<b>.", MConf.get().setLineMax);
             return null;

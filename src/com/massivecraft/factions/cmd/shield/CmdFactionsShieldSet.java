@@ -72,9 +72,9 @@ public class CmdFactionsShieldSet extends FactionsCommand
             // Args
             String from = getTime(calendar);
             Calendar clone = (Calendar) calendar.clone();
-            clone.add(Calendar.HOUR_OF_DAY, 10);
+            clone.add(Calendar.HOUR_OF_DAY, MConf.get().shieldHours);
             String to = getTime(clone);
-            String fromTo = Txt.parse("<k>%s <white>---> <k>%s <n>(<k>10 hours total<n>)", from, to);
+            String fromTo = Txt.parse("<k>%s <white>---> <k>%s <n>(<k>" + MConf.get().shieldHours + " hours total<n>)", from, to);
 
             if (msenderFaction.isShieldedAtHour(calendar.get(Calendar.HOUR_OF_DAY)))
             {

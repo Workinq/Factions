@@ -36,9 +36,9 @@ public class FactionWarp extends EntityInternal<FactionWarp>
         return name;
     }
 
-    public String getCreator()
+    public MPlayer getCreator()
     {
-        return MPlayer.get(creator).getName();
+        return MPlayer.get(creator);
     }
 
     public PS getLocation()

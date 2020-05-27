@@ -51,7 +51,7 @@ public class EnginePermBuild extends Engine
 		String name = mplayer.getName();
 		if (MConf.get().playersWhoBypassAllProtection.contains(name)) return false;
 		if (mplayer.isOverriding()) return false;
-		
+
 		MPerm perm = protectCase.getPerm(object);
 		if (perm == null) return null;
 		if (protectCase != ProtectCase.BUILD) return !perm.has(mplayer, ps, verboose);

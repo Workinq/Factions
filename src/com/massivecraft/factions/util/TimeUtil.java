@@ -49,8 +49,12 @@ public class TimeUtil {
         return output.isEmpty() ? "0 seconds " : output;
     }
 
-    public static String formatTime(long timePeriod, boolean showSeconds) {
-        String output = "";
+    public static String formatTime(long timePeriod, boolean showSeconds)
+    {
+        // Args - Output
+        StringBuilder builder = new StringBuilder();
+
+        // Args - Time
         long days = TimeUnit.MILLISECONDS.toDays(timePeriod);
         long millis = timePeriod - TimeUnit.DAYS.toMillis(days);
         long hours = TimeUnit.MILLISECONDS.toHours(millis);
@@ -58,42 +62,49 @@ public class TimeUtil {
         long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
         millis -= TimeUnit.MINUTES.toMillis(minutes);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
-        if (days > 1L)
+
+        if (days > 1L) // Days
         {
-            output = output + days + " days ";
+            builder.append(days).append(" days ");
         }
         else if (days == 1L)
         {
-            output = output + days + " day ";
+            builder.append(days).append(" day ");
         }
-        if (hours > 1L)
+
+        if (hours > 1L) // Hours
         {
-            output = output + hours + " hours ";
+            builder.append(hours).append(" hours ");
         }
         else if (hours == 1L)
         {
-            output = output + hours + " hour ";
+            builder.append(hours).append(" hour ");
         }
-        if (minutes > 1L)
+
+        if (minutes > 1L) // Minutes
         {
-            output = output + minutes + " minutes ";
+            builder.append(minutes).append(" minutes ");
         }
         else if (minutes == 1L)
         {
-            output = output + minutes + " minute ";
+            builder.append(minutes).append(" minute ");
         }
+
+        // Verify - Seconds
         if (showSeconds)
         {
-            if (seconds > 1L)
+            if (seconds > 1L) // Seconds
             {
-                output = output + seconds + " seconds";
+                builder.append(seconds).append(" seconds ");
             }
             else if (seconds == 1L)
             {
-                output = output + seconds + "second";
+                builder.append(seconds).append(" second ");
             }
         }
-        return output.isEmpty() ? "just now " : output;
+
+        // Return
+        return builder.length() == 0 ? "just now" : builder.toString().trim();
     }
 
     public static String formatTime(int seconds)

@@ -18,9 +18,10 @@ public class BoardColl extends Coll<Board> implements BoardInterface
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
-	
+
 	private static BoardColl i = new BoardColl();
 	public static BoardColl get() { return i; }
+
 	private BoardColl()
 	{
 		this.setCreative(true);

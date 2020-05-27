@@ -7,6 +7,7 @@ import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.object.FactionWarp;
+import com.massivecraft.factions.util.TimeUtil;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.Parameter;
 import com.massivecraft.massivecore.mson.Mson;
@@ -18,14 +19,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CmdFactionsWarps extends FactionsCommand
+public class CmdFactionsWarpList extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsWarps()
+    public CmdFactionsWarpList()
     {
+        // Aliases
+        this.addAliases("warps");
+
         // Parameters
         this.addParameter(Parameter.getPage());
         this.addParameter(TypeFaction.get(), "faction", "you");
@@ -45,16 +49,17 @@ public class CmdFactionsWarps extends FactionsCommand
         int page = this.readArg();
         Faction faction = this.readArg(msenderFaction);
 
-        if (faction != msenderFaction && ! Perm.WARPS_OTHER.has(sender, true)) return;
+        if (faction != msenderFaction && ! Perm.WARPLIST_OTHER.has(sender, true)) return;
 
-        if ( ! MPerm.getPermWarp().has(msender, faction, true)) return;
+        if ( ! MPerm.getPermWarp().has(msender, faction, true) ) return;
 
         final List<Mson> warps = new ArrayList<>();
         for (FactionWarp warp : faction.getWarps())
         {
-            String warpName = "<a>%s <i>set by <a>%s" + (warp.hasPassword() ? " <n>(<g>protected<n>)" : "");
+            long timeRemaining = System.currentTimeMillis() - warp.getCreationMillis();
+            String timeSince = Txt.parse("%s", TimeUtil.formatTime(timeRemaining, true));
 
-            Mson mson = mson(Txt.parse(warpName, warp.getName(), warp.getCreator()));
+            Mson mson = mson(Txt.parse("<h>%s <i>set by %s <a>%s ago", warp.getName() + Txt.parse((warp.hasPassword() ? " <n>(<g>protected<n>)" : "")), warp.getCreator().describeTo(msender), timeSince));
             mson = mson.command("/f warp " + warp.getName());
             mson = mson.tooltip(Txt.parse("<a>Click to warp to %s", warp.getName()));
             warps.add(mson);

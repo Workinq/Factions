@@ -30,6 +30,7 @@ public class EngineShow extends Engine
 	
 	public static final String SHOW_ID_FACTION_ID = BASENAME_ + "id";
 	public static final String SHOW_ID_FACTION_DESCRIPTION = BASENAME_ + "description";
+	public static final String SHOW_ID_FACTION_DISCORD = BASENAME_ + "discord";
 	public static final String SHOW_ID_FACTION_AGE = BASENAME_ + "age";
 	public static final String SHOW_ID_FACTION_SHIELD = BASENAME_ + "shield";
 	public static final String SHOW_ID_FACTION_STRIKES = BASENAME_ + "strikes";
@@ -42,15 +43,16 @@ public class EngineShow extends Engine
 	
 	public static final int SHOW_PRIORITY_FACTION_ID = 1000;
 	public static final int SHOW_PRIORITY_FACTION_DESCRIPTION = 2000;
-	public static final int SHOW_PRIORITY_FACTION_AGE = 3000;
-	public static final int SHOW_PRIORITY_FACTION_SHIELD = 4000;
-	public static final int SHOW_PRIORITY_FACTION_STRIKES = 5000;
-	public static final int SHOW_PRIORITY_FACTION_BANS = 6000;
-	public static final int SHOW_PRIORITY_FACTION_FLAGS = 7000;
-	public static final int SHOW_PRIORITY_FACTION_POWER = 8000;
-	public static final int SHOW_PRIORITY_FACTION_BANK = 9000;
-	public static final int SHOW_PRIORITY_FACTION_FOLLOWERS = 10000;
-	public static final int SHOW_PRIORITY_FACTION_ALTS = 11000;
+	public static final int SHOW_PRIORITY_FACTION_DISCORD = 3000;
+	public static final int SHOW_PRIORITY_FACTION_AGE = 4000;
+	public static final int SHOW_PRIORITY_FACTION_SHIELD = 5000;
+	public static final int SHOW_PRIORITY_FACTION_STRIKES = 6000;
+	public static final int SHOW_PRIORITY_FACTION_BANS = 7000;
+	public static final int SHOW_PRIORITY_FACTION_FLAGS = 8000;
+	public static final int SHOW_PRIORITY_FACTION_POWER = 9000;
+	public static final int SHOW_PRIORITY_FACTION_BANK = 10000;
+	public static final int SHOW_PRIORITY_FACTION_FOLLOWERS = 11000;
+	public static final int SHOW_PRIORITY_FACTION_ALTS = 12000;
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
@@ -85,6 +87,9 @@ public class EngineShow extends Engine
 		// SECTION: NORMAL
 		if (normal)
 		{
+			// DISCORD
+			show(idPriorityLiness, SHOW_ID_FACTION_DISCORD, SHOW_PRIORITY_FACTION_DISCORD, "Discord", faction.getDiscord());
+
 			// AGE
 			long ageMillis = System.currentTimeMillis() - faction.getCreatedAtMillis();
 			String ageString = TimeUtil.formatTime(ageMillis, true);

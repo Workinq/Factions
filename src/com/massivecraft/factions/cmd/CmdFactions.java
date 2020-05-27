@@ -35,7 +35,7 @@ import com.massivecraft.factions.cmd.tnt.CmdFactionsTnt;
 import com.massivecraft.factions.cmd.warp.CmdFactionsDelwarp;
 import com.massivecraft.factions.cmd.warp.CmdFactionsSetwarp;
 import com.massivecraft.factions.cmd.warp.CmdFactionsWarp;
-import com.massivecraft.factions.cmd.warp.CmdFactionsWarps;
+import com.massivecraft.factions.cmd.warp.CmdFactionsWarpList;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.massivecore.command.MassiveCommandDeprecated;
 import com.massivecraft.massivecore.command.MassiveCommandVersion;
@@ -112,7 +112,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsStealth cmdFactionsStealth = new CmdFactionsStealth();
 	public CmdFactionsFly cmdFactionsFly = new CmdFactionsFly();
 	public CmdFactionsWarp cmdFactionsWarp = new CmdFactionsWarp();
-	public CmdFactionsWarps cmdFactionsWarps = new CmdFactionsWarps();
+	public CmdFactionsWarpList cmdFactionsWarpList = new CmdFactionsWarpList();
 	public CmdFactionsSetwarp cmdFactionsSetwarp = new CmdFactionsSetwarp();
 	public CmdFactionsDelwarp cmdFactionsDelwarp = new CmdFactionsDelwarp();
 	public CmdFactionsDiscord cmdFactionsDiscord = new CmdFactionsDiscord();
@@ -144,6 +144,8 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsRoster cmdFactionsRoster = new CmdFactionsRoster();
 	public CmdFactionsDrain cmdFactionsDrain = new CmdFactionsDrain();
 	public CmdFactionsSandAlt cmdFactionsSandAlt = new CmdFactionsSandAlt();
+	public CmdFactionsLogin cmdFactionsLogin = new CmdFactionsLogin();
+	public CmdFactionsFf cmdFactionsFf = new CmdFactionsFf();
 	public MassiveCommandVersion cmdFactionsVersion = new MassiveCommandVersion(Factions.get()).setAliases("v", "version").addRequirements(RequirementHasPerm.get(Perm.VERSION));
 
 	// -------------------------------------------- //

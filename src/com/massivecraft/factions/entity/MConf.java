@@ -807,4 +807,17 @@ public class MConf extends Entity<MConf>
 	public String fillerItemName = " ";
 	public byte fillerItemData = 8;
 
+	// -------------------------------------------- //
+	// LOGINS
+	// -------------------------------------------- //
+
+	public String loginFormat = "%s <g>has logged in.";
+	public String logoffFormat = "%s <g>has logged off.";
+
+	// -------------------------------------------- //
+	// SHIELDS
+	// -------------------------------------------- //
+
+	public int shieldHours = 10;
+
 }

@@ -8,11 +8,11 @@ import com.massivecraft.factions.entity.object.FactionStrike;
 import com.massivecraft.factions.event.EventFactionsStrikeAdd;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
-import com.massivecraft.massivecore.command.type.container.TypeSet;
+import com.massivecraft.massivecore.command.type.container.TypeList;
 import com.massivecraft.massivecore.command.type.primitive.TypeInteger;
 import com.massivecraft.massivecore.command.type.primitive.TypeString;
 
-import java.util.Collection;
+import java.util.List;
 
 public class CmdFactionsStrikeAdd extends FactionsCommand
 {
@@ -25,7 +25,7 @@ public class CmdFactionsStrikeAdd extends FactionsCommand
         // Parameters
         this.addParameter(TypeFaction.get(), "faction");
         this.addParameter(TypeInteger.get(), "points");
-        this.addParameter(TypeSet.get(TypeString.get()), "reason", true);
+        this.addParameter(TypeList.get(TypeString.get()), "reason", true);
 
         // Requirements
         this.addRequirements(RequirementHasPerm.get(Perm.STRIKE_ADD));
@@ -41,7 +41,7 @@ public class CmdFactionsStrikeAdd extends FactionsCommand
         // Args
         Faction faction = this.readArg();
         int points = this.readArg();
-        Collection<String> reason = this.readArg();
+        List<String> reason = this.readArg();
 
         StringBuilder builder = new StringBuilder();
         for (String string : reason)

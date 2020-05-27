@@ -216,6 +216,11 @@ public class Econ
 		}
 	}
 
+	public static boolean hasAtLeast(EconomyParticipator ep, double delta)
+	{
+		return hasAtLeast(ep, delta, null);
+	}
+
 	public static boolean hasAtLeast(EconomyParticipator ep, double delta, String toDoThis)
 	{
 		if ( ! isEnabled()) return true;
@@ -274,5 +279,7 @@ public class Econ
 			return false;
 		}
 	}
+
+
 
 }

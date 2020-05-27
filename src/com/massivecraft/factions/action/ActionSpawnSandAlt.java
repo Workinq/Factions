@@ -13,6 +13,7 @@ import net.citizensnpcs.api.trait.trait.Owner;
 import net.citizensnpcs.npc.skin.SkinnableEntity;
 import net.citizensnpcs.trait.Gravity;
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -42,18 +43,35 @@ public class ActionSpawnSandAlt extends ChestActionAbstract
         // Args
         MPlayer mplayer = MPlayer.get(player);
 
+        // Verify - Faction
         if (BoardColl.get().getFactionAt(PS.valueOf(player)) != faction)
         {
             mplayer.msg("<b>You can only place sand alts in your own faction territory.");
             return true;
         }
 
+        // Verify - Maximum alts
         if (faction.getSandAlts().size() + 1 > maxAlts)
         {
             mplayer.msg("%s <n>cannot spawn more sand alts as you've reached the limit. Increase this limit using <k>/f upgrade<n>.", mplayer.describeTo(mplayer, true));
             return true;
         }
 
+        // Verify - Solid block
+        if ( ! location.getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
+        {
+            mplayer.msg("<b>You must spawn sandalts above a solid block.");
+            return true;
+        }
+
+        // Verify - Y location
+        if (player.getLocation().getBlockY() > 254)
+        {
+            mplayer.msg("<b>You must be standing at Y:254 or below to spawn a sand alt.");
+            return true;
+        }
+
+        // Args
         SandAlt sandAlt = new SandAlt(this.getNpc(), faction.getId(), location);
 
         // Apply

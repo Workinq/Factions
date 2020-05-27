@@ -30,8 +30,7 @@ public enum ProtectCase
 		switch (this)
 		{
 			case BUILD:
-				Block block = (Block) object;
-				if (block.getType() == Material.MOB_SPAWNER) return MPerm.getPermSpawners();
+				if (object instanceof Block && ((Block) object).getType() == Material.MOB_SPAWNER) return MPerm.getPermSpawners();
 				return MPerm.getPermBuild();
 			
 			case USE_ITEM:

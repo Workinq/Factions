@@ -111,8 +111,8 @@ public enum Perm implements Identified
 	FLY,
 	FLY_ANY,
 	WARP,
-	WARPS,
-	WARPS_OTHER,
+	WARPLIST,
+	WARPLIST_OTHER,
 	SETWARP,
 	DELWARP,
 	DISCORD,
@@ -185,6 +185,8 @@ public enum Perm implements Identified
 	SANDALT,
 	SANDALT_GUI,
 	SANDALT_KILLALL,
+	LOGIN,
+	FF,
 
 	// END OF LIST
 	;

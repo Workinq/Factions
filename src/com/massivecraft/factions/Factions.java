@@ -127,7 +127,7 @@ public class Factions extends MassivePlugin
 
 		return ret;
 	}
-	
+
 	@Override
 	public GsonBuilder getGsonBuilder()
 	{

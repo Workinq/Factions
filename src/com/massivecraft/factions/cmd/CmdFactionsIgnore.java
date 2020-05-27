@@ -27,9 +27,6 @@ public class CmdFactionsIgnore extends FactionsCommand
         // Args
         MPlayer mplayer = this.readArg();
 
-        // Perms
-        if ( ! Perm.IGNORE.has(sender, true)) return;
-
         if (mplayer.getFaction() != msenderFaction)
         {
             msg("%s <b>is not in your faction.", mplayer.describeTo(msender, true));

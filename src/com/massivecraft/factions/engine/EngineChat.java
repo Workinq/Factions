@@ -173,7 +173,7 @@ public class EngineChat extends Engine
 					if (mPlayer.isIgnoring(me)) continue;
 					mPlayer.msg(message);
 				}
-				Factions.get().log(" [Faction Chat]" + me.getName() + " sent a message: " + msg);
+				Factions.get().log(" [Faction Chat] " + me.getName() + " sent a message: " + msg);
 				event.setCancelled(true);
 				break;
 			case ALLY:
@@ -187,7 +187,7 @@ public class EngineChat extends Engine
 					if (mPlayer.getFaction() != myFaction && mPlayer.getFaction().getRelationTo(myFaction) != Rel.ALLY) continue;
 					mPlayer.msg(message);
 				}
-				Factions.get().log(" [Ally Chat]" + me.getName() + " sent a message: " + msg);
+				Factions.get().log(" [Ally Chat] " + me.getName() + " sent a message: " + msg);
 				event.setCancelled(true);
 				break;
 			case TRUCE:
@@ -201,7 +201,7 @@ public class EngineChat extends Engine
 					if (mPlayer.getFaction() != myFaction && mPlayer.getFaction().getRelationTo(myFaction) != Rel.TRUCE) continue;
 					mPlayer.msg(message);
 				}
-				Factions.get().log(" [Truce Chat]" + me.getName() + " sent a message: " + msg);
+				Factions.get().log(" [Truce Chat] " + me.getName() + " sent a message: " + msg);
 				event.setCancelled(true);
 				break;
 			case PUBLIC:

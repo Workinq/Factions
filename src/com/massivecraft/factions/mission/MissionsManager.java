@@ -2,14 +2,17 @@ package com.massivecraft.factions.mission;
 
 import com.massivecraft.factions.action.ActionStartMission;
 import com.massivecraft.factions.action.ActionViewMissions;
-import com.massivecraft.factions.entity.*;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.MConf;
+import com.massivecraft.factions.entity.MMission;
+import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.entity.conf.ConfMission;
+import com.massivecraft.factions.mission.missions.*;
 import com.massivecraft.factions.util.InventoryUtil;
 import com.massivecraft.factions.util.ItemBuilder;
 import com.massivecraft.factions.util.TimeUtil;
 import com.massivecraft.massivecore.chestgui.ChestGui;
 import com.massivecraft.massivecore.util.Txt;
-import com.massivecraft.factions.mission.missions.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -38,17 +41,16 @@ public class MissionsManager {
         // Args
         Inventory inventory = Bukkit.createInventory(null, MConf.get().missionGuiSize, Txt.parse(MConf.get().missionGuiName));
         ChestGui chestGui = ChestGui.getCreative(inventory);
-        NumberFormat priceFormat = NumberFormat.getInstance();
 
         // Arg Setup
         chestGui.setAutoclosing(false);
         chestGui.setAutoremoving(false);
         chestGui.setSoundOpen(null);
         chestGui.setSoundClose(null);
-        priceFormat.setGroupingUsed(true);
 
         List<String> lore = new ArrayList<>();
         Mission activeMission = faction.getActiveMission();
+
         if (activeMission == null)
         {
             if (System.currentTimeMillis() - faction.getMissionStart() < 86400000L)

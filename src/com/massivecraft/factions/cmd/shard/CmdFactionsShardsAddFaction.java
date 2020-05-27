@@ -4,7 +4,6 @@ import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.event.EventFactionsShardsChange;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.type.primitive.TypeBooleanTrue;
@@ -49,13 +48,8 @@ public class CmdFactionsShardsAddFaction extends FactionsCommand
         // Check Negative
         if (amount < 0) amount *= -1;
 
-        // Event
-        EventFactionsShardsChange event = new EventFactionsShardsChange(faction, amount);
-        event.run();
-        if (event.isCancelled()) return;
-
         // Apply
-        faction.addShards(event.getShards());
+        faction.addShards(amount);
 
         // Inform
         msg("%s <i>gave <h>%,dx <i>shards to %s<i>.", msender.describeTo(msender, true), amount, faction.describeTo(msender));

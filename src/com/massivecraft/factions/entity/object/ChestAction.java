@@ -9,9 +9,9 @@ public class ChestAction extends EntityInternal<ChestAction>
     // FIELDS
     // -------------------------------------------- //
 
-    private String playerId;
-    private long timestamp;
-    private ItemStack item;
+    private final String playerId;
+    private final long timestamp;
+    private final ItemStack item;
 
     // -------------------------------------------- //
     // CONSTRUCT

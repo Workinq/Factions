@@ -47,7 +47,7 @@ public class CmdFactionsJoin extends FactionsCommand
 		boolean samePlayer = mplayer == msender;
 		
 		// Validate
-		if (!samePlayer  && ! Perm.JOIN_OTHERS.has(sender, false))
+		if ( ! samePlayer  && ! Perm.JOIN_OTHERS.has(sender, false))
 		{
 			msg("<b>You do not have permission to move other players into a faction.");
 			return;
@@ -67,7 +67,7 @@ public class CmdFactionsJoin extends FactionsCommand
 			return;
 		}
 
-		if (MConf.get().factionMemberLimit > 0 && faction.getMPlayers().size() >= MConf.get().factionMemberLimit)
+		if (MConf.get().factionMemberLimit > 0 && faction.getMPlayers().size() >= MConf.get().factionMemberLimit && ! mplayer.isOverriding() )
 		{
 			msg(" <b>!<white> The faction %s is at the limit of %d members, so %s cannot currently join.", faction.getName(msender), MConf.get().factionMemberLimit, mplayer.describeTo(msender, false));
 			return;
@@ -87,25 +87,25 @@ public class CmdFactionsJoin extends FactionsCommand
 			return;
 		}
 
-		if (!MConf.get().canLeaveWithNegativePower && mplayer.getPower() < 0)
+		if ( ! MConf.get().canLeaveWithNegativePower && mplayer.getPower() < 0 && ! mplayer.isOverriding() )
 		{
 			msg("<b>%s cannot join a faction with a negative power level.", mplayer.describeTo(msender, true));
 			return;
 		}
 
-		if (faction.isBanned(msender))
+		if (faction.isBanned(msender) && ! mplayer.isOverriding() )
 		{
 			msg("<b>You've been banned from joining %s<b>.", faction.describeTo(msender));
 			return;
 		}
 
-		if (faction.isInvitedAlt(mplayer))
+		if (faction.isInvitedAlt(mplayer) && ! mplayer.isOverriding() )
 		{
 			msg("<b>You can't join this faction as a member, use /f alt join instead.");
 			return;
 		}
 
-		if ( ! faction.isInRoster(mplayer))
+		if ( ! faction.isInRoster(mplayer) && ! mplayer.isOverriding() )
 		{
 			msg("<b>You must be added to this faction's roster in order to join.");
 			return;

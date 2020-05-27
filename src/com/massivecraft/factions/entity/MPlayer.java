@@ -67,6 +67,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.setIgnoredPlayers(that.ignoredPlayers);
 		this.setAlt(that.alt);
 		this.setAutoFly(that.autoFly);
+		this.setLogins(that.logins);
 		return this;
 	}
 
@@ -202,6 +203,10 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// Determines whether or not a player's fly should automatically enable if they enter their own faction land.
 	// By default this is true because who wouldn't want auto fly :shrug:
 	private boolean autoFly = true;
+
+	// This determines if the player should receive login notifications from their faction members.
+	// By default they will receive notifications but they can be toggled using /f login.
+	private boolean logins = true;
 
 	// Has this player requested an auto-updating ascii art map?
 	// Null means false
@@ -617,6 +622,27 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 		// Mark as changed
 		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: logins
+	// -------------------------------------------- //
+
+	public void setLogins(boolean logins)
+	{
+		// Detect Nochange
+		if (this.logins == logins) return;
+
+		// Apply
+		this.logins = logins;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	public boolean getLogins()
+	{
+		return this.logins;
 	}
 
 	// -------------------------------------------- //

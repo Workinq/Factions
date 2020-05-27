@@ -111,8 +111,8 @@ permissions:
   factions.fly: {description: toggle faction flight, default: false}
   factions.fly.any: {description: fly in wilderness territory, default: false}
   factions.warp: {description: teleport to a faction warp, default: false}
-  factions.warps: {description: list faction warps, default: false}
-  factions.warps.other: {description: list other faction warps, default: false}
+  factions.warplist: {description: list faction warps, default: false}
+  factions.warplist.other: {description: list other faction warps, default: false}
   factions.setwarp: {description: set a faction warp, default: false}
   factions.delwarp: {description: delete a faction warp, default: false}
   factions.discord: {description: manage the faction discord, default: false}
@@ -183,6 +183,8 @@ permissions:
   factions.sandalt: {description: manage faction sandalts, default: false}
   factions.sandalt.gui: {description: open faction sandalts gui, default: false}
   factions.sandalt.killall: {description: despawn all sandalts for all factions, default: false}
+  factions.login: {description: toggle member join and quit messages, default: false}
+  factions.ff: {description: send a faction message without changing chat, default: false}
 
   # -------------------------------------------- #
   # STAR NOTATION
@@ -292,8 +294,8 @@ permissions:
       factions.stealth: true
       factions.fly: true
       factions.warp: true
-      factions.warps: true
-      factions.warps.other: true
+      factions.warplist: true
+      factions.warplist.other: true
       factions.setwarp: true
       factions.delwarp: true
       factions.discord: true
@@ -364,6 +366,8 @@ permissions:
       factions.sandalt: true
       factions.sandalt.gui: true
       factions.sandalt.killall: true
+      factions.login: true
+      factions.ff: true
 
   # -------------------------------------------- #
   # KITS
@@ -494,12 +498,13 @@ permissions:
       factions.stealth: true
       factions.fly: true
       factions.warp: true
-      factions.warps: true
+      factions.warplist: true
       factions.setwarp: true
       factions.delwarp: true
       factions.discord: true
       factions.discord.set: true
       factions.discord.check: true
+      factions.discord.check.any: true
       factions.paypal: true
       factions.paypal.set: true
       factions.paypal.check: true
@@ -547,6 +552,8 @@ permissions:
       factions.drain: true
       factions.sandalt: true
       factions.sandalt.gui: true
+      factions.login: true
+      factions.ff: true
   factions.kit.default:
     default: true
     children:

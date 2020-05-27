@@ -48,11 +48,13 @@ public class CmdFactionsChestLog extends FactionsCommand
         final List<Mson> chestActions = new ArrayList<>();
         for (ChestAction chestAction : faction.getChestActions())
         {
-            String date = DateFormatUtils.format(chestAction.getTimestamp(), "dd MMM HH:mm:ss");
+            String date = DateFormatUtils.format(chestAction.getTimestamp(), "dd MMM yyyy HH:mm:ss");
             long timeRemaining = System.currentTimeMillis() - chestAction.getTimestamp();
             String timeSince = Txt.parse("<a>%s", TimeUtil.formatTime(timeRemaining, true));
-            Mson mson = mson(Txt.parse("<n>%s %s %s x%s %s", date, MPlayer.get(chestAction.getPlayerId()).getName(), chestAction.getItem().getAmount() < 0 ? "took" : "put", Math.abs(chestAction.getItem().getAmount()), Txt.getItemName(chestAction.getItem())));
-            mson = mson.tooltip(Txt.parse("<a>%s ago", timeSince));
+
+            Mson mson = mson(Txt.parse("%s <i>%s <h>%sx %s <i>%s ago", MPlayer.get(chestAction.getPlayerId()).describeTo(msender, true), chestAction.getItem().getAmount() < 0 ? "took" : "put", Math.abs(chestAction.getItem().getAmount()), Txt.getItemName(chestAction.getItem()), timeSince));
+            mson = mson.tooltip(Txt.parse("<k>%s", date));
+
             chestActions.add(mson);
         }
 
