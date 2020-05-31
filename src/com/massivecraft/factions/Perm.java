@@ -173,7 +173,6 @@ public enum Perm implements Identified
 	SHARDS_ADD,
 	SHARDS_ADD_PLAYER,
 	SHARDS_ADD_FACTION,
-	AUTO_FLY,
 	SPAWNER_UPGRADE,
 	ROSTER,
 	ROSTER_ADD,
@@ -187,6 +186,14 @@ public enum Perm implements Identified
 	SANDALT_KILLALL,
 	LOGIN,
 	FF,
+	TOGGLE,
+	TOGGLE_FLY,
+	TOGGLE_GRACE,
+	LOOT,
+	LOOT_ADD,
+	LOOT_CLAIM,
+	LOOT_BALANCE,
+	LOOT_BALANCE_ANY,
 
 	// END OF LIST
 	;

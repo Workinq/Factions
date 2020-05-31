@@ -2,6 +2,7 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.MConf;
+import com.massivecraft.factions.entity.MOption;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.collections.MassiveSet;
@@ -27,7 +28,7 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        if ( ! MConf.get().graceEnabled)
+        if ( ! MOption.get().isGrace())
         {
             msg("<b>You can't set your base region as grace has been disabled.");
             return;

@@ -155,24 +155,6 @@ public class EngineExtras extends Engine {
     }
 
     @EventHandler
-    public void onUseEnderPearl(ProjectileLaunchEvent event)
-    {
-        if (event.getEntityType() != EntityType.ENDER_PEARL) return;
-
-        Player player = (Player) event.getEntity().getShooter();
-
-        if (player == null) return;
-
-        MPlayer mPlayer = MPlayer.get(player);
-
-        if (mPlayer.isFlying() && ! MConf.get().usePearlsFlying)
-        {
-            mPlayer.msg("<b>You can't use ender pearls whilst flying.");
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
     public void onPlaceSpawner(BlockPlaceEvent event)
     {
         if (event.getBlockPlaced().getType() != Material.MOB_SPAWNER) return;

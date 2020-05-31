@@ -67,9 +67,9 @@ public class CmdFactionsJoin extends FactionsCommand
 			return;
 		}
 
-		if (MConf.get().factionMemberLimit > 0 && faction.getMPlayers().size() >= MConf.get().factionMemberLimit && ! mplayer.isOverriding() )
+		if (MConf.get().factionMemberLimit > 0 && faction.getMPlayersWhere(mp -> ! mp.isAlt()).size() >= MConf.get().factionMemberLimit && ! mplayer.isOverriding() )
 		{
-			msg(" <b>!<white> The faction %s is at the limit of %d members, so %s cannot currently join.", faction.getName(msender), MConf.get().factionMemberLimit, mplayer.describeTo(msender, false));
+			msg(" <b>!<white> The faction %s is at the limit of %d members, so %s cannot currently join.", faction.getName(msender), MConf.get().factionMemberLimit, mplayer.describeTo(msender));
 			return;
 		}
 

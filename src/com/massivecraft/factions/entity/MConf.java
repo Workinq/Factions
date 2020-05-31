@@ -179,15 +179,10 @@ public class MConf extends Entity<MConf>
 	// FLY
 	// -------------------------------------------- //
 
-	public boolean flyEnabled = true;
 	public boolean usePearlsFlying = false;
-	public double enemyCheckRadius = 50.0D;
-
-	// -------------------------------------------- //
-	// GRACE
-	// -------------------------------------------- //
-
-	public boolean graceEnabled = true;
+	public int maxFlyHeight = 280;
+	public int flyXZCheck = 60;
+	public int flyYCheck = 60;
 
 	// -------------------------------------------- //
 	// WARPS
@@ -233,9 +228,6 @@ public class MConf extends Entity<MConf>
 	// 0 means there is not. Set it to a positive value in case you wan't to use this feature.
 	public double factionPowerMax = 0.0;
 
-	// What's the maximum number of kicks a faction can have?
-	public int maximumKicks = 6;
-	
 	// Limit the length of faction names here.
 	public int factionNameLengthMin = 3;
 	public int factionNameLengthMax = 16;
@@ -819,5 +811,11 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 
 	public int shieldHours = 10;
+
+	// -------------------------------------------- //
+	// LOOT REWARDS
+	// -------------------------------------------- //
+
+	public String lootRewardCommand = "scrates givekey Event %player% %amount%";
 
 }

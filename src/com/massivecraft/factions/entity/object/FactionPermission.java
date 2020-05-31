@@ -10,7 +10,11 @@ public class FactionPermission
     // -------------------------------------------- //
 
     private final String mPerm;
+    public MPerm getMPerm() { return MPerm.get(this.mPerm); }
+    public String getMPermString() { return this.mPerm; }
+
     private final Material itemMaterial;
+    public Material getItemMaterial() { return itemMaterial; }
 
     // -------------------------------------------- //
     // CONSTRUCT
@@ -20,21 +24,6 @@ public class FactionPermission
     {
         this.mPerm = mPerm;
         this.itemMaterial = itemMaterial;
-    }
-
-    public MPerm getMPerm()
-    {
-        return MPerm.get(this.mPerm);
-    }
-
-    public String getMPermString()
-    {
-        return this.mPerm;
-    }
-
-    public Material getItemMaterial()
-    {
-        return itemMaterial;
     }
 
 }

@@ -66,7 +66,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.setChat(that.chat);
 		this.setIgnoredPlayers(that.ignoredPlayers);
 		this.setAlt(that.alt);
-		this.setAutoFly(that.autoFly);
 		this.setLogins(that.logins);
 		return this;
 	}
@@ -173,11 +172,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// A very mean feature since it's an invasion of privacy :(
 	private boolean spying = false;
 
-	// Each player can toggle faction fly in their own faction territory.
-	// By default this is off however, upon entering a claim the player's fly will be enabled automatically.
-	// Null means off.
-	private boolean flying = false;
-
 	// Each player can choose their chat mode.
 	// Chat modes are public, truce, ally and faction.
 	// Default chat mode is public.
@@ -200,9 +194,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// If a player joins a faction as an alt, this will be set to true.
 	private boolean alt = false;
 
-	// Determines whether or not a player's fly should automatically enable if they enter their own faction land.
-	// By default this is true because who wouldn't want auto fly :shrug:
-	private boolean autoFly = true;
+	// Stores if a player was flying, idfk.
+	public boolean wasFlying = false;
 
 	// This determines if the player should receive login notifications from their faction members.
 	// By default they will receive notifications but they can be toggled using /f login.
@@ -484,23 +477,21 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	}
 
 	// -------------------------------------------- //
-	// FIELD: flying
+	// FIELD: wasFlying
 	// -------------------------------------------- //
 
-	public boolean isFlying()
+	public boolean wasFlying()
 	{
-		return flying;
+		return wasFlying;
 	}
 
-	public void setFlying(boolean flying)
+	public void setWasFlying(final boolean wasFlying)
 	{
-		// Update
-		Player player = this.getPlayer();
-		player.setAllowFlight(flying);
-		player.setFlying(flying);
+		// Detect Nochange
+		if (this.wasFlying == wasFlying) return;
 
 		// Apply
-		this.flying = flying;
+		this.wasFlying = wasFlying;
 
 		// Mark as changed
 		this.changed();
@@ -598,27 +589,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 		// Apply
 		this.alt = alt;
-
-		// Mark as changed
-		this.changed();
-	}
-
-	// -------------------------------------------- //
-	// FIELD: autoFly
-	// -------------------------------------------- //
-
-	public boolean isAutoFlying()
-	{
-		return this.autoFly;
-	}
-
-	public void setAutoFly(boolean autoFly)
-	{
-		// Detect Nochange
-		if (this.autoFly == autoFly) return;
-
-		// Apply
-		this.autoFly = autoFly;
 
 		// Mark as changed
 		this.changed();

@@ -50,7 +50,7 @@ public class CmdFactionsKick extends FactionsCommand
 			return;
 		}
 		
-		if (mplayer.getRole() == Rel.LEADER && !msender.isOverriding())
+		if (mplayer.getRole() == Rel.LEADER && ! msender.isOverriding() )
 		{
 			throw new MassiveException().addMsg("<b>The leader cannot be kicked.");
 		}

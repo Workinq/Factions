@@ -72,6 +72,7 @@ public class CmdFactionsDrain extends FactionsCommand
 
         if ( ! MPerm.getPermDrain().has(msender, msenderFaction, true)) return;
 
+        boolean success = false;
         for (MPlayer mplayer : mplayers)
         {
             if (mplayer.isOnline())
@@ -80,9 +81,15 @@ public class CmdFactionsDrain extends FactionsCommand
                 continue;
             }
 
-            if (mplayer.getRole().isAtMost(MConf.get().drainRank))
+            if (mplayer.getRole().isLessThan(MConf.get().drainRank))
             {
-                msg("%s <b>can't drain %s's <b>balance because their rank isn't low enough.", msender.describeTo(msender, true), mplayer.describeTo(msender));
+                msg("%s <b>can't drain %s's <b>balance because their rank isn't below <h>%s<b>.", msender.describeTo(msender, true), mplayer.describeTo(msender), MConf.get().drainRank.getName());
+                continue;
+            }
+
+            if (msender.getRole().isAtMost(mplayer.getRole()))
+            {
+                msg("%s <b>can't drain %s's <b>balance because their rank is equal to or higher than yours.", msender.describeTo(msender, true), mplayer.describeTo(msender));
                 continue;
             }
 
@@ -90,8 +97,13 @@ public class CmdFactionsDrain extends FactionsCommand
             if ( ! Money.move(mplayer, msenderFaction, msender, Money.get(mplayer), "Factions"))
             {
                 msender.msg("Unable to transfer %s<b> to <h>%s<b> from <h>%s<b>.", Money.format(amount), msenderFaction.describeTo(msender), mplayer.describeTo(msender));
+                continue;
             }
+
+            success = true;
         }
+
+        if ( ! success ) return;
 
         // Inform
         if (all)
@@ -100,7 +112,7 @@ public class CmdFactionsDrain extends FactionsCommand
         }
         else
         {
-            msg("%s <i>drained the balances of <h>%,d <i>offline members.", msender.describeTo(msender, true), mplayers.size());
+            msg("%s <i>drained the balances of <h>%,d <i>members.", msender.describeTo(msender, true), mplayers.size());
         }
     }
 

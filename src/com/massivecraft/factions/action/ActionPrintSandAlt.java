@@ -22,6 +22,10 @@ public class ActionPrintSandAlt extends ChestActionAbstract
     {
         // Apply
         sandAlt.setPaused(paused);
+
+        // Mark as changed
+        sandAlt.changed();
+
         return true;
     }
 

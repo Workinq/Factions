@@ -1,4 +1,4 @@
-package com.massivecraft.factions.cmd.tnt;
+package com.massivecraft.factions.cmd.loot;
 
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
@@ -7,13 +7,13 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.massivecore.MassiveException;
 
-public class CmdFactionsTntBalance extends FactionsCommand
+public class CmdFactionsLootBalance extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsTntBalance()
+    public CmdFactionsLootBalance()
     {
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
@@ -28,11 +28,11 @@ public class CmdFactionsTntBalance extends FactionsCommand
     {
         Faction faction = this.readArg(msenderFaction);
 
-        if (faction != msenderFaction && ! Perm.TNT_BALANCE_ANY.has(sender, true)) return;
+        if (faction != msenderFaction && ! Perm.LOOT_BALANCE_ANY.has(sender, true)) return;
 
-        if ( ! MPerm.getPermTnt().has(msender, faction, true)) return;
+        if ( ! MPerm.getPermLoot().has(msender, faction, true)) return;
 
-        msender.msg("%s's<i> TNT balance is <h>%,d<i>.", faction.describeTo(msender, true), faction.getTnt());
+        msg("%s's<i> loot rewards balance is <h>%,d<i>.", faction.describeTo(msender, true), faction.getLootRewards());
     }
 
 }

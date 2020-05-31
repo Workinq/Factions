@@ -2,10 +2,7 @@ package com.massivecraft.factions.engine;
 
 import com.massivecraft.factions.AccessStatus;
 import com.massivecraft.factions.TerritoryAccess;
-import com.massivecraft.factions.entity.BoardColl;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MConf;
-import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.util.AsciiMap;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.mixin.MixinTitle;
@@ -49,6 +46,11 @@ public class EngineMoveChunk extends Engine
 		// ... send info onwards and try auto-claiming.
 		sendChunkInfo(mplayer, player, chunkFrom, chunkTo);
 		tryAutoClaim(mplayer, chunkTo);
+
+		if (MOption.get().isFlight())
+		{
+			EngineFly.get().chunkChangeFlight(mplayer, player, chunkFrom, chunkTo);
+		}
 	}
 
 	// -------------------------------------------- //

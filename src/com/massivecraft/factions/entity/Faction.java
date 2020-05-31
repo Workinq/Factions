@@ -99,6 +99,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setBanner(that.banner);
 		this.setRoster(that.roster);
 		this.setSandAlts(that.sandAlts);
+		this.setLootRewards(that.lootRewards);
 		return this;
 	}
 
@@ -249,6 +250,10 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This will store the faction's currently active sand alts.
 	// By default there will be none, obviously.
 	private MassiveSet<SandAlt> sandAlts = new MassiveSet<>();
+
+	// This will store the number of keys the faction has from winning koths.
+	// By default the faction will start with 0 keys.
+	private int lootRewards = 0;
 
 	// This will store a list of all the banned members.
 	// By default it's empty and members can be banned using /f ban <player>.
@@ -1254,6 +1259,15 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
+	public void addToRoster(MPlayer mplayer, Rel rank)
+	{
+		// Apply
+		this.roster.put(mplayer.getId(), rank);
+
+		// Mark as changed
+		this.changed();
+	}
+
 	public void removeFromRoster(MPlayer mplayer)
 	{
 		// Detect Nochange
@@ -1397,6 +1411,27 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public MassiveSet<SandAlt> getSandAlts()
 	{
 		return sandAlts;
+	}
+
+	// -------------------------------------------- //
+	// FIELD: lootRewards
+	// -------------------------------------------- //
+
+	public int getLootRewards()
+	{
+		return lootRewards;
+	}
+
+	public void setLootRewards(int lootRewards)
+	{
+		// Detect Nochange
+		if (this.lootRewards == lootRewards) return;
+
+		// Apply
+		this.lootRewards = lootRewards;
+
+		// Mark as changed
+		this.changed();
 	}
 
 	// -------------------------------------------- //

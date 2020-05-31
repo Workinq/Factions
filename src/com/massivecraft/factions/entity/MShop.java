@@ -10,7 +10,6 @@ import org.bukkit.Material;
 @EditorName("config")
 public class MShop extends Entity<MShop>
 {
-
     // -------------------------------------------- //
     // META
     // -------------------------------------------- //

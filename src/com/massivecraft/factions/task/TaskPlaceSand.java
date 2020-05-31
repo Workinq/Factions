@@ -66,6 +66,7 @@ public class TaskPlaceSand extends ModuloRepeatTask
                             if ( ! Money.despawn(faction, null, MConf.get().sandCost))
                             {
                                 sandAlt.setPaused(true);
+                                sandAlt.changed();
                                 faction.msg("<g>Your sand alt at <i>x:<h>%,d <i>y:<h>%,d <i>z:<h>%,d <i>world: <h>%s <g>cannot print as there's not enough funds.", location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getWorld().getName());
                                 break location_loop;
                             }

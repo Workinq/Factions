@@ -4,6 +4,7 @@ import com.massivecraft.factions.action.ActionClickShield;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.entity.MConf;
+import com.massivecraft.factions.entity.MOption;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.util.InventoryUtil;
 import com.massivecraft.factions.util.ItemBuilder;
@@ -39,9 +40,9 @@ public class CmdFactionsShieldSet extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        if ( ! MConf.get().graceEnabled)
+        if ( ! MOption.get().isGrace() && msenderFaction.isShielded() )
         {
-            msg("<b>You can't set your faction shield as grace has been disabled.");
+            msg("<b>You can't change your faction shield as grace has been disabled.");
             return;
         }
 

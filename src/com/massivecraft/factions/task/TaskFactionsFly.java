@@ -1,135 +1,65 @@
 package com.massivecraft.factions.task;
 
-import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.Perm;
-import com.massivecraft.factions.Rel;
-import com.massivecraft.factions.entity.BoardColl;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MConf;
-import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.engine.EngineFly;
+import com.massivecraft.factions.entity.*;
 import com.massivecraft.massivecore.ModuloRepeatTask;
-import com.massivecraft.massivecore.mixin.MixinMessage;
 import com.massivecraft.massivecore.ps.PS;
-import com.massivecraft.massivecore.util.MUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 public class TaskFactionsFly extends ModuloRepeatTask
 {
-    // -------------------------------------------- //
-    // INSTANCE
-    // -------------------------------------------- //
 
     private static TaskFactionsFly i = new TaskFactionsFly();
     public static TaskFactionsFly get() { return i; }
 
-    // -------------------------------------------- //
-    // OVERRIDE
-    // -------------------------------------------- //
-
     @Override
     public long getDelayMillis()
     {
-        // 1 second
+        // 1 Second
         return 1000L;
     }
 
     @Override
     public void invoke(long now)
     {
-        for (Player player : Bukkit.getOnlinePlayers())
+        if ( ! MOption.get().isFlight() ) return;
+        for (Player player : Bukkit.getServer().getOnlinePlayers())
         {
-            if (player == null || ! player.isOnline() || player.isDead()) continue;
+            MPlayer mplayer = MPlayer.get(player);
+            if (EngineFly.get().hasFlyBypass(player)) continue;
 
-            // Args
-            PS standingAt = PS.valueOf(player);
-            Faction at = BoardColl.get().getFactionAt(standingAt);
-            MPlayer mPlayer = MPlayer.get(player);
-            Faction faction = mPlayer.getFaction();
+            Faction hostFaction = BoardColl.get().getFactionAt(PS.valueOf(player.getLocation()));
+            if (hostFaction == null) hostFaction = FactionColl.get().getNone();
 
-            // Auto Enable
-            if ( ! mPlayer.isFlying())
+            if (player.isFlying() || player.getAllowFlight())
             {
-                if ( ! mPlayer.isAutoFlying()) continue; // Player has autofly disabled.
-                if ( isEnemyNear(player, at)) continue; // An enemy is near the player.
-                if (at.isNone() && Perm.FLY_ANY.has(player)) // Player has wild fly.
+                if (mplayer.isOverriding()) continue;
+                if (player.getLocation().getBlockY() > MConf.get().maxFlyHeight)
                 {
-                    mPlayer.setFlying(true);
-                    continue;
+                    EngineFly.get().disableFlight(player, "<b>Your faction flight has been disabled since you reached the maximum height.");
                 }
-                if (faction.getId().equals(Factions.ID_NONE)) continue; // The player is in wilderness.
-                if (at != faction) continue; // The factions aren't the same.
-
-                mPlayer.setFlying(true);
-                continue;
+                else if (hostFaction.isNone())
+                {
+                    if (player.hasPermission("factions.fly.any")) continue;
+                    EngineFly.get().disableFlight(player, "<b>Your faction flight has been disabled since you can't fly here.");
+                }
+                else if ( ! MPerm.getPermFly().has(mplayer, hostFaction, false) )
+                {
+                    EngineFly.get().disableFlight(player, "<b>Your faction flight has been disabled since you can't fly here.");
+                }
+                else
+                {
+                    if ( ! EngineFly.get().isEnemyNear(mplayer, player, hostFaction) ) continue;
+                    EngineFly.get().disableFlight(player, "<b>Your flight has been disabled since you are in enemy territory or near an enemy.");
+                }
             }
-
-            // Enemy Check
-            if (isEnemyNear(player, at))
+            else
             {
-                disableFlight(player, "<b>Your faction flight was disabled since enemies are nearby.");
-                continue;
-            }
-
-            // Wild Fly
-            if (at.isNone() && Perm.FLY_ANY.has(player)) continue;
-
-            // Wilderness Check
-            if (faction.isNone())
-            {
-                disableFlight(player, "<b>Your flight has been disabled since you don't have a faction.");
-                continue;
-            }
-
-            // Land Check
-            if (at != faction)
-            {
-                disableFlight(player, "<b>Your faction flight was disabled since you can't fly here.");
+                if (EngineFly.get().playersWithFlyDisabled.contains(player.getUniqueId().toString()) || player.getAllowFlight() || EngineFly.get().isEnemyNear(mplayer, player, hostFaction) || (!MPerm.getPermFly().has(mplayer, hostFaction, false) && (!hostFaction.isNone() || !player.hasPermission("factions.wildfly")))) continue;
+                EngineFly.get().enableFlight(player, null);
             }
         }
-    }
-
-    public boolean hasFlyBypass(Player player)
-    {
-        return player.getGameMode() != GameMode.SURVIVAL || Perm.FLY_ANY.has(player);
-    }
-
-    public void disableFlight(Player player, String message)
-    {
-        MPlayer mPlayer = MPlayer.get(player);
-
-        if (MUtil.isntPlayer(player) || this.hasFlyBypass(player) || mPlayer.isOverriding()) return;
-
-        player.setVelocity(new Vector(0, 0, 0));
-        player.setFallDistance(0.0f);
-
-        // Inform
-        if (message != null)
-        {
-            MixinMessage.get().msgOne(mPlayer, message);
-        }
-
-        mPlayer.setFlying(false);
-    }
-
-    public boolean isEnemyNear(Player player, Faction faction)
-    {
-        for (Entity entity : player.getNearbyEntities(MConf.get().enemyCheckRadius, 256, MConf.get().enemyCheckRadius))
-        {
-            if (!(entity instanceof Player)) continue;
-
-            Player target = (Player) entity;
-            if (player == target || this.hasFlyBypass(target) || !player.canSee(target) || target.isDead()) continue;
-
-            MPlayer mPlayer = MPlayer.get(target);
-            if (mPlayer == null || mPlayer.getFaction() == faction || mPlayer.isStealth()) continue;
-
-            if (mPlayer.getFaction().getRelationTo(faction) == Rel.ENEMY) return true;
-        }
-        return false;
     }
 
 }

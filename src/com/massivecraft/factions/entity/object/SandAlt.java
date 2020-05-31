@@ -8,11 +8,27 @@ import java.util.UUID;
 
 public class SandAlt extends EntityInternal<SandAlt>
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final UUID npcId;
+    public UUID getNpcId() { return npcId; }
+
     private final String factionId;
+    public String getFactionId() { return factionId; }
+
     private final PS location;
+    public PS getPs() { return location; }
+    public Location getLocation() { return location.asBukkitLocation(true); }
+
     private boolean paused;
+    public boolean isPaused() { return paused; }
+    public void setPaused(boolean paused) { this.paused = paused; }
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public SandAlt(UUID npcId, String factionId, Location location)
     {
@@ -20,43 +36,6 @@ public class SandAlt extends EntityInternal<SandAlt>
         this.factionId = factionId;
         this.location = PS.valueOf(location);
         this.paused = false;
-    }
-
-    public UUID getNpcId()
-    {
-        return npcId;
-    }
-
-    public String getFactionId()
-    {
-        return factionId;
-    }
-
-    public PS getPs()
-    {
-        return location;
-    }
-
-    public Location getLocation()
-    {
-        return location.asBukkitLocation(true);
-    }
-
-    public void setPaused(boolean paused)
-    {
-        // Detect Nochange
-        if (this.paused == paused) return;
-
-        // Apply
-        this.paused = paused;
-
-        // Mark as changed.
-        this.changed();
-    }
-
-    public boolean isPaused()
-    {
-        return paused;
     }
 
 }

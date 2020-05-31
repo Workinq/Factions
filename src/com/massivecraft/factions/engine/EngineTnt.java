@@ -3,7 +3,9 @@ package com.massivecraft.factions.engine;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
+import com.massivecraft.factions.entity.MUpgrade;
 import com.massivecraft.factions.event.EventFactionsTntChange;
+import com.massivecraft.factions.upgrade.UpgradesManager;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Location;
@@ -49,7 +51,10 @@ public class EngineTnt extends Engine
         // Cancel
         event.setCancelled(true);
 
+        if (at.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) == 0) return;
+
         // Args
+        int maximumTnt = Integer.parseInt(UpgradesManager.get().getUpgradeByName(MUpgrade.get().tntUpgrade.getUpgradeName()).getCurrentDescription()[at.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) - 1].split(" ")[0].replaceAll(",", ""));
         int minimum = MConf.get().tntChances.get(type).get(0);
         int maximum = MConf.get().tntChances.get(type).get(1);
         int amount = ThreadLocalRandom.current().nextInt(minimum, maximum);
@@ -59,7 +64,7 @@ public class EngineTnt extends Engine
         if (tntEvent.isCancelled()) return;
 
         // Apply
-        at.setTnt(at.getTnt() + tntEvent.getTnt());
+        at.setTnt(Math.min(at.getTnt() + tntEvent.getTnt(), maximumTnt));
     }
 
 }

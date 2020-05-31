@@ -10,8 +10,13 @@ public class ChestAction extends EntityInternal<ChestAction>
     // -------------------------------------------- //
 
     private final String playerId;
+    public String getPlayerId() { return playerId; }
+
     private final long timestamp;
+    public long getTimestamp() { return timestamp; }
+
     private final ItemStack item;
+    public ItemStack getItem() { return item; }
 
     // -------------------------------------------- //
     // CONSTRUCT
@@ -22,33 +27,6 @@ public class ChestAction extends EntityInternal<ChestAction>
         this.playerId = playerId;
         this.timestamp = timestamp;
         this.item = item;
-    }
-
-    // -------------------------------------------- //
-    // FIELD: playerId
-    // -------------------------------------------- //
-
-    public String getPlayerId()
-    {
-        return playerId;
-    }
-
-    // -------------------------------------------- //
-    // FIELD: timestamp
-    // -------------------------------------------- //
-
-    public long getTimestamp()
-    {
-        return timestamp;
-    }
-
-    // -------------------------------------------- //
-    // FIELD: item
-    // -------------------------------------------- //
-
-    public ItemStack getItem()
-    {
-        return item;
     }
 
 }

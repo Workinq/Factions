@@ -7,12 +7,29 @@ import java.util.UUID;
 
 public class FactionStrike extends EntityInternal<FactionWarp>
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final String id;
+    public String getStrikeId() { return id; }
+
     private final long time;
+    public long getCreationMillis() { return time; }
+
     private final int points;
+    public int getPoints() { return points; }
+
     private final String message;
+    public String getMessage() { return message; }
+
     private final String issuedBy;
+    public String getIssuedBy() { return issuedBy; }
+    public MPlayer getMPlayer() { return MPlayer.get(issuedBy); }
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public FactionStrike(long time, int points, String message, String issuedBy)
     {
@@ -21,36 +38,6 @@ public class FactionStrike extends EntityInternal<FactionWarp>
         this.points = points;
         this.message = message;
         this.issuedBy = issuedBy;
-    }
-
-    public String getStrikeId()
-    {
-        return id;
-    }
-
-    public long getCreationMillis()
-    {
-        return time;
-    }
-
-    public int getPoints()
-    {
-        return points;
-    }
-
-    public String getMessage()
-    {
-        return message;
-    }
-
-    public MPlayer getIssuer()
-    {
-        return MPlayer.get(issuedBy);
-    }
-
-    public String getIssuedBy()
-    {
-        return issuedBy;
     }
 
 }

@@ -13,10 +13,19 @@ public class FactionWarp extends EntityInternal<FactionWarp>
     // -------------------------------------------- //
 
     private final String name;
+    public String getName() { return name; }
+
     private final UUID creator;
+    public MPlayer getCreator() { return MPlayer.get(creator); }
+
     private final PS location;
+    public PS getLocation() { return location; }
+
     private final String password;
+    public String getPassword() { return password; }
+
     private final long creationMillis;
+    public long getCreationMillis() { return creationMillis; }
 
     // -------------------------------------------- //
     // CONSTRUCT
@@ -31,35 +40,10 @@ public class FactionWarp extends EntityInternal<FactionWarp>
         this.creationMillis = System.currentTimeMillis();
     }
 
-    public String getName()
-    {
-        return name;
-    }
-
-    public MPlayer getCreator()
-    {
-        return MPlayer.get(creator);
-    }
-
-    public PS getLocation()
-    {
-        return location;
-    }
-
     public boolean hasPassword()
     {
         if (password == null) return false;
-        return !password.equals("");
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public long getCreationMillis()
-    {
-        return creationMillis;
+        return ! password.equals("") ;
     }
 
 }

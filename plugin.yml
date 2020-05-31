@@ -136,6 +136,7 @@ permissions:
   factions.ignore: {description: ignore a player, default: false}
   factions.unignore: {description: unignore a player, default: false}
   factions.alt: {description: manage faction alts, default: false}
+  factions.alt.invite: {description: invite a player as an alt, default: false}
   factions.alt.invitelist: {description: list invited alts, default: false}
   factions.alt.invitelist.other: {description: list invited alts of another faction, default: false}
   factions.alt.deinvite: {description: revoke an alt invite, default: false}
@@ -185,6 +186,14 @@ permissions:
   factions.sandalt.killall: {description: despawn all sandalts for all factions, default: false}
   factions.login: {description: toggle member join and quit messages, default: false}
   factions.ff: {description: send a faction message without changing chat, default: false}
+  factions.toggle: {description: toggle on and off faction features, default: false}
+  factions.toggle.fly: {description: toggle server faction flight, default: false}
+  factions.toggle.grace: {description: toggle server grace period, default: false}
+  factions.loot: {description: manage faction loot rewards, default: false}
+  factions.loot.add: {description: add loot rewards to a faction, default: false}
+  factions.loot.balance: {description: view faction loot reward balance, default: false}
+  factions.loot.balance.any: {description: view other faction loot reward balance, default: false}
+  factions.loot.claim: {description: claim your faction loot rewards, default: false}
 
   # -------------------------------------------- #
   # STAR NOTATION
@@ -319,6 +328,7 @@ permissions:
       factions.ignore: true
       factions.unignore: true
       factions.alt: true
+      factions.alt.invite: true
       factions.alt.invitelist: true
       factions.alt.invitelist.other: true
       factions.alt.deinvite: true
@@ -368,6 +378,14 @@ permissions:
       factions.sandalt.killall: true
       factions.login: true
       factions.ff: true
+      factions.toggle: true
+      factions.toggle.fly: true
+      factions.toggle.grace: true
+      factions.loot: true
+      factions.loot.add: true
+      factions.loot.balance: true
+      factions.loot.balance.any: true
+      factions.loot.claim: true
 
   # -------------------------------------------- #
   # KITS
@@ -491,7 +509,6 @@ permissions:
       factions.tnt: true
       factions.tnt.balance: true
       factions.tnt.deposit: true
-      factions.tnt.set: true
       factions.tnt.withdraw: true
       factions.tnt.fill: true
       factions.tnt.unfill: true
@@ -518,6 +535,7 @@ permissions:
       factions.ignore: true
       factions.unignore: true
       factions.alt: true
+      factions.alt.invite: true
       factions.alt.invitelist: true
       factions.alt.invitelist.other: true
       factions.alt.deinvite: true
@@ -554,6 +572,9 @@ permissions:
       factions.sandalt.gui: true
       factions.login: true
       factions.ff: true
+      factions.loot: true
+      factions.loot.balance: true
+      factions.loot.claim: true
   factions.kit.default:
     default: true
     children:

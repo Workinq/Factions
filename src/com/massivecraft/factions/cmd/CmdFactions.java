@@ -19,6 +19,7 @@ import com.massivecraft.factions.cmd.home.CmdFactionsUnsethome;
 import com.massivecraft.factions.cmd.invite.CmdFactionsDeinvite;
 import com.massivecraft.factions.cmd.invite.CmdFactionsInvite;
 import com.massivecraft.factions.cmd.invite.CmdFactionsInviteList;
+import com.massivecraft.factions.cmd.loot.CmdFactionsLoot;
 import com.massivecraft.factions.cmd.money.CmdFactionsMoney;
 import com.massivecraft.factions.cmd.paypal.CmdFactionsPaypal;
 import com.massivecraft.factions.cmd.perm.CmdFactionsPerm;
@@ -32,6 +33,7 @@ import com.massivecraft.factions.cmd.shard.CmdFactionsShards;
 import com.massivecraft.factions.cmd.shield.CmdFactionsShield;
 import com.massivecraft.factions.cmd.strike.CmdFactionsStrike;
 import com.massivecraft.factions.cmd.tnt.CmdFactionsTnt;
+import com.massivecraft.factions.cmd.toggle.CmdFactionsToggle;
 import com.massivecraft.factions.cmd.warp.CmdFactionsDelwarp;
 import com.massivecraft.factions.cmd.warp.CmdFactionsSetwarp;
 import com.massivecraft.factions.cmd.warp.CmdFactionsWarp;
@@ -139,13 +141,14 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsBaltop cmdFactionsBaltop = new CmdFactionsBaltop();
 	public CmdFactionsInvsee cmdFactionsInvsee = new CmdFactionsInvsee();
 	public CmdFactionsShards cmdFactionsShards = new CmdFactionsShards();
-	public CmdFactionsAutoFly cmdFactionsAutoFly = new CmdFactionsAutoFly();
 	public CmdFactionsSpawnerUpgrade cmdFactionsSpawnerUpgrade = new CmdFactionsSpawnerUpgrade();
 	public CmdFactionsRoster cmdFactionsRoster = new CmdFactionsRoster();
 	public CmdFactionsDrain cmdFactionsDrain = new CmdFactionsDrain();
 	public CmdFactionsSandAlt cmdFactionsSandAlt = new CmdFactionsSandAlt();
 	public CmdFactionsLogin cmdFactionsLogin = new CmdFactionsLogin();
 	public CmdFactionsFf cmdFactionsFf = new CmdFactionsFf();
+	public CmdFactionsToggle cmdFactionsToggle = new CmdFactionsToggle();
+	public CmdFactionsLoot cmdFactionsLoot = new CmdFactionsLoot();
 	public MassiveCommandVersion cmdFactionsVersion = new MassiveCommandVersion(Factions.get()).setAliases("v", "version").addRequirements(RequirementHasPerm.get(Perm.VERSION));
 
 	// -------------------------------------------- //
