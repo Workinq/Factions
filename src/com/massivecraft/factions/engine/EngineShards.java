@@ -12,8 +12,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.SpawnerSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -49,14 +49,15 @@ public class EngineShards extends Engine
     // -------------------------------------------- //
 
     @EventHandler
-    public void onShardDrop(CreatureSpawnEvent event)
+    public void onShardDrop(SpawnerSpawnEvent event)
     {
-        if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.SPAWNER) return;
-
         // Args
         EntityType type = event.getEntityType();
         if ( ! MConf.get().shardChances.containsKey(type)) return;
         if ( ! MConf.get().entityTypesShards.contains(type)) return;
+
+        // Cancel
+        event.setCancelled(true);
 
         Location location = event.getLocation();
         if (location == null) return;
@@ -68,16 +69,13 @@ public class EngineShards extends Engine
         if (at.getBaseRegion() == null) return;
         if ( ! at.getBaseRegion().contains(chunk)) return;
 
-        // Cancel
-        event.setCancelled(true);
-
         // Args
         int minimum = MConf.get().shardChances.get(type).get(0);
         int maximum = MConf.get().shardChances.get(type).get(1);
         int amount = ThreadLocalRandom.current().nextInt(minimum, maximum);
 
         // Event
-        EventFactionsShardsChange shardsEvent = new EventFactionsShardsChange(at, amount);
+        EventFactionsShardsChange shardsEvent = new EventFactionsShardsChange(at, amount, event.getSpawner().getLocation());
         shardsEvent.run();
         if (shardsEvent.isCancelled()) return;
 
@@ -122,7 +120,7 @@ public class EngineShards extends Engine
         int totalShards = getShardsIn(player.getInventory());
 
         // Event
-        EventFactionsShardsChange shardsEvent = new EventFactionsShardsChange(faction, totalShards);
+        EventFactionsShardsChange shardsEvent = new EventFactionsShardsChange(faction, totalShards, null);
         shardsEvent.run();
         if (shardsEvent.isCancelled()) return;
 

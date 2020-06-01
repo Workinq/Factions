@@ -1,6 +1,7 @@
 package com.massivecraft.factions.event;
 
 import com.massivecraft.factions.entity.Faction;
+import org.bukkit.Location;
 import org.bukkit.event.HandlerList;
 
 public class EventFactionsTntChange extends EventFactionsAbstract
@@ -27,15 +28,19 @@ public class EventFactionsTntChange extends EventFactionsAbstract
     private final int oldTnt;
     public int getOldTnt() { return this.oldTnt; }
 
+    private final Location spawnerLocation;
+    public Location getSpawnerLocation() { return this.spawnerLocation; }
+
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public EventFactionsTntChange(Faction faction, int tnt)
+    public EventFactionsTntChange(Faction faction, int tnt, Location spawnerLocation)
     {
         super(false);
         this.faction = faction;
         this.tnt = tnt;
+        this.spawnerLocation = spawnerLocation;
         this.oldTnt = faction.getTnt();
     }
 

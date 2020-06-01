@@ -11,7 +11,7 @@ import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.SpawnerSpawnEvent;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -29,15 +29,17 @@ public class EngineTnt extends Engine
     // -------------------------------------------- //
 
     @EventHandler
-    public void onShardDrop(CreatureSpawnEvent event)
+    public void onShardDrop(SpawnerSpawnEvent event)
     {
-        if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.SPAWNER) return;
-
         // Args
         EntityType type = event.getEntityType();
         if ( ! MConf.get().tntChances.containsKey(type)) return;
         if ( ! MConf.get().entityTypesTnt.contains(type)) return;
 
+        // Cancel
+        event.setCancelled(true);
+
+        // Location
         Location location = event.getLocation();
         if (location == null) return;
 
@@ -48,9 +50,6 @@ public class EngineTnt extends Engine
         if (at.getBaseRegion() == null) return;
         if ( ! at.getBaseRegion().contains(chunk)) return;
 
-        // Cancel
-        event.setCancelled(true);
-
         if (at.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) == 0) return;
 
         // Args
@@ -59,7 +58,7 @@ public class EngineTnt extends Engine
         int maximum = MConf.get().tntChances.get(type).get(1);
         int amount = ThreadLocalRandom.current().nextInt(minimum, maximum);
 
-        EventFactionsTntChange tntEvent = new EventFactionsTntChange(at, amount);
+        EventFactionsTntChange tntEvent = new EventFactionsTntChange(at, amount, event.getSpawner().getLocation());
         tntEvent.run();
         if (tntEvent.isCancelled()) return;
 

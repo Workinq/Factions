@@ -10,7 +10,7 @@ import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.SpawnerSpawnEvent;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -28,14 +28,15 @@ public class EngineMoney extends Engine
     // -------------------------------------------- //
 
     @EventHandler
-    public void onMoneyDrop(CreatureSpawnEvent event)
+    public void onMoneyDrop(SpawnerSpawnEvent event)
     {
-        if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.SPAWNER) return;
-
         // Args
         EntityType type = event.getEntityType();
         if ( ! MConf.get().moneyChances.containsKey(type)) return;
         if ( ! MConf.get().entityTypesMoney.contains(type)) return;
+
+        // Cancel
+        event.setCancelled(true);
 
         Location location = event.getLocation();
         if (location == null) return;
@@ -47,15 +48,12 @@ public class EngineMoney extends Engine
         if (at.getBaseRegion() == null) return;
         if ( ! at.getBaseRegion().contains(chunk)) return;
 
-        // Cancel
-        event.setCancelled(true);
-
         // Args
         int minimum = MConf.get().moneyChances.get(type).get(0);
         int maximum = MConf.get().moneyChances.get(type).get(1);
         int amount = ThreadLocalRandom.current().nextInt(minimum, maximum);
 
-        EventFactionsMoneyChange moneyEvent = new EventFactionsMoneyChange(at, amount);
+        EventFactionsMoneyChange moneyEvent = new EventFactionsMoneyChange(at, amount, event.getSpawner().getLocation());
         moneyEvent.run();
         if (moneyEvent.isCancelled()) return;
 

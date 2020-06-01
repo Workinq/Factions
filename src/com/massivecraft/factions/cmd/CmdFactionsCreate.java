@@ -7,6 +7,7 @@ import com.massivecraft.factions.cmd.type.TypeFactionNameStrict;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MConf;
+import com.massivecraft.factions.entity.MFlag;
 import com.massivecraft.factions.event.EventFactionsCreate;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
@@ -56,6 +57,9 @@ public class CmdFactionsCreate extends FactionsCommand
 		// Apply
 		Faction faction = FactionColl.get().create(factionId);
 		faction.setName(newName);
+
+		// Flag
+		faction.setFlag(MFlag.getFlagFriendlyire(), false);
 
 		// Roster
 		faction.addToRoster(msender);
