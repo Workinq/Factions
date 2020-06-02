@@ -30,10 +30,10 @@ public enum Rel implements Colorized, Named
 		"Truce"
 	) { @Override public ChatColor getColor() { return MConf.get().colorTruce; } },
 	
-	ALLY(
+	/*ALLY(
 		"an ally", "allies", "an allied faction", "allied factions",
 		"Ally"
-	) { @Override public ChatColor getColor() { return MConf.get().colorAlly; } },
+	) { @Override public ChatColor getColor() { return MConf.get().colorAlly; } },*/
 	
 	RECRUIT(
 		"a recruit in your faction", "recruits in your faction", "", "",

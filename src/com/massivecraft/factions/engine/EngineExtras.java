@@ -1,6 +1,8 @@
 package com.massivecraft.factions.engine;
 
-import com.massivecraft.factions.entity.*;
+import com.massivecraft.factions.entity.BoardColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.ps.PS;
@@ -10,13 +12,11 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import static com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
@@ -34,12 +34,12 @@ public class EngineExtras extends Engine {
 
         if (command.startsWith("/home") || command.startsWith("/homes") || command.startsWith("/ehome") || command.startsWith("/ehomes") || command.startsWith("/essentials:home") || command.startsWith("/essentials:ehome") || command.startsWith("/essentials:ehomes"))
         {
-            if (command.split(" ").length <= 1)
-            {
-                return;
-            }
+            // Verify - Args Length
+            if (command.split(" ").length <= 1) return;
+
             IUser user = essentials.getUser(event.getPlayer());
             Location to = null;
+
             try
             {
                 to = user.getHome(command.split(" ")[1]);
@@ -47,19 +47,23 @@ public class EngineExtras extends Engine {
             catch (Exception ignored)
             {
             }
-            if (to == null)
-            {
-                return;
-            }
+
+            // Verify - Home
+            if (to == null) return;
+
+            // Args
             Player player = event.getPlayer();
             MPlayer mplayer = MPlayer.get(player);
             Faction faction = BoardColl.get().getFactionAt(PS.valueOf(to));
-            if (faction == FactionColl.get().getNone() || faction == FactionColl.get().getSafezone() || faction == FactionColl.get().getWarzone())
-            {
-                return;
-            }
-            mplayer.msg("<b>You can't teleport there as it's in forbidden territory.");
+
+            // Verify - Wilderness or own faction
+            if (faction.isNone() || faction == mplayer.getFaction()) return;
+
+            // Cancel
             event.setCancelled(true);
+
+            // Inform
+            mplayer.msg("<b>You can't teleport there as it's in forbidden territory.");
         }
     }
 

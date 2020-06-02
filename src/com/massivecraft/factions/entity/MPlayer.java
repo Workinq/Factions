@@ -23,7 +23,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.lang.ref.WeakReference;
-import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;

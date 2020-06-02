@@ -29,7 +29,6 @@ import com.massivecraft.factions.cmd.rel.CmdFactionsRelation;
 import com.massivecraft.factions.cmd.rel.CmdFactionsRelationOld;
 import com.massivecraft.factions.cmd.roster.CmdFactionsRoster;
 import com.massivecraft.factions.cmd.sand.CmdFactionsSandAlt;
-import com.massivecraft.factions.cmd.shard.CmdFactionsShards;
 import com.massivecraft.factions.cmd.shield.CmdFactionsShield;
 import com.massivecraft.factions.cmd.strike.CmdFactionsStrike;
 import com.massivecraft.factions.cmd.tnt.CmdFactionsTnt;
@@ -93,7 +92,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsUnclaim cmdFactionsUnclaim = new CmdFactionsUnclaim();
 	public CmdFactionsAccess cmdFactionsAccess = new CmdFactionsAccess();
 	public CmdFactionsRelation cmdFactionsRelation = new CmdFactionsRelation();
-	public CmdFactionsRelationOld cmdFactionsRelationOldAlly = new CmdFactionsRelationOld("ally");
+	// public CmdFactionsRelationOld cmdFactionsRelationOldAlly = new CmdFactionsRelationOld("ally");
 	public CmdFactionsRelationOld cmdFactionsRelationOldTruce = new CmdFactionsRelationOld("truce");
 	public CmdFactionsRelationOld cmdFactionsRelationOldNeutral = new CmdFactionsRelationOld("neutral");
 	public CmdFactionsRelationOld cmdFactionsRelationOldEnemy = new CmdFactionsRelationOld("enemy");
@@ -140,8 +139,8 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsUnfocus cmdFactionsUnfocus = new CmdFactionsUnfocus();
 	public CmdFactionsBaltop cmdFactionsBaltop = new CmdFactionsBaltop();
 	public CmdFactionsInvsee cmdFactionsInvsee = new CmdFactionsInvsee();
-	public CmdFactionsShards cmdFactionsShards = new CmdFactionsShards();
-	public CmdFactionsSpawnerUpgrade cmdFactionsSpawnerUpgrade = new CmdFactionsSpawnerUpgrade();
+	// public CmdFactionsShards cmdFactionsShards = new CmdFactionsShards(); // - Removed temporarily
+	// public CmdFactionsSpawnerUpgrade cmdFactionsSpawnerUpgrade = new CmdFactionsSpawnerUpgrade(); // - Removed temporarily
 	public CmdFactionsRoster cmdFactionsRoster = new CmdFactionsRoster();
 	public CmdFactionsDrain cmdFactionsDrain = new CmdFactionsDrain();
 	public CmdFactionsSandAlt cmdFactionsSandAlt = new CmdFactionsSandAlt();

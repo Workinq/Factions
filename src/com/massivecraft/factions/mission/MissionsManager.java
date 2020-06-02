@@ -153,7 +153,7 @@ public class MissionsManager {
         missions.add(new MissionBlaze());
         missions.add(new MissionSugarcane());
         missions.add(new MissionTrench());
-        missions.add(new MissionShards());
+        // missions.add(new MissionShards());
         missions.add(new MissionEXP());
         missions.add(new MissionTravel());
         missions.add(new MissionWitch());

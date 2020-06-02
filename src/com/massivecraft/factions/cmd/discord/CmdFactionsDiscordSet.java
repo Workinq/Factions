@@ -5,16 +5,13 @@ import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.type.primitive.TypeString;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class CmdFactionsDiscordSet extends FactionsCommand
 {
     // -------------------------------------------- //
     // FIELDS
     // -------------------------------------------- //
 
-    private Pattern pattern = Pattern.compile("(https?://)?(www\\.)?(discord\\.(gg|io|me|li)|discordapp\\.com/invite)/.+[a-z]");
+    // private final Pattern pattern = Pattern.compile("(https?://)?(www\\.)?(discord\\.(gg|io|me|li)|discordapp\\.com/invite)/.+[a-z]");
 
     // -------------------------------------------- //
     // CONSTRUCT
@@ -39,12 +36,12 @@ public class CmdFactionsDiscordSet extends FactionsCommand
         String discord = this.readArg();
 
         // Verify
-        Matcher matcher = pattern.matcher(discord);
+        /*Matcher matcher = pattern.matcher(discord);
         if (!matcher.matches())
         {
             msender.msg("<b>Invalid discord link, make sure you're inputting the full link.");
             return;
-        }
+        }*/
 
         // Apply
         msenderFaction.setDiscord(discord);

@@ -95,7 +95,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setShieldedHour(that.shieldedHour);
 		this.setShieldString(that.shieldString);
 		this.setFocusedPlayer(that.focusedPlayer);
-		this.setShards(that.shards);
+		// this.setShards(that.shards);
 		this.setBanner(that.banner);
 		this.setRoster(that.roster);
 		this.setSandAlts(that.sandAlts);
@@ -215,7 +215,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This stores the faction's shards.
 	// Shards are awarded when a mob dies in faction territory.
 	// By default the faction starts with 0 shards.
-	private int shards = 0;
+	// private int shards = 0;
 
 	// This will store a list of strikes the faction has acquired.
 	// A strike can be given using /f strike <faction> <points> <reason>.
@@ -959,7 +959,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: shards
 	// -------------------------------------------- //
 
-	public int getShards()
+	/* public int getShards()
 	{
 		return shards;
 	}
@@ -1004,7 +1004,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 		// Mark as changed
 		this.changed();
-	}
+	} */
 
 	// -------------------------------------------- //
 	// FIELD: strikes

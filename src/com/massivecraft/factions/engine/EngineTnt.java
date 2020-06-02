@@ -29,7 +29,7 @@ public class EngineTnt extends Engine
     // -------------------------------------------- //
 
     @EventHandler
-    public void onShardDrop(SpawnerSpawnEvent event)
+    public void onTntDrop(SpawnerSpawnEvent event)
     {
         // Args
         EntityType type = event.getEntityType();

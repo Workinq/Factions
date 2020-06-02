@@ -90,7 +90,7 @@ public class MFlag extends Entity<MFlag> implements Prioritized, Registerable, N
 		getFlagPeaceful();
 		getFlagInfpower();
 	}
-	
+
 	public static MFlag getFlagOpen() { return getCreative(PRIORITY_OPEN, ID_OPEN, ID_OPEN, "Can the faction be joined without an invite?", "Anyone can join. No invite required.", "An invite is required to join.", false, true, true); }
 	public static MFlag getFlagMonsters() { return getCreative(PRIORITY_MONSTERS, ID_MONSTERS, ID_MONSTERS, "Can monsters spawn in this territory?", "Monsters can spawn in this territory.", "Monsters can NOT spawn in this territory.", false, true, true); }
 	public static MFlag getFlagAnimals() { return getCreative(PRIORITY_ANIMALS, ID_ANIMALS, ID_ANIMALS, "Can animals spawn in this territory?", "Animals can spawn in this territory.", "Animals can NOT spawn in this territory.", true, true, true); }

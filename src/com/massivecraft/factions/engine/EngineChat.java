@@ -176,7 +176,7 @@ public class EngineChat extends Engine
 				Factions.get().log(" [Faction Chat] " + me.getName() + " sent a message: " + msg);
 				event.setCancelled(true);
 				break;
-			case ALLY:
+			/*case ALLY:
 				message = String.format(MConf.get().chatFormat, Rel.ALLY.getColor() + me.getNameAndFactionName(), msg);
 				for (MPlayer mPlayer : MPlayerColl.get().getAllOnline())
 				{
@@ -189,7 +189,7 @@ public class EngineChat extends Engine
 				}
 				Factions.get().log(" [Ally Chat] " + me.getName() + " sent a message: " + msg);
 				event.setCancelled(true);
-				break;
+				break;*/
 			case TRUCE:
 				message = String.format(MConf.get().chatFormat, Rel.TRUCE.getColor() + me.getNameAndFactionName(), msg);
 				for (MPlayer mPlayer : MPlayerColl.get().getAllOnline())

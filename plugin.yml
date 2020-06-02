@@ -165,15 +165,14 @@ permissions:
   factions.unfocus: {description: unfocus a player, default: false}
   factions.baltop: {description: list top balances in faction, default: false}
   factions.invsee: {description: view a members inventory, default: false}
-  factions.shards: {description: manage faction shards, default: false}
-  factions.shards.balance: {description: view faction shard balance, default: false}
-  factions.shards.balance.any: {description: view other faction shard balance, default: false}
-  factions.shards.shop: {description: open the faction shard shop, default: false}
-  factions.auto.fly: {description: toggle fly enabling when in territory, default: false}
-  factions.shards.add: {description: add shards to a player or faction, default: false}
-  factions.shards.add.player: {description: add shards to a player, default: false}
-  factions.shards.add.faction: {description: add shards to a faction, default: false}
-  factions.spawner.upgrade: {description: upgrade a zombie pigman spawner, default: false}
+  # factions.shards: {description: manage faction shards, default: false}
+  # factions.shards.balance: {description: view faction shard balance, default: false}
+  # factions.shards.balance.any: {description: view other faction shard balance, default: false}
+  # factions.shards.shop: {description: open the faction shard shop, default: false}
+  # factions.shards.add: {description: add shards to a player or faction, default: false}
+  # factions.shards.add.player: {description: add shards to a player, default: false}
+  # factions.shards.add.faction: {description: add shards to a faction, default: false}
+  # factions.spawner.upgrade: {description: upgrade a zombie pigman spawner, default: false}
   factions.roster: {description: manage the faction roster, default: false}
   factions.roster.add: {description: add a player to the faction roster, default: false}
   factions.roster.remove: {description: remove a player from the faction roster, default: false}
@@ -357,15 +356,14 @@ permissions:
       factions.unfocus: true
       factions.baltop: true
       factions.invsee: true
-      factions.shards: true
-      factions.shards.balance: true
-      factions.shards.balance.any: true
-      factions.shards.shop: true
-      factions.auto.fly: true
-      factions.shards.add: true
-      factions.shards.add.player: true
-      factions.shards.add.faction: true
-      factions.spawner.upgrade: true
+      # factions.shards: true
+      # factions.shards.balance: true
+      # factions.shards.balance.any: true
+      # factions.shards.shop: true
+      # factions.shards.add: true
+      # factions.shards.add.player: true
+      # factions.shards.add.faction: true
+      # factions.spawner.upgrade: true
       factions.roster: true
       factions.roster.add: true
       factions.roster.remove: true
@@ -557,11 +555,10 @@ permissions:
       factions.unfocus: true
       factions.baltop: true
       factions.invsee: true
-      factions.shards: true
-      factions.shards.balance: true
-      factions.shards.shop: true
-      factions.auto.fly: true
-      factions.spawner.upgrade: true
+      # factions.shards: true
+      # factions.shards.balance: true
+      # factions.shards.shop: true
+      # factions.spawner.upgrade: true
       factions.roster: true
       factions.roster.add: true
       factions.roster.remove: true

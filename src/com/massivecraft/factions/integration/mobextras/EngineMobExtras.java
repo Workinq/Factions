@@ -1,7 +1,6 @@
 package com.massivecraft.factions.integration.mobextras;
 
 import com.massivecraft.factions.event.EventFactionsMoneyChange;
-import com.massivecraft.factions.event.EventFactionsShardsChange;
 import com.massivecraft.factions.event.EventFactionsTntChange;
 import com.massivecraft.massivecore.Engine;
 import org.bukkit.Location;
@@ -30,13 +29,13 @@ public class EngineMobExtras extends Engine
         event.setTnt((int) this.getNewValue(event.getTnt(), event.getSpawnerLocation()));
     }
 
-    @EventHandler
+    /*@EventHandler
     public void shards(EventFactionsShardsChange event)
     {
         if (event.getSpawnerLocation() == null) return;
 
         event.setShards((int) this.getNewValue(event.getShards(), event.getSpawnerLocation()));
-    }
+    }*/
 
     @EventHandler
     public void money(EventFactionsMoneyChange event)

@@ -440,7 +440,7 @@ public class MConf extends Entity<MConf>
 		),
 		Rel.NEUTRAL, new ArrayList<String>(),
 		Rel.TRUCE, new ArrayList<String>(),
-		Rel.ALLY, new ArrayList<String>(),
+		// Rel.ALLY, new ArrayList<String>(),
 		Rel.MEMBER, new ArrayList<String>()
 	);
 	
@@ -454,14 +454,14 @@ public class MConf extends Entity<MConf>
 		),
 		Rel.NEUTRAL, new ArrayList<String>(),
 		Rel.TRUCE, new ArrayList<String>(),
-		Rel.ALLY, new ArrayList<String>(),
+		// Rel.ALLY, new ArrayList<String>(),
 		Rel.MEMBER, new ArrayList<String>()
 	);
 	
 	// Allow bypassing the above setting when in these territories.
 	public List<Rel> denyCommandsDistanceBypassIn = MUtil.list(
-		Rel.MEMBER,
-		Rel.ALLY
+		Rel.MEMBER/*,
+		Rel.ALLY*/
 	);
 	
 	// -------------------------------------------- //
@@ -541,7 +541,7 @@ public class MConf extends Entity<MConf>
 	// You probably don't want to edit these to much.
 	// Doing so might confuse players that are used to Factions.
 	public ChatColor colorMember = ChatColor.GREEN;
-	public ChatColor colorAlly = ChatColor.DARK_PURPLE;
+	// public ChatColor colorAlly = ChatColor.DARK_PURPLE;
 	public ChatColor colorTruce = ChatColor.LIGHT_PURPLE;
 	public ChatColor colorNeutral = ChatColor.WHITE;
 	public ChatColor colorEnemy = ChatColor.RED;
@@ -661,11 +661,11 @@ public class MConf extends Entity<MConf>
 	public BackstringSet<EntityType> entityTypesAnimals = new BackstringSet<>(EntityType.class);
 
 	// List of entities to drop shard items.
-	public BackstringSet<EntityType> entityTypesShards = new BackstringSet<>(EntityType.class,
+	/*public BackstringSet<EntityType> entityTypesShards = new BackstringSet<>(EntityType.class,
 			"SILVERFISH",
 			"VILLAGER",
 			"ENDERMITE"
-	);
+	);*/
 
 	// List of entities to add to faction money.
 	public BackstringSet<EntityType> entityTypesMoney = new BackstringSet<>(EntityType.class,
@@ -736,11 +736,11 @@ public class MConf extends Entity<MConf>
 	public double econCostSetwarp = 10000.0;
 	public double econCostBan = 0.0;
 	public double econCostUnban = 0.0;
-	public double econCostSpawnerUpgrade = 1000000.0;
-	
+	// public double econCostSpawnerUpgrade = 1000000.0;
+
 	public Map<Rel, Double> econRelCost = MUtil.map(
 		Rel.ENEMY, 0.0,
-		Rel.ALLY, 0.0,
+		// Rel.ALLY, 0.0,
 		Rel.TRUCE, 0.0,
 		Rel.NEUTRAL, 0.0
 	);
@@ -765,7 +765,7 @@ public class MConf extends Entity<MConf>
 	// SHARDS
 	// -------------------------------------------- //
 
-	public Material shardMaterial = Material.NETHER_STAR;
+	/*public Material shardMaterial = Material.NETHER_STAR;
 	public String shardName = "<k><bold>Shard";
 	public int shardData = 0;
 	public List<String> shardLore = MUtil.list(
@@ -781,7 +781,7 @@ public class MConf extends Entity<MConf>
 			EntityType.ENDERMITE, MUtil.list(7, 12),
 			EntityType.BLAZE, MUtil.list(1, 3),
 			EntityType.WITCH, MUtil.list(12, 20)
-	);
+	);*/
 
 	// -------------------------------------------- //
 	// MONEY

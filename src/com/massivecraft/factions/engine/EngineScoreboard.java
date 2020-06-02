@@ -195,7 +195,7 @@ public class EngineScoreboard extends Engine
 
                 // Teams
                 Team enemy = this.getTeam(scoreboard, "fac-enemy", MConf.get().colorEnemy.toString());
-                Team ally = this.getTeam(scoreboard, "fac-ally", MConf.get().colorAlly.toString());
+                // Team ally = this.getTeam(scoreboard, "fac-ally", MConf.get().colorAlly.toString());
                 Team truce = this.getTeam(scoreboard, "fac-truce", MConf.get().colorTruce.toString());
                 Team member = this.getTeam(scoreboard, "fac-member", MConf.get().colorMember.toString());
                 Team neutral = this.getTeam(scoreboard, "fac-neutral", MConf.get().colorNeutral.toString());
@@ -210,7 +210,7 @@ public class EngineScoreboard extends Engine
                 else
                 {
                     // Set
-                    this.setTeam(faction, enemy, ally, truce, member, neutral, wilderness, player, mfaction);
+                    this.setTeam(faction, enemy, /*ally,*/ truce, member, neutral, wilderness, player, mfaction);
                 }
             }
         }
@@ -232,7 +232,7 @@ public class EngineScoreboard extends Engine
 
         // Teams
         Team enemy = this.getTeam(scoreboard, "fac-enemy", MConf.get().colorEnemy.toString());
-        Team ally = this.getTeam(scoreboard, "fac-ally", MConf.get().colorAlly.toString());
+        // Team ally = this.getTeam(scoreboard, "fac-ally", MConf.get().colorAlly.toString());
         Team truce = this.getTeam(scoreboard, "fac-truce", MConf.get().colorTruce.toString());
         Team member = this.getTeam(scoreboard, "fac-member", MConf.get().colorMember.toString());
         Team neutral = this.getTeam(scoreboard, "fac-neutral", MConf.get().colorNeutral.toString());
@@ -257,11 +257,11 @@ public class EngineScoreboard extends Engine
             }*/
 
             Faction targetFaction = MPlayer.get(target).getFaction();
-            this.setTeam(faction, enemy, ally, truce, member, neutral, wilderness, target, targetFaction);
+            this.setTeam(faction, enemy, /*ally,*/ truce, member, neutral, wilderness, target, targetFaction);
         }
     }
 
-    private void setTeam(Faction faction, Team enemy, Team ally, Team truce, Team member, Team neutral, Team wilderness, Player target, Faction targetFaction)
+    private void setTeam(Faction faction, Team enemy, /*Team ally,*/ Team truce, Team member, Team neutral, Team wilderness, Player target, Faction targetFaction)
     {
         // Wilderness
         if (targetFaction == null || targetFaction.isNone())
@@ -276,9 +276,9 @@ public class EngineScoreboard extends Engine
             case TRUCE:
                 truce.addEntry(target.getName());
                 return;
-            case ALLY:
+            /*case ALLY:
                 ally.addEntry(target.getName());
-                return;
+                return;*/
             case ENEMY:
                 enemy.addEntry(target.getName());
                 return;
