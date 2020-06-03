@@ -553,7 +553,13 @@ public class MConf extends Entity<MConf>
 	
 	// This one is for example applied to WarZone since that faction has the friendly fire flag set to true.
 	public ChatColor colorFriendlyFire = ChatColor.DARK_RED;
-	
+
+	// -------------------------------------------- //
+	// LIMITS
+	// -------------------------------------------- //
+
+	public int truceLimit = 1;
+
 	// -------------------------------------------- //
 	// PREFIXES
 	// -------------------------------------------- //

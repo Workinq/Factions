@@ -198,7 +198,7 @@ public class EngineEcon extends Engine
 
 		payForAction(event, cost, desc);
 	}*/
-	
+
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void payForCommand(EventFactionsDescriptionChange event)
 	{

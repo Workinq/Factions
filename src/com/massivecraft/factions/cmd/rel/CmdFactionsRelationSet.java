@@ -5,14 +5,15 @@ import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.cmd.type.TypeRelation;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MFlag;
-import com.massivecraft.factions.entity.MPerm;
+import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.event.EventFactionsRelationChange;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.MassiveCommand;
 import com.massivecraft.massivecore.mson.Mson;
 import org.bukkit.ChatColor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CmdFactionsRelationSet extends FactionsCommand
 {
@@ -30,17 +31,25 @@ public class CmdFactionsRelationSet extends FactionsCommand
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-	
+
 	@Override
 	public void perform() throws MassiveException
 	{
 		// Args
 		Faction otherFaction = this.readArg();
 		Rel newRelation = this.readArg();
-		
+
 		// MPerm
 		if ( ! MPerm.getPermRel().has(msender, msenderFaction, true)) return;
-		
+
+		// Verify - Limits
+		int truceLimit = this.getRelationAmount(msenderFaction, Rel.TRUCE);
+		if (newRelation == Rel.TRUCE && (MConf.get().truceLimit == 0 || truceLimit >= MConf.get().truceLimit))
+		{
+			msg("<b>You've reached the limit of <h>%,d <b>truces.", truceLimit);
+			return;
+		}
+
 		// Verify
 		if (otherFaction == msenderFaction)
 		{
@@ -83,7 +92,7 @@ public class CmdFactionsRelationSet extends FactionsCommand
 			otherFaction.sendMessage(factionsRelationshipChange);
 			msenderFaction.msg("%s<i> were informed that you wish to be %s<i>.", otherFaction.describeTo(msenderFaction, true), colorOne);
 		}
-		
+
 		// TODO: The ally case should work!!
 		// this might have to be bumped up to make that happen, & allow ALLY,NEUTRAL only
 		if (newRelation != Rel.TRUCE && otherFaction.getFlag(MFlag.getFlagPeaceful()))
@@ -91,7 +100,7 @@ public class CmdFactionsRelationSet extends FactionsCommand
 			otherFaction.msg("<i>This will have no effect while your faction is peaceful.");
 			msenderFaction.msg("<i>This will have no effect while their faction is peaceful.");
 		}
-		
+
 		if (newRelation != Rel.TRUCE && msenderFaction.getFlag(MFlag.getFlagPeaceful()))
 		{
 			otherFaction.msg("<i>This will have no effect while their faction is peaceful.");
@@ -101,5 +110,19 @@ public class CmdFactionsRelationSet extends FactionsCommand
 		// Mark as changed
 		msenderFaction.changed();
 	}
-	
+
+	public int getRelationAmount(Faction faction, Rel relation)
+	{
+		List<Faction> factionList = new ArrayList<>();
+		for (Faction fac : FactionColl.get().getAll())
+		{
+			Rel rel = fac.getRelationTo(faction);
+			if ( rel == relation && ! fac.isSystemFaction() )
+			{
+				factionList.add(fac);
+			}
+		}
+		return factionList.size();
+	}
+
 }
