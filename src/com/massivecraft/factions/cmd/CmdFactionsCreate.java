@@ -58,13 +58,10 @@ public class CmdFactionsCreate extends FactionsCommand
 		Faction faction = FactionColl.get().create(factionId);
 		faction.setName(newName);
 
-		// Flag
-		faction.setFlag(MFlag.getFlagFriendlyire(), false);
-
 		// Roster
 		faction.addToRoster(msender);
 		faction.setRosterRank(msender, Rel.LEADER);
-		
+
 		msender.setRole(Rel.LEADER);
 		msender.setFaction(faction);
 		

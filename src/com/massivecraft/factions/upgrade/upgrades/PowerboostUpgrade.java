@@ -47,7 +47,9 @@ public class PowerboostUpgrade extends Upgrade
    @Override
    public void onUpgrade(Faction faction)
    {
-      faction.setPowerBoost(faction.getPowerBoost() + faction.getLevel(this.getUpgradeName()) * 10.0D);
+      int power = Integer.parseInt(this.getCurrentDescription()[faction.getLevel(this.getUpgradeName()) - 1].split(" ")[0]);
+
+      faction.setPowerBoost(faction.getPowerBoost() + power);
    }
 
 }

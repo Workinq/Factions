@@ -106,7 +106,7 @@ public class MFlag extends Entity<MFlag> implements Prioritized, Registerable, N
 	public static MFlag getFlagPermanent() { return getCreative(PRIORITY_PERMANENT, ID_PERMANENT, ID_PERMANENT, "Is the faction immune to deletion?", "The faction can NOT be deleted.", "The faction can be deleted.", false, false, true); }
 	public static MFlag getFlagPeaceful() { return getCreative(PRIORITY_PEACEFUL, ID_PEACEFUL, ID_PEACEFUL, "Is the faction in truce with everyone?", "The faction is in truce with everyone.", "The faction relations work as usual.", false, false, true); }
 	public static MFlag getFlagInfpower() { return getCreative(PRIORITY_INFPOWER, ID_INFPOWER, ID_INFPOWER, "Does the faction have infinite power?", "The faction has infinite power.", "The faction power works as usual.", false, false, true); }
-	
+
 	public static MFlag getCreative(int priority, String id, String name, String desc, String descYes, String descNo, boolean standard, boolean editable, boolean visible)
 	{
 		MFlag ret = MFlagColl.get().get(id, false);
