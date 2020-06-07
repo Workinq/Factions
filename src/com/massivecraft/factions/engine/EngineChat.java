@@ -162,15 +162,15 @@ public class EngineChat extends Engine
 		{
 			case FACTION:
 				message = String.format(MConf.get().chatFormat, me.describeTo(myFaction), msg);
-				for (MPlayer mPlayer : MPlayerColl.get().getAllOnline())
+				for (Player player : Bukkit.getOnlinePlayers())
 				{
+					MPlayer mPlayer = MPlayer.get(player);
 					if (mPlayer.isSpying())
 					{
 						mPlayer.msg(MConf.get().spyChatFormat, me.describeTo(mPlayer, true), Chat.FACTION.getName(), msg);
 					}
 					if (mPlayer.getFaction() != myFaction) continue;
-					// Sad times :(
-					if (mPlayer.isIgnoring(me)) continue;
+					if (mPlayer.isIgnoring(me)) continue; // Sad times :(
 					mPlayer.msg(message);
 				}
 				Factions.get().log(" [Faction Chat] " + me.getName() + " sent a message: " + msg);
@@ -192,8 +192,9 @@ public class EngineChat extends Engine
 				break;*/
 			case TRUCE:
 				message = String.format(MConf.get().chatFormat, Rel.TRUCE.getColor() + me.getNameAndFactionName(), msg);
-				for (MPlayer mPlayer : MPlayerColl.get().getAllOnline())
+				for (Player player : Bukkit.getOnlinePlayers())
 				{
+					MPlayer mPlayer = MPlayer.get(player);
 					if (mPlayer.isSpying())
 					{
 						mPlayer.msg(MConf.get().spyChatFormat, me.describeTo(mPlayer, true), Chat.TRUCE.getName(), msg);
