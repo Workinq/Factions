@@ -1,5 +1,6 @@
 package com.massivecraft.factions.engine;
 
+import com.massivecraft.factions.Chat;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
@@ -151,6 +152,8 @@ public class EngineExtras extends Engine {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMembershipChange(EventFactionsMembershipChange event)
     {
+        event.getMPlayer().setChat(Chat.PUBLIC);
+
         MembershipChangeReason reason = event.getReason();
         if (reason == MembershipChangeReason.DISBAND || reason == MembershipChangeReason.KICK || reason == MembershipChangeReason.LEAVE)
         {

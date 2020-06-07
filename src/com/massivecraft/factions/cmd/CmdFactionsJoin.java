@@ -62,7 +62,7 @@ public class CmdFactionsJoin extends FactionsCommand
 				Mson.parse(mplayer.describeTo(msender, true)),
 				mson((samePlayer ? " are" : " is") + " already a member of " + faction.getName(msender) + ".").color(ChatColor.YELLOW)
 			);
-			
+
 			message(alreadyMember.suggest(command).tooltip(Txt.parse("<i>Click to <c>%s<i>.", command)));
 			return;
 		}
@@ -123,7 +123,9 @@ public class CmdFactionsJoin extends FactionsCommand
 			for (MPlayer member : mplayers)
 			{
 				if (member.isOnline()) continue;
+
 				toKick = member;
+				break;
 			}
 
 			if (toKick == null)

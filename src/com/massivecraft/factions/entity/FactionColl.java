@@ -172,7 +172,7 @@ public class FactionColl extends Coll<Faction>
 		faction.setFlag(MFlag.getFlagInfpower(), true);
 		faction.setFlag(MFlag.getFlagPowerloss(), true);
 		faction.setFlag(MFlag.getFlagPvp(), true);
-		faction.setFlag(MFlag.getFlagFriendlyire(), true);
+		faction.setFlag(MFlag.getFlagFriendlyire(), false);
 		faction.setFlag(MFlag.getFlagMonsters(), true);
 		faction.setFlag(MFlag.getFlagAnimals(), true);
 		faction.setFlag(MFlag.getFlagExplosions(), true);

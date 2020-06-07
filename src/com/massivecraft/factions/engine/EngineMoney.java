@@ -32,8 +32,8 @@ public class EngineMoney extends Engine
     {
         // Args
         EntityType type = event.getEntityType();
-        if ( ! MConf.get().moneyChances.containsKey(type)) return;
-        if ( ! MConf.get().entityTypesMoney.contains(type)) return;
+        if ( ! MConf.get().moneyChances.containsKey(type) ) return;
+        if ( ! MConf.get().entityTypesMoney.contains(type) ) return;
 
         // Cancel
         event.setCancelled(true);

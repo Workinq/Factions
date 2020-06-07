@@ -40,7 +40,10 @@ public class EngineFly extends Engine
         MPlayer mplayer = MPlayer.get(player);
         Faction hostFaction = BoardColl.get().getFactionAt(PS.valueOf(player.getLocation()));
 
-        if (this.isEnemyNear(mplayer, player, hostFaction) || (hostFaction.isNone() && !player.hasPermission("factions.wildfly")) || (!hostFaction.isNone() && !MPerm.getPermFly().has(mplayer, hostFaction, false)))
+        if (
+                this.isEnemyNear(mplayer, player, hostFaction) // Enemy Check
+                || (hostFaction.isNone() && ! (player.hasPermission("factions.wildfly") || player.hasPermission("factions.fly.any"))) // Wild fly check
+                || ( ! hostFaction.isNone() && ! MPerm.getPermFly().has(mplayer, hostFaction, false))) // MPerm check
         {
             event.setCancelled(true);
             player.setAllowFlight(false);
@@ -65,7 +68,7 @@ public class EngineFly extends Engine
         boolean hasPerm = MPerm.getPermFly().has(mplayer, hostFaction, false);
         if (hostFaction.isNone())
         {
-            if ( ! player.hasPermission("factions.fly.any") )
+            if ( ! (player.hasPermission("factions.fly.any") || player.hasPermission("factions.wildfly")) )
             {
                 player.setAllowFlight(false);
                 this.disableFlight(player, "<b>Your faction flight has been disabled since you can't fly here.");
@@ -86,7 +89,7 @@ public class EngineFly extends Engine
 
         if (factionTo.isNone())
         {
-            if ( ! player.hasPermission("factions.wildfly") )
+            if ( ! (player.hasPermission("factions.wildfly") || player.hasPermission("factions.fly.any")) )
             {
                 this.disableFlight(player, "<b>Your faction flight has been disabled since you can't fly here.");
             }

@@ -41,7 +41,7 @@ public class TaskFactionsFly extends ModuloRepeatTask
                 }
                 else if (hostFaction.isNone())
                 {
-                    if (player.hasPermission("factions.fly.any")) continue;
+                    if (player.hasPermission("factions.fly.any") || player.hasPermission("factions.wildfly")) continue;
                     EngineFly.get().disableFlight(player, "<b>Your faction flight has been disabled since you can't fly here.");
                 }
                 else if ( ! MPerm.getPermFly().has(mplayer, hostFaction, false) )
@@ -56,7 +56,7 @@ public class TaskFactionsFly extends ModuloRepeatTask
             }
             else
             {
-                if (EngineFly.get().playersWithFlyDisabled.contains(player.getUniqueId().toString()) || player.getAllowFlight() || EngineFly.get().isEnemyNear(mplayer, player, hostFaction) || (!MPerm.getPermFly().has(mplayer, hostFaction, false) && (!hostFaction.isNone() || !player.hasPermission("factions.wildfly")))) continue;
+                if (EngineFly.get().playersWithFlyDisabled.contains(player.getUniqueId().toString()) || player.getAllowFlight() || EngineFly.get().isEnemyNear(mplayer, player, hostFaction) || (!MPerm.getPermFly().has(mplayer, hostFaction, false) && (!hostFaction.isNone() || ! (player.hasPermission("factions.wildfly") || player.hasPermission("factions.fly.any"))))) continue;
                 EngineFly.get().enableFlight(player, null);
             }
         }
