@@ -2146,11 +2146,19 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 			if (oldLeader != null)
 			{
 				oldLeader.setRole(Rel.MEMBER);
+				this.setRosterRank(oldLeader, Rel.MEMBER);
 			}
 
-			replacements.get(0).setRole(Rel.LEADER);
-			this.msg("<i>Faction leader <h>%s<i> has been removed. %s<i> has been promoted as the new faction leader.", oldLeader == null ? "" : oldLeader.getName(), replacements.get(0).getName());
-			Factions.get().log("Faction "+this.getName()+" ("+this.getId()+") leader was removed. Replacement leader: "+replacements.get(0).getName());
+			// New leader
+			MPlayer newLeader = replacements.get(0);
+
+			// Promote
+			newLeader.setRole(Rel.LEADER);
+			this.setRosterRank(newLeader, Rel.LEADER);
+
+			// Inform
+			this.msg("<i>Faction leader <h>%s<i> has been removed. %s<i> has been promoted as the new faction leader.", oldLeader == null ? "" : oldLeader.getName(), newLeader.getName());
+			Factions.get().log("Faction "+this.getName()+" ("+this.getId()+") leader was removed. Replacement leader: "+newLeader.getName());
 		}
 	}
 

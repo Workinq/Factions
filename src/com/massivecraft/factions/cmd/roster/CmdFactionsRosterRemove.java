@@ -54,6 +54,12 @@ public class CmdFactionsRosterRemove extends FactionsCommand
             return;
         }
 
+        if (mplayer.getRole().isAtLeast(msender.getRole()))
+        {
+            msg("%s <b>cannot kick players with the same rank or a higher one than yours.", msender.describeTo(msender, true));
+            return;
+        }
+
         msenderFaction.removeFromRoster(mplayer);
         msg("%s <i>removed %s <i>from the faction roster.", msender.describeTo(msender, true), mplayer.describeTo(msender));
         msenderFaction.msg("%s <i>was removed to the faction roster.", mplayer.describeTo(msenderFaction, true));

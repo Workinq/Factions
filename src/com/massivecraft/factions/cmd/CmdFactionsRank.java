@@ -82,15 +82,15 @@ public class CmdFactionsRank extends FactionsCommand
 		
 		// Is the player allowed or not. Method can be found later down.
 		this.ensureAllowed();
-		
+
 		if (factionChange)
 		{	
 			this.changeFaction();
 		}
-		
+
 		// Does the change make sense.
 		this.ensureMakesSense();
-		
+
 		// Event
 		EventFactionsRankChange event = new EventFactionsRankChange(sender, target, rank);
 		event.run();
@@ -335,16 +335,19 @@ public class CmdFactionsRank extends FactionsCommand
 		if (targetFactionCurrentLeader != null)
 		{
 			// Inform & demote the old leader.
-			targetFactionCurrentLeader.setRole(Rel.OFFICER);
+			targetFactionCurrentLeader.setRole(Rel.COLEADER);
+			targetFaction.setRosterRank(targetFactionCurrentLeader, Rel.COLEADER);
+
 			if (targetFactionCurrentLeader != msender)
 			{
 				// They kinda know if they fired the command themself.
 				targetFactionCurrentLeader.msg("<i>You have been demoted from the position of faction leader by %s<i>.", msender.describeTo(targetFactionCurrentLeader, true));
 			}
 		}
-		
+
 		// Promote the new leader.
 		target.setRole(Rel.LEADER);
+		targetFaction.setRosterRank(target, Rel.LEADER);
 
 		// Inform everyone, this includes sender and target.
 		for (MPlayer recipient : MPlayerColl.get().getAllOnline())
@@ -353,7 +356,7 @@ public class CmdFactionsRank extends FactionsCommand
 			recipient.msg("%s<i> gave %s<i> the leadership of %s<i>.", changerName, target.describeTo(recipient), targetFaction.describeTo(recipient));
 		}
 	}
-	
+
 	private void changeRankOther() throws MassiveException
 	{
 		// If the target is currently the leader and faction isn't permanent a new leader should be promoted.
@@ -373,8 +376,7 @@ public class CmdFactionsRank extends FactionsCommand
 		}
 
 		// Create recipients
-		Set<MPlayer> recipients = new HashSet<>();
-		recipients.addAll(targetFaction.getMPlayers());
+		Set<MPlayer> recipients = new HashSet<>(targetFaction.getMPlayers());
 		recipients.add(msender);
 		
 		// Were they demoted or promoted?
@@ -382,6 +384,10 @@ public class CmdFactionsRank extends FactionsCommand
 		
 		// The rank will be set before the msg, so they have the appropriate prefix.
 		target.setRole(rank);
+
+		// Set the new rank in the roster.
+		targetFaction.setRosterRank(target, rank);
+
 		String oldRankName = Txt.getNicedEnum(targetRank).toLowerCase();
 		String rankName = Txt.getNicedEnum(rank).toLowerCase();
 
