@@ -2,6 +2,7 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.comparator.ComparatorFactionList;
 import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.comparator.ComparatorFactionListNoAlt;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MPlayer;
@@ -75,7 +76,7 @@ public class CmdFactionsList extends FactionsCommand
 			public void run()
 			{
 				// Pager Items
-				final List<Faction> factions = FactionColl.get().getAll(ComparatorFactionList.get(sender));
+				final List<Faction> factions = FactionColl.get().getAll(ComparatorFactionListNoAlt.get(sender));
 				pager.setItems(factions);
 				
 				// Pager Message
