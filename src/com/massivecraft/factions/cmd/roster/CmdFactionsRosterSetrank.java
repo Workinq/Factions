@@ -45,10 +45,14 @@ public class CmdFactionsRosterSetrank extends FactionsCommand
             return;
         }
 
-        if (rel.isLessThan(Rel.RECRUIT) || rel.getValue() >= msender.getRole().getValue())
+        if (mplayer.getRole().isMoreThan(msender.getRole()) && ! msender.isOverriding())
         {
-            msg("<b>You can't set %s's <b>rank to %s.", mplayer.describeTo(msender), rel.getName());
-            return;
+            throw new MassiveException().addMsg("<b>You can't set people's rank to a higher one than yours.");
+        }
+
+        if (mplayer.getRole() == msender.getRole() && ! msender.isOverriding())
+        {
+            throw new MassiveException().addMsg("<b>You can't set people's rank to the same as yours.");
         }
 
         msenderFaction.setRosterRank(mplayer, rel);

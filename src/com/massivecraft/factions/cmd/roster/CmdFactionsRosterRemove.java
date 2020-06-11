@@ -54,13 +54,19 @@ public class CmdFactionsRosterRemove extends FactionsCommand
             return;
         }
 
-        if (mplayer.getRole().isAtLeast(msender.getRole()))
+        if (mplayer.getRole().isMoreThan(msender.getRole()) && ! msender.isOverriding())
         {
-            msg("%s <b>cannot kick players with the same rank or a higher one than yours.", msender.describeTo(msender, true));
-            return;
+            throw new MassiveException().addMsg("<b>You can't kick people of higher rank than yourself.");
         }
 
-        msenderFaction.removeFromRoster(mplayer);
+        if (mplayer.getRole() == msender.getRole() && ! msender.isOverriding())
+        {
+            throw new MassiveException().addMsg("<b>You can't kick people of the same rank as yourself.");
+        }
+
+        msenderFaction.removeFromRoster(mplayer); // Remove from roster
+        CmdFactions.get().cmdFactionsKick.execute(sender, MUtil.list(mplayer.getName())); // Kick
+
         msg("%s <i>removed %s <i>from the faction roster.", msender.describeTo(msender, true), mplayer.describeTo(msender));
         msenderFaction.msg("%s <i>was removed to the faction roster.", mplayer.describeTo(msenderFaction, true));
     }
