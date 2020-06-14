@@ -84,7 +84,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setWarps(that.warps);
 		this.setPaypal(that.paypal);
 		this.setDiscord(that.discord);
-		this.bannedMembers.load(that.bannedMembers);
+		this.setBannedMembers(that.bannedMembers);
 		this.setUpgrades(that.upgrades);
 		this.setMissionGoal(that.missionGoal);
 		this.setActiveMission(that.activeMission);
@@ -257,7 +257,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// This will store a list of all the banned members.
 	// By default it's empty and members can be banned using /f ban <player>.
-	private final EntityInternalMap<FactionBan> bannedMembers = new EntityInternalMap<>(this, FactionBan.class);
+	private MassiveSet<FactionBan> bannedMembers = new MassiveSet<>();
+	// private final EntityInternalMap<FactionBan> bannedMembers = new EntityInternalMap<>(this, FactionBan.class);
 
 	// Can anyone join the Faction?
 	// If the faction is open they can.
@@ -1440,13 +1441,21 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	public EntityInternalMap<FactionBan> getBannedMembers() { return this.bannedMembers; }
+	public MassiveSet<FactionBan> getBannedMembers() { return this.bannedMembers; }
+
+	public void setBannedMembers(MassiveSet<FactionBan> bannedMembers)
+	{
+		this.bannedMembers = bannedMembers;
+
+		// Mark as changed
+		this.changed();
+	}
 
 	// FINER
 
 	public boolean isBanned(String playerId)
 	{
-		return this.getBannedMembers().containsKey(playerId);
+		return bannedMembers.stream().anyMatch(factionBan -> factionBan.getBannedId().equals(playerId));
 	}
 
 	public boolean isBanned(MPlayer mplayer)
@@ -1456,19 +1465,39 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public boolean unban(String playerId)
 	{
-		System.out.println(playerId);
-		return this.getBannedMembers().detachId(playerId) != null;
+		Optional<FactionBan> optional = bannedMembers.stream().filter(factionBan -> factionBan.getBannedId().equals(playerId)).findAny();
+		boolean result = optional.filter(factionBan -> bannedMembers.remove(factionBan)).isPresent();
+
+		if ( ! result ) return false;
+
+		// Mark as changed
+		this.changed();
+		return true;
 	}
 
 	public boolean unban(MPlayer mplayer)
 	{
-		return unban(mplayer.getId());
+		return this.unban(mplayer.getId());
 	}
 
-	public void ban(String playerId, FactionBan factionBan)
+	public boolean unban(FactionBan factionBan)
 	{
-		unban(playerId);
-		this.bannedMembers.attach(factionBan, playerId);
+		boolean result = bannedMembers.remove(factionBan);
+
+		if ( ! result ) return false;
+
+		// Mark as changed
+		this.changed();
+		return true;
+	}
+
+	public void ban(FactionBan factionBan)
+	{
+		this.unban(factionBan);
+		this.bannedMembers.add(factionBan);
+
+		// Mark as changed
+		this.changed();
 	}
 
 	// -------------------------------------------- //

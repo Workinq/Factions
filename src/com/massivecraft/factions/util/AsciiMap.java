@@ -1,6 +1,7 @@
 package com.massivecraft.factions.util;
 
 import com.massivecraft.factions.RelationParticipator;
+import com.massivecraft.factions.TerritoryAccess;
 import com.massivecraft.factions.entity.Board;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
@@ -190,38 +191,6 @@ public class AsciiMap
 					ret = ret.add(factionChar.tooltip(Txt.parse("<a>Claimed by %s", hereFaction.describeTo(mplayer))));
 				}
 			}
-
-			/*if (isMiddle)
-			{
-				ret = ret.add(factionChar);
-			}
-			else if (Board.get(chunk).isChunkOutsideBorder(chunk))
-			{
-				ret = ret.add(KEY_BORDER);
-			}
-			else
-			{
-				MPlayer mPlayer = MPlayer.get(this.getRelationParticipator());
-				if (!mPlayer.getFaction().isNone())
-				{
-					if (mPlayer.getFaction() == hereFaction)
-					{
-						ret = ret.add(factionChar.tooltip(Txt.parse("<a>Click to unclaim %,d:%,d", chunk.getChunkX(), chunk.getChunkZ())).command("/f unclaim at " + chunk.getChunkX() + " " + chunk.getChunkZ() + " true"));
-					}
-					else if (hereFaction.isNone())
-					{
-						ret = ret.add(KEY_WILDERNESS.tooltip(Txt.parse("<a>Click to claim %,d:%,d", chunk.getChunkX(), chunk.getChunkZ())).command("/f claim at " + mPlayer.getFaction().getName() + " " + chunk.getChunkX() + " " + chunk.getChunkZ() + " true"));
-					}
-					else
-					{
-						ret = ret.add(factionChar.tooltip(Txt.parse("<a>Claimed by %s", hereFaction.describeTo(mPlayer))));
-					}
-				}
-				else
-				{
-					ret = ret.add(factionChar.tooltip(Txt.parse("<a>Claimed by %s", hereFaction.describeTo(mPlayer))));
-				}
-			}*/
 		}
 
 		// Return

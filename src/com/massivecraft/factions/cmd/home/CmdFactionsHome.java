@@ -116,12 +116,10 @@ public class CmdFactionsHome extends FactionsCommandHome
 			{
 				if (MUtil.isntPlayer(p)) continue;
 				
-				if (p == null || !p.isOnline() || p.isDead() || p == me || p.getWorld() != w)
-					continue;
+				if ( ! p.isOnline() || p.isDead() || p == me || p.getWorld() != w) continue;
 
 				MPlayer fp = MPlayer.get(p);
-				if (msender.getRelationTo(fp) != Rel.ENEMY)
-					continue;
+				if (msender.getRelationTo(fp) != Rel.ENEMY) continue;
 
 				Location l = p.getLocation();
 				double dx = Math.abs(x - l.getX());
@@ -130,8 +128,7 @@ public class CmdFactionsHome extends FactionsCommandHome
 				double max = MConf.get().homesTeleportAllowedEnemyDistance;
 
 				// box-shaped distance check
-				if (dx > max || dy > max || dz > max)
-					continue;
+				if (dx > max || dy > max || dz > max) continue;
 
 				msender.msg("<b>You cannot teleport to %s <b>while an enemy is within %f blocks of you.", homeDesc, MConf.get().homesTeleportAllowedEnemyDistance);
 				return;

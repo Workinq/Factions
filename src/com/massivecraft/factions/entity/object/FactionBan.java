@@ -4,43 +4,28 @@ import com.massivecraft.massivecore.store.EntityInternal;
 
 public class FactionBan extends EntityInternal<FactionBan>
 {
-    // -------------------------------------------- //
-    // OVERRIDE: ENTITY
-    // -------------------------------------------- //
-
-    @Override
-    public FactionBan load(FactionBan that)
-    {
-        this.bannerId = that.bannerId;
-        this.creationMillis = that.creationMillis;
-
-        return this;
-    }
 
     // -------------------------------------------- //
     // FIELDS
     // -------------------------------------------- //
 
-    private String bannerId;
-    public String getBannerId() { return bannerId; }
-    public void setBannerId(String bannerId) { this.bannerId = bannerId; }
+    private final String bannedId;
+    public String getBannedId() { return bannedId; }
 
-    private Long creationMillis;
-    public Long getCreationMillis() { return creationMillis; }
-    public void setCreationMillis(Long creationMillis) { this.creationMillis = creationMillis; }
+    private final String bannerId;
+    public String getBannerId() { return bannerId; }
+
+    private final long creationMillis;
+    public long getCreationMillis() { return creationMillis; }
 
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public FactionBan()
-    {
-        this(null, null);
-    }
-
-    public FactionBan(String inviterId, Long creationMillis)
+    public FactionBan(String inviterId, String bannedId, long creationMillis)
     {
         this.bannerId = inviterId;
+        this.bannedId = bannedId;
         this.creationMillis = creationMillis;
     }
 

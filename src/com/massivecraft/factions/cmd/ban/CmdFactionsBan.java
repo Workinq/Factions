@@ -67,9 +67,8 @@ public class CmdFactionsBan extends FactionsCommand
 				msenderFaction.msg("%s<i> banned %s<i> from the faction.", msender.describeTo(msenderFaction, true), mplayer.describeTo(msenderFaction));
 
 				// Apply
-				FactionBan factionBan = new FactionBan(msender.getId(), System.currentTimeMillis());
-				msenderFaction.ban(mplayer.getId(), factionBan);
-				msenderFaction.changed();
+				FactionBan factionBan = new FactionBan(msender.getId(), mplayer.getId(), System.currentTimeMillis());
+				msenderFaction.ban(factionBan);
 
 				// Log
 				if (MConf.get().logFactionBan)
@@ -94,4 +93,5 @@ public class CmdFactionsBan extends FactionsCommand
 			}
 		}
 	}
+
 }

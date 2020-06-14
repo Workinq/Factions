@@ -24,7 +24,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class Factions extends MassivePlugin
 {
@@ -83,6 +86,9 @@ public class Factions extends MassivePlugin
 		MissionsManager.get().load();
 		UpgradesManager.get().load();
 		EngineScoreboard.get().load();
+
+		// Calendar
+		Calendar.getInstance().setTimeZone(TimeZone.getTimeZone("EST"));
 	}
 
 	@Override

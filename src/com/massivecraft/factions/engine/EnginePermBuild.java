@@ -54,19 +54,21 @@ public class EnginePermBuild extends Engine
 
 		MPerm perm = protectCase.getPerm(object);
 		if (perm == null) return null;
-		if (protectCase != ProtectCase.BUILD) return !perm.has(mplayer, ps, verboose);
+		if (protectCase != ProtectCase.BUILD) return ! perm.has(mplayer, ps, verboose);
 		
-		if (!perm.has(mplayer, ps, false) && MPerm.getPermPainbuild().has(mplayer, ps, false))
+		if ( ! perm.has(mplayer, ps, false) && MPerm.getPermPainbuild().has(mplayer, ps, false) )
 		{
-			if (!verboose) return false;
+			if ( ! verboose ) return false;
 			
 			Faction hostFaction = BoardColl.get().getFactionAt(ps);
 			mplayer.msg("<b>It is painful to build in the territory of %s<b>.", hostFaction.describeTo(mplayer));
 			Player player = mplayer.getPlayer();
 			if (player != null) player.damage(MConf.get().actionDeniedPainAmount);
+
+			return false;
 		}
 		
-		return !perm.has(mplayer, ps, verboose);
+		return ! perm.has(mplayer, ps, verboose);
 	}
 	
 	public static Boolean protect(ProtectCase protectCase, boolean verboose, Object senderObject, PS ps, Object object, Cancellable cancellable)

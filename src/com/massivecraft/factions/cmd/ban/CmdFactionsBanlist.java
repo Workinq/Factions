@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 public class CmdFactionsBanlist extends FactionsCommand
 {
@@ -48,7 +47,6 @@ public class CmdFactionsBanlist extends FactionsCommand
 	{		
 		// Args	
 		int page = this.readArg();
-		
 		Faction faction = this.readArg(msenderFaction);
 		
 		if ( faction != msenderFaction && ! Perm.BANLIST_OTHER.has(sender, true)) return;
@@ -57,37 +55,35 @@ public class CmdFactionsBanlist extends FactionsCommand
 		if ( ! MPerm.getPermBan().has(msender, msenderFaction, true)) return;
 		
 		// Pager Create
-		final List<Entry<String, FactionBan>> bannedMembers = new MassiveList<>(faction.getBannedMembers().entrySet());
+		final List<FactionBan> bannedMembers = new MassiveList<>(faction.getBannedMembers());
 		
-		Collections.sort(bannedMembers, new Comparator<Entry<String, FactionBan>>()
+		Collections.sort(bannedMembers, new Comparator<FactionBan>()
 		{
 			@Override
-			public int compare(Entry<String, FactionBan> i1, Entry<String, FactionBan> i2)
+			public int compare(FactionBan i1, FactionBan i2)
 			{
-				return ComparatorSmart.get().compare(i2.getValue().getCreationMillis(), i1.getValue().getCreationMillis());
+				return ComparatorSmart.get().compare(i2.getCreationMillis(), i1.getCreationMillis());
 			}
 		});
 		
 		final long now = System.currentTimeMillis();
 		
-		final Pager<Entry<String, FactionBan>> pager = new Pager<>(this, "Banned Members", page, bannedMembers, new Stringifier<Entry<String, FactionBan>>()
+		final Pager<FactionBan> pager = new Pager<>(this, "Banned Members", page, bannedMembers, new Stringifier<FactionBan>()
 		{
-			public String toString(Entry<String, FactionBan> entry, int index)
+			@Override
+			public String toString(FactionBan factionBan, int index)
 			{
-				String bannedId = entry.getKey();
-				String bannerId = entry.getValue().getBannerId();
+				String bannedId = factionBan.getBannedId();
+				String bannerId = factionBan.getBannerId();
 				
 				String bannedDisplayName = MixinDisplayName.get().getDisplayName(bannedId, sender);
 				String bannerDisplayName = bannerId != null ? MixinDisplayName.get().getDisplayName(bannerId, sender) : Txt.parse("<silver>unknown");
 				
 				String ageDesc = "";
-				if (entry.getValue().getCreationMillis() != null)
-				{
-					long millis = now - entry.getValue().getCreationMillis();
-					LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(millis, TimeUnit.getAllButMillis()), 2);
-					ageDesc = TimeDiffUtil.formatedMinimal(ageUnitcounts, "<i>");
-					ageDesc = " " + ageDesc + Txt.parse(" ago");
-				}
+				long millis = now - factionBan.getCreationMillis();
+				LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(millis, TimeUnit.getAllButMillis()), 2);
+				ageDesc = TimeDiffUtil.formatedMinimal(ageUnitcounts, "<i>");
+				ageDesc = " " + ageDesc + Txt.parse(" ago");
 
 				return Txt.parse("%s<i> was banned by %s<reset>%s<i>.", bannedDisplayName, bannerDisplayName, ageDesc);
 			}
