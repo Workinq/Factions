@@ -1,17 +1,14 @@
 package com.massivecraft.factions.cmd.shield;
 
-import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
-import com.massivecraft.factions.cmd.type.TypeFaction;
-import com.massivecraft.factions.entity.Board;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MOption;
+import com.massivecraft.factions.entity.object.FactionStrike;
+import com.massivecraft.factions.event.EventFactionsShieldToggle;
+import com.massivecraft.factions.event.EventFactionsStrikeAdd;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.type.primitive.TypeBooleanYes;
-import net.minecraft.server.v1_8_R3.MobSpawnerAbstract;
 import org.bukkit.ChatColor;
 
 public class CmdFactionsShieldToggle extends FactionsCommand
@@ -36,6 +33,11 @@ public class CmdFactionsShieldToggle extends FactionsCommand
 	{
 		// Read arguments
 		boolean enable = this.readArg(!MOption.get().isShields());
+
+		// Event
+		EventFactionsShieldToggle event = new EventFactionsShieldToggle(sender);
+		event.run();
+		if (event.isCancelled()) return;
 
 		// Toggle shields option
 		MOption.get().setShields(enable);
