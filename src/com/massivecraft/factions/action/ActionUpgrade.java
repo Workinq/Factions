@@ -30,27 +30,37 @@ public class ActionUpgrade extends ChestActionAbstract
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)
     {
-        MPlayer mPlayer = MPlayer.get(player);
+        MPlayer mplayer = MPlayer.get(player);
+
+        // Verify - Level
         if (price == 0)
         {
-            mPlayer.msg("<b>You already have the maximum level in this upgrade.");
+            mplayer.msg("<b>You already have the maximum level in this upgrade.");
             return true;
         }
-        if (!MPerm.getPermUpgrade().has(mPlayer, faction, true))
-        {
-            return true;
-        }
+
+        // MPerm
+        if ( ! MPerm.getPermUpgrade().has(mplayer, faction, true) ) return true;
+
+        // Verify - Balance
         if (faction.getCredits() < price)
         {
-            mPlayer.msg("<b>You do not have enough credits to complete this purchase.");
+            mplayer.msg("<b>You do not have enough credits to complete this purchase.");
+            return true;
         }
-        else
-        {
-            Mson mson = Mson.mson(Txt.parse("%s<i> has upgraded <a>%s <i>to level %s<i>.", mPlayer.describeTo(faction, true), ChatColor.stripColor(upgradeName), level + 1));
-            UpgradesManager.get().increaseUpgrade(faction, UpgradesManager.get().getUpgradeByName(upgradeName));
-            faction.takeCredits(price);
-            faction.sendMessage(mson);
-        }
+
+        // Args
+        Mson mson = Mson.mson(Txt.parse("%s<i> has upgraded <a>%s <i>to level %s<i>.", mplayer.describeTo(faction, true), ChatColor.stripColor(upgradeName), level + 1));
+
+        // Increase
+        UpgradesManager.get().increaseUpgrade(faction, UpgradesManager.get().getUpgradeByName(upgradeName));
+
+        // Apply
+        faction.takeCredits(price);
+
+        // Inform
+        faction.sendMessage(mson);
+
         return true;
     }
 

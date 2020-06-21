@@ -3,8 +3,10 @@ package com.massivecraft.factions.cmd.roster;
 import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqHasFaction;
+import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.cmd.type.TypeRel;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.MassiveException;
@@ -20,6 +22,7 @@ public class CmdFactionsRosterSetrank extends FactionsCommand
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player");
         this.addParameter(TypeRel.get(), "role");
+        this.addParameter(TypeFaction.get(), "faction", "you");
 
         // Requirements
         this.addRequirements(ReqHasFaction.get());
@@ -35,11 +38,12 @@ public class CmdFactionsRosterSetrank extends FactionsCommand
         // Args
         MPlayer mplayer = this.readArg();
         Rel rel = this.readArg();
+        Faction faction = this.readArg(msenderFaction);
 
         // Verify
-        if ( ! MPerm.getPermRoster().has(msender, msenderFaction, true)) return;
+        if ( ! MPerm.getPermRoster().has(msender, faction, true)) return;
 
-        if ( ! msenderFaction.isInRoster(mplayer))
+        if ( ! faction.isInRoster(mplayer))
         {
             msg("%s <i>is not in the faction roster.", mplayer.describeTo(msender));
             return;
@@ -55,7 +59,7 @@ public class CmdFactionsRosterSetrank extends FactionsCommand
             throw new MassiveException().addMsg("<b>You can't set people's rank to the same as yours.");
         }
 
-        msenderFaction.setRosterRank(mplayer, rel);
+        faction.setRosterRank(mplayer, rel);
         msg("%s <i>changed %s's <i>roster rank to <h>%s<i>.", msender.describeTo(msender, true), mplayer.describeTo(msender), rel.getName());
     }
 

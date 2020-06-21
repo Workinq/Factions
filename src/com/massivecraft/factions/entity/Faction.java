@@ -81,7 +81,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setTnt(that.tnt);
 		this.setInventorySerialized(that.inventorySerialized);
 		this.setChestActions(that.chestActions);
-		this.setWarps(that.warps);
+		this.setWarpLocations(that.warpLocations);
+		this.setWarpPasswords(that.warpPasswords);
 		this.setPaypal(that.paypal);
 		this.setDiscord(that.discord);
 		this.setBannedMembers(that.bannedMembers);
@@ -91,6 +92,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setMissionStart(that.missionStart);
 		this.setCredits(that.credits);
 		this.setStrikes(that.strikes);
+		this.setCoreChunk(that.coreChunk);
 		this.setBaseRegion(that.baseRegion);
 		this.setShieldedHour(that.shieldedHour);
 		this.setShieldString(that.shieldString);
@@ -180,7 +182,9 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This contains all the faction warps which have been set.
 	// By default this is empty however, warps can be added using /f setwarp <warp name>.
 	// These warps can later be viewed using /f warp list.
-	private MassiveSet<FactionWarp> warps = new MassiveSet<>();
+	private MassiveMap<String, PS> warpLocations = new MassiveMap<>();
+	private MassiveMap<String, String> warpPasswords = new MassiveMap<>();
+	// private MassiveSet<FactionWarp> warps = new MassiveSet<>();
 
 	// This will store the faction's paypal to payout to.
 	// By default it's empty and they should set it using /f setpaypal <email>.
@@ -220,6 +224,10 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This will store a list of strikes the faction has acquired.
 	// A strike can be given using /f strike <faction> <points> <reason>.
 	private MassiveSet<FactionStrike> strikes = new MassiveSet<>();
+
+	// This will store the faction's core chunk for where they set the base region.
+	// Null means no core chunk exists.
+	private PS coreChunk = null;
 
 	// The faction's base region will be stored here.
 	// Using /f setbaseregion will run a loop to save chunks in a 60x60 radius from the sender.
@@ -694,36 +702,58 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: warps
 	// -------------------------------------------- //
 
-	public MassiveSet<FactionWarp> getWarps()
+	public MassiveMap<String, PS> getWarpLocations()
 	{
-		return warps;
+		return warpLocations;
 	}
 
-	public void addWarp(FactionWarp warp)
+	public MassiveMap<String, String> getWarpPasswords()
 	{
-		warps.add(warp);
+		return warpPasswords;
+	}
+
+	public void addWarp(String warp, PS location, String password)
+	{
+		warpLocations.put(warp, location);
+		if (password != null) warpPasswords.put(warp, password);
 
 		// Mark as changed
 		this.changed();
 	}
 
-	public void deleteWarp(FactionWarp warp)
+	public void deleteWarp(String warp)
 	{
-		warps.remove(warp);
+		warpLocations.remove(warp);
+		warpPasswords.remove(warp);
 
 		// Mark as changed
 		this.changed();
 	}
 
-	public void setWarps(MassiveSet<FactionWarp> warps)
+	public void setWarpLocations(MassiveMap<String, PS> warpLocations)
 	{
-		this.warps = warps;
+		// Apply
+		this.warpLocations = warpLocations;
+
+		// Mark as changed
+		this.changed();
 	}
 
-	public boolean verifyWarpIsValid(FactionWarp warp)
+	public void setWarpPasswords(MassiveMap<String, String> warpPasswords)
+	{
+		// Apply
+		this.warpPasswords = warpPasswords;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	public boolean verifyWarpIsValid(String warp)
 	{
 		// Verify
-		if (this.isValidWarp(warp.getLocation())) return true;
+		if ( ! warpLocations.containsKey(warp) ) return false;
+
+		if (this.isValidWarp(warpLocations.get(warp))) return true;
 
 		// Apply
 		this.deleteWarp(warp);
@@ -732,7 +762,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 
 		// Inform
-		msg("<b>The faction warp '%s' has been un-set since it is no longer in your territory.", warp.getName());
+		msg("<b>The faction warp '%s' has been un-set since it is no longer in your territory.", warp);
 
 		// Return
 		return false;
@@ -745,9 +775,29 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return BoardColl.get().getFactionAt(ps) == this;
 	}
 
+	public List<String> getWarpNames()
+	{
+		return new ArrayList<>(this.warpLocations.keySet());
+	}
+
 	public boolean warpExists(String warpName)
 	{
-		return this.warps.stream().anyMatch(warp -> warp.getName().equalsIgnoreCase(warpName));
+		return this.warpLocations.containsKey(warpName);
+	}
+
+	public boolean warpHasPassword(String warp)
+	{
+		return this.warpPasswords.containsKey(warp);
+	}
+
+	public String getWarpPassword(String warp)
+	{
+		return this.warpPasswords.get(warp);
+	}
+
+	public PS getWarpLocation(String warp)
+	{
+		return this.warpLocations.get(warp);
 	}
 
 	// -------------------------------------------- //
@@ -1057,6 +1107,32 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	}
 
 	// -------------------------------------------- //
+	// FIELD: coreChunk
+	// -------------------------------------------- //
+
+	public PS getCoreChunk()
+	{
+		return coreChunk;
+	}
+
+	public boolean hasCoreChunk()
+	{
+		return coreChunk != null;
+	}
+
+	public void setCoreChunk(PS coreChunk)
+	{
+		// Detect Nochange
+		if (MUtil.equals(this.coreChunk, coreChunk)) return;
+
+		// Apply
+		this.coreChunk = coreChunk;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
 	// FIELD: baseRegion
 	// -------------------------------------------- //
 
@@ -1072,6 +1148,11 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public MassiveSet<PS> getBaseRegion()
 	{
 		return baseRegion;
+	}
+
+	public boolean hasBaseRegion()
+	{
+		return this.baseRegion != null && ! this.baseRegion.isEmpty();
 	}
 
 	// -------------------------------------------- //
@@ -1551,9 +1632,9 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return this.isInvited(playerId) && this.getInvitations().get(playerId).isAlt();
 	}
 
-	public boolean isInvitedAlt(MPlayer mPlayer)
+	public boolean isInvitedAlt(MPlayer mplayer)
 	{
-		return this.isInvitedAlt(mPlayer.getId());
+		return this.isInvitedAlt(mplayer.getId());
 	}
 
 	public boolean uninvite(String playerId)

@@ -1,7 +1,6 @@
 package com.massivecraft.factions.event;
 
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.object.FactionWarp;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 
@@ -22,15 +21,15 @@ public class EventFactionsWarpDelete extends EventFactionsAbstractSender
     private final Faction faction;
     public Faction getFaction() { return this.faction; }
 
-    private FactionWarp newWarp;
-    public FactionWarp getNewWarp() { return this.newWarp; }
-    public void setNewWarp(FactionWarp newWarp) { this.newWarp = newWarp; }
+    private String newWarp;
+    public String getNewWarp() { return this.newWarp; }
+    public void setNewWarp(String newWarp) { this.newWarp = newWarp; }
 
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public EventFactionsWarpDelete(CommandSender sender, Faction faction, FactionWarp newWarp)
+    public EventFactionsWarpDelete(CommandSender sender, Faction faction, String newWarp)
     {
         super(sender);
         this.faction = faction;

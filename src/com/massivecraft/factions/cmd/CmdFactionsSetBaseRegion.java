@@ -1,9 +1,7 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.entity.BoardColl;
-import com.massivecraft.factions.entity.MConf;
-import com.massivecraft.factions.entity.MOption;
-import com.massivecraft.factions.entity.MPerm;
+import com.massivecraft.factions.cmd.type.TypeFaction;
+import com.massivecraft.factions.entity.*;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.collections.MassiveSet;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
@@ -17,6 +15,9 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
 
     public CmdFactionsSetBaseRegion()
     {
+        // Parameters
+        this.addParameter(TypeFaction.get(), "faction", "you");
+
         // Requirements
         this.addRequirements(RequirementIsPlayer.get());
     }
@@ -28,16 +29,18 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        if ( ! MOption.get().isGrace())
+        Faction faction = this.readArg(msenderFaction);
+
+        if ( ! MOption.get().isGrace() && faction.hasBaseRegion() && ! msender.isOverriding() )
         {
             msg("<b>You can't set your base region as grace has been disabled.");
             return;
         }
 
-        if ( ! MPerm.getPermBaseregion().has(msender, msenderFaction, true)) return;
+        if ( ! MPerm.getPermBaseregion().has(msender, faction, true) ) return;
 
         // Land check
-        if (BoardColl.get().getFactionAt(PS.valueOf(me)) != msenderFaction)
+        if (BoardColl.get().getFactionAt(PS.valueOf(me)) != faction)
         {
             msg("<b>You can only set your base region in your own faction territory.");
             return;
@@ -54,7 +57,7 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
         }
 
         // Apply
-        msenderFaction.setBaseRegion(chunks);
+        faction.setBaseRegion(chunks);
 
         // Inform
         msg("<g>Successfully set your base region.");

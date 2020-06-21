@@ -47,6 +47,21 @@ public class MOption extends Entity<MOption>
         this.changed();
     }
 
+    private boolean shields = true;
+    public boolean isShields() { return shields; }
+
+    public void setShields(boolean shields)
+    {
+        // Detect Nochange
+        if (this.shields == shields) return;
+
+        // Apply
+        this.shields = shields;
+
+        // Mark as changed
+        this.changed();
+    }
+
     // -------------------------------------------- //
     // OVERRIDE
     // -------------------------------------------- //

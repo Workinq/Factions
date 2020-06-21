@@ -1,6 +1,5 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.comparator.ComparatorFactionList;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.comparator.ComparatorFactionListNoAlt;
 import com.massivecraft.factions.entity.Faction;

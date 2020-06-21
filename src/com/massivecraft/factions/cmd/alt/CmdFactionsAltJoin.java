@@ -8,6 +8,7 @@ import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
+import com.massivecraft.factions.entity.MFlag;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.massivecore.MassiveException;
@@ -96,13 +97,13 @@ public class CmdFactionsAltJoin extends FactionsCommand
             return;
         }
 
-        if (faction.isInvited(mplayer) && ! faction.isInvitedAlt(mplayer))
+        if (faction.isInvited(mplayer) && ! faction.isInvitedAlt(mplayer) && ! faction.getFlag(MFlag.getFlagOpen()))
         {
             msg("<b>You can't join this faction as an alt, use /f join instead.");
             return;
         }
 
-        if(/* ! (faction.getFlag(MFlag.getFlagOpen()) || */ ! faction.isInvitedAlt(mplayer) && ! msender.isOverriding())
+        if ( ! faction.isInvitedAlt(mplayer) && ! msender.isOverriding() && ! faction.getFlag(MFlag.getFlagOpen()) )
         {
             msg("<i>This faction requires invitation to join as an alt.");
             if (samePlayer)
@@ -118,7 +119,7 @@ public class CmdFactionsAltJoin extends FactionsCommand
         if (membershipChangeEvent.isCancelled()) return;
 
         // Inform
-        if (!samePlayer)
+        if ( ! samePlayer )
         {
             mplayer.msg("<i>%s <i>moved you into the faction %s<i> as an alt.", msender.describeTo(mplayer, true), faction.getName(mplayer));
         }

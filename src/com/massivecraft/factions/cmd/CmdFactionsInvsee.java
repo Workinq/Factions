@@ -1,11 +1,13 @@
 package com.massivecraft.factions.cmd;
 
+import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.util.InventoryUtil;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.chestgui.ChestGui;
+import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,6 +23,10 @@ public class CmdFactionsInvsee extends FactionsCommand
     {
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player");
+
+        // Requirements
+        this.addRequirements(ReqHasFaction.get());
+        this.addRequirements(RequirementIsPlayer.get());
     }
 
     // -------------------------------------------- //
@@ -32,7 +38,7 @@ public class CmdFactionsInvsee extends FactionsCommand
     {
         MPlayer mplayer = this.readArg();
 
-        if ( ! MPerm.getPermInvsee().has(msender, msenderFaction, true)) return;
+        if ( ! MPerm.getPermInvsee().has(msender, msenderFaction, true) ) return;
 
         if (mplayer == msender)
         {
@@ -40,22 +46,30 @@ public class CmdFactionsInvsee extends FactionsCommand
             return;
         }
 
-        if (mplayer.getPlayer() == null || !mplayer.isOnline())
+        if ( mplayer.getPlayer() == null || ! mplayer.isOnline() )
         {
             msg("<b>You can only use /f invsee on online players.");
             return;
         }
 
-        if (!msender.isOverriding() && mplayer.getFaction() != msenderFaction)
+        if ( ! msender.isOverriding() && mplayer.getFaction() != msenderFaction )
         {
             msg("<b>You can only use /f invsee on players in your faction.");
             return;
         }
 
+        // Apply
+        me.openInventory(this.getInvseeGui(mplayer.getPlayer()));
+
+        // Inform
+        msg("<i>Viewing %s's <i>inventory.", mplayer.describeTo(msender));
+    }
+
+    private Inventory getInvseeGui(Player player)
+    {
         // Args
-        Inventory inventory = Bukkit.createInventory(null, 45, Txt.parse("<gray>%s's Inventory", mplayer.getName()));
+        Inventory inventory = Bukkit.createInventory(null, 45, Txt.parse("<gray>%s's Inventory", player.getName()));
         ChestGui chestGui = ChestGui.getCreative(inventory);
-        Player player = mplayer.getPlayer();
 
         // Chest Setup
         chestGui.setAutoclosing(false);
@@ -74,11 +88,7 @@ public class CmdFactionsInvsee extends FactionsCommand
         // Fill
         InventoryUtil.fillInventory(chestGui.getInventory());
 
-        // Apply
-        me.openInventory(chestGui.getInventory());
-
-        // Inform
-        msg("<i>Viewing %s's <i>inventory.", mplayer.describeTo(msender));
+        return chestGui.getInventory();
     }
 
 }

@@ -97,18 +97,18 @@ public class MissionsManager {
         return chestGui.getInventory();
     }
 
-    public void incrementProgress(Mission mission, MPlayer mPlayer)
+    public void incrementProgress(Mission mission, MPlayer mplayer)
     {
-        if (mPlayer.isConsole()) return;
+        if (mplayer.isConsole()) return;
 
-        this.incrementProgress(mission, mPlayer, 1);
+        this.incrementProgress(mission, mplayer, 1);
     }
 
-    public void incrementProgress(Mission mission, MPlayer mPlayer, Integer amount)
+    public void incrementProgress(Mission mission, MPlayer mplayer, Integer amount)
     {
-        if (mPlayer.isConsole()) return;
+        if (mplayer.isConsole()) return;
 
-        this.incrementProgress(mission, mPlayer.getFaction(), amount);
+        this.incrementProgress(mission, mplayer.getFaction(), amount);
     }
 
     public void incrementProgress(Mission mission, Faction faction)

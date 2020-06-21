@@ -180,6 +180,8 @@ permissions:
   factions.roster.list: {description: list the factions roster list, default: false}
   factions.roster.list.any: {description: list other factions roster list, default: false}
   factions.drain: {description: drain members money into the faction, default: false}
+  factions.drain.toggle: {description: toggle faction draining, default: false}
+  factions.drain.toggle.any: {description: toggle a players faction draining, default: false}
   factions.sandalt: {description: manage faction sandalts, default: false}
   factions.sandalt.gui: {description: open faction sandalts gui, default: false}
   factions.sandalt.killall: {description: despawn all sandalts for all factions, default: false}
@@ -188,6 +190,7 @@ permissions:
   factions.toggle: {description: toggle on and off faction features, default: false}
   factions.toggle.fly: {description: toggle server faction flight, default: false}
   factions.toggle.grace: {description: toggle server grace period, default: false}
+  factions.toggle.shields: {description: toggle faction shields, default: false}
   factions.loot: {description: manage faction loot rewards, default: false}
   factions.loot.add: {description: add loot rewards to a faction, default: false}
   factions.loot.balance: {description: view faction loot reward balance, default: false}
@@ -371,6 +374,8 @@ permissions:
       factions.roster.list: true
       factions.roster.list.any: true
       factions.drain: true
+      factions.drain.toggle: true
+      factions.drain.toggle.any: true
       factions.sandalt: true
       factions.sandalt.gui: true
       factions.sandalt.killall: true
@@ -379,6 +384,7 @@ permissions:
       factions.toggle: true
       factions.toggle.fly: true
       factions.toggle.grace: true
+      factions.toggle.shields: true
       factions.loot: true
       factions.loot.add: true
       factions.loot.balance: true
@@ -454,7 +460,6 @@ permissions:
       factions.map: true
       factions.money: true
       factions.money.balance: true
-      factions.money.balance.any: true
       factions.money.deposit: true
       factions.money.f2f: true
       factions.money.f2p: true
@@ -565,6 +570,7 @@ permissions:
       factions.roster.setrank: true
       factions.roster.list: true
       factions.drain: true
+      factions.drain.toggle: true
       factions.sandalt: true
       factions.sandalt.gui: true
       factions.login: true

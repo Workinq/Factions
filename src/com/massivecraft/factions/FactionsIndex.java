@@ -89,8 +89,16 @@ public class FactionsIndex
 	{
 		if (mplayer == null) throw new NullPointerException("mplayer");
 		if (!FactionColl.get().isActive()) throw new IllegalStateException("The FactionColl is not yet fully activated.");
-		if (!mplayer.attached()) return;
-		
+		if (!mplayer.attached())
+		{
+			Faction factionIndexed = this.mplayer2faction.remove(mplayer);
+			if (factionIndexed != null)
+			{
+				faction2mplayers.get(factionIndexed).remove(mplayer);
+			}
+			return;
+		}
+
 		Faction factionActual = mplayer.getFaction();
 		Faction factionIndexed = this.getFaction(mplayer);
 		

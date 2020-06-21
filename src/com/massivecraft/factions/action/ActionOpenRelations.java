@@ -10,19 +10,19 @@ public class ActionOpenRelations extends ChestActionAbstract
 {
 
     private final MPerm mPerm;
-    private final MPlayer mPlayer;
+    private final MPlayer mplayer;
 
-    public ActionOpenRelations(MPerm mPerm, MPlayer mPlayer)
+    public ActionOpenRelations(MPerm mPerm, MPlayer mplayer)
     {
         this.mPerm = mPerm;
-        this.mPlayer = mPlayer;
+        this.mplayer = mplayer;
     }
 
     @Override
     public boolean onClick(InventoryClickEvent event)
     {
         // Open Inventory
-        event.getWhoClicked().openInventory(CmdFactions.get().cmdFactionsPerm.cmdFactionsPermGui.getPermissionGui(mPlayer, mPerm));
+        event.getWhoClicked().openInventory(CmdFactions.get().cmdFactionsPerm.cmdFactionsPermGui.getPermissionGui(mplayer, mPerm));
         return true;
     }
 

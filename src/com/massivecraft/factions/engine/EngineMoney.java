@@ -45,7 +45,7 @@ public class EngineMoney extends Engine
         if (at.isSystemFaction()) return;
 
         PS chunk = PS.valueOf(location.getChunk());
-        if (at.getBaseRegion() == null) return;
+        if ( ! at.hasBaseRegion() ) return;
         if ( ! at.getBaseRegion().contains(chunk)) return;
 
         // Args

@@ -40,10 +40,12 @@ public class EngineFly extends Engine
         MPlayer mplayer = MPlayer.get(player);
         Faction hostFaction = BoardColl.get().getFactionAt(PS.valueOf(player.getLocation()));
 
-        if (
+        if  // MPerm check
+        (
                 this.isEnemyNear(mplayer, player, hostFaction) // Enemy Check
                 || (hostFaction.isNone() && ! (player.hasPermission("factions.wildfly") || player.hasPermission("factions.fly.any"))) // Wild fly check
-                || ( ! hostFaction.isNone() && ! MPerm.getPermFly().has(mplayer, hostFaction, false))) // MPerm check
+                || ( ! hostFaction.isNone() && ! MPerm.getPermFly().has(mplayer, hostFaction, false))
+        )
         {
             event.setCancelled(true);
             player.setAllowFlight(false);

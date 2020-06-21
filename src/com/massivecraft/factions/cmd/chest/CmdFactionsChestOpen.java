@@ -31,7 +31,7 @@ public class CmdFactionsChestOpen extends FactionsCommand
     {
         Faction faction = this.readArg(msenderFaction);
 
-        if ( !MPerm.getPermChest().has(msender, faction, true)) return;
+        if ( ! MPerm.getPermChest().has(msender, faction, true) ) return;
 
         me.openInventory(faction.getInventory());
     }

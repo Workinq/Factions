@@ -223,8 +223,8 @@ public class EngineScoreboard extends Engine
         if ( ! player.isOnline() ) return;
 
         // Args
-        MPlayer mPlayer = MPlayer.get(player);
-        Faction faction = mPlayer.getFaction();
+        MPlayer mplayer = MPlayer.get(player);
+        Faction faction = mplayer.getFaction();
         Scoreboard scoreboard = player.getScoreboard();
 
         // Verify - Scoreboard

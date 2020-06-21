@@ -65,12 +65,12 @@ public class CmdFactionsAltDeinvite extends FactionsCommand
        if (!MPerm.getPermAlt().has(msender, msenderFaction, true)) return;
 
        Set<MPlayer> playersToRemove = new HashSet<>();
-       for (MPlayer mPlayer : mplayers)
+       for (MPlayer mplayer : mplayers)
        {
-          if (!msenderFaction.isInvitedAlt(mPlayer))
+          if (!msenderFaction.isInvitedAlt(mplayer))
           {
-             msg("%s <b>is invited as a member. Use /f deinvite instead.", mPlayer.describeTo(msender));
-             playersToRemove.add(mPlayer);
+             msg("%s <b>is invited as a member. Use /f deinvite instead.", mplayer.describeTo(msender));
+             playersToRemove.add(mplayer);
           }
        }
 

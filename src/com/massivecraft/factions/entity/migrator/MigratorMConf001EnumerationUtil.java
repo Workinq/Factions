@@ -23,11 +23,11 @@ public class MigratorMConf001EnumerationUtil extends MigratorRoot
 	{
 		super(MConf.class);
 	}
-	
+
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-	
+
 	@Override
 	public void migrateInner(JsonObject entity)
 	{
@@ -41,17 +41,17 @@ public class MigratorMConf001EnumerationUtil extends MigratorRoot
 		removeFromStringsField(entity, "entityTypesMonsters", EnumerationUtil.ENTITY_TYPES_MONSTER.getStringSet());
 		removeFromStringsField(entity, "entityTypesAnimals", EnumerationUtil.ENTITY_TYPES_ANIMAL.getStringSet());
 	}
-	
+
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-	
+
 	private void removeFromStringsField(JsonObject entity, String fieldName, Collection<String> removals)
 	{
 		JsonElement stringsElement = entity.get(fieldName);
 		if (!(stringsElement instanceof JsonArray)) return;
 		JsonArray strings = (JsonArray)stringsElement;
-		
+
 		for (Iterator<JsonElement> iterator = strings.iterator(); iterator.hasNext();)
 		{
 			JsonElement stringElement = iterator.next();

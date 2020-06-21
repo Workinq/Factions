@@ -6,8 +6,6 @@ import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
-import com.massivecraft.factions.entity.object.FactionWarp;
-import com.massivecraft.factions.util.TimeUtil;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.Parameter;
 import com.massivecraft.massivecore.mson.Mson;
@@ -53,18 +51,15 @@ public class CmdFactionsWarpList extends FactionsCommand
 
         if ( ! MPerm.getPermWarp().has(msender, faction, true) ) return;
 
-        final List<Mson> warps = new ArrayList<>();
-        for (FactionWarp warp : faction.getWarps())
+        List<Mson> warps = new ArrayList<>();
+        for (String warp : faction.getWarpNames())
         {
-            long timeRemaining = System.currentTimeMillis() - warp.getCreationMillis();
-            String timeSince = Txt.parse("%s", TimeUtil.formatTime(timeRemaining, true));
-
-            Mson mson = mson(Txt.parse("<h>%s <i>set by %s <a>%s ago", warp.getName() + Txt.parse((warp.hasPassword() ? " <n>(<g>protected<n>)" : "")), warp.getCreator().describeTo(msender), timeSince));
-            mson = mson.command("/f warp " + warp.getName());
-            mson = mson.tooltip(Txt.parse("<a>Click to warp to %s", warp.getName()));
+            Mson mson = mson(Txt.parse("<h>%s %s <n>- click to teleport", warp, Txt.parse((faction.warpHasPassword(warp) ? "<n>(<g>protected<n>)" : "<n>(<b>unprotected<n>)"))));
+            mson = mson.tooltip("<a>Click to warp to %s", warp);
             warps.add(mson);
         }
 
+        // Reverse
         Collections.reverse(warps);
 
         // Pager create

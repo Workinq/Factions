@@ -4,8 +4,10 @@ import com.massivecraft.factions.Chat;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.event.EventFactionsChunksChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.massivecore.Engine;
+import com.massivecraft.massivecore.collections.MassiveSet;
 import com.massivecraft.massivecore.ps.PS;
 import net.ess3.api.IEssentials;
 import net.ess3.api.IUser;
@@ -19,6 +21,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
+import java.util.Map;
+import java.util.Set;
 
 import static com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
 
@@ -134,19 +139,12 @@ public class EngineExtras extends Engine {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerDamage(EntityDamageByEntityEvent event)
     {
-        if (!(event.getDamager() instanceof Player))
-        {
-            return;
-        }
+        if ( ! (event.getDamager() instanceof Player) ) return;
+
         Player damager = (Player) event.getDamager();
-        if (damager == null)
-        {
-            return;
-        }
-        if (MPlayer.get(damager).isAlt())
-        {
-            event.setCancelled(true);
-        }
+        if (damager == null) return;
+
+        if (MPlayer.get(damager).isAlt()) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -166,35 +164,55 @@ public class EngineExtras extends Engine {
     {
         if (event.getBlockPlaced().getType() != Material.MOB_SPAWNER) return;
 
-        MPlayer mPlayer = MPlayer.get(event.getPlayer());
-        if (mPlayer.isOverriding()) return;
+        MPlayer mplayer = MPlayer.get(event.getPlayer());
+        if (mplayer.isOverriding()) return;
 
-        Faction faction = mPlayer.getFaction();
+        Faction faction = mplayer.getFaction();
         if (faction.isSystemFaction()) return;
 
         PS chunk = PS.valueOf(event.getBlockPlaced().getChunk());
         if (BoardColl.get().getFactionAt(chunk).isSystemFaction()) return;
 
-        if (faction.getBaseRegion().isEmpty())
+        if ( ! faction.hasBaseRegion() )
         {
-            mPlayer.msg("<b>You can't place spawners until you've set a base region using /f setbaseregion.");
+            mplayer.msg("<b>You can't place spawners until you've set a base region using /f setbaseregion.");
             event.setCancelled(true);
             return;
         }
 
-        if ( ! faction.getBaseRegion().contains(chunk))
+        if ( ! faction.getBaseRegion().contains(chunk) )
         {
-            mPlayer.msg("<b>You can only place spawners in your base region.");
+            mplayer.msg("<b>You can only place spawners in your base region.");
             event.setCancelled(true);
             return;
         }
 
         if (BoardColl.get().getFactionAt(chunk) != faction)
         {
-            mPlayer.msg("<b>You can only place spawners in your own territory.");
+            mplayer.msg("<b>You can only place spawners in your own territory.");
             event.setCancelled(true);
         }
     }
+
+    /*@EventHandler
+    public void onLandChange(EventFactionsChunksChange event)
+    {
+        Map<Faction, Set<PS>> oldFactionChunks = event.getOldFactionChunks();
+
+        for (Faction faction : oldFactionChunks.keySet())
+        {
+            Set<PS> pss = oldFactionChunks.get(faction);
+
+            if ( ! faction.hasBaseRegion() ) continue;
+            if (pss.contains(faction.getCoreChunk()))
+            {
+                faction.setCoreChunk(null);
+                faction.setBaseRegion(new MassiveSet<>());
+
+                faction.msg("<b>Your faction base region has been unset as the core chunk was unclaimed.");
+            }
+        }
+    }*/
 
     /*@EventHandler
     public void onEntityExplodeEvent(EntityExplodeEvent event)

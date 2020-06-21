@@ -28,16 +28,16 @@ public class CmdFactionsPlayer extends FactionsCommand
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-	
+
 	@Override
 	public void perform() throws MassiveException
 	{
 		// Args
 		MPlayer mplayer = this.readArg(msender);
-		
+
 		// INFO: Title
 		message(Txt.titleize("Player " + mplayer.describeTo(msender)));
-		
+
 		// INFO: Power (as progress bar)
 		double progressbarQuota = 0;
 		double playerPowerMax = mplayer.getPowerMax();
@@ -45,7 +45,7 @@ public class CmdFactionsPlayer extends FactionsCommand
 		{
 			progressbarQuota = mplayer.getPower() / playerPowerMax;
 		}
-		
+
 		int progressbarWidth = (int) Math.round(mplayer.getPowerMax() / mplayer.getPowerMaxUniversal() * 100);
 		this.msg("<a>Power: <v>%s", Progressbar.HEALTHBAR_CLASSIC.withQuota(progressbarQuota).withWidth(progressbarWidth).render());
 				

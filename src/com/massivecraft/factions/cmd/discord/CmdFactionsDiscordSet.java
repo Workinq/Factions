@@ -8,12 +8,6 @@ import com.massivecraft.massivecore.command.type.primitive.TypeString;
 public class CmdFactionsDiscordSet extends FactionsCommand
 {
     // -------------------------------------------- //
-    // FIELDS
-    // -------------------------------------------- //
-
-    // private final Pattern pattern = Pattern.compile("(https?://)?(www\\.)?(discord\\.(gg|io|me|li)|discordapp\\.com/invite)/.+[a-z]");
-
-    // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
@@ -34,14 +28,6 @@ public class CmdFactionsDiscordSet extends FactionsCommand
 
         // Args
         String discord = this.readArg();
-
-        // Verify
-        /*Matcher matcher = pattern.matcher(discord);
-        if (!matcher.matches())
-        {
-            msender.msg("<b>Invalid discord link, make sure you're inputting the full link.");
-            return;
-        }*/
 
         // Apply
         msenderFaction.setDiscord(discord);

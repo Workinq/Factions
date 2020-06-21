@@ -11,14 +11,14 @@ public class ActionConfirmShield extends ChestActionAbstract
 
     private final int from;
     private final Faction faction;
-    private final MPlayer mPlayer;
+    private final MPlayer mplayer;
     private final String time;
 
-    public ActionConfirmShield(int from, Faction faction, MPlayer mPlayer, String time)
+    public ActionConfirmShield(int from, Faction faction, MPlayer mplayer, String time)
     {
         this.from = from;
         this.faction = faction;
-        this.mPlayer = mPlayer;
+        this.mplayer = mplayer;
         this.time = time;
     }
 
@@ -28,7 +28,7 @@ public class ActionConfirmShield extends ChestActionAbstract
         faction.setShieldedHour(from);
         faction.setShieldString(time);
 
-        faction.msg("%s <i>set the faction shield from %s", mPlayer.describeTo(faction, true), time.substring(0, time.indexOf('(') - 2));
+        faction.msg("%s <i>set the faction shield from %s", mplayer.describeTo(faction, true), time.substring(0, time.indexOf('(') - 2));
         return true;
     }
 

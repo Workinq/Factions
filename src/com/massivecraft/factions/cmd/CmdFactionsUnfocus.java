@@ -33,18 +33,18 @@ public class CmdFactionsUnfocus extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        MPlayer mPlayer = readArg(MPlayer.get(msenderFaction.getFocusedPlayer()));
+        MPlayer mplayer = this.readArg(MPlayer.get(msenderFaction.getFocusedPlayer()));
 
-        if ( ! MPerm.getPermFocus().has(this.msender, this.msenderFaction, true)) return;
+        if ( ! MPerm.getPermFocus().has(this.msender, this.msenderFaction, true) ) return;
 
-        if (msenderFaction.isPlayerFocused(mPlayer.getUuid().toString()))
+        if (msenderFaction.isPlayerFocused(mplayer.getUuid().toString()))
         {
             msenderFaction.setFocusedPlayer(null);
-            msenderFaction.msg("%s <i>has been unfocused by %s<i>.", mPlayer.describeTo(msenderFaction, true), msender.describeTo(msenderFaction));
+            msenderFaction.msg("%s <i>has been unfocused by %s<i>.", mplayer.describeTo(msenderFaction, true), msender.describeTo(msenderFaction));
         }
         else
         {
-            msg("%s <b>does not currently have a player focused.", this.msenderFaction.describeTo(mPlayer, true));
+            msg("%s <b>does not currently have a player focused.", this.msenderFaction.describeTo(mplayer, true));
         }
         for (Player player : msenderFaction.getOnlinePlayers())
         {

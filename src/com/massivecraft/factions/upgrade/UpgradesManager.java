@@ -1,5 +1,6 @@
 package com.massivecraft.factions.upgrade;
 
+import com.massivecraft.factions.action.ActionUpgrade;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.upgrade.upgrades.*;
 import com.massivecraft.factions.util.ItemBuilder;
@@ -27,12 +28,14 @@ public class UpgradesManager
         ChestGui chestGui = ChestGui.getCreative(inventory);
         NumberFormat priceFormat = NumberFormat.getInstance();
         int slot = 0;
+
         // Arg Setup
         chestGui.setAutoclosing(true);
         chestGui.setAutoremoving(true);
         chestGui.setSoundOpen(null);
         chestGui.setSoundClose(null);
         priceFormat.setGroupingUsed(true);
+
         // Loop
         for (Upgrade upgrade : upgrades)
         {
@@ -46,7 +49,9 @@ public class UpgradesManager
                 lore.add(Txt.parse("<n>Maximum Level: <k>" + upgrade.getMaxLevel()));
                 lore.add("");
                 lore.add(Txt.parse("<n>Current Benefits: <k>" + upgrade.getCurrentDescription()[upgradeLevel - 1]));
-            } else {
+            }
+            else
+            {
                 upgradePrice = upgrade.getCost()[upgradeLevel];
                 if (upgradeLevel == 0)
                 {
@@ -55,11 +60,14 @@ public class UpgradesManager
                     lore.add("");
                     lore.add(Txt.parse("<n>Next Upgrade: <k>" + upgrade.getNextDescription()[upgradeLevel]));
                     lore.add("");
-                } else {
+                }
+                else
+                {
                     lore.add(Txt.parse("<n>Current Level: <k>%s", upgradeLevel));
                     lore.add(Txt.parse("<n>Maximum Level: <k>%s", upgrade.getMaxLevel()));
                     lore.add("");
-                    if (upgrade.getCurrentDescription()[upgradeLevel - 1] != null) {
+                    if (upgrade.getCurrentDescription()[upgradeLevel - 1] != null)
+                    {
                         lore.add(Txt.parse("<n>Current Benefits: <k>" + upgrade.getCurrentDescription()[upgradeLevel - 1]));
                     }
                     if (upgrade.getNextDescription()[upgradeLevel] != null)
@@ -73,10 +81,14 @@ public class UpgradesManager
                     lore.add(Txt.parse("<n>Cost: <k>%s Credits", priceFormat.format(upgradePrice)));
                 }
             }
+
+            // Assign
             chestGui.getInventory().setItem(slot, new ItemBuilder(upgrade.getUpgradeItem()).amount(1).name(Txt.parse("<k>" + upgrade.getUpgradeName())).setLore(lore));
-            chestGui.setAction(slot, new com.massivecraft.factions.action.ActionUpgrade(faction, upgradePrice, upgrade.getUpgradeName(), upgradeLevel));
+            chestGui.setAction(slot, new ActionUpgrade(faction, upgradePrice, upgrade.getUpgradeName(), upgradeLevel));
             slot++;
         }
+
+        // Return
         return chestGui.getInventory();
     }
 

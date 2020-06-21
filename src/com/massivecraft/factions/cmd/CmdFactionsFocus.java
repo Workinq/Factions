@@ -19,6 +19,7 @@ public class CmdFactionsFocus extends FactionsCommand
     {
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player");
+
         // Requirements
         this.addRequirements(RequirementIsPlayer.get());
         this.addRequirements(ReqHasFaction.get());
@@ -31,19 +32,19 @@ public class CmdFactionsFocus extends FactionsCommand
     @Override
     public void perform() throws MassiveException 
     {
-        MPlayer mPlayer = this.readArg();
+        MPlayer mplayer = this.readArg();
 
-        if (! MPerm.getPermFocus().has(msender, msenderFaction, true)) return;
+        if ( ! MPerm.getPermFocus().has(msender, msenderFaction, true) ) return;
 
-        if (msenderFaction.isPlayerFocused(mPlayer.getUuid().toString()))
+        if (msenderFaction.isPlayerFocused(mplayer.getUuid().toString()))
         {
             msenderFaction.setFocusedPlayer(null);
-            msenderFaction.msg("%s <i>has been unfocused by %s<i>.", mPlayer.describeTo(msenderFaction, true), msender.describeTo(msenderFaction));
+            msenderFaction.msg("%s <i>has been unfocused by %s<i>.", mplayer.describeTo(msenderFaction, true), msender.describeTo(msenderFaction));
         }
         else
         {
-            msenderFaction.setFocusedPlayer(mPlayer.getUuid().toString());
-            msenderFaction.msg("%s <i>has been focused by %s<i>.", mPlayer.describeTo(msenderFaction, true), msender.describeTo(msenderFaction));
+            msenderFaction.setFocusedPlayer(mplayer.getUuid().toString());
+            msenderFaction.msg("%s <i>has been focused by %s<i>.", mplayer.describeTo(msenderFaction, true), msender.describeTo(msenderFaction));
         }
         for (Player player : msenderFaction.getOnlinePlayers())
         {

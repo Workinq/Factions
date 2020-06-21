@@ -3,6 +3,8 @@ package com.massivecraft.factions.cmd.shield;
 import com.massivecraft.factions.action.ActionClickShield;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqHasFaction;
+import com.massivecraft.factions.cmd.type.TypeFaction;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MOption;
 import com.massivecraft.factions.entity.MPerm;
@@ -28,6 +30,9 @@ public class CmdFactionsShieldSet extends FactionsCommand
 
     public CmdFactionsShieldSet()
     {
+        // Parameters
+        this.addParameter(TypeFaction.get(), "faction", "you");
+
         // Requirements
         this.addRequirements(ReqHasFaction.get());
         this.addRequirements(RequirementIsPlayer.get());
@@ -40,18 +45,20 @@ public class CmdFactionsShieldSet extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        if ( ! MOption.get().isGrace() && msenderFaction.isShielded() )
+        Faction faction = this.readArg(msenderFaction);
+
+        if ( ! MOption.get().isGrace() && faction.isShielded() )
         {
             msg("<b>You can't change your faction shield as grace has been disabled.");
             return;
         }
 
-        if ( ! MPerm.getPermShield().has(msender, msenderFaction, true)) return;
+        if ( ! MPerm.getPermShield().has(msender, faction, true)) return;
 
-        me.openInventory(getShieldGui());
+        me.openInventory(getShieldGui(faction));
     }
 
-    private Inventory getShieldGui()
+    private Inventory getShieldGui(Faction faction)
     {
         Inventory inventory = Bukkit.createInventory(null, 45, Txt.parse("<gray>Faction Shield"));
         ChestGui chestGui = ChestGui.getCreative(inventory);
@@ -77,14 +84,14 @@ public class CmdFactionsShieldSet extends FactionsCommand
             String to = getTime(clone);
             String fromTo = Txt.parse("<k>%s <white>---> <k>%s <n>(<k>" + MConf.get().shieldHours + " hours total<n>)", from, to);
 
-            if (msenderFaction.isShieldedAtHour(calendar.get(Calendar.HOUR_OF_DAY)))
+            if (faction.isShieldedAtHour(calendar.get(Calendar.HOUR_OF_DAY)))
             {
                 chestGui.getInventory().setItem(i, new ItemBuilder(Material.STAINED_GLASS_PANE).name(" ").durability(13).addLore("").addLore(Txt.parse("<g>Your shielded hours are currently")).addLore(fromTo).addLore("").addLore(Txt.parse("<n>Current Time: <k>%s", now)));
             }
             else
             {
                 chestGui.getInventory().setItem(i, new ItemBuilder(Material.STAINED_GLASS_PANE).name(" ").durability(14).addLore("").addLore(Txt.parse("<g>Click to change your shield hours to")).addLore(fromTo).addLore("").addLore(Txt.parse("<n>Current Time: <k>%s", now)));
-                chestGui.setAction(i, new ActionClickShield(calendar.get(Calendar.HOUR_OF_DAY), msenderFaction, msender, fromTo));
+                chestGui.setAction(i, new ActionClickShield(calendar.get(Calendar.HOUR_OF_DAY), faction, msender, fromTo));
             }
 
             // Increment

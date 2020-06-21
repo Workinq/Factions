@@ -56,84 +56,86 @@ public class EngineCoreProtect extends Engine
         // Args
         Block clickedBlock = event.getClickedBlock();
         Player player = event.getPlayer();
-        MPlayer mPlayer = MPlayer.get(player);
+        MPlayer mplayer = MPlayer.get(player);
 
         // Verify
         if (clickedBlock == null  || clickedBlock.getType() == Material.AIR) return;
-        if (!mPlayer.isInspecting()) return;
+        if (!mplayer.isInspecting()) return;
 
         event.setCancelled(true);
 
         if (! IntegrationCoreProtect.get().isActive())
         {
-            mPlayer.msg("<b>Inspecting faction land is currently disabled.");
+            mplayer.msg("<b>Inspecting faction land is currently disabled.");
             return;
         }
 
-        Faction me = mPlayer.getFaction();
+        Faction me = mplayer.getFaction();
         Faction at = BoardColl.get().getFactionAt(PS.valueOf(clickedBlock));
         if (me != at && ! Perm.INSPECT_ANY.has(player, true)) return;
 
-        if ( ! MPerm.getPermInspect().has(mPlayer, me, true)) return;
+        if ( ! MPerm.getPermInspect().has(mplayer, me, true)) return;
 
         Block toInspect = (event.getAction() == Action.LEFT_CLICK_BLOCK ? clickedBlock : clickedBlock.getRelative(event.getBlockFace()));
-        inspectBlock(mPlayer, toInspect);
+        inspectBlock(mplayer, toInspect);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onFactionKick(EventFactionsMembershipChange event)
     {
-        MPlayer mPlayer = event.getMPlayer();
-        if (mPlayer.isInspecting()) mPlayer.setInspecting(false);
+        MPlayer mplayer = event.getMPlayer();
+        if (mplayer.isInspecting()) mplayer.setInspecting(false);
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event)
     {
-        MPlayer mPlayer = MPlayer.get(event.getPlayer());
-        if (mPlayer.isInspecting()) mPlayer.setInspecting(false);
+        MPlayer mplayer = MPlayer.get(event.getPlayer());
+        if (mplayer.isInspecting()) mplayer.setInspecting(false);
     }
 
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event)
     {
-        MPlayer mPlayer = MPlayer.get(event.getPlayer());
-        if (mPlayer.isInspecting()) mPlayer.setInspecting(false);
+        MPlayer mplayer = MPlayer.get(event.getPlayer());
+        if (mplayer.isInspecting()) mplayer.setInspecting(false);
     }
 
-    private void inspectBlock(MPlayer mPlayer, Block block)
+    private void inspectBlock(MPlayer mplayer, Block block)
     {
-        if (!canInspect())
+        if ( ! this.canInspect() )
         {
-            mPlayer.msg("<b>You cannot inspect blocks at the moment, please try again in a few seconds.");
+            mplayer.msg("<b>You cannot inspect blocks at the moment, please try again in a few seconds.");
             return;
         }
+
         Connection connection = Database.getConnection(false);
         if (connection == null)
         {
-            mPlayer.msg("<b>You cannot inspect blocks at the moment, please try again in a few seconds.");
+            mplayer.msg("<b>You cannot inspect blocks at the moment, please try again in a few seconds.");
             return;
         }
+
         try (Statement statement = connection.createStatement())
         {
             boolean chest;
             String data;
             if (INTERACT_BLOCKS.contains(block.getType()))
             {
-                data = Lookup.chest_transactions(statement, block.getLocation(), mPlayer.getName(), 1, MConf.get().inspectResultLimit);
+                data = Lookup.chest_transactions(statement, block.getLocation(), mplayer.getName(), 1, MConf.get().inspectResultLimit);
                 chest = true;
             }
             else
             {
-                data = Lookup.block_lookup(statement, block, mPlayer.getPlayer().getName(), 0, 1, MConf.get().inspectResultLimit);
+                data = Lookup.block_lookup(statement, block, mplayer.getPlayer().getName(), 0, 1, MConf.get().inspectResultLimit);
                 chest = false;
             }
             if (!data.contains("\n"))
             {
-                mPlayer.msg("<b>No data was found for that block.");
+                mplayer.msg("<b>No data was found for that block.");
                 return;
             }
-            mPlayer.setLastInspected(data);
+            mplayer.setLastInspected(data);
             List<Mson> inspectData = new ArrayList<>();
             String[] blockData = data.split("\n");
             for (String blockDatum : blockData)
@@ -172,14 +174,14 @@ public class EngineCoreProtect extends Engine
                 }
             });
             // final Pager<Mson> pager = new Pager<>(CmdFactions.get().cmdFactionsLastInspected, "Inspect Log", 1, inspectData, (Msonifier<Mson>) (item, index) -> inspectData.get(index));
-            pager.setSender(mPlayer.getSender());
+            pager.setSender(mplayer.getSender());
 
             // Send pager
             pager.message();
         }
         catch (SQLException e)
         {
-            mPlayer.msg("<b>You cannot inspect blocks at the moment, please try again in a few seconds.");
+            mplayer.msg("<b>You cannot inspect blocks at the moment, please try again in a few seconds.");
         }
     }
 

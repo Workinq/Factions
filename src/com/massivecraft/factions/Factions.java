@@ -10,6 +10,10 @@ import com.massivecraft.factions.cmd.type.TypeRel;
 import com.massivecraft.factions.engine.EngineEcon;
 import com.massivecraft.factions.engine.EngineScoreboard;
 import com.massivecraft.factions.entity.*;
+import com.massivecraft.factions.entity.migrator.MigratorFaction001Invitations;
+import com.massivecraft.factions.entity.migrator.MigratorMConf001EnumerationUtil;
+import com.massivecraft.factions.entity.migrator.MigratorMConf002CleanInactivity;
+import com.massivecraft.factions.entity.migrator.MigratorMConf003CleanInactivity;
 import com.massivecraft.factions.event.EventFactionsChunkChangeType;
 import com.massivecraft.factions.mission.MissionsManager;
 import com.massivecraft.factions.mixin.PowerMixin;
@@ -24,27 +28,24 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 public class Factions extends MassivePlugin
 {
 	// -------------------------------------------- //
 	// CONSTANTS
 	// -------------------------------------------- //
-	
+
 	public final static String FACTION_MONEY_ACCOUNT_ID_PREFIX = "faction-"; 
-	
+
 	public final static String ID_NONE = "none";
 	public final static String ID_SAFEZONE = "safezone";
 	public final static String ID_WARZONE = "warzone";
-	
+
 	public final static String NAME_NONE_DEFAULT = ChatColor.DARK_GREEN.toString() + "Wilderness";
 	public final static String NAME_SAFEZONE_DEFAULT = "SafeZone";
 	public final static String NAME_WARZONE_DEFAULT = "WarZone";
-	
+
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
@@ -86,9 +87,6 @@ public class Factions extends MassivePlugin
 		MissionsManager.get().load();
 		UpgradesManager.get().load();
 		EngineScoreboard.get().load();
-
-		// Calendar
-		Calendar.getInstance().setTimeZone(TimeZone.getTimeZone("EST"));
 	}
 
 	@Override
@@ -96,6 +94,17 @@ public class Factions extends MassivePlugin
 	{
 		for (Player player : Bukkit.getOnlinePlayers()) player.closeInventory();
 		super.onDisable();
+	}
+
+	@Override
+	public List<Class<?>> getClassesActiveMigrators()
+	{
+		return new MassiveList<>(
+				MigratorFaction001Invitations.class,
+				MigratorMConf001EnumerationUtil.class,
+				MigratorMConf002CleanInactivity.class,
+				MigratorMConf003CleanInactivity.class
+		);
 	}
 
 	@Override
@@ -145,5 +154,5 @@ public class Factions extends MassivePlugin
 		.registerTypeAdapter(Rel.class, RelAdapter.get())
 		;
 	}
-	
+
 }

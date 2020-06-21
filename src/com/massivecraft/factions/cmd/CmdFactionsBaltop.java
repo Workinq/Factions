@@ -1,6 +1,8 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.cmd.req.ReqHasFaction;
+import com.massivecraft.factions.cmd.type.TypeFaction;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.MassiveException;
@@ -8,12 +10,10 @@ import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.command.Parameter;
 import com.massivecraft.massivecore.comparator.ComparatorSmart;
 import com.massivecraft.massivecore.money.MoneyMixinVault;
-import com.massivecraft.massivecore.mson.Mson;
 import com.massivecraft.massivecore.pager.Pager;
 import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -27,6 +27,7 @@ public class CmdFactionsBaltop extends FactionsCommand
     public CmdFactionsBaltop()
     {
         // Parameters
+        this.addParameter(TypeFaction.get(), "faction", "you");
         this.addParameter(Parameter.getPage());
 
         // Requirements
@@ -41,13 +42,14 @@ public class CmdFactionsBaltop extends FactionsCommand
     public void perform() throws MassiveException
     {
         int page = this.readArg();
+        Faction faction = this.readArg(msenderFaction);
 
-        if ( ! MPerm.getPermBaltop().has(msender, msenderFaction, true)) return;
+        if ( ! MPerm.getPermBaltop().has(msender, faction, true)) return;
 
         // Pager Create
-        final List<MPlayer> mPlayers = new MassiveList<>(msenderFaction.getMPlayers());
+        final List<MPlayer> mplayers = new MassiveList<>(faction.getMPlayers());
 
-        Collections.sort(mPlayers, new Comparator<MPlayer>()
+        Collections.sort(mplayers, new Comparator<MPlayer>()
         {
             @Override
             public int compare(MPlayer p1, MPlayer p2)
@@ -58,12 +60,12 @@ public class CmdFactionsBaltop extends FactionsCommand
             }
         });
 
-        final Pager<MPlayer> pager = new Pager<>(this, "Faction Baltop", page, mPlayers, new Stringifier<MPlayer>()
+        final Pager<MPlayer> pager = new Pager<>(this, "Faction Baltop", page, mplayers, new Stringifier<MPlayer>()
         {
             @Override
-            public String toString(MPlayer mPlayer, int index)
+            public String toString(MPlayer mplayer, int index)
             {
-                return Txt.parse("<n>%,d. %s <white>- <h>%s", index + 1, mPlayer.describeTo(msender, true), MoneyMixinVault.get().format(MoneyMixinVault.get().get(mPlayer.getName()), true));
+                return Txt.parse("<n>%,d. %s <white>- <h>%s", index + 1, mplayer.describeTo(msender, true), MoneyMixinVault.get().format(MoneyMixinVault.get().get(mplayer.getName()), true));
             }
         });
 

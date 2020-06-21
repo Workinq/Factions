@@ -37,6 +37,11 @@ public class CmdFactionsChat extends FactionsCommand
         Chat current = msender.getChat();
         Chat chat = this.readArg(current.getNext());
 
+        if (current == chat)
+        {
+            throw new MassiveException().addMsg("<b>Your chat mode is already set to <h>%s<b>.", current.getName());
+        }
+
         // Apply
         msender.setChat(chat);
 

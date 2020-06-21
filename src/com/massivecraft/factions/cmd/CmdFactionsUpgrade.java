@@ -1,6 +1,8 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.cmd.req.ReqHasFaction;
+import com.massivecraft.factions.cmd.type.TypeFaction;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
@@ -14,6 +16,9 @@ public class CmdFactionsUpgrade extends FactionsCommand
 
     public CmdFactionsUpgrade()
     {
+        // Parameters
+        this.addParameter(TypeFaction.get(), "faction", "you");
+
         // Requirements
         this.addRequirements(RequirementIsPlayer.get());
         this.addRequirements(ReqHasFaction.get());
@@ -26,9 +31,11 @@ public class CmdFactionsUpgrade extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        if ( ! MPerm.getPermUpgrade().has(msender, msenderFaction, true)) return;
+        Faction faction = this.readArg(msenderFaction);
 
-        me.openInventory(UpgradesManager.get().getFactionUpgrades(msenderFaction));
+        if ( ! MPerm.getPermUpgrade().has(msender, faction, true)) return;
+
+        me.openInventory(UpgradesManager.get().getFactionUpgrades(faction));
     }
 
 }

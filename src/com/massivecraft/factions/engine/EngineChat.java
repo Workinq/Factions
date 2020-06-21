@@ -164,14 +164,14 @@ public class EngineChat extends Engine
 				message = String.format(MConf.get().chatFormat, me.describeTo(myFaction), msg);
 				for (Player player : Bukkit.getOnlinePlayers())
 				{
-					MPlayer mPlayer = MPlayer.get(player);
-					if (mPlayer.isSpying())
+					MPlayer mplayer = MPlayer.get(player);
+					if (mplayer.isSpying())
 					{
-						mPlayer.msg(MConf.get().spyChatFormat, me.describeTo(mPlayer, true), Chat.FACTION.getName(), msg);
+						mplayer.msg(MConf.get().spyChatFormat, me.describeTo(mplayer, true), Chat.FACTION.getName(), msg);
 					}
-					if (mPlayer.getFaction() != myFaction) continue;
-					if (mPlayer.isIgnoring(me)) continue; // Sad times :(
-					mPlayer.msg(message);
+					if (mplayer.getFaction() != myFaction) continue;
+					if (mplayer.isIgnoring(me)) continue; // Sad times :(
+					mplayer.msg(message);
 				}
 				Factions.get().log(" [Faction Chat] " + me.getName() + " sent a message: " + msg);
 				event.setCancelled(true);
@@ -194,13 +194,13 @@ public class EngineChat extends Engine
 				message = String.format(MConf.get().chatFormat, Rel.TRUCE.getColor() + me.getNameAndFactionName(), msg);
 				for (Player player : Bukkit.getOnlinePlayers())
 				{
-					MPlayer mPlayer = MPlayer.get(player);
-					if (mPlayer.isSpying())
+					MPlayer mplayer = MPlayer.get(player);
+					if (mplayer.isSpying())
 					{
-						mPlayer.msg(MConf.get().spyChatFormat, me.describeTo(mPlayer, true), Chat.TRUCE.getName(), msg);
+						mplayer.msg(MConf.get().spyChatFormat, me.describeTo(mplayer, true), Chat.TRUCE.getName(), msg);
 					}
-					if (mPlayer.getFaction() != myFaction && mPlayer.getFaction().getRelationTo(myFaction) != Rel.TRUCE) continue;
-					mPlayer.msg(message);
+					if (mplayer.getFaction() != myFaction && mplayer.getFaction().getRelationTo(myFaction) != Rel.TRUCE) continue;
+					mplayer.msg(message);
 				}
 				Factions.get().log(" [Truce Chat] " + me.getName() + " sent a message: " + msg);
 				event.setCancelled(true);

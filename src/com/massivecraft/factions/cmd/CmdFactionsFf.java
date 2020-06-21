@@ -51,22 +51,22 @@ public class CmdFactionsFf extends FactionsCommand
         String message = String.format(MConf.get().chatFormat, msender.describeTo(msenderFaction), msg);
 
         // Loop - All Players
-        for (MPlayer mPlayer : MPlayerColl.get().getAllOnline())
+        for (MPlayer mplayer : MPlayerColl.get().getAllOnline())
         {
             // Verify - Spying
-            if (mPlayer.isSpying())
+            if (mplayer.isSpying())
             {
-                mPlayer.msg(MConf.get().spyChatFormat, msender.describeTo(mPlayer, true), Chat.FACTION.getName(), msg);
+                mplayer.msg(MConf.get().spyChatFormat, msender.describeTo(mplayer, true), Chat.FACTION.getName(), msg);
             }
 
             // Verify - Faction
-            if (mPlayer.getFaction() != msenderFaction) continue;
+            if (mplayer.getFaction() != msenderFaction) continue;
 
             // Sad times :(
-            if (mPlayer.isIgnoring(msender)) continue;
+            if (mplayer.isIgnoring(msender)) continue;
 
             // Inform
-            mPlayer.msg(message);
+            mplayer.msg(message);
         }
 
         // Log

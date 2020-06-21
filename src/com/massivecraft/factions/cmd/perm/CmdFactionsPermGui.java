@@ -87,10 +87,10 @@ public class CmdFactionsPermGui extends FactionsCommand
         me.openInventory(chestGui.getInventory());
     }
 
-    public Inventory getPermissionGui(MPlayer mPlayer, MPerm mPerm)
+    public Inventory getPermissionGui(MPlayer mplayer, MPerm mperm)
     {
-        Faction faction = mPlayer.getFaction();
-        Inventory inventory = Bukkit.createInventory(null, 9, Txt.parse("<gray>Editing %s", mPerm.getName()));
+        Faction faction = mplayer.getFaction();
+        Inventory inventory = Bukkit.createInventory(null, 9, Txt.parse("<gray>Editing %s", mperm.getName()));
         ChestGui chestGui = ChestGui.getCreative(inventory);
 
         // Chest Setup
@@ -102,7 +102,7 @@ public class CmdFactionsPermGui extends FactionsCommand
         int slot = 0;
         for (Rel rel : Rel.values())
         {
-            boolean status = faction.isPermitted(mPerm.getName(), rel);
+            boolean status = faction.isPermitted(mperm.getName(), rel);
             ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE);
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName((status ? ChatColor.GREEN : ChatColor.RED) + rel.getName());
@@ -124,7 +124,7 @@ public class CmdFactionsPermGui extends FactionsCommand
             item.setItemMeta(meta);
             item.setDurability((short) (status ? 5 : 14));
             chestGui.getInventory().setItem(slot, item);
-            if (rel != Rel.LEADER) chestGui.setAction(slot, new ActionRelationModify(mPlayer, !status, mPerm, rel));
+            if (rel != Rel.LEADER) chestGui.setAction(slot, new ActionRelationModify(mplayer, !status, mperm, rel));
             slot++;
         }
 

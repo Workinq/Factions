@@ -5,7 +5,7 @@ import com.massivecraft.massivecore.store.EntityInternal;
 
 import java.util.UUID;
 
-public class FactionStrike extends EntityInternal<FactionWarp>
+public class FactionStrike extends EntityInternal<FactionStrike>
 {
     // -------------------------------------------- //
     // FIELDS

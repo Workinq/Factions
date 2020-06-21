@@ -6,38 +6,39 @@ import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
 import com.massivecraft.massivecore.mixin.MixinCommand;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ActionRelationModify extends ChestActionAbstract {
 
-    private final MPlayer mPlayer;
+    private final MPlayer mplayer;
     private final boolean newStatus;
-    private final MPerm mPerm;
+    private final MPerm mperm;
     private final Rel rel;
 
-    public ActionRelationModify(MPlayer mPlayer, boolean newStatus, MPerm mPerm, Rel rel)
+    public ActionRelationModify(MPlayer mplayer, boolean newStatus, MPerm mperm, Rel rel)
     {
-        this.mPlayer = mPlayer;
+        this.mplayer = mplayer;
         this.newStatus = newStatus;
-        this.mPerm = mPerm;
+        this.mperm = mperm;
         this.rel = rel;
     }
 
     @Override
-    public boolean onClick(InventoryClickEvent event)
+    public boolean onClick(InventoryClickEvent event, Player player)
     {
         // Verify
-        if (rel.isMoreThan(mPlayer.getRole()))
+        if (rel.isMoreThan(mplayer.getRole()))
         {
-            mPlayer.msg("<b>You can't modify permissions for roles higher than yours.");
+            mplayer.msg("<b>You can't modify permissions for roles higher than yours.");
             return true;
         }
 
         // Execute
-        MixinCommand.get().dispatchCommand(event.getWhoClicked(), "f perm set " + mPerm.getName() + " " + rel.getName() + " " + (newStatus ? "yes" : "no"));
+        MixinCommand.get().dispatchCommand(player, "f perm set " + mperm.getName() + " " + rel.getName() + " " + (newStatus ? "yes" : "no"));
 
         // Open Inventory
-        event.getWhoClicked().openInventory(CmdFactions.get().cmdFactionsPerm.cmdFactionsPermGui.getPermissionGui(mPlayer, mPerm));
+        player.openInventory(CmdFactions.get().cmdFactionsPerm.cmdFactionsPermGui.getPermissionGui(mplayer, mperm));
         return true;
     }
 

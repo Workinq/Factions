@@ -47,15 +47,14 @@ public class CmdFactionsLastInspected extends FactionsCommand
 
         if (data == null)
         {
-            msg("<b>You haven't inspected any blocks recently.");
-            return;
+            throw new MassiveException().addMsg("<b>You haven't inspected any blocks recently.");
         }
 
-        if (!data.contains("\n"))
+        if ( ! data.contains("\n") )
         {
-            msg("<b>No data was found for that block.");
-            return;
+            throw new MassiveException().addMsg("<b>No data was found for that block.");
         }
+
         List<Mson> inspectData = new ArrayList<>();
         String[] blockData = data.split("\n");
         for (String blockDatum : blockData)

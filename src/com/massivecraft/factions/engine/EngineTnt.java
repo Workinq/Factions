@@ -47,7 +47,7 @@ public class EngineTnt extends Engine
         if (at.isSystemFaction()) return;
 
         PS chunk = PS.valueOf(location.getChunk());
-        if (at.getBaseRegion() == null) return;
+        if ( ! at.hasBaseRegion() ) return;
         if ( ! at.getBaseRegion().contains(chunk)) return;
 
         if (at.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) == 0) return;

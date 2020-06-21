@@ -143,6 +143,7 @@ public class CmdFactions extends FactionsCommand
 	// public CmdFactionsSpawnerUpgrade cmdFactionsSpawnerUpgrade = new CmdFactionsSpawnerUpgrade(); // - Removed temporarily
 	public CmdFactionsRoster cmdFactionsRoster = new CmdFactionsRoster();
 	public CmdFactionsDrain cmdFactionsDrain = new CmdFactionsDrain();
+	public CmdFactionsDrainToggle cmdFactionsDrainToggle = new CmdFactionsDrainToggle();
 	public CmdFactionsSandAlt cmdFactionsSandAlt = new CmdFactionsSandAlt();
 	public CmdFactionsLogin cmdFactionsLogin = new CmdFactionsLogin();
 	public CmdFactionsFf cmdFactionsFf = new CmdFactionsFf();

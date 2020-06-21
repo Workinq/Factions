@@ -200,6 +200,10 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// By default they will receive notifications but they can be toggled using /f login.
 	private boolean logins = true;
 
+	// This will store the user's status for draining their balance.
+	// Null means false
+	private Boolean drainToggled = null;
+
 	// Has this player requested an auto-updating ascii art map?
 	// Null means false
 	private Boolean mapAutoUpdating = null;
@@ -623,9 +627,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.ignoredPlayers = ignoredPlayers;
 	}
 
-	public boolean isIgnoring(MPlayer mPlayer)
+	public boolean isIgnoring(MPlayer mplayer)
 	{
-		return this.isIgnoring(mPlayer.getId());
+		return this.isIgnoring(mplayer.getId());
 	}
 
 	public boolean isIgnoring(String playerId)
@@ -633,9 +637,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return this.ignoredPlayers.contains(playerId);
 	}
 
-	public void ignore(MPlayer mPlayer)
+	public void ignore(MPlayer mplayer)
 	{
-		this.ignore(mPlayer.getId());
+		this.ignore(mplayer.getId());
 	}
 
 	public void ignore(String playerId)
@@ -646,9 +650,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.changed();
 	}
 
-	public void unignore(MPlayer mPlayer)
+	public void unignore(MPlayer mplayer)
 	{
-		this.unignore(mPlayer.getId());
+		this.unignore(mplayer.getId());
 	}
 
 	public void unignore(String playerId)
@@ -814,6 +818,33 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 		// Apply
 		this.overriding = target;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: mapAutoUpdating
+	// -------------------------------------------- //
+
+	public boolean isDrainToggled()
+	{
+		if (this.drainToggled == null) return false;
+		if (this.drainToggled == false) return false;
+		return true;
+	}
+
+	public void setDrainToggled(Boolean drainToggled)
+	{
+		// Clean input
+		Boolean target = drainToggled;
+		if (MUtil.equals(target, false)) target = null;
+
+		// Detect Nochange
+		if (MUtil.equals(this.drainToggled, target)) return;
+
+		// Apply
+		this.drainToggled = target;
 
 		// Mark as changed
 		this.changed();
