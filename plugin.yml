@@ -161,6 +161,7 @@ permissions:
   factions.shield.set: {description: set your faction shield, default: false}
   factions.shield.view: {description: view your shield hours, default: false}
   factions.shield.view.other: {description: view other faction shield hours, default: false}
+  factions.shield.toggle: {description: toggle shields for all factions, default: false}
   factions.focus: {description: focus a player, default: false}
   factions.unfocus: {description: unfocus a player, default: false}
   factions.baltop: {description: list top balances in faction, default: false}
@@ -190,7 +191,6 @@ permissions:
   factions.toggle: {description: toggle on and off faction features, default: false}
   factions.toggle.fly: {description: toggle server faction flight, default: false}
   factions.toggle.grace: {description: toggle server grace period, default: false}
-  factions.toggle.shields: {description: toggle faction shields, default: false}
   factions.loot: {description: manage faction loot rewards, default: false}
   factions.loot.add: {description: add loot rewards to a faction, default: false}
   factions.loot.balance: {description: view faction loot reward balance, default: false}
@@ -355,6 +355,7 @@ permissions:
       factions.shield.set: true
       factions.shield.view: true
       factions.shield.view.other: true
+      factions.shield.toggle: true
       factions.focus: true
       factions.unfocus: true
       factions.baltop: true
@@ -384,7 +385,6 @@ permissions:
       factions.toggle: true
       factions.toggle.fly: true
       factions.toggle.grace: true
-      factions.toggle.shields: true
       factions.loot: true
       factions.loot.add: true
       factions.loot.balance: true

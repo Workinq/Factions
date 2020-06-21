@@ -10,6 +10,7 @@ public class CmdFactionsShield extends FactionsCommand
 
     public CmdFactionsShieldSet cmdFactionsShieldSet = new CmdFactionsShieldSet();
     public CmdFactionsShieldView cmdFactionsShieldView = new CmdFactionsShieldView();
+    public CmdFactionsShieldToggle cmdFactionsShieldToggle = new CmdFactionsShieldToggle();
 
     // -------------------------------------------- //
     // CONSTRUCT

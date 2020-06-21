@@ -162,6 +162,7 @@ public enum Perm implements Identified
 	SHIELD_SET,
 	SHIELD_VIEW,
 	SHIELD_VIEW_ANY,
+	SHIELD_TOGGLE,
 	FOCUS,
 	UNFOCUS,
 	BALTOP,
