@@ -144,7 +144,7 @@ public class EngineChat extends Engine
 	// FACTION CHAT
 	// -------------------------------------------- //
 
-	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOW,ignoreCancelled = true)
 	public void onPlayerEarlyChat(AsyncPlayerChatEvent event)
 	{
 		// Args
@@ -161,6 +161,12 @@ public class EngineChat extends Engine
 		switch (chat)
 		{
 			case FACTION:
+				if (myFaction.isMuted(me.getId()))
+				{
+					me.msg("<b>You are currently muted in the faction");
+					event.setCancelled(true);
+					return;
+				}
 				message = String.format(MConf.get().chatFormat, me.describeTo(myFaction), msg);
 				for (Player player : Bukkit.getOnlinePlayers())
 				{
@@ -191,6 +197,12 @@ public class EngineChat extends Engine
 				event.setCancelled(true);
 				break;*/
 			case TRUCE:
+				if (myFaction.isMuted(me.getId()))
+				{
+					me.msg("You are currently muted in the faction");
+					event.setCancelled(true);
+					return;
+				}
 				message = String.format(MConf.get().chatFormat, Rel.TRUCE.getColor() + me.getNameAndFactionName(), msg);
 				for (Player player : Bukkit.getOnlinePlayers())
 				{

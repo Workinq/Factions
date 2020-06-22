@@ -22,8 +22,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-public class EngineScoreboard extends Engine
-{
+public class EngineScoreboard extends Engine {
     // -------------------------------------------- //
     // INSTANCE & CONSTRUCT
     // -------------------------------------------- //
@@ -31,39 +30,9 @@ public class EngineScoreboard extends Engine
     private static EngineScoreboard i = new EngineScoreboard();
     public static EngineScoreboard get() { return i; }
 
-    public void load()
-    {
-        for (Player player : Bukkit.getOnlinePlayers())
-        {
-            this.playerJoin(player);
-        }
-    }
-
-    private void playerJoin(Player player)
-    {
-        // Scoreboard
-        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        player.setScoreboard(scoreboard);
-
-        // Health Tag
-        Objective health = scoreboard.registerNewObjective("health", "health");
-        health.setDisplayName(Txt.parse(MConf.get().healthBarFormat));
-        health.setDisplaySlot(DisplaySlot.BELOW_NAME);
-
-        // Loop - Players
-        for (Player target : Bukkit.getServer().getOnlinePlayers())
-        {
-            // Apply
-            scoreboard.getObjective("health").getScore(target.getName()).setScore((int) target.getHealth());
-        }
-    }
-
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-        // Health Tag
-        this.playerJoin(event.getPlayer());
-
         // Task
         new BukkitRunnable()
         {

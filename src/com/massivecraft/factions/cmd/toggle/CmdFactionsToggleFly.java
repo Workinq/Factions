@@ -4,6 +4,7 @@ import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.entity.MOption;
+import com.massivecraft.factions.event.EventFactionsToggleFlight;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.type.primitive.TypeBooleanYes;
@@ -37,6 +38,12 @@ public class CmdFactionsToggleFly extends FactionsCommand
     {
         // Args
         boolean target = this.readArg( ! MOption.get().isFlight() );
+
+        // Event
+        EventFactionsToggleFlight event = new EventFactionsToggleFlight(sender, target);
+        event.run();
+        if (event.isCancelled()) return;
+        target = event.isActive();
 
         // Apply
         MOption.get().setFlight(target);

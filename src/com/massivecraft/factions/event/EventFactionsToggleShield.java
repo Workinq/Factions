@@ -3,7 +3,7 @@ package com.massivecraft.factions.event;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 
-public class EventFactionsShieldToggle extends EventFactionsAbstractSender
+public class EventFactionsToggleShield extends EventFactionsAbstractSender
 {
 	// -------------------------------------------- //
 	// REQUIRED EVENT CODE
@@ -16,13 +16,15 @@ public class EventFactionsShieldToggle extends EventFactionsAbstractSender
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
-	public CommandSender commandSender;
 
-	public EventFactionsShieldToggle(CommandSender commandSender)
+	private boolean active;
+	public boolean isActive() { return active; }
+	public void setActive(boolean active) { this.active = active; }
+
+	public EventFactionsToggleShield(CommandSender sender, boolean active)
 	{
-		super(commandSender);
-
-		this.commandSender = commandSender;
+		super(sender);
+		this.active = active;
 	}
 
 }

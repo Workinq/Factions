@@ -1,6 +1,7 @@
 package com.massivecraft.factions.cmd.shield;
 
 import com.massivecraft.factions.cmd.FactionsCommand;
+import com.massivecraft.factions.cmd.toggle.CmdFactionsToggleShield;
 
 public class CmdFactionsShield extends FactionsCommand
 {
@@ -10,7 +11,6 @@ public class CmdFactionsShield extends FactionsCommand
 
     public CmdFactionsShieldSet cmdFactionsShieldSet = new CmdFactionsShieldSet();
     public CmdFactionsShieldView cmdFactionsShieldView = new CmdFactionsShieldView();
-    public CmdFactionsShieldToggle cmdFactionsShieldToggle = new CmdFactionsShieldToggle();
 
     // -------------------------------------------- //
     // CONSTRUCT

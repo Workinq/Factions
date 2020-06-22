@@ -4,6 +4,7 @@ import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.entity.MOption;
+import com.massivecraft.factions.event.EventFactionsToggleGrace;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.type.primitive.TypeBooleanYes;
@@ -34,6 +35,12 @@ public class CmdFactionsToggleGrace extends FactionsCommand
     {
         // Args
         boolean target = this.readArg( ! MOption.get().isGrace() );
+
+        // Event
+        EventFactionsToggleGrace event = new EventFactionsToggleGrace(sender, target);
+        event.run();
+        if (event.isCancelled()) return;
+        target = event.isActive();
 
         // Apply
         MOption.get().setGrace(target);

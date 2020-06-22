@@ -49,7 +49,7 @@ public class CmdFactionsBan extends FactionsCommand
 			// Already invited?
 			boolean isBanned = msenderFaction.isInvited(mplayer);
 
-			if ( ! isBanned)
+			if ( ! isBanned )
 			{
 				// Already member?
 				if (mplayer.getFaction() == msenderFaction)

@@ -38,6 +38,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient String ID_MOTD = "motd";
 	public final static transient String ID_INVITE = "invite";
 	public final static transient String ID_KICK = "kick";
+	public final static transient String ID_MUTE = "mute";
 	public final static transient String ID_TITLE = "title";
 	public final static transient String ID_HOME = "home";
 	public final static transient String ID_SETHOME = "sethome";
@@ -135,6 +136,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_SANDALT = 50000;
 	public final static transient int PRIORITY_LOOT = 51000;
 	public final static transient int PRIORITY_FLY = 52000;
+	public final static  transient int PRIORITY_MUTE = 53000;
 	// public final static transient int PRIORITY_BANNER = 47000;
 	// public final static transient int PRIORITY_ASSIST = 48000;
 
@@ -197,6 +199,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		getPermInspect();
 		getPermUpgrade();
 		getPermMission();
+		getPermMute();
 		getPermDiscord();
 		getPermPaypal();
 		getPermAlt();
@@ -253,6 +256,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public static MPerm getPermInspect() { return getCreative(PRIORITY_INSPECT, ID_INSPECT, ID_INSPECT, "inspect faction land", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermUpgrade() { return getCreative(PRIORITY_UPGRADE, ID_UPGRADE, ID_UPGRADE, "manage faction upgrades", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermMission() { return getCreative(PRIORITY_MISSION, ID_MISSION, ID_MISSION, "manage faction missions", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
+	public static MPerm getPermMute() {return getCreative(PRIORITY_MUTE,ID_MUTE,ID_MUTE,"manage faction mutes",MUtil.set(Rel.LEADER, Rel.COLEADER,Rel.OFFICER),false,true,true);}
 	public static MPerm getPermDiscord() { return getCreative(PRIORITY_DISCORD, ID_DISCORD, ID_DISCORD, "manage the faction discord", MUtil.set(Rel.LEADER), false, true, true); }
 	public static MPerm getPermPaypal() { return getCreative(PRIORITY_PAYPAL, ID_PAYPAL, ID_PAYPAL, "manage the faction paypal", MUtil.set(Rel.LEADER), false, true, true); }
 	public static MPerm getPermAlt() { return getCreative(PRIORITY_ALT, ID_ALT, ID_ALT, "manage faction alts", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }

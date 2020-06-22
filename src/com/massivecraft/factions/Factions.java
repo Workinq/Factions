@@ -49,7 +49,7 @@ public class Factions extends MassivePlugin
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
-	
+
 	private static Factions i;
 	public static Factions get() { return i; }
 	public Factions() { Factions.i = this; }
@@ -86,7 +86,6 @@ public class Factions extends MassivePlugin
 		// Load Add-ons
 		MissionsManager.get().load();
 		UpgradesManager.get().load();
-		EngineScoreboard.get().load();
 	}
 
 	@Override
