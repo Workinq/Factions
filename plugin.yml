@@ -1,6 +1,6 @@
 main: ${project.groupId}.${project.name}
 name: ${project.name}
-version: ${project.version}
+version: '2.14.2'
 website: ${project.url}
 description: ${project.description}
 authors: [Cayorion, Madus, Ulumulu1510, MarkehMe, Brettflan, Kieraaaan]

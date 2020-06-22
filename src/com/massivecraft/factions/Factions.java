@@ -86,7 +86,7 @@ public class Factions extends MassivePlugin
 		// Load Add-ons
 		MissionsManager.get().load();
 		UpgradesManager.get().load();
-		EngineScoreboard.get().load();
+		//EngineScoreboard.get().load();
 	}
 
 	@Override
