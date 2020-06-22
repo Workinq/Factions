@@ -274,6 +274,10 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// Null means default.
 	// private Boolean open = null;
 
+	// This will store a list of all the muted members.
+	// By default it's empty and members can be banned using /f mute <player>.
+	private MassiveSet<FactionMute> mutedMembers = new MassiveSet<>();
+
 	// This is the ids of the invited players.
 	// They are actually "senderIds" since you can invite "@console" to your faction.
 	// Null means no one is invited
@@ -1534,8 +1538,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// FINER
 
-	public boolean isBanned(String playerId)
-	{
+	public boolean isBanned(String playerId) {
 		return bannedMembers.stream().anyMatch(factionBan -> factionBan.getBannedId().equals(playerId));
 	}
 
@@ -1581,6 +1584,50 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
+	public void setMutedMembers(MassiveSet<FactionMute> mutedMembers) {
+		this.mutedMembers = mutedMembers;
+		this.changed();
+	}
+
+	public MassiveSet<FactionMute> getMutedMembers() { return this.mutedMembers; }
+
+	public boolean isMuted(String playerId) {
+		return mutedMembers.stream().anyMatch(factionMute -> factionMute.getMutedId().equals(playerId));
+	}
+
+	public boolean isMuted(MPlayer mPlayer) {
+		return this.isMuted(mPlayer.getId());
+	}
+
+	public boolean unmute(String playerId) {
+		Optional<FactionMute> optional = mutedMembers.stream().filter(factionMute -> factionMute.getMutedId().equals(playerId)).findAny();
+		boolean result = optional.filter(factionMute -> mutedMembers.remove(factionMute)).isPresent();
+
+		if ( ! result ) return false;
+
+		// Mark as changed
+		this.changed();
+		return true;
+	}
+
+	public boolean unmute(MPlayer mplayer)
+	{
+		return this.unmute(mplayer.getId());
+	}
+
+	public boolean unmute(FactionMute factionMute) {
+		boolean result = mutedMembers.remove(factionMute);
+		if( ! result) return false;
+		this.changed();
+		return true;
+	}
+
+	public void mute(FactionMute factionMute) {
+		this.unmute(factionMute);
+		this.mutedMembers.add(factionMute);
+		this.changed();
+	}
+
 	// -------------------------------------------- //
 	// FIELD: open
 	// -------------------------------------------- //
@@ -1622,8 +1669,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return this.getInvitations().containsKey(playerId);
 	}
 
-	public boolean isInvited(MPlayer mplayer)
-	{
+	public boolean isInvited(MPlayer mplayer) {
 		return this.isInvited(mplayer.getId());
 	}
 

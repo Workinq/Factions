@@ -44,13 +44,11 @@ public class CmdFactionsBan extends FactionsCommand
 		// MPerm
 		if ( ! MPerm.getPermBan().has(msender, msenderFaction, true)) return;
 
-		for (MPlayer mplayer : mplayers)
-		{
+		for (MPlayer mplayer : mplayers) {
 			// Already invited?
 			boolean isBanned = msenderFaction.isInvited(mplayer);
 
-			if ( ! isBanned)
-			{
+			if ( ! isBanned) {
 				// Already member?
 				if (mplayer.getFaction() == msenderFaction)
 				{
@@ -75,9 +73,7 @@ public class CmdFactionsBan extends FactionsCommand
 				{
 					Factions.get().log(msender.getDisplayName(IdUtil.getConsole()) + " banned " + mplayer.getName() + " from the faction " + msenderFaction.getName());
 				}
-			}
-			else
-			{
+			} else {
 				// Mson
 				String command = CmdFactions.get().cmdFactionsUnban.getCommandLine(mplayer.getName());
 				String tooltip = Txt.parse("<i>Click to <c>%s<i>.", command);

@@ -197,6 +197,10 @@ public enum Perm implements Identified
 	LOOT_CLAIM,
 	LOOT_BALANCE,
 	LOOT_BALANCE_ANY,
+	MUTE,
+	UNMUTE,
+	MUTELIST,
+	MUTELIST_OTHER;
 
 	// END OF LIST
 	;

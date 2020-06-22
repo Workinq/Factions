@@ -1,9 +1,9 @@
 main: ${project.groupId}.${project.name}
 name: ${project.name}
-version: '2.14.2'
+version: ${project.version}
 website: ${project.url}
 description: ${project.description}
-authors: [Cayorion, Madus, Ulumulu1510, MarkehMe, Brettflan, Kieraaaan]
+authors: [Cayorion, Madus, Ulumulu1510, MarkehMe, Brettflan, Kieraaaan, Jerry, Marto]
 depend: [MassiveCore]
 softdepend: [PermissionsEx, Permissions, Essentials, EssentialsChat, iChat, LocalAreaChat, nChat, ChatManager, AuthMe, Vault, Spout, WorldEdit, WorldGuard, AuthDB, CaptureThePoints, CombatTag, CoreProtect, Citizens, HolographicDisplays, MobExtras]
 permissions:

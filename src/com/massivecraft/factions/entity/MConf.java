@@ -619,6 +619,7 @@ public class MConf extends Entity<MConf>
 	public boolean logFactionJoin = true;
 	public boolean logFactionKick = true;
 	public boolean logFactionLeave = true;
+	public boolean logFactionMute = true;
 	public boolean logFactionBan = true;
 	public boolean logFactionUnban = true;
 	public boolean logLandClaims = true;
