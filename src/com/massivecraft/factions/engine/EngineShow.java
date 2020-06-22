@@ -1,10 +1,7 @@
 package com.massivecraft.factions.engine;
 
 import com.massivecraft.factions.comparator.ComparatorMPlayerRole;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MConf;
-import com.massivecraft.factions.entity.MFlag;
-import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.event.EventFactionsFactionShowAsync;
 import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.factions.util.TimeUtil;
@@ -97,7 +94,7 @@ public class EngineShow extends Engine
 
 			// SHIELD
 			Calendar now = Calendar.getInstance();
-			boolean active = faction.isShieldedAt(now.get(Calendar.HOUR_OF_DAY));
+			boolean active = faction.isShieldedAt(now.get(Calendar.HOUR_OF_DAY)) && MOption.get().isShields();
 			String shieldString = Txt.parse(active ? "<g><bold>ACTIVE" : "<b><bold>INACTIVE");
 			show(idPriorityLiness, SHOW_ID_FACTION_SHIELD, SHOW_PRIORITY_FACTION_SHIELD, "Shield", shieldString);
 

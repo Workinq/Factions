@@ -12,6 +12,7 @@ public class CmdFactionsToggle extends FactionsCommand
 
     public CmdFactionsToggleFly cmdFactionsToggleFly = new CmdFactionsToggleFly();
     public CmdFactionsToggleGrace cmdFactionsToggleGrace = new CmdFactionsToggleGrace();
+    public CmdFactionsToggleShield cmdFactionsToggleShield = new CmdFactionsToggleShield();
 
     // -------------------------------------------- //
     // CONSTRUCT
@@ -22,6 +23,7 @@ public class CmdFactionsToggle extends FactionsCommand
         // Child
         this.addChild(this.cmdFactionsToggleFly);
         this.addChild(this.cmdFactionsToggleGrace);
+        this.addChild(this.cmdFactionsToggleShield);
 
         // Requirements
         this.addRequirements(RequirementHasPerm.get(Perm.TOGGLE));

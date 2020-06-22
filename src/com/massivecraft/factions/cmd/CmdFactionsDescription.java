@@ -13,7 +13,7 @@ public class CmdFactionsDescription extends FactionsCommand
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
-	
+
 	public CmdFactionsDescription()
 	{
 		// Parameters
@@ -26,7 +26,7 @@ public class CmdFactionsDescription extends FactionsCommand
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-	
+
 	@Override
 	public void perform() throws MassiveException
 	{	
@@ -44,7 +44,7 @@ public class CmdFactionsDescription extends FactionsCommand
 
 		// Apply
 		msenderFaction.setDescription(newDescription);
-		
+
 		// Inform
 		for (MPlayer follower : msenderFaction.getMPlayers())
 		{

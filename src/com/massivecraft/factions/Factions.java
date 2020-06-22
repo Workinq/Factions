@@ -49,7 +49,7 @@ public class Factions extends MassivePlugin
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //
-	
+
 	private static Factions i;
 	public static Factions get() { return i; }
 	public Factions() { Factions.i = this; }
