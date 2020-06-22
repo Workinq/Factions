@@ -5,8 +5,10 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MUpgrade;
 import com.massivecraft.factions.event.EventFactionsTntChange;
+import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.factions.upgrade.UpgradesManager;
 import com.massivecraft.massivecore.Engine;
+import com.massivecraft.massivecore.money.Money;
 import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -62,8 +64,21 @@ public class EngineTnt extends Engine
         tntEvent.run();
         if (tntEvent.isCancelled()) return;
 
+        int newTnt = Math.min(at.getTnt() + tntEvent.getTnt(), maximumTnt);
+
+        // Calculate excess TNT
+        int excessTnt;
+
+        if(newTnt > maximumTnt)
+        {
+            excessTnt = newTnt - maximumTnt;
+
+            // Deposit
+            Money.spawn(at, null, excessTnt * MConf.get().tntSellPrice);
+        }
+
         // Apply
-        at.setTnt(Math.min(at.getTnt() + tntEvent.getTnt(), maximumTnt));
+        at.setTnt(newTnt);
     }
 
 }
