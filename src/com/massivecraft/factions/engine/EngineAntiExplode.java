@@ -10,13 +10,16 @@ import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
-public class EngineAntiExplode extends Engine {
+public class EngineAntiExplode extends Engine
+{
+
     private static EngineAntiExplode i = new EngineAntiExplode();
     public static EngineAntiExplode get() { return i; }
 
     @EventHandler(ignoreCancelled = true)
-    public void explodeEvent(EntityExplodeEvent event) {
-        if (!(event.getEntity() instanceof TNTPrimed)) return;
+    public void explodeEvent(EntityExplodeEvent event)
+    {
+        if ( ! (event.getEntity() instanceof TNTPrimed) ) return;
         TNTPrimed tnt = (TNTPrimed) event.getEntity();
 
         if (tnt.getSourceLoc() == null) return;
@@ -28,7 +31,8 @@ public class EngineAntiExplode extends Engine {
         // Verify - Wilderness
         if (from.isNone() || at.isNone()) return;
 
-        if (from == at) {
+        if (from == at)
+        {
             // Clear
             event.blockList().clear();
         }

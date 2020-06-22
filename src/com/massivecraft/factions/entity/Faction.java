@@ -1538,7 +1538,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// FINER
 
-	public boolean isBanned(String playerId) {
+	public boolean isBanned(String playerId)
+	{
 		return bannedMembers.stream().anyMatch(factionBan -> factionBan.getBannedId().equals(playerId));
 	}
 
@@ -1584,22 +1585,36 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void setMutedMembers(MassiveSet<FactionMute> mutedMembers) {
+	// -------------------------------------------- //
+	// FIELD: mutedMembers
+	// -------------------------------------------- //
+
+	public void setMutedMembers(MassiveSet<FactionMute> mutedMembers)
+	{
+		// Apply
 		this.mutedMembers = mutedMembers;
+
+		// Mark as changed
 		this.changed();
 	}
 
-	public MassiveSet<FactionMute> getMutedMembers() { return this.mutedMembers; }
+	public MassiveSet<FactionMute> getMutedMembers()
+	{
+		return this.mutedMembers;
+	}
 
-	public boolean isMuted(String playerId) {
+	public boolean isMuted(String playerId)
+	{
 		return mutedMembers.stream().anyMatch(factionMute -> factionMute.getMutedId().equals(playerId));
 	}
 
-	public boolean isMuted(MPlayer mPlayer) {
+	public boolean isMuted(MPlayer mPlayer)
+	{
 		return this.isMuted(mPlayer.getId());
 	}
 
-	public boolean unmute(String playerId) {
+	public boolean unmute(String playerId)
+	{
 		Optional<FactionMute> optional = mutedMembers.stream().filter(factionMute -> factionMute.getMutedId().equals(playerId)).findAny();
 		boolean result = optional.filter(factionMute -> mutedMembers.remove(factionMute)).isPresent();
 
@@ -1615,16 +1630,29 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return this.unmute(mplayer.getId());
 	}
 
-	public boolean unmute(FactionMute factionMute) {
+	public boolean unmute(FactionMute factionMute)
+	{
 		boolean result = mutedMembers.remove(factionMute);
-		if( ! result) return false;
+
+		// Detect Nochange
+		if ( ! result ) return false;
+
+		// Mark as changed
 		this.changed();
+
+		// Return
 		return true;
 	}
 
-	public void mute(FactionMute factionMute) {
+	public void mute(FactionMute factionMute)
+	{
+		// Unmute
 		this.unmute(factionMute);
+
+		// Mute
 		this.mutedMembers.add(factionMute);
+
+		// Mark as changed
 		this.changed();
 	}
 

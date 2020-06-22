@@ -56,32 +56,28 @@ public class CmdFactionsBanlist extends FactionsCommand
 		
 		// Pager Create
 		final List<FactionBan> bannedMembers = new MassiveList<>(faction.getBannedMembers());
-		
-		Collections.sort(bannedMembers, new Comparator<FactionBan>()
-		{
-			@Override
-			public int compare(FactionBan i1, FactionBan i2)
-			{
-				return ComparatorSmart.get().compare(i2.getCreationMillis(), i1.getCreationMillis());
-			}
-		});
-		
+		Collections.sort(bannedMembers, (i1, i2) -> ComparatorSmart.get().compare(i2.getCreationMillis(), i1.getCreationMillis()));
 		final long now = System.currentTimeMillis();
 		
-		final Pager<FactionBan> pager = new Pager<>(this, "Banned Members", page, bannedMembers, (Stringifier<FactionBan>) (factionBan, index) -> {
-			String bannedId = factionBan.getBannedId();
-			String bannerId = factionBan.getBannerId();
+		final Pager<FactionBan> pager = new Pager<>(this, "Banned Members", page, bannedMembers, new Stringifier<FactionBan>()
+		{
+			@Override
+			public String toString(FactionBan factionBan, int index)
+			{
+				String bannedId = factionBan.getBannedId();
+				String bannerId = factionBan.getBannerId();
 
-			String bannedDisplayName = MixinDisplayName.get().getDisplayName(bannedId, sender);
-			String bannerDisplayName = bannerId != null ? MixinDisplayName.get().getDisplayName(bannerId, sender) : Txt.parse("<silver>unknown");
+				String bannedDisplayName = MixinDisplayName.get().getDisplayName(bannedId, sender);
+				String bannerDisplayName = bannerId != null ? MixinDisplayName.get().getDisplayName(bannerId, sender) : Txt.parse("<silver>unknown");
 
-			String ageDesc = "";
-			long millis = now - factionBan.getCreationMillis();
-			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(millis, TimeUnit.getAllButMillis()), 2);
-			ageDesc = TimeDiffUtil.formatedMinimal(ageUnitcounts, "<i>");
-			ageDesc = " " + ageDesc + Txt.parse(" ago");
+				String ageDesc = "";
+				long millis = now - factionBan.getCreationMillis();
+				LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(millis, TimeUnit.getAllButMillis()), 2);
+				ageDesc = TimeDiffUtil.formatedMinimal(ageUnitcounts, "<i>");
+				ageDesc = " " + ageDesc + Txt.parse(" ago");
 
-			return Txt.parse("%s<i> was banned by %s<reset>%s<i>.", bannedDisplayName, bannerDisplayName, ageDesc);
+				return Txt.parse("%s<i> was banned by %s<reset>%s<i>.", bannedDisplayName, bannerDisplayName, ageDesc);
+			}
 		});
 		
 		// Pager Message
