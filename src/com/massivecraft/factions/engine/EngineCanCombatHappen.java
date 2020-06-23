@@ -22,7 +22,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-public class EngineCanCombatHappen extends Engine {
+public class EngineCanCombatHappen extends Engine
+{
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //

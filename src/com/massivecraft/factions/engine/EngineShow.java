@@ -50,6 +50,7 @@ public class EngineShow extends Engine
 	public static final int SHOW_PRIORITY_FACTION_BANK = 10000;
 	public static final int SHOW_PRIORITY_FACTION_FOLLOWERS = 11000;
 	public static final int SHOW_PRIORITY_FACTION_ALTS = 12000;
+
 	// -------------------------------------------- //
 	// INSTANCE & CONSTRUCT
 	// -------------------------------------------- //

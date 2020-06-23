@@ -161,8 +161,9 @@ public class EngineChat extends Engine
 		switch (chat)
 		{
 			case FACTION:
-				if(myFaction.isMuted(me.getId())) {
-					me.msg("&cYou are currently muted in the faction");
+				if (myFaction.isMuted(me.getId()))
+				{
+					me.msg("<b>You are currently muted in the faction");
 					event.setCancelled(true);
 					return;
 				}
@@ -196,7 +197,8 @@ public class EngineChat extends Engine
 				event.setCancelled(true);
 				break;*/
 			case TRUCE:
-				if(myFaction.isMuted(me.getId())) {
+				if (myFaction.isMuted(me.getId()))
+				{
 					me.msg("You are currently muted in the faction");
 					event.setCancelled(true);
 					return;

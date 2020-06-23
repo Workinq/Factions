@@ -136,7 +136,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_SANDALT = 50000;
 	public final static transient int PRIORITY_LOOT = 51000;
 	public final static transient int PRIORITY_FLY = 52000;
-	public final static  transient int PRIORITY_MUTE = 55000;
+	public final static  transient int PRIORITY_MUTE = 53000;
 	// public final static transient int PRIORITY_BANNER = 47000;
 	// public final static transient int PRIORITY_ASSIST = 48000;
 

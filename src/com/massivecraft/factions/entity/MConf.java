@@ -175,6 +175,9 @@ public class MConf extends Entity<MConf>
 	// NOTE: This only makes sense to set to false if your "powerMin" setting is negative.
 	public boolean canLeaveWithNegativePower = true;
 
+	// How much should TNT sell for?
+	public double tntSellPrice = 5;
+
 	// -------------------------------------------- //
 	// FLY
 	// -------------------------------------------- //
