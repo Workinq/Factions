@@ -1,16 +1,13 @@
 package com.massivecraft.factions.cmd.mute;
 
 import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
-import com.massivecraft.factions.entity.object.FactionBan;
 import com.massivecraft.factions.entity.object.FactionMute;
 import com.massivecraft.massivecore.MassiveException;
-import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.type.container.TypeSet;
 import com.massivecraft.massivecore.util.IdUtil;
 

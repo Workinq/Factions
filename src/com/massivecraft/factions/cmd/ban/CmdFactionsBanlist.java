@@ -17,8 +17,6 @@ import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -57,14 +55,7 @@ public class CmdFactionsBanlist extends FactionsCommand
 		// Pager Create
 		final List<FactionBan> bannedMembers = new MassiveList<>(faction.getBannedMembers());
 		
-		Collections.sort(bannedMembers, new Comparator<FactionBan>()
-		{
-			@Override
-			public int compare(FactionBan i1, FactionBan i2)
-			{
-				return ComparatorSmart.get().compare(i2.getCreationMillis(), i1.getCreationMillis());
-			}
-		});
+		bannedMembers.sort((i1, i2) -> ComparatorSmart.get().compare(i2.getCreationMillis(), i1.getCreationMillis()));
 		
 		final long now = System.currentTimeMillis();
 		
@@ -75,7 +66,7 @@ public class CmdFactionsBanlist extends FactionsCommand
 			String bannedDisplayName = MixinDisplayName.get().getDisplayName(bannedId, sender);
 			String bannerDisplayName = bannerId != null ? MixinDisplayName.get().getDisplayName(bannerId, sender) : Txt.parse("<silver>unknown");
 
-			String ageDesc = "";
+			String ageDesc;
 			long millis = now - factionBan.getCreationMillis();
 			LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(millis, TimeUnit.getAllButMillis()), 2);
 			ageDesc = TimeDiffUtil.formatedMinimal(ageUnitcounts, "<i>");

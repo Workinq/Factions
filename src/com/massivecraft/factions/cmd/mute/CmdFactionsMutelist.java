@@ -17,7 +17,6 @@ import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class CmdFactionsMutelist extends FactionsCommand {
         // Pager Create
         final List<FactionMute> mutedMembers = new MassiveList<>(faction.getMutedMembers());
 
-        Collections.sort(mutedMembers, (i1, i2) -> ComparatorSmart.get().compare(i2.getCreationMillis(), i1.getCreationMillis()));
+        mutedMembers.sort((i1, i2) -> ComparatorSmart.get().compare(i2.getCreationMillis(), i1.getCreationMillis()));
 
         final long now = System.currentTimeMillis();
 
@@ -64,7 +63,7 @@ public class CmdFactionsMutelist extends FactionsCommand {
             String mutedDisplayName = MixinDisplayName.get().getDisplayName(mutedId, sender);
             String muterDisplayName = muterId != null ? MixinDisplayName.get().getDisplayName(muterId, sender) : Txt.parse("<silver>unknown");
 
-            String ageDesc = "";
+            String ageDesc;
             long millis = now - factionMute.getCreationMillis();
             LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(millis, TimeUnit.getAllButMillis()), 2);
             ageDesc = TimeDiffUtil.formatedMinimal(ageUnitcounts, "<i>");
