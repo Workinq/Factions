@@ -24,7 +24,8 @@ public class CmdFactionsTntBalance extends FactionsCommand
     // -------------------------------------------- //
 
     @Override
-    public void perform() throws MassiveException {
+    public void perform() throws MassiveException
+    {
         Faction faction = this.readArg(msenderFaction);
 
         if (faction != msenderFaction && ! Perm.TNT_BALANCE_ANY.has(sender, true)) return;

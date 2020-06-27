@@ -7,19 +7,25 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.massivecore.MassiveException;
 
-public class CmdFactionsVaultOpen extends FactionsCommand {
+public class CmdFactionsVaultOpen extends FactionsCommand
+{
 
-    public CmdFactionsVaultOpen() {
+    public CmdFactionsVaultOpen()
+    {
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
     }
 
     @Override
-    public void perform() throws MassiveException {
+    public void perform() throws MassiveException
+    {
+        // Args
         Faction faction = this.readArg(msenderFaction);
 
+        // Perms
         if (faction != msenderFaction && ! Perm.VAULT_OPEN_ANY.has(sender, true)) return;
 
+        // MPerm
         if ( ! MPerm.getPermVault().has(msender, faction, true)) return;
 
         //TODO: open GUI

@@ -18,8 +18,9 @@ public class CmdFactionsTntSet extends FactionsCommand
     {
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
-        this.addParameter(TypeInteger.get(), "amount", "0");
+        this.addParameter(TypeInteger.get(), "amount");
 
+        // Permissions
         this.addRequirements(RequirementHasPerm.get(Perm.TNT_SET));
     }
 
@@ -28,13 +29,20 @@ public class CmdFactionsTntSet extends FactionsCommand
     // -------------------------------------------- //
 
     @Override
-    public void perform() throws MassiveException {
-        Faction faction = this.readArg();
-
-        if (faction != msenderFaction && (!( Perm.TNT_SET_ANY.has(sender, true)))) return;
+    public void perform() throws MassiveException
+    {
+        // Args
+        Faction faction = this.readArg(msenderFaction);
         int amount = this.readArg();
+
+        // Perm
+        if (faction != msenderFaction && (!( Perm.TNT_SET_ANY.has(sender, true)))) return;
+
+        // Apply
         faction.setTnt(amount);
-        this.msg("<i>Set %s's<i> TNT balance to <h>%,d<i>.", faction.describeTo(msender, true), faction.getTnt());
+
+        // Inform
+        msg("<i>Set %s's<i> TNT balance to <h>%,d<i>.", faction.describeTo(msender, true), faction.getTnt());
     }
 
 }

@@ -30,7 +30,8 @@ public class ActionClickShield extends ChestActionAbstract
     }
 
     @Override
-    public boolean onClick(InventoryClickEvent event, Player player) {
+    public boolean onClick(InventoryClickEvent event, Player player)
+    {
         player.openInventory(this.getConfirmGui());
         return true;
     }

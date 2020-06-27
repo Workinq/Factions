@@ -77,7 +77,7 @@ public class EngineFlagExplosion extends Engine
 		
 		blockExplosion(location, cancellable, blocks);
 	}
-	
+
 	// Note that this method is used by EngineV18 for the BlockExplodeEvent
 	public void blockExplosion(Location location, Cancellable cancellable, Collection<Block> blocks)
 	{
@@ -87,7 +87,7 @@ public class EngineFlagExplosion extends Engine
 		// Check the entity. Are explosions disabled there?
 		Faction faction = BoardColl.get().getFactionAt(PS.valueOf(location));
 		Boolean allowed = faction.isExplosionsAllowed();
-		if (!allowed)
+		if ( ! allowed )
 		{
 			cancellable.setCancelled(true);
 			return;

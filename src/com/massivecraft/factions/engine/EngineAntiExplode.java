@@ -4,7 +4,6 @@ import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.ps.PS;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
@@ -12,6 +11,9 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class EngineAntiExplode extends Engine
 {
+    // -------------------------------------------- //
+    // INSTANCE & CONSTRUCT
+    // -------------------------------------------- //
 
     private static EngineAntiExplode i = new EngineAntiExplode();
     public static EngineAntiExplode get() { return i; }
