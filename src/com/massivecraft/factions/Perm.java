@@ -200,7 +200,11 @@ public enum Perm implements Identified
 	MUTE,
 	UNMUTE,
 	MUTELIST,
-	MUTELIST_OTHER;
+	MUTELIST_OTHER,
+	VAULT,
+	VAULT_SET,
+	VAULT_OPEN,
+	VAULT_OPEN_ANY,
 
 	// END OF LIST
 	;

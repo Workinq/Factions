@@ -93,6 +93,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setCredits(that.credits);
 		this.setStrikes(that.strikes);
 		this.setCoreChunk(that.coreChunk);
+		this.setVault(that.vault);
 		this.setBaseRegion(that.baseRegion);
 		this.setShieldedHour(that.shieldedHour);
 		this.setShieldString(that.shieldString);
@@ -233,6 +234,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// Using /f setbaseregion will run a loop to save chunks in a 60x60 radius from the sender.
 	// Empty most likely means the base region is empty.
 	private MassiveSet<PS> baseRegion = new MassiveSet<>();
+
+	private Vault vault = null;
 
 	// This will store the hour for which the faction is protected.
 	// Null means no hour has been set.
@@ -2159,6 +2162,14 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		ret += this.getPowerBoost();
 
 		return ret;
+	}
+
+	public void setVault(Vault vault) {
+		this.vault = vault;
+	}
+
+	public Vault getVault() {
+		return this.vault;
 	}
 
 	private double limitWithPowerMax(double power)

@@ -196,6 +196,8 @@ permissions:
   factions.loot.balance: {description: view faction loot reward balance, default: false}
   factions.loot.balance.any: {description: view other faction loot reward balance, default: false}
   factions.loot.claim: {description: claim your faction loot rewards, default: false}
+  factions.mute: {description: manage faction mutes,default: false}
+  facttions.vault: {description: manager factions vault,default: false}
 
   # -------------------------------------------- #
   # STAR NOTATION
@@ -390,6 +392,8 @@ permissions:
       factions.loot.balance: true
       factions.loot.balance.any: true
       factions.loot.claim: true
+      factions.mute: true
+      factions.vault: true
 
   # -------------------------------------------- #
   # KITS
@@ -578,6 +582,8 @@ permissions:
       factions.loot: true
       factions.loot.balance: true
       factions.loot.claim: true
+      factions.mute: true
+      factions.vault: true
   factions.kit.default:
     default: true
     children:

@@ -36,6 +36,7 @@ import com.massivecraft.factions.cmd.shield.CmdFactionsShield;
 import com.massivecraft.factions.cmd.strike.CmdFactionsStrike;
 import com.massivecraft.factions.cmd.tnt.CmdFactionsTnt;
 import com.massivecraft.factions.cmd.toggle.CmdFactionsToggle;
+import com.massivecraft.factions.cmd.vault.CmdFactionsVault;
 import com.massivecraft.factions.cmd.warp.CmdFactionsDelwarp;
 import com.massivecraft.factions.cmd.warp.CmdFactionsSetwarp;
 import com.massivecraft.factions.cmd.warp.CmdFactionsWarp;
@@ -112,6 +113,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsConfig cmdFactionsConfig = new CmdFactionsConfig();
 	public CmdFactionsClean cmdFactionsClean = new CmdFactionsClean();
 	public CmdFactionsTnt cmdFactionsTnt = new CmdFactionsTnt();
+	public CmdFactionsVault cmdFactionsVault = new CmdFactionsVault();
 	public CmdFactionsChest cmdFactionsChest = new CmdFactionsChest();
 	public CmdFactionsStealth cmdFactionsStealth = new CmdFactionsStealth();
 	public CmdFactionsFly cmdFactionsFly = new CmdFactionsFly();
