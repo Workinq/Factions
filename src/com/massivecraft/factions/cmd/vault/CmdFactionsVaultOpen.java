@@ -30,4 +30,5 @@ public class CmdFactionsVaultOpen extends FactionsCommand
 
         //TODO: open GUI
     }
+
 }
