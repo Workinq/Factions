@@ -43,21 +43,18 @@ public class CmdFactionsVaultSet extends FactionsCommand
         if ( ! MPerm.getPermVault().has(msender, faction, true) ) return;
 
         // Verify - Faction
-        if (at != faction)
-        {
+        if (at != faction) {
             msg("<b>You must be in your own faction territory to set your faction vault.");
             return;
         }
 
         // Verify - Base Region
-        if ( ! faction.hasBaseRegion() )
-        {
+        if ( ! faction.hasBaseRegion() ) {
             msg("<b>You must have a base region set to set your faction vault.");
             return;
         }
 
-        if ( ! faction.getBaseRegion().contains(ps) )
-        {
+        if (faction.getBaseRegion().contains(ps) ) {
             msg("<b>You can only set your faction vault in your base region.");
             return;
         }

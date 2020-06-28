@@ -1,61 +1,76 @@
 package com.massivecraft.factions.entity.object;
 
-import com.massivecraft.factions.engine.EngineVault;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.store.EntityInternal;
 import org.bukkit.Location;
 
-public class Vault extends EntityInternal<Vault>
-{
+public class Vault extends EntityInternal<Vault> {
 
-    public Vault(PS location, boolean damaged)
-    {
+    public Vault(PS location, boolean damaged) {
         this.location = location;
         this.damaged = damaged;
         this.whenCanRepair = 0;
     }
 
     public long whenCanRepair;
-    public void setWhenCanRepair(long time) { whenCanRepair = time; }
-    public boolean getCanRepair() { return whenCanRepair < System.currentTimeMillis(); }
 
-    public void repairVault() { EngineVault.get().vaultRepaired(this); }
+    public String getWhenCanRepairTime() {
+        int seconds = (int) ((whenCanRepair - System.currentTimeMillis()) / 1000L);
+        int minutes = seconds / 60;
+        seconds = seconds - (minutes * 60);
+        return minutes + "m " + seconds + "s";
+    }
+
+    public void setWhenCanRepair(long time) {
+        whenCanRepair = time;
+    }
+
+    public boolean getCanRepair() {
+        return whenCanRepair < System.currentTimeMillis();
+    }
+
+    public void damageVault() {
+        this.setDamaged(true);
+        final long time = System.currentTimeMillis() + (1000L * 1200);
+        this.setWhenCanRepair(time);
+        // todo: start koth
+        this.changed();
+    }
+
+    public void repairVault() {
+        this.setDamaged(false);
+        this.setWhenCanRepair(0);
+        // todo: stop koth
+        // todo: reschem vault
+        this.changed();
+    }
 
     public boolean damaged;
-    public boolean getIfDamaged() { return damaged; }
+
+    public boolean getIfDamaged() {
+        return damaged;
+    }
+
     public void setDamaged(boolean damaged) {
         this.damaged = damaged;
     }
 
     public final PS location;
-    public PS getLocation() { return location; }
 
-    public boolean getHitBreakable(Location location)
-    {
-        for (int x = -3; x < 4; x++)
-        {
-            for (int y = -2; y < 4; y++)
-            {
-                for (int z = -3; z < 4; z++)
-                {
-                    if (location.clone().add(x, y, z) == location) return true;
-                }
-            }
-        }
-        return false;
+    public PS getLocation() {
+        return location;
     }
 
-    public boolean getHitBottom(Location location)
-    {
-        Location bottom = location.clone().add(0, -3, 0);
-        for (int x = -3; x < 4; x++)
-        {
-            for (int z = -3; x < 4; x++)
-            {
-                if (bottom.clone().add(x, 0, z) == location) return true;
-            }
-        }
-        return false;
+    public boolean getHitBreakable(Location location) {
+        final Location min = this.location.asBukkitLocation().clone().add(-4, -2, -4);
+        final Location max = this.location.asBukkitLocation().clone().add(3, 3, 3);
+        return location.getX() <= max.getX() && location.getX() >= min.getX() && location.getY() <= max.getY() && location.getY() >= min.getY() && location.getZ() <= max.getZ() && location.getZ() >= min.getZ();
+    }
+
+    public boolean getHitBottom(Location location) {
+        final Location min = this.location.asBukkitLocation().clone().add(-4, -3, -4);
+        final Location max = this.location.asBukkitLocation().clone().add(3, -3, 3);
+        return location.getX() <= max.getX() && location.getX() >= min.getX() && location.getY() <= max.getY() && location.getY() >= min.getY() && location.getZ() <= max.getZ() && location.getZ() >= min.getZ();
     }
 
 }

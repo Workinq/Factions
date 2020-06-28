@@ -19,8 +19,7 @@ public class EngineAntiExplode extends Engine
     public static EngineAntiExplode get() { return i; }
 
     @EventHandler(ignoreCancelled = true)
-    public void explodeEvent(EntityExplodeEvent event)
-    {
+    public void explodeEvent(EntityExplodeEvent event) {
         if ( ! (event.getEntity() instanceof TNTPrimed) ) return;
         TNTPrimed tnt = (TNTPrimed) event.getEntity();
 

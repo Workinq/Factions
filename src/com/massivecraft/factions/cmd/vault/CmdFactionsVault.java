@@ -15,8 +15,7 @@ public class CmdFactionsVault extends FactionsCommand
     public CmdFactionsVaultOpen cmdFactionsVaultOpen = new CmdFactionsVaultOpen();
 
     @Override
-    public void perform() throws MassiveException
-    {
+    public void perform() throws MassiveException {
         cmdFactionsVaultOpen.execute(sender, new ArrayList<>());
     }
 

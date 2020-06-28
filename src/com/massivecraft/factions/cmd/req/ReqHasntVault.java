@@ -35,7 +35,7 @@ public class ReqHasntVault extends RequirementAbstract
 
         if (mplayer.getFaction().isSystemFaction()) return false;
 
-        return mplayer.getFaction().hasVault();
+        return !mplayer.getFaction().hasVault();
     }
 
     @Override
