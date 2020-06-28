@@ -21,7 +21,7 @@ public class EngineVault extends Engine
     public void vaultExplodeEvent(BlockExplodeEvent event)
     {
         final Faction target = BoardColl.get().getFactionAt(PS.valueOf(event.getBlock().getLocation()));
-        if (target.getVault() == null)return;
+        if (target.getVault() == null) return;
         final Vault vault = target.getVault();
         for (Block block : event.blockList())
         {

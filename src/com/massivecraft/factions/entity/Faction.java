@@ -103,6 +103,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setRoster(that.roster);
 		this.setSandAlts(that.sandAlts);
 		this.setLootRewards(that.lootRewards);
+		this.setVault(that.vault);
 		return this;
 	}
 
@@ -235,8 +236,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// Empty most likely means the base region is empty.
 	private MassiveSet<PS> baseRegion = new MassiveSet<>();
 
-	private Vault vault = null;
-
 	// This will store the hour for which the faction is protected.
 	// Null means no hour has been set.
 	private Integer shieldedHour = null;
@@ -280,6 +279,10 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This will store a list of all the muted members.
 	// By default it's empty and members can be banned using /f mute <player>.
 	private MassiveSet<FactionMute> mutedMembers = new MassiveSet<>();
+
+	// This will store the faction's vault.
+	// Null means there is no vault.
+	private Vault vault = null;
 
 	// This is the ids of the invited players.
 	// They are actually "senderIds" since you can invite "@console" to your faction.
@@ -1524,6 +1527,29 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	}
 
 	// -------------------------------------------- //
+	// FIELD: vault
+	// -------------------------------------------- //
+
+	public void setVault(Vault vault)
+	{
+		// Apply
+		this.vault = vault;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	public Vault getVault()
+	{
+		return vault;
+	}
+
+	public boolean hasVault()
+	{
+		return vault != null;
+	}
+
+	// -------------------------------------------- //
 	// FIELD: bannedMembers
 	// -------------------------------------------- //
 
@@ -2162,14 +2188,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		ret += this.getPowerBoost();
 
 		return ret;
-	}
-
-	public void setVault(Vault vault) {
-		this.vault = vault;
-	}
-
-	public Vault getVault() {
-		return this.vault;
 	}
 
 	private double limitWithPowerMax(double power)

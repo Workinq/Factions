@@ -7,7 +7,7 @@ import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.command.CommandSender;
 
-public class ReqHasBanner extends RequirementAbstract
+public class ReqHasntVault extends RequirementAbstract
 {
     // -------------------------------------------- //
     // SERIALIZABLE
@@ -19,8 +19,8 @@ public class ReqHasBanner extends RequirementAbstract
     // INSTANCE & CONSTRUCT
     // -------------------------------------------- //
 
-    private static ReqHasBanner i = new ReqHasBanner();
-    public static ReqHasBanner get() { return i; }
+    private static ReqHasntVault i = new ReqHasntVault();
+    public static ReqHasntVault get() { return i; }
 
     // -------------------------------------------- //
     // OVERRIDE
@@ -35,13 +35,13 @@ public class ReqHasBanner extends RequirementAbstract
 
         if (mplayer.getFaction().isSystemFaction()) return false;
 
-        return mplayer.getFaction().hasBanner();
+        return mplayer.getFaction().hasVault();
     }
 
     @Override
     public String createErrorMessage(CommandSender sender, MassiveCommand command)
     {
-        return Txt.parse("<b>You must have a faction banner placed to %s.", getDesc(command));
+        return Txt.parse("<b>You must not have a vault set to %s.", getDesc(command));
     }
 
 }
