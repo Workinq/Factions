@@ -93,7 +93,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setCredits(that.credits);
 		this.setStrikes(that.strikes);
 		this.setCoreChunk(that.coreChunk);
-		this.setVault(that.vault);
 		this.setBaseRegion(that.baseRegion);
 		this.setShieldedHour(that.shieldedHour);
 		this.setShieldString(that.shieldString);
@@ -104,6 +103,9 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setSandAlts(that.sandAlts);
 		this.setLootRewards(that.lootRewards);
 		this.setVault(that.vault);
+		this.setBannedMembers(that.bannedMembers);
+		this.setMutedMembers(that.mutedMembers);
+		this.setMoneyLogs(that.moneyLogs);
 		return this;
 	}
 
@@ -279,6 +281,11 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This will store a list of all the muted members.
 	// By default it's empty and members can be banned using /f mute <player>.
 	private MassiveSet<FactionMute> mutedMembers = new MassiveSet<>();
+
+	// This will store a list of all major money transactions.
+	// By default it's empty and all major money transactions will be logged.
+	private MassiveSet<FactionMoneyLog> moneyLogs = new MassiveSet<>();
+
 
 	// This will store the faction's vault.
 	// Null means there is no vault.
@@ -1627,9 +1634,28 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public MassiveSet<FactionMute> getMutedMembers()
-	{
+	public MassiveSet<FactionMute> getMutedMembers() {
 		return this.mutedMembers;
+	}
+
+	public void setMoneyLogs(MassiveSet<FactionMoneyLog> moneyLogs) {
+		// Apply
+		this.moneyLogs = moneyLogs;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	public MassiveSet<FactionMoneyLog> getMoneyLog() {
+		return this.moneyLogs;
+	}
+
+	public void logMoney(FactionMoneyLog factionMoneyLog) {
+		// Log Money change
+		this.moneyLogs.add(factionMoneyLog);
+
+		// Mark as changed
+		this.changed();
 	}
 
 	public boolean isMuted(String playerId)

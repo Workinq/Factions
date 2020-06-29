@@ -55,7 +55,7 @@ public class CmdFactionsVaultOpen extends FactionsCommand
 
         if(faction.getVault().getIfDamaged()) {
             if(faction.getVault().getCanRepair()) {
-                chestGui.getInventory().setItem(10, new ItemBuilder(Material.STAINED_CLAY).name(Txt.parse("<i> Repair Vault")).addLore(Txt.parse("<gold><bold><u> Click to repair")).durability(1));
+                chestGui.getInventory().setItem(10, new ItemBuilder(Material.STAINED_CLAY).name(Txt.parse("<i> Repair Vault")).addLore(Txt.parse("<gold><bold> Click to repair")).durability(1));
             } else {
                 chestGui.getInventory().setItem(10, new ItemBuilder(Material.STAINED_CLAY).name(Txt.parse("<i> Repair Vault")).addLore(Txt.parse("<b> Repairable in %time%").replace("%time%",faction.getVault().getWhenCanRepairTime())).durability(14));
             }

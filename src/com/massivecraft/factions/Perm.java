@@ -2,6 +2,7 @@ package com.massivecraft.factions;
 
 import com.massivecraft.massivecore.Identified;
 import com.massivecraft.massivecore.util.PermissionUtil;
+import org.bukkit.block.data.type.TNT;
 import org.bukkit.permissions.Permissible;
 
 public enum Perm implements Identified
@@ -53,6 +54,8 @@ public enum Perm implements Identified
 	MONEY_F2P,
 	MONEY_P2F,
 	MONEY_WITHDRAW,
+	MONEY_LOG,
+	MONEY_LOG_ANY,
 	MOTD,
 	OPEN,
 	PERM,

@@ -7,6 +7,7 @@ import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.entity.object.FactionMoneyLog;
 import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.type.primitive.TypeDouble;
@@ -44,9 +45,12 @@ public class CmdFactionsMoneyWithdraw extends FactionsCommand
 		
 		boolean success = Econ.transferMoney(msender, from, to, amount);
 
-		if (success && MConf.get().logMoneyTransactions)
-		{
+		if (success && MConf.get().logMoneyTransactions) {
 			Factions.get().log(ChatColor.stripColor(Txt.parse("%s withdrew %s from the faction bank: %s", msender.getName(), Money.format(amount), from.describeTo(null))));
+		}
+		if(success) {
+			final FactionMoneyLog factionMoneyLog = new FactionMoneyLog(msender.getId(), "withdrew", amount, System.currentTimeMillis());
+			msenderFaction.logMoney(factionMoneyLog);
 		}
 	}
 	

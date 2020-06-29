@@ -41,8 +41,14 @@ public class Vault extends EntityInternal<Vault> {
         this.setDamaged(false);
         this.setWhenCanRepair(0);
         // todo: stop koth
-        // todo: reschem vault
+        createVault();
         this.changed();
+    }
+
+    public void createVault() {
+        final Location min = this.location.asBukkitLocation().clone().add(-4, -2, -4);
+        final Location max = this.location.asBukkitLocation().clone().add(3, 3, 3);
+        //todo: generate vault
     }
 
     public boolean damaged;
