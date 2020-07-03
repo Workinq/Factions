@@ -35,7 +35,7 @@ public class ReqVaultIsntDamaged extends RequirementAbstract
 
         if( ! mplayer.getFaction().hasVault())return false;
 
-        return !mplayer.getFaction().getVault().getIfDamaged();
+        return !mplayer.getFaction().getVault().isDamaged();
     }
 
     @Override

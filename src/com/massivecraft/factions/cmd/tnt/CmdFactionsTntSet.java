@@ -36,7 +36,7 @@ public class CmdFactionsTntSet extends FactionsCommand
         int amount = this.readArg();
 
         // Perm
-        if (faction != msenderFaction && (!( Perm.TNT_SET_ANY.has(sender, true)))) return;
+        if (faction != msenderFaction && ! Perm.TNT_SET_ANY.has(sender, true) ) return;
 
         // Apply
         faction.setTnt(amount);

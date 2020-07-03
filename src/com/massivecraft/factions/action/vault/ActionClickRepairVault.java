@@ -18,11 +18,11 @@ public class ActionClickRepairVault extends ChestActionAbstract {
     @Override
     public boolean onClick(InventoryClickEvent event, Player player) {
         if(faction.getVault() == null)return true;
-        if(!faction.getVault().getIfDamaged()) {
+        if(!faction.getVault().isDamaged()) {
             mplayer.msg("<i>Your faction vault is not damaged.");
             return true;
         }
-        if(faction.getVault().getCanRepair()) {
+        if(faction.getVault().canRepair()) {
             faction.getVault().repairVault();
             faction.msg("%s <i>has repaired the faction vault", mplayer.describeTo(faction, true));
         } else {

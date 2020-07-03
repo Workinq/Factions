@@ -53,8 +53,8 @@ public class CmdFactionsVaultOpen extends FactionsCommand
         chestGui.setSoundOpen(null);
         chestGui.setSoundClose(null);
 
-        if(faction.getVault().getIfDamaged()) {
-            if(faction.getVault().getCanRepair()) {
+        if(faction.getVault().isDamaged()) {
+            if(faction.getVault().canRepair()) {
                 chestGui.getInventory().setItem(10, new ItemBuilder(Material.STAINED_CLAY).name(Txt.parse("<i> Repair Vault")).addLore(Txt.parse("<gold><bold> Click to repair")).durability(1));
             } else {
                 chestGui.getInventory().setItem(10, new ItemBuilder(Material.STAINED_CLAY).name(Txt.parse("<i> Repair Vault")).addLore(Txt.parse("<b> Repairable in %time%").replace("%time%",faction.getVault().getWhenCanRepairTime())).durability(14));

@@ -69,7 +69,7 @@ public class EngineTnt extends Engine
         // Calculate excess TNT
         int excessTnt;
 
-        if(newTnt > maximumTnt)
+        if (newTnt > maximumTnt)
         {
             excessTnt = newTnt - maximumTnt;
 

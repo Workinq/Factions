@@ -113,7 +113,6 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsConfig cmdFactionsConfig = new CmdFactionsConfig();
 	public CmdFactionsClean cmdFactionsClean = new CmdFactionsClean();
 	public CmdFactionsTnt cmdFactionsTnt = new CmdFactionsTnt();
-	public CmdFactionsVault cmdFactionsVault = new CmdFactionsVault();
 	public CmdFactionsChest cmdFactionsChest = new CmdFactionsChest();
 	public CmdFactionsStealth cmdFactionsStealth = new CmdFactionsStealth();
 	public CmdFactionsFly cmdFactionsFly = new CmdFactionsFly();
@@ -157,6 +156,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsFf cmdFactionsFf = new CmdFactionsFf();
 	public CmdFactionsToggle cmdFactionsToggle = new CmdFactionsToggle();
 	public CmdFactionsLoot cmdFactionsLoot = new CmdFactionsLoot();
+	public CmdFactionsVault cmdFactionsVault = new CmdFactionsVault();
 	public MassiveCommandVersion cmdFactionsVersion = new MassiveCommandVersion(Factions.get()).setAliases("v", "version").addRequirements(RequirementHasPerm.get(Perm.VERSION));
 
 	// -------------------------------------------- //

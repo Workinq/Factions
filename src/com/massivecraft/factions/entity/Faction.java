@@ -108,7 +108,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setMutedMembers(that.mutedMembers);
 		this.setMoneyLogs(that.moneyLogs);
 		if(this.hasVault()) {
-			if(this.getVault().getIfDamaged()) {
+			if(this.getVault().isDamaged()) {
 				Bukkit.getScheduler().runTaskLater(Factions.get(),()-> {
 					this.getVault().startKoth();
 				},100L);
