@@ -4,6 +4,7 @@ import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqBankCommandsEnabled;
+import com.massivecraft.factions.cmd.req.ReqHasVault;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.Faction;
@@ -40,6 +41,7 @@ public class CmdFactionsMoneyTransferFp extends FactionsCommand
 		// Requirements
 		this.addRequirements(RequirementHasPerm.get(Perm.MONEY_F2P));
 		this.addRequirements(ReqBankCommandsEnabled.get());
+		this.addRequirements(ReqHasVault.get());
 	}
 	
 	// -------------------------------------------- //

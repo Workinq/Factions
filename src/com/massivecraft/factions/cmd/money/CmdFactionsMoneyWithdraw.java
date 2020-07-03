@@ -3,6 +3,7 @@ package com.massivecraft.factions.cmd.money;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqBankCommandsEnabled;
+import com.massivecraft.factions.cmd.req.ReqHasVault;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
@@ -29,6 +30,7 @@ public class CmdFactionsMoneyWithdraw extends FactionsCommand
 
 		// Requirements
 		this.addRequirements(ReqBankCommandsEnabled.get());
+		this.addRequirements(ReqHasVault.get());
 	}
 
 	// -------------------------------------------- //
