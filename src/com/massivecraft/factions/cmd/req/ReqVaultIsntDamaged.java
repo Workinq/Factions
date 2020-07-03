@@ -7,7 +7,7 @@ import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.command.CommandSender;
 
-public class ReqHasntVault extends RequirementAbstract
+public class ReqVaultIsntDamaged extends RequirementAbstract
 {
     // -------------------------------------------- //
     // SERIALIZABLE
@@ -19,8 +19,8 @@ public class ReqHasntVault extends RequirementAbstract
     // INSTANCE & CONSTRUCT
     // -------------------------------------------- //
 
-    private static ReqHasntVault i = new ReqHasntVault();
-    public static ReqHasntVault get() { return i; }
+    private static ReqVaultIsntDamaged i = new ReqVaultIsntDamaged();
+    public static ReqVaultIsntDamaged get() { return i; }
 
     // -------------------------------------------- //
     // OVERRIDE
@@ -33,15 +33,15 @@ public class ReqHasntVault extends RequirementAbstract
 
         MPlayer mplayer = MPlayer.get(sender);
 
-        if (mplayer.getFaction().isSystemFaction()) return false;
+        if( ! mplayer.getFaction().hasVault())return false;
 
-        return !mplayer.getFaction().hasVault();
+        return !mplayer.getFaction().getVault().getIfDamaged();
     }
 
     @Override
     public String createErrorMessage(CommandSender sender, MassiveCommand command)
     {
-        return Txt.parse("<b>You must not have a vault set to %s.", getDesc(command));
+        return Txt.parse("<b>You must have a repaired your faction vault to %s.", getDesc(command));
     }
 
 }

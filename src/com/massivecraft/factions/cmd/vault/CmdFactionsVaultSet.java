@@ -1,15 +1,17 @@
 package com.massivecraft.factions.cmd.vault;
 
+import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.cmd.FactionsCommand;
-import com.massivecraft.factions.cmd.req.ReqHasntVault;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.MOption;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.object.Vault;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.ps.PS;
+import com.massivecraft.massivecore.util.IdUtil;
 
 public class CmdFactionsVaultSet extends FactionsCommand
 {
@@ -24,7 +26,6 @@ public class CmdFactionsVaultSet extends FactionsCommand
 
         // Requirements
         this.addRequirements(RequirementIsPlayer.get());
-        this.addRequirements(ReqHasntVault.get());
     }
 
     // -------------------------------------------- //
@@ -48,6 +49,12 @@ public class CmdFactionsVaultSet extends FactionsCommand
             return;
         }
 
+        // Verify - Grace still enabled
+        if ( ! MOption.get().isGrace() && faction.hasVault()) {
+            msg("<b>You can't change your faction vault location as grace has been disabled.");
+            return;
+        }
+
         // Verify - Base Region
         if ( ! faction.hasBaseRegion() ) {
             msg("<b>You must have a base region set to set your faction vault.");
@@ -60,10 +67,15 @@ public class CmdFactionsVaultSet extends FactionsCommand
         }
 
         // Apply
+        ps = PS.valueOf(ps.asBukkitLocation().clone().add(0,3,0));
+        if(faction.hasVault()) {
+            faction.getVault().deleteVault();
+        }
         Vault vault = new Vault(ps, false);
         faction.setVault(vault);
 
         // Inform
+        Factions.get().log(msender.getDisplayName(IdUtil.getConsole()) + " has set their vault in the faction " + msenderFaction.getName());
         msg("%s <g>successfully set the faction vault for %s<g>.", msender.describeTo(msender, true), faction.describeTo(msender));
     }
 

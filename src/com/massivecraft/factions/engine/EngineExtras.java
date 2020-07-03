@@ -173,9 +173,14 @@ public class EngineExtras extends Engine {
         PS chunk = PS.valueOf(event.getBlockPlaced().getChunk());
         if (BoardColl.get().getFactionAt(chunk).isSystemFaction()) return;
 
-        if ( ! faction.hasBaseRegion() )
-        {
+        if ( ! faction.hasBaseRegion() ) {
             mplayer.msg("<b>You can't place spawners until you've set a base region using /f setbaseregion.");
+            event.setCancelled(true);
+            return;
+        }
+
+        if ( ! (faction.hasVault())) {
+            mplayer.msg("<b>You can't place spawners until you've set a vault using /f vault set.");
             event.setCancelled(true);
             return;
         }

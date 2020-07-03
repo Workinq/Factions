@@ -88,6 +88,9 @@ public class CmdFactionsDisband extends FactionsCommand
 		}
 		
 		// Apply
+		if(faction.hasVault()) {
+			faction.getVault().deleteVault();
+		}
 		faction.detach();
 	}
 	

@@ -2,6 +2,8 @@ package com.massivecraft.factions.cmd.money;
 
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqBankCommandsEnabled;
+import com.massivecraft.factions.cmd.req.ReqHasVault;
+import com.massivecraft.factions.cmd.req.ReqVaultIsntDamaged;
 
 public class CmdFactionsMoney extends FactionsCommand
 {
@@ -28,6 +30,8 @@ public class CmdFactionsMoney extends FactionsCommand
 
 		// Requirements
 		this.addRequirements(ReqBankCommandsEnabled.get());
+		this.addRequirements(ReqHasVault.get());
+		this.addRequirements(ReqVaultIsntDamaged.get());
 	}
 	
 }

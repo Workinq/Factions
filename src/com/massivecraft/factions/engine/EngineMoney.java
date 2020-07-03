@@ -28,8 +28,7 @@ public class EngineMoney extends Engine
     // -------------------------------------------- //
 
     @EventHandler
-    public void onMoneyDrop(SpawnerSpawnEvent event)
-    {
+    public void onMoneyDrop(SpawnerSpawnEvent event) {
         // Args
         EntityType type = event.getEntityType();
         if ( ! MConf.get().moneyChances.containsKey(type) ) return;
@@ -47,6 +46,8 @@ public class EngineMoney extends Engine
         PS chunk = PS.valueOf(location.getChunk());
         if ( ! at.hasBaseRegion() ) return;
         if ( ! at.getBaseRegion().contains(chunk)) return;
+
+        if( ! at.hasVault()) return;
 
         // Args
         int minimum = MConf.get().moneyChances.get(type).get(0);

@@ -61,8 +61,7 @@ public class CmdFactionsMute extends FactionsCommand
             FactionMute factionMute = new FactionMute(mplayer.getId(),msender.getId(),System.currentTimeMillis());
             msenderFaction.mute(factionMute);
 
-            if (MConf.get().logFactionMute)
-            {
+            if (MConf.get().logFactionMute) {
                 Factions.get().log(msender.getDisplayName(IdUtil.getConsole()) + " muted " + mplayer.getName() + " in the faction " + msenderFaction.getName());
             }
         }

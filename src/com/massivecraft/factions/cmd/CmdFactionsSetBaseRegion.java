@@ -31,8 +31,7 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
     {
         Faction faction = this.readArg(msenderFaction);
 
-        if ( ! MOption.get().isGrace() && faction.hasBaseRegion() && ! msender.isOverriding() )
-        {
+        if ( ! MOption.get().isGrace() && faction.hasBaseRegion() && ! msender.isOverriding() ) {
             msg("<b>You can't set your base region as grace has been disabled.");
             return;
         }
@@ -54,6 +53,11 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
         {
             msg("<b>You must have a 25x25 chunk claim to set your base region.");
             return;
+        }
+
+        //Vault check
+        if(faction.hasVault()) {
+            faction.getVault().deleteVault();
         }
 
         // Apply

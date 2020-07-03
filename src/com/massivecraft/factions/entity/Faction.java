@@ -29,6 +29,7 @@ import com.massivecraft.massivecore.util.Txt;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -106,6 +107,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setBannedMembers(that.bannedMembers);
 		this.setMutedMembers(that.mutedMembers);
 		this.setMoneyLogs(that.moneyLogs);
+		if(this.hasVault()) {
+			if(this.getVault().getIfDamaged()) {
+				Bukkit.getScheduler().runTaskLater(Factions.get(),()-> {
+					this.getVault().startKoth();
+				},100L);
+			}
+		}
 		return this;
 	}
 
@@ -324,8 +332,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ! this.isNone();
 	}
 
-	public boolean isSystemFaction()
-	{
+	public boolean isSystemFaction() {
 		return this.getId().equals(Factions.ID_NONE) || this.getId().equals(Factions.ID_WARZONE) || this.getId().equals(Factions.ID_SAFEZONE);
 	}
 
@@ -353,8 +360,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		// Clean input
 		String target = name;
 
