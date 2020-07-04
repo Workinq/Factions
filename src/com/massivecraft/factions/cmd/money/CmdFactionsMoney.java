@@ -30,7 +30,6 @@ public class CmdFactionsMoney extends FactionsCommand
 
 		// Requirements
 		this.addRequirements(ReqBankCommandsEnabled.get());
-		this.addRequirements(ReqVaultIsntDamaged.get());
 	}
 	
 }

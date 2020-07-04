@@ -156,16 +156,14 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		return getAll(false);
 	}
 	
-	public static List<MPerm> getAll(boolean isAsync)
-	{
+	public static List<MPerm> getAll(boolean isAsync) {
 		setupStandardPerms();
 		new EventFactionsCreatePerms().run();
 		
 		return MPermColl.get().getAll(PredicateIsRegistered.get(), ComparatorSmart.get());
 	}
 	
-	public static void setupStandardPerms()
-	{
+	public static void setupStandardPerms() {
 		getPermBuild();
 		getPermPainbuild();
 		getPermDoor();
@@ -278,7 +276,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public static MPerm getPermSandalt() { return getCreative(PRIORITY_SANDALT, ID_SANDALT, ID_SANDALT, "mange faction sandalts", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermLoot() { return getCreative(PRIORITY_LOOT, ID_LOOT, ID_LOOT, "manage faction loot", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
 	public static MPerm getPermFly() { return getCreative(PRIORITY_FLY, ID_FLY, ID_FLY, "toggle faction fly", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER, Rel.RECRUIT), false, true, true); }
-	public static MPerm getPermVault() {return getCreative(PRIORITY_VAULT,ID_VAULT, ID_VAULT, "manage faction vault",MUtil.set(Rel.LEADER,Rel.COLEADER,Rel.OFFICER),false,true,true);}
+	public static MPerm getPermVault() {return getCreative(PRIORITY_VAULT,ID_VAULT, ID_VAULT, "manage faction vault",MUtil.set(Rel.LEADER,Rel.COLEADER,Rel.OFFICER, Rel.MEMBER),false,true,true);}
 //	public static MPerm getPermBanner() { return getCreative(PRIORITY_BANNER, ID_BANNER, ID_BANNER, "manage faction banner", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 //	public static MPerm getPermAssist() { return getCreative(PRIORITY_ASSIST, ID_ASSIST, ID_ASSIST, "teleport to faction banner", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER), false, true, true); }
 

@@ -12,6 +12,8 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.util.IdUtil;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 
 public class CmdFactionsVaultSet extends FactionsCommand
 {
@@ -66,8 +68,17 @@ public class CmdFactionsVaultSet extends FactionsCommand
             return;
         }
 
-        // Apply
+        // Move centre up 3 blocks
         ps = PS.valueOf(ps.asBukkitLocation().clone().add(0,3,0));
+
+        // Space check
+        if(!isOpen(ps)) {
+            msg("<b>There is not enough space around you to generate the vault.");
+            return;
+        }
+
+
+        // Apply
         if(faction.hasVault()) {
             faction.getVault().deleteVault();
         }
@@ -77,6 +88,20 @@ public class CmdFactionsVaultSet extends FactionsCommand
         // Inform
         Factions.get().log(msender.getDisplayName(IdUtil.getConsole()) + " has set their vault in the faction " + msenderFaction.getName());
         msg("%s <g>successfully set the faction vault for %s<g>.", msender.describeTo(msender, true), faction.describeTo(msender));
+    }
+
+    private boolean isOpen(PS ps) {
+        final Block block = ps.asBukkitLocation().getBlock();
+        // Loop
+        for (int x = -3; x < 4; x++) {
+            for (int z = -3; z < 4; z++) {
+                for (int y = -3; y < 4; y++) {
+                    if (block.getType() == Material.AIR || block.getType() == Material.WATER || block.getType() == Material.STATIONARY_WATER)continue;
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }

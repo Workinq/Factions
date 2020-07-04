@@ -51,8 +51,7 @@ public class EventFactionsChunksChange extends EventFactionsAbstractSender
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
-	public EventFactionsChunksChange(CommandSender sender, Set<PS> chunks, Faction newFaction)
-	{
+	public EventFactionsChunksChange(CommandSender sender, Set<PS> chunks, Faction newFaction) {
 		super(sender);
 		chunks = PS.getDistinctChunks(chunks);
 		this.chunks = Collections.unmodifiableSet(chunks);

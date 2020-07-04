@@ -32,8 +32,8 @@ public class CmdFactionsTntSet extends FactionsCommand
     public void perform() throws MassiveException
     {
         // Args
-        Faction faction = this.readArg(msenderFaction);
         int amount = this.readArg();
+        Faction faction = this.readArg(msenderFaction);
 
         // Perm
         if (faction != msenderFaction && ! Perm.TNT_SET_ANY.has(sender, true) ) return;

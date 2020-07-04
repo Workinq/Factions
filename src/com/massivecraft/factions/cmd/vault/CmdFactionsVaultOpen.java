@@ -55,14 +55,14 @@ public class CmdFactionsVaultOpen extends FactionsCommand
 
         if(faction.getVault().isDamaged()) {
             if(faction.getVault().canRepair()) {
-                chestGui.getInventory().setItem(10, new ItemBuilder(Material.STAINED_CLAY).name(Txt.parse("<i> Repair Vault")).addLore(Txt.parse("<gold><bold> Click to repair")).durability(1));
+                chestGui.getInventory().setItem(13, new ItemBuilder(Material.STAINED_CLAY).name(Txt.parse("<i> Repair Vault")).addLore(Txt.parse("<gold><bold> Click to repair")).durability(1));
             } else {
-                chestGui.getInventory().setItem(10, new ItemBuilder(Material.STAINED_CLAY).name(Txt.parse("<i> Repair Vault")).addLore(Txt.parse("<b> Repairable in %time%").replace("%time%",faction.getVault().getWhenCanRepairTime())).durability(14));
+                chestGui.getInventory().setItem(13, new ItemBuilder(Material.STAINED_CLAY).name(Txt.parse("<i> Repair Vault")).addLore(Txt.parse("<b> Repairable in %time%").replace("%time%",faction.getVault().getWhenCanRepairTime())).durability(14));
             }
         } else {
-            chestGui.getInventory().setItem(10, new ItemBuilder(Material.STAINED_CLAY).name(Txt.parse("<i> Repair Vault")).addLore(Txt.parse("<grey> The vault is not damaged")).durability(5));
+            chestGui.getInventory().setItem(13, new ItemBuilder(Material.STAINED_CLAY).name(Txt.parse("<i> Repair Vault")).addLore(Txt.parse("<grey> The vault is not damaged")).durability(5));
         }
-        chestGui.setAction(10, new ActionClickRepairVault(msender,msenderFaction));
+        chestGui.setAction(13, new ActionClickRepairVault(msender,msenderFaction));
         InventoryUtil.fillInventory(chestGui.getInventory());
 
         return chestGui.getInventory();

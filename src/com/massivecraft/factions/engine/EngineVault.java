@@ -4,6 +4,7 @@ import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.entity.object.Vault;
+import com.massivecraft.factions.event.EventFactionsChunksChange;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Location;
@@ -13,8 +14,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
-public class EngineVault extends Engine
-{
+public class EngineVault extends Engine {
 
     private static EngineVault i = new EngineVault();
     public static EngineVault get() { return i; }
@@ -110,6 +110,20 @@ public class EngineVault extends Engine
 
         // Inform
         mplayer.msg("<b>You cannot break your own vault.");
+    }
+
+    @EventHandler
+    public void vaultChunkChange(EventFactionsChunksChange event) {
+        for(Faction faction : event.getOldFactionChunks().keySet()) {
+            if(!faction.hasVault())continue;
+            final Location min = faction.getVault().location.asBukkitLocation().clone().add(-4, -3, -4);
+            final Location max = faction.getVault().location.asBukkitLocation().clone().add(3, -3, 3);
+            for(PS ps : event.getOldFactionChunks().get(faction)) {
+                if(min.getChunk() == ps.asBukkitLocation().getChunk() || max.getChunk() == ps.asBukkitLocation().getChunk()) {
+                    faction.getVault().deleteVault();
+                }
+            }
+        }
     }
 
 }
