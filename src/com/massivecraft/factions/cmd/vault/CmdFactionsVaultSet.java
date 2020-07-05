@@ -82,7 +82,7 @@ public class CmdFactionsVaultSet extends FactionsCommand
         if(faction.hasVault()) {
             faction.getVault().deleteVault();
         }
-        Vault vault = new Vault(ps, false);
+        Vault vault = new Vault(ps, false,faction);
         faction.setVault(vault);
 
         // Inform
@@ -91,11 +91,11 @@ public class CmdFactionsVaultSet extends FactionsCommand
     }
 
     private boolean isOpen(PS ps) {
-        final Block block = ps.asBukkitLocation().getBlock();
         // Loop
         for (int x = -3; x < 4; x++) {
             for (int z = -3; z < 4; z++) {
                 for (int y = -3; y < 4; y++) {
+                    final Block block = ps.asBukkitLocation().getBlock().getLocation().clone().add(x,y,z).getBlock();
                     if (block.getType() == Material.AIR || block.getType() == Material.WATER || block.getType() == Material.STATIONARY_WATER)continue;
                     return false;
                 }

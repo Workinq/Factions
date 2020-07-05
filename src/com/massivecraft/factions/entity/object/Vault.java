@@ -1,7 +1,6 @@
 package com.massivecraft.factions.entity.object;
 
 import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.integration.Econ;
@@ -21,13 +20,16 @@ import java.util.List;
 
 public class Vault extends EntityInternal<Vault> {
 
-    public Vault(PS location, boolean damaged) {
+    public Vault(PS location, boolean damaged,Faction faction) {
         this.location = location;
         this.damaged = damaged;
         this.time = 0;
+        this.factionId = faction.getId();
         this.createVault();
         this.changed();
     }
+
+    private String factionId;
 
     private long time;
 
@@ -80,6 +82,10 @@ public class Vault extends EntityInternal<Vault> {
         for (int x = -3; x < 4; x++) {
             for (int z = -3; z < 4; z++) {
                 for (int y = -3; y < 4; y++) {
+                    if(y == -3) {
+                        location.asBukkitLocation().clone().add(x,y,z).getBlock().setType(Material.BEDROCK);
+                        continue;
+                    }
                     location.asBukkitLocation().clone().add(x, y, z).getBlock().setType(Material.IRON_BLOCK);
                 }
             }
@@ -129,37 +135,35 @@ public class Vault extends EntityInternal<Vault> {
         return location;
     }
 
-    public boolean getHitTop(Location location) {
-        final Location min = this.location.asBukkitLocation().clone().add(-4, -2, -4);
+    public boolean getHitVault(Location location) {
+        final Location min = this.location.asBukkitLocation().clone().add(-4, -3, -4);
         final Location max = this.location.asBukkitLocation().clone().add(3, 3, 3);
         return location.getX() <= max.getX() && location.getX() >= min.getX() && location.getY() <= max.getY() && location.getY() >= min.getY() && location.getZ() <= max.getZ() && location.getZ() >= min.getZ();
     }
 
-    public boolean getHitBottom(Location location) {
-        final Location min = this.location.asBukkitLocation().clone().add(-4, -3, -4);
-        final Location max = this.location.asBukkitLocation().clone().add(3, -3, 3);
-        return location.getX() <= max.getX() && location.getX() >= min.getX() && location.getY() <= max.getY() && location.getY() >= min.getY() && location.getZ() <= max.getZ() && location.getZ() >= min.getZ();
-    }
-
     private transient Faction currentCapper;
-    private transient List<BukkitTask> loops;
-    private transient boolean delayed;
+    private transient List<Integer> loops;
+    private transient boolean contested;
 
     public void startKoth() {
+        if(loops == null) {
+            loops = new ArrayList<>();
+        }
         checkLoop();
         captureLoop();
     }
 
     private void stopKoth() {
-        if (loops == null) loops = new ArrayList<>();
+        if(loops == null)return;
         if (loops.isEmpty()) return;
-        loops.forEach(BukkitTask::cancel);
+        for(int task : loops) {
+            Bukkit.getScheduler().cancelTask(task);
+        }
         loops.clear();
     }
 
     private void checkLoop() {
         currentCapper = null;
-        if (loops == null) loops = new ArrayList<>();
         final BukkitTask task = Bukkit.getScheduler().runTaskTimer(Factions.get(), () ->
         {
             // Args
@@ -178,9 +182,7 @@ public class Vault extends EntityInternal<Vault> {
             // Verify - Still Capturing
             if (!stillCapturing) {
                 if (currentCapper != null) {
-                    final Faction from = BoardColl.get().getFactionAt(location);
-                    if (from == null) return;
-                    currentCapper.msg("<b>You have stopped stealing money from the faction %s", from.describeTo(currentCapper));
+                    currentCapper.msg("<b>You have stopped stealing money from the faction %s", Faction.get(factionId).describeTo(currentCapper));
                 }
                 currentCapper = null;
             }
@@ -189,46 +191,48 @@ public class Vault extends EntityInternal<Vault> {
             if (playersInRegion.size() == 0) return;
 
             // Loop - Players
+            boolean stillContested = false;
             for (Player player : playersInRegion) {
+                final Faction faction = MPlayer.get(player).getFaction();
+                if (faction.isNone()) continue;
+
+                final Faction from = Faction.get(factionId);
+                if (faction == from) {
+                    contested = true;
+                    stillContested = true;
+                    continue;
+                }
                 if (currentCapper == null) {
-                    final Faction faction = MPlayer.get(player).getFaction();
-                    if (faction.isNone()) continue;
-
-                    final Faction from = BoardColl.get().getFactionAt(location);
-                    if (faction == from) continue;
-
                     faction.msg("<b>You have started to steal money from the faction %s", from.describeTo(faction));
                     currentCapper = faction;
-                    return;
+                    continue;
                 }
             }
+            if(contested && stillContested)return;
+            contested = false;
         }, 0, 10L);
-
-        loops.add(task);
+        loops.add(task.getTaskId());
     }
 
     private void captureLoop() {
-        delayed = false;
-        if (loops == null) loops = new ArrayList<>();
         BukkitTask task = Bukkit.getScheduler().runTaskTimer(Factions.get(), () -> {
-            // Delayed
-            if (delayed) return;
 
             // Verify
             if (currentCapper == null) return;
 
             // Args
-            final Faction from = BoardColl.get().getFactionAt(location);
+            final Faction from = Faction.get(factionId);
             if(from == null)return;
             double amount = Money.get(from) / 10;
             if (amount < 10000) {
                 currentCapper.msg("%s <b> does not have any significant money left to steal.", from.describeTo(currentCapper));
                 return;
             }
-            delayed = true;
-            Bukkit.getScheduler().runTaskLaterAsynchronously(Factions.get(), () -> {
-                delayed = false;
-            }, 5L);
+            if(contested) {
+                currentCapper.msg("<g>You failed to steal money from %s due to the vault being contested.",from.getName());
+                return;
+            }
+
             // Move
             Econ.transferMoney(from, currentCapper, null, amount, false);
 
@@ -239,7 +243,7 @@ public class Vault extends EntityInternal<Vault> {
             // Log
             Factions.get().log(Txt.parse("%s <b>has stolen $%.1f from %s", currentCapper.getName(), amount, from.getName()));
         }, 0, 60 * 20L);
-        loops.add(task);
+        loops.add(task.getTaskId());
     }
 
     private List<Player> playersInRegion() {
@@ -251,7 +255,7 @@ public class Vault extends EntityInternal<Vault> {
         if (world.getPlayers() == null) return players;
 
         for (Player player : world.getPlayers()) {
-            if (!this.getHitTop(player.getLocation())) continue;
+            if (!this.getHitVault(player.getLocation())) continue;
             players.add(player);
         }
 

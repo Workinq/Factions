@@ -2,7 +2,9 @@ package com.massivecraft.factions.action.vault;
 
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
+import com.massivecraft.massivecore.money.Money;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
@@ -22,12 +24,19 @@ public class ActionClickRepairVault extends ChestActionAbstract {
             mplayer.msg("<i>Your faction vault is not damaged.");
             return true;
         }
+        if(mplayer.isOverriding()) {
+            faction.getVault().repairVault();
+            faction.msg("%s <i>has repaired the faction vault", mplayer.describeTo(faction, true));
+            return true;
+        }
         if(faction.getVault().canRepair()) {
             faction.getVault().repairVault();
+            double amount = Money.get(faction) / 10;
+            Econ.payForAction(amount,mplayer,"Vault repair cost (10%)");
             faction.msg("%s <i>has repaired the faction vault", mplayer.describeTo(faction, true));
         } else {
             mplayer.msg("<i>You can repair your vault in <b>" + faction.getVault().getWhenCanRepairTime());
         }
-        return false;
+        return true;
     }
 }
