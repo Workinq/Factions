@@ -96,6 +96,8 @@ public class CmdFactionsVaultSet extends FactionsCommand
             for (int z = -3; z < 4; z++) {
                 for (int y = -3; y < 4; y++) {
                     final Block block = ps.asBukkitLocation().getBlock().getLocation().clone().add(x,y,z).getBlock();
+                    if(!ps.asBukkitLocation().getWorld().getWorldBorder().isInside(block.getLocation()))return false;
+                    if(ps.getBlockY() > 256)return false;
                     if (block.getType() == Material.AIR || block.getType() == Material.WATER || block.getType() == Material.STATIONARY_WATER)continue;
                     return false;
                 }
