@@ -70,9 +70,11 @@ public class TaskPlaceSand extends ModuloRepeatTask
                                 faction.msg("<g>Your sand alt at <i>x:<h>%,d <i>y:<h>%,d <i>z:<h>%,d <i>world: <h>%s <g>cannot print as there's not enough funds.", location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getWorld().getName());
                                 break location_loop;
                             }
-
+                            Block affectedBlock = block.getRelative(BlockFace.DOWN);
                             // Spawn
-                            location.getWorld().spawnFallingBlock(block.getRelative(BlockFace.DOWN).getLocation(), Material.SAND, (byte) 0);
+                            affectedBlock.setType(Material.SAND);
+                            affectedBlock.getState().update(true);
+                            //location.getWorld().spawnFallingBlock(block.getRelative(BlockFace.DOWN).getLocation(), Material.SAND, (byte) 0);
                         }
                     }
                 }

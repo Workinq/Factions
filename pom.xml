@@ -92,6 +92,13 @@
             <version>2.13.7</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <scope>system</scope>
+            <version>latest</version>
+            <systemPath>${basedir}/libs/server.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <!-- Build -->

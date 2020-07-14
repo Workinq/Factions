@@ -4,10 +4,9 @@ import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.ps.PS;
+import net.convictmc.augustegusteau.api.event.TNTPreExplodeEvent;
 import org.bukkit.Location;
-import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class EngineAntiExplode extends Engine
 {
@@ -19,24 +18,18 @@ public class EngineAntiExplode extends Engine
     public static EngineAntiExplode get() { return i; }
 
     @EventHandler(ignoreCancelled = true)
-    public void explodeEvent(EntityExplodeEvent event) {
-        if ( ! (event.getEntity() instanceof TNTPrimed) ) return;
-        TNTPrimed tnt = (TNTPrimed) event.getEntity();
-
-        if (tnt.getSourceLoc() == null) return;
-        Location source = tnt.getSourceLoc();
+    public void explodeEvent(TNTPreExplodeEvent event) {
+        final Location source = event.getTntPrimed().getSourceLoc();
 
         Faction from = BoardColl.get().getFactionAt(PS.valueOf(source));
-        Faction at = BoardColl.get().getFactionAt(PS.valueOf(event.getLocation()));
+        Faction at = BoardColl.get().getFactionAt(PS.valueOf(event.getTntPrimed().getLocation()));
 
         // Verify - Wilderness
         if (from.isNone() || at.isNone()) return;
 
-        if (from == at)
-        {
-            // Clear
-            event.blockList().clear();
+        if (from == at) {
+            // Remove damage blocks
+            event.setDamageBlocks(false);
         }
     }
-
 }

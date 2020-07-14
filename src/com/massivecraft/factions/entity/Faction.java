@@ -1434,8 +1434,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void despawnSandAlt(SandAlt sandAlt)
-	{
+	public void despawnSandAlt(SandAlt sandAlt) {
 		// Args
 		NPC npc = CitizensAPI.getNPCRegistry().getByUniqueId(sandAlt.getNpcId());
 
