@@ -820,6 +820,7 @@ public class MConf extends Entity<MConf>
 	// SHIELDS
 	// -------------------------------------------- //
 
+	public boolean shieldEnabled = true;
 	public int shieldHours = 10;
 
 	// -------------------------------------------- //
