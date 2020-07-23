@@ -14,7 +14,7 @@ public class PredicateMPlayerRole implements Predicate<MPlayer>
 	public Rel getRole() { return this.role; }
 	
 	// -------------------------------------------- //
-	// INSTANCE AND CONTRUCT
+	// INSTANCE AND CONSTRUCT
 	// -------------------------------------------- //
 	
 	public static PredicateMPlayerRole get(Rel role) { return new PredicateMPlayerRole(role); }
@@ -33,4 +33,5 @@ public class PredicateMPlayerRole implements Predicate<MPlayer>
 		if (mplayer == null) return false;
 		return mplayer.getRole() == this.role;
 	}
+
 }

@@ -1,7 +1,7 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.comparator.ComparatorFactionList;
 import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.comparator.ComparatorFactionList;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MPlayer;
@@ -43,7 +43,8 @@ public class CmdFactionsList extends FactionsCommand
 		// We run it asynchronously to spare the primary server thread.
 
 		// Pager Create
-		final Pager<Faction> pager = new Pager<>(this, "Faction List", page, new Stringifier<Faction>() {
+		final Pager<Faction> pager = new Pager<>(this, "Faction List", page, new Stringifier<Faction>()
+		{
 			@Override
 			public String toString(Faction faction, int index)
 			{
@@ -53,10 +54,15 @@ public class CmdFactionsList extends FactionsCommand
 				}
 				else
 				{
+					List<MPlayer> mplayersWhereOnline = faction.getMPlayersWhereOnlineTo(sender);
+					mplayersWhereOnline.removeIf(MPlayer::isAlt);
+
 					return Txt.parse("%s<i> %d/%d online, %d/%d/%d",
 							faction.getName(msender),
-							faction.getMPlayersWhereOnlineTo(sender).size(),
-							faction.getMPlayers().size(),
+							// faction.getMPlayersWhereOnlineTo(sender).size(),
+							mplayersWhereOnline,
+							// faction.getMPlayers().size(),
+							faction.getMPlayersWhereAlt(false).size(),
 							faction.getLandCount(),
 							faction.getPowerRounded(),
 							faction.getPowerMaxRounded()

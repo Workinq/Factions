@@ -6,6 +6,7 @@ import com.massivecraft.factions.entity.object.*;
 import com.massivecraft.factions.mission.Mission;
 import com.massivecraft.factions.mission.MissionsManager;
 import com.massivecraft.factions.predicate.PredicateCommandSenderFaction;
+import com.massivecraft.factions.predicate.PredicateMPlayerAlt;
 import com.massivecraft.factions.predicate.PredicateMPlayerRole;
 import com.massivecraft.factions.util.MiscUtil;
 import com.massivecraft.factions.util.RelationUtil;
@@ -2152,6 +2153,11 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public List<MPlayer> getMPlayersWhereRole(Rel role)
 	{
 		return this.getMPlayersWhere(PredicateMPlayerRole.get(role));
+	}
+
+	public List<MPlayer> getMPlayersWhereAlt(boolean alt)
+	{
+		return this.getMPlayersWhere(PredicateMPlayerAlt.get(alt));
 	}
 
 	public MPlayer getLeader()
