@@ -194,7 +194,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	private boolean alt = false;
 
 	// Stores if a player was flying, idfk.
-	public boolean wasFlying = false;
+	private boolean wasFlying = false;
 
 	// This determines if the player should receive login notifications from their faction members.
 	// By default they will receive notifications but they can be toggled using /f login.
@@ -249,6 +249,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.setRole(null);
 		this.setTitle(null);
 		this.setAutoClaimFaction(null);
+		this.setAlt(false);
+		this.setChat(Chat.PUBLIC);
 	}
 
 	// -------------------------------------------- //
@@ -1013,13 +1015,13 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 		if (myFaction.getMPlayers().size() > 1)
 		{
-			if (!permanent && this.getRole() == Rel.LEADER)
+			if ( ! permanent && this.getRole() == Rel.LEADER)
 			{
 				msg("<b>You must give the leader role to someone else first.");
 				return;
 			}
 
-			if (!MConf.get().canLeaveWithNegativePower && this.getPower() < 0)
+			if ( ! MConf.get().canLeaveWithNegativePower && this.getPower() < 0)
 			{
 				msg("<b>You cannot leave until your power is positive.");
 				return;
