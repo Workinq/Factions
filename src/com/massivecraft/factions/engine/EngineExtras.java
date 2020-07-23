@@ -4,10 +4,8 @@ import com.massivecraft.factions.Chat;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
-import com.massivecraft.factions.event.EventFactionsChunksChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.massivecore.Engine;
-import com.massivecraft.massivecore.collections.MassiveSet;
 import com.massivecraft.massivecore.ps.PS;
 import net.ess3.api.IEssentials;
 import net.ess3.api.IUser;
@@ -21,9 +19,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
-import java.util.Map;
-import java.util.Set;
 
 import static com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
 
@@ -173,14 +168,9 @@ public class EngineExtras extends Engine {
         PS chunk = PS.valueOf(event.getBlockPlaced().getChunk());
         if (BoardColl.get().getFactionAt(chunk).isSystemFaction()) return;
 
-        if ( ! faction.hasBaseRegion() ) {
+        if ( ! faction.hasBaseRegion() )
+        {
             mplayer.msg("<b>You can't place spawners until you've set a base region using /f setbaseregion.");
-            event.setCancelled(true);
-            return;
-        }
-
-        if ( ! (faction.hasVault())) {
-            mplayer.msg("<b>You can't place spawners until you've set a vault using /f vault set.");
             event.setCancelled(true);
             return;
         }

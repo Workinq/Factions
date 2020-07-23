@@ -47,8 +47,6 @@ public class EngineMoney extends Engine
         if ( ! at.hasBaseRegion() ) return;
         if ( ! at.getBaseRegion().contains(chunk)) return;
 
-        if( ! at.hasVault()) return;
-
         // Args
         int minimum = MConf.get().moneyChances.get(type).get(0);
         int maximum = MConf.get().moneyChances.get(type).get(1);

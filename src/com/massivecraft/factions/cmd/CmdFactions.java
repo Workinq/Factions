@@ -36,7 +36,6 @@ import com.massivecraft.factions.cmd.shield.CmdFactionsShield;
 import com.massivecraft.factions.cmd.strike.CmdFactionsStrike;
 import com.massivecraft.factions.cmd.tnt.CmdFactionsTnt;
 import com.massivecraft.factions.cmd.toggle.CmdFactionsToggle;
-import com.massivecraft.factions.cmd.vault.CmdFactionsVault;
 import com.massivecraft.factions.cmd.warp.CmdFactionsDelwarp;
 import com.massivecraft.factions.cmd.warp.CmdFactionsSetwarp;
 import com.massivecraft.factions.cmd.warp.CmdFactionsWarp;
@@ -89,14 +88,14 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsRankOld cmdFactionsRankOldDemote = new CmdFactionsRankOld("demote");
 	public CmdFactionsMoney cmdFactionsMoney = new CmdFactionsMoney();
 	public CmdFactionsSeeChunk cmdFactionsSeeChunk = new CmdFactionsSeeChunk();
-	// public CmdFactionsSeeChunkOld cmdFactionsSeeChunkOld = new CmdFactionsSeeChunkOld();
+	public CmdFactionsSeeChunkOld cmdFactionsSeeChunkOld = new CmdFactionsSeeChunkOld();
 	public CmdFactionsTerritorytitles cmdFactionsTerritorytitles = new CmdFactionsTerritorytitles();
 	public CmdFactionsStatus cmdFactionsStatus = new CmdFactionsStatus();
 	public CmdFactionsClaim cmdFactionsClaim = new CmdFactionsClaim();
 	public CmdFactionsUnclaim cmdFactionsUnclaim = new CmdFactionsUnclaim();
 	public CmdFactionsAccess cmdFactionsAccess = new CmdFactionsAccess();
 	public CmdFactionsRelation cmdFactionsRelation = new CmdFactionsRelation();
-	// public CmdFactionsRelationOld cmdFactionsRelationOldAlly = new CmdFactionsRelationOld("ally");
+	public CmdFactionsRelationOld cmdFactionsRelationOldAlly = new CmdFactionsRelationOld("ally");
 	public CmdFactionsRelationOld cmdFactionsRelationOldTruce = new CmdFactionsRelationOld("truce");
 	public CmdFactionsRelationOld cmdFactionsRelationOldNeutral = new CmdFactionsRelationOld("neutral");
 	public CmdFactionsRelationOld cmdFactionsRelationOldEnemy = new CmdFactionsRelationOld("enemy");
@@ -146,8 +145,6 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsUnfocus cmdFactionsUnfocus = new CmdFactionsUnfocus();
 	public CmdFactionsBaltop cmdFactionsBaltop = new CmdFactionsBaltop();
 	public CmdFactionsInvsee cmdFactionsInvsee = new CmdFactionsInvsee();
-	// public CmdFactionsShards cmdFactionsShards = new CmdFactionsShards(); // - Removed temporarily
-	// public CmdFactionsSpawnerUpgrade cmdFactionsSpawnerUpgrade = new CmdFactionsSpawnerUpgrade(); // - Removed temporarily
 	public CmdFactionsRoster cmdFactionsRoster = new CmdFactionsRoster();
 	public CmdFactionsDrain cmdFactionsDrain = new CmdFactionsDrain();
 	public CmdFactionsDrainToggle cmdFactionsDrainToggle = new CmdFactionsDrainToggle();
@@ -156,7 +153,6 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsFf cmdFactionsFf = new CmdFactionsFf();
 	public CmdFactionsToggle cmdFactionsToggle = new CmdFactionsToggle();
 	public CmdFactionsLoot cmdFactionsLoot = new CmdFactionsLoot();
-	public CmdFactionsVault cmdFactionsVault = new CmdFactionsVault();
 	public MassiveCommandVersion cmdFactionsVersion = new MassiveCommandVersion(Factions.get()).setAliases("v", "version").addRequirements(RequirementHasPerm.get(Perm.VERSION));
 
 	// -------------------------------------------- //

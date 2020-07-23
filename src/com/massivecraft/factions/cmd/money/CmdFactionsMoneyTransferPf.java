@@ -4,13 +4,11 @@ import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqBankCommandsEnabled;
-import com.massivecraft.factions.cmd.req.ReqHasVault;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
-import com.massivecraft.factions.entity.object.FactionMoneyLog;
 import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
@@ -24,7 +22,7 @@ public class CmdFactionsMoneyTransferPf extends FactionsCommand
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
-	
+
 	public CmdFactionsMoneyTransferPf()
 	{
 		// Fields
@@ -41,13 +39,12 @@ public class CmdFactionsMoneyTransferPf extends FactionsCommand
 		// Requirements
 		this.addRequirements(RequirementHasPerm.get(Perm.MONEY_P2F));
 		this.addRequirements(ReqBankCommandsEnabled.get());
-		this.addRequirements(ReqHasVault.get());
 	}
 
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-	
+
 	@Override
 	public void perform() throws MassiveException
 	{
@@ -55,21 +52,12 @@ public class CmdFactionsMoneyTransferPf extends FactionsCommand
 		MPlayer from = this.readArg();
 		Faction to = this.readArg();
 
-		if (to.isSystemFaction())
-		{
-			msg("<b>You can't send money to a system faction.");
-			return;
-		}
-		
 		boolean success = Econ.transferMoney(msender, from, to, amount);
 
-		if (success && MConf.get().logMoneyTransactions) {
+		if (success && MConf.get().logMoneyTransactions)
+		{
 			Factions.get().log(ChatColor.stripColor(Txt.parse("%s transferred %s from the player \"%s\" to the faction \"%s\"", msender.getName(), Money.format(amount), from.describeTo(null), to.describeTo(null))));
 		}
-		if(success) {
-			final FactionMoneyLog factionMoneyLog = new FactionMoneyLog(msender.getId(), "deposited", amount, System.currentTimeMillis());
-			msenderFaction.logMoney(factionMoneyLog);
-		}
 	}
-	
+
 }

@@ -98,22 +98,12 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setShieldedHour(that.shieldedHour);
 		this.setShieldString(that.shieldString);
 		this.setFocusedPlayer(that.focusedPlayer);
-		// this.setShards(that.shards);
 		this.setBanner(that.banner);
 		this.setRoster(that.roster);
 		this.setSandAlts(that.sandAlts);
 		this.setLootRewards(that.lootRewards);
-		this.setVault(that.vault);
 		this.setBannedMembers(that.bannedMembers);
 		this.setMutedMembers(that.mutedMembers);
-		this.setMoneyLogs(that.moneyLogs);
-		if (this.hasVault())
-		{
-			if (this.getVault().isDamaged())
-			{
-				Bukkit.getScheduler().runTaskLater(Factions.get(), () -> this.getVault().startKoth(),100L);
-			}
-		}
 		return this;
 	}
 
@@ -196,7 +186,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// These warps can later be viewed using /f warp list.
 	private MassiveMap<String, PS> warpLocations = new MassiveMap<>();
 	private MassiveMap<String, String> warpPasswords = new MassiveMap<>();
-	// private MassiveSet<FactionWarp> warps = new MassiveSet<>();
 
 	// This will store the faction's paypal to payout to.
 	// By default it's empty and they should set it using /f setpaypal <email>.
@@ -227,11 +216,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// Credits are awarded when a faction completes a mission.
 	// By default the faction starts with 0 credits.
 	private int credits = 0;
-
-	// This stores the faction's shards.
-	// Shards are awarded when a mob dies in faction territory.
-	// By default the faction starts with 0 shards.
-	// private int shards = 0;
 
 	// This will store a list of strikes the faction has acquired.
 	// A strike can be given using /f strike <faction> <points> <reason>.
@@ -289,14 +273,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This will store a list of all the muted members.
 	// By default it's empty and members can be banned using /f mute <player>.
 	private MassiveSet<FactionMute> mutedMembers = new MassiveSet<>();
-
-	// This will store a list of all major money transactions.
-	// By default it's empty and all major money transactions will be logged.
-	private MassiveSet<FactionMoneyLog> moneyLogs = new MassiveSet<>();
-
-	// This will store the faction's vault.
-	// Null means there is no vault.
-	private Vault vault = null;
 
 	// This is the ids of the invited players.
 	// They are actually "senderIds" since you can invite "@console" to your faction.
@@ -1028,57 +1004,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	}
 
 	// -------------------------------------------- //
-	// FIELD: shards
-	// -------------------------------------------- //
-
-	/* public int getShards()
-	{
-		return shards;
-	}
-
-	public void setShards(int shards)
-	{
-		// Detect Nochange
-		if (this.shards == shards) return;
-
-		// Apply
-		this.shards = shards;
-
-		// Mark as changed
-		this.changed();
-	}
-
-	public void addShards(int shards)
-	{
-		// Clean Input
-		int newShards = this.getShards() + shards;
-
-		// Detect Nochange
-		if (this.shards == newShards) return;
-
-		// Apply
-		this.setShards(newShards);
-
-		// Mark as changed
-		this.changed();
-	}
-
-	public void takeShards(int shards)
-	{
-		// Clean Input
-		int newShards = this.getShards() - shards;
-
-		// Detect Negative
-		if (newShards < 0) newShards = 0;
-
-		// Apply
-		this.setShards(newShards);
-
-		// Mark as changed
-		this.changed();
-	} */
-
-	// -------------------------------------------- //
 	// FIELD: strikes
 	// -------------------------------------------- //
 
@@ -1538,29 +1463,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	}
 
 	// -------------------------------------------- //
-	// FIELD: vault
-	// -------------------------------------------- //
-
-	public void setVault(Vault vault)
-	{
-		// Apply
-		this.vault = vault;
-
-		// Mark as changed
-		this.changed();
-	}
-
-	public Vault getVault()
-	{
-		return vault;
-	}
-
-	public boolean hasVault()
-	{
-		return vault != null;
-	}
-
-	// -------------------------------------------- //
 	// FIELD: bannedMembers
 	// -------------------------------------------- //
 
@@ -1640,26 +1542,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public MassiveSet<FactionMute> getMutedMembers() {
 		return this.mutedMembers;
-	}
-
-	public void setMoneyLogs(MassiveSet<FactionMoneyLog> moneyLogs) {
-		// Apply
-		this.moneyLogs = moneyLogs;
-
-		// Mark as changed
-		this.changed();
-	}
-
-	public MassiveSet<FactionMoneyLog> getMoneyLog() {
-		return this.moneyLogs;
-	}
-
-	public void logMoney(FactionMoneyLog factionMoneyLog) {
-		// Log Money change
-		this.moneyLogs.add(factionMoneyLog);
-
-		// Mark as changed
-		this.changed();
 	}
 
 	public boolean isMuted(String playerId)

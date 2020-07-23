@@ -165,14 +165,6 @@ permissions:
   factions.unfocus: {description: unfocus a player, default: false}
   factions.baltop: {description: list top balances in faction, default: false}
   factions.invsee: {description: view a members inventory, default: false}
-  # factions.shards: {description: manage faction shards, default: false}
-  # factions.shards.balance: {description: view faction shard balance, default: false}
-  # factions.shards.balance.any: {description: view other faction shard balance, default: false}
-  # factions.shards.shop: {description: open the faction shard shop, default: false}
-  # factions.shards.add: {description: add shards to a player or faction, default: false}
-  # factions.shards.add.player: {description: add shards to a player, default: false}
-  # factions.shards.add.faction: {description: add shards to a faction, default: false}
-  # factions.spawner.upgrade: {description: upgrade a zombie pigman spawner, default: false}
   factions.roster: {description: manage the faction roster, default: false}
   factions.roster.add: {description: add a player to the faction roster, default: false}
   factions.roster.remove: {description: remove a player from the faction roster, default: false}
@@ -197,7 +189,6 @@ permissions:
   factions.loot.balance.any: {description: view other faction loot reward balance, default: false}
   factions.loot.claim: {description: claim your faction loot rewards, default: false}
   factions.mute: {description: manage faction mutes,default: false}
-  facttions.vault: {description: manager factions vault,default: false}
 
   # -------------------------------------------- #
   # STAR NOTATION
@@ -362,14 +353,6 @@ permissions:
       factions.unfocus: true
       factions.baltop: true
       factions.invsee: true
-      # factions.shards: true
-      # factions.shards.balance: true
-      # factions.shards.balance.any: true
-      # factions.shards.shop: true
-      # factions.shards.add: true
-      # factions.shards.add.player: true
-      # factions.shards.add.faction: true
-      # factions.spawner.upgrade: true
       factions.roster: true
       factions.roster.add: true
       factions.roster.remove: true
@@ -393,7 +376,6 @@ permissions:
       factions.loot.balance.any: true
       factions.loot.claim: true
       factions.mute: true
-      factions.vault: true
 
   # -------------------------------------------- #
   # KITS
@@ -564,10 +546,6 @@ permissions:
       factions.unfocus: true
       factions.baltop: true
       factions.invsee: true
-      # factions.shards: true
-      # factions.shards.balance: true
-      # factions.shards.shop: true
-      # factions.spawner.upgrade: true
       factions.roster: true
       factions.roster.add: true
       factions.roster.remove: true
@@ -583,7 +561,6 @@ permissions:
       factions.loot.balance: true
       factions.loot.claim: true
       factions.mute: true
-      factions.vault: true
   factions.kit.default:
     default: true
     children:

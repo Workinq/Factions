@@ -5,11 +5,11 @@ import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqBankCommandsEnabled;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.object.FactionMoneyLog;
 import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.massivecore.MassiveException;
 
-public class CmdFactionsMoneyBalance extends FactionsCommand {
+public class CmdFactionsMoneyBalance extends FactionsCommand
+{
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //

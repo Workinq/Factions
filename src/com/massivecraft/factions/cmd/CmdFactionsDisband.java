@@ -86,11 +86,8 @@ public class CmdFactionsDisband extends FactionsCommand
 		{
 			Factions.get().log(Txt.parse("<i>The faction <h>%s <i>(<h>%s<i>) was disbanded by <h>%s<i>.", faction.getName(), faction.getId(), msender.getDisplayName(IdUtil.getConsole())));
 		}
-		
-		// Apply
-		if(faction.hasVault()) {
-			faction.getVault().deleteVault();
-		}
+
+		// Detach
 		faction.detach();
 	}
 	

@@ -2,8 +2,6 @@ package com.massivecraft.factions.cmd.money;
 
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqBankCommandsEnabled;
-import com.massivecraft.factions.cmd.req.ReqHasVault;
-import com.massivecraft.factions.cmd.req.ReqVaultIsntDamaged;
 
 public class CmdFactionsMoney extends FactionsCommand
 {
@@ -17,7 +15,6 @@ public class CmdFactionsMoney extends FactionsCommand
 	public CmdFactionsMoneyTransferFf cmdMoneyTransferFf = new CmdFactionsMoneyTransferFf();
 	public CmdFactionsMoneyTransferFp cmdMoneyTransferFp = new CmdFactionsMoneyTransferFp();
 	public CmdFactionsMoneyTransferPf cmdMoneyTransferPf = new CmdFactionsMoneyTransferPf();
-	public CmdFactionsMoneyLog cmdFactionsMoneyLog = new CmdFactionsMoneyLog();
 	
 	// -------------------------------------------- //
 	// CONSTRUCT

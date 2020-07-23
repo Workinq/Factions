@@ -29,14 +29,6 @@ public class EngineMobExtras extends Engine
         event.setTnt((int) this.getNewValue(event.getTnt(), event.getSpawnerLocation()));
     }
 
-    /*@EventHandler
-    public void shards(EventFactionsShardsChange event)
-    {
-        if (event.getSpawnerLocation() == null) return;
-
-        event.setShards((int) this.getNewValue(event.getShards(), event.getSpawnerLocation()));
-    }*/
-
     @EventHandler
     public void money(EventFactionsMoneyChange event)
     {

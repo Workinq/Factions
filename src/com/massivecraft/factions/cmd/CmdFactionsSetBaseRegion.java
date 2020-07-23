@@ -55,11 +55,6 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
             return;
         }
 
-        //Vault check
-        if(faction.hasVault()) {
-            faction.getVault().deleteVault();
-        }
-
         // Apply
         faction.setBaseRegion(chunks);
 

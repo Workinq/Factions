@@ -101,18 +101,17 @@ public class Factions extends MassivePlugin
 		// The Board could currently be activated in any order but the current placement is an educated guess.
 		// In the future we might want to find all chunks from the faction or something similar.
 		// We also have the /f access system where the player can be granted specific access, possibly supporting the idea of such a reverse index.
-		return new MassiveList<Class<?>>(
-			MConfColl.class,
-			MFlagColl.class,
-			MPermColl.class,
-			FactionColl.class,
-			MPlayerColl.class,
-			BoardColl.class,
-			MOptionColl.class,
-			// MShopColl.class,
-			FPermColl.class,
-			MUpgradeColl.class,
-			MMissionColl.class
+		return new MassiveList<>(
+				MConfColl.class,
+				MFlagColl.class,
+				MPermColl.class,
+				FactionColl.class,
+				MPlayerColl.class,
+				BoardColl.class,
+				MOptionColl.class,
+				FPermColl.class,
+				MUpgradeColl.class,
+				MMissionColl.class
 		);
 	}
 

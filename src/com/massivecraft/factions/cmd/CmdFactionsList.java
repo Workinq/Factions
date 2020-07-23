@@ -1,13 +1,12 @@
 package com.massivecraft.factions.cmd;
 
+import com.massivecraft.factions.comparator.ComparatorFactionList;
 import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.comparator.ComparatorFactionListNoAlt;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.Parameter;
-import com.massivecraft.massivecore.money.Money;
 import com.massivecraft.massivecore.pager.Pager;
 import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
@@ -21,7 +20,7 @@ public class CmdFactionsList extends FactionsCommand
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
-	
+
 	public CmdFactionsList()
 	{
 		// Parameters
@@ -31,7 +30,7 @@ public class CmdFactionsList extends FactionsCommand
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-	
+
 	@Override
 	public void perform() throws MassiveException
 	{
@@ -39,13 +38,12 @@ public class CmdFactionsList extends FactionsCommand
 		int page = this.readArg();
 		final CommandSender sender = this.sender;
 		final MPlayer msender = this.msender;
-		
+
 		// NOTE: The faction list is quite slow and mostly thread safe.
 		// We run it asynchronously to spare the primary server thread.
 
 		// Pager Create
-		final Pager<Faction> pager = new Pager<>(this, "Faction List", page, new Stringifier<Faction>()
-		{
+		final Pager<Faction> pager = new Pager<>(this, "Faction List", page, new Stringifier<Faction>() {
 			@Override
 			public String toString(Faction faction, int index)
 			{
@@ -55,34 +53,31 @@ public class CmdFactionsList extends FactionsCommand
 				}
 				else
 				{
-					List<MPlayer> mplayersWhereOnline = faction.getMPlayersWhereOnlineTo(sender);
-					mplayersWhereOnline.removeIf(MPlayer::isAlt);
-
 					return Txt.parse("%s<i> %d/%d online, %d/%d/%d",
-						faction.getName(msender),
-						mplayersWhereOnline.size(),
-						faction.getMPlayersWhere(mp -> ! mp.isAlt()).size(),
-						faction.getLandCount(),
-						faction.getPowerRounded(),
-						faction.getPowerMaxRounded()
+							faction.getName(msender),
+							faction.getMPlayersWhereOnlineTo(sender).size(),
+							faction.getMPlayers().size(),
+							faction.getLandCount(),
+							faction.getPowerRounded(),
+							faction.getPowerMaxRounded()
 					);
 				}
 			}
 		});
-		
+
 		Bukkit.getScheduler().runTaskAsynchronously(Factions.get(), new Runnable()
 		{
 			@Override
 			public void run()
 			{
 				// Pager Items
-				final List<Faction> factions = FactionColl.get().getAll(ComparatorFactionListNoAlt.get(sender));
+				final List<Faction> factions = FactionColl.get().getAll(ComparatorFactionList.get(sender));
 				pager.setItems(factions);
-				
+
 				// Pager Message
 				pager.message();
 			}
 		});
 	}
-	
+
 }

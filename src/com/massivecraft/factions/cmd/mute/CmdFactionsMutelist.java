@@ -25,7 +25,8 @@ public class CmdFactionsMutelist extends FactionsCommand {
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsMutelist() {
+    public CmdFactionsMutelist()
+    {
         // Aliases
         this.addAliases("mutes");
 

@@ -10,10 +10,11 @@ public enum Chat implements Named
 {
 
     FACTION("faction", "f"),
-    // ALLY("ally", "a"),
+    ALLY("ally", "a"),
     TRUCE("truce", "t"),
     PUBLIC("public", "p"),
 
+    // End of list
     ;
 
     // -------------------------------------------- //
@@ -57,7 +58,7 @@ public enum Chat implements Named
 
     public Chat getNext()
     {
-        return this == PUBLIC ? TRUCE : (this == TRUCE ? /*ALLY : (this == ALLY ?*/ FACTION : PUBLIC);
+        return this == PUBLIC ? TRUCE : (this == TRUCE ? ALLY : (this == ALLY ? FACTION : PUBLIC));
     }
 
 }

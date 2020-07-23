@@ -190,15 +190,6 @@ public class EngineEcon extends Engine
 		payForAction(event, cost, desc);
 	}
 
-	/*@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-	public void payForCommand(EventFactionsSpawnerUpgrade event)
-	{
-		Double cost = MConf.get().econCostSpawnerUpgrade;
-		String desc = CmdFactions.get().cmdFactionsSpawnerUpgrade.getDesc();
-
-		payForAction(event, cost, desc);
-	}*/
-
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void payForCommand(EventFactionsDescriptionChange event)
 	{
