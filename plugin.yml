@@ -164,6 +164,7 @@ permissions:
   factions.focus: {description: focus a player, default: false}
   factions.unfocus: {description: unfocus a player, default: false}
   factions.baltop: {description: list top balances in faction, default: false}
+  factions.baltop.any: {description: list top balances in another faction, default: false}
   factions.invsee: {description: view a members inventory, default: false}
   factions.roster: {description: manage the faction roster, default: false}
   factions.roster.add: {description: add a player to the faction roster, default: false}

@@ -2,7 +2,6 @@ package com.massivecraft.factions;
 
 import com.massivecraft.massivecore.Identified;
 import com.massivecraft.massivecore.util.PermissionUtil;
-import org.bukkit.block.data.type.TNT;
 import org.bukkit.permissions.Permissible;
 
 public enum Perm implements Identified
@@ -166,6 +165,7 @@ public enum Perm implements Identified
 	FOCUS,
 	UNFOCUS,
 	BALTOP,
+	BALTOP_ANY,
 	INVSEE,
 	ROSTER,
 	ROSTER_ADD,

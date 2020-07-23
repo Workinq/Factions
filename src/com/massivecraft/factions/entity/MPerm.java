@@ -71,7 +71,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient String ID_EXPLOSIVES = "explosives";
 	public final static transient String ID_SPAWNERS = "spawners";
 	public final static transient String ID_FOCUS = "focus";
-	public final static transient String ID_BALTOP = "baltop";
 	public final static transient String ID_INVSEE = "invsee";
 	public final static transient String ID_ROSTER = "roster";
 	public final static transient String ID_DRAIN = "drain";
@@ -124,7 +123,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_EXPLOSIVES = 41000;
 	public final static transient int PRIORITY_SPAWNERS = 42000;
 	public final static transient int PRIORITY_FOCUS = 44000;
-	public final static transient int PRIORITY_BALTOP = 45000;
 	public final static transient int PRIORITY_INVSEE = 46000;
 	public final static transient int PRIORITY_ROSTER = 48000;
 	public final static transient int PRIORITY_DRAIN = 49000;
@@ -200,7 +198,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		getPermExplosives();
 		getPermSpawners();
 		getPermFocus();
-		getPermBaltop();
 		getPermInvsee();
 		getPermRoster();
 		getPermDrain();
@@ -255,7 +252,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public static MPerm getPermExplosives() { return getCreative(PRIORITY_EXPLOSIVES, ID_EXPLOSIVES, ID_EXPLOSIVES, "place explosives down", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), true, true, true); }
 	public static MPerm getPermSpawners() { return getCreative(PRIORITY_SPAWNERS, ID_SPAWNERS, ID_SPAWNERS, "interact with spawners", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), true, true, true); }
 	public static MPerm getPermFocus() { return getCreative(PRIORITY_FOCUS, ID_FOCUS, ID_FOCUS, "focus a player", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
-	public static MPerm getPermBaltop() { return getCreative(PRIORITY_BALTOP, ID_BALTOP, ID_BALTOP, "list top balances in faction", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermInvsee() { return getCreative(PRIORITY_INVSEE, ID_INVSEE, ID_INVSEE, "view a members inventory", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermRoster() { return getCreative(PRIORITY_ROSTER, ID_ROSTER, ID_ROSTER, "manage the faction roster", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
 	public static MPerm getPermDrain() { return getCreative(PRIORITY_DRAIN, ID_DRAIN, ID_DRAIN, "drain members balances", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
