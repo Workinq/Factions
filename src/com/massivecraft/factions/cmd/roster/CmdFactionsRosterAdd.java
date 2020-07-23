@@ -57,7 +57,10 @@ public class CmdFactionsRosterAdd extends FactionsCommand
             return;
         }
 
-        faction.addToRoster(mplayer);
+        // Apply
+        faction.addToRoster(mplayer, rel);
+
+        // Inform
         msg("%s <i>added %s <i>to the faction roster with the role <h>%s<i>.", msender.describeTo(msender, true), mplayer.describeTo(msender), rel.getName());
         faction.msg("%s <i>was added to the faction roster with the role <h>%s<i>.", mplayer.describeTo(faction, true), rel.getName());
     }

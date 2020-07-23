@@ -39,6 +39,8 @@ public class CmdFactionsWarp extends FactionsCommand
     {
         // Args
         String warp = this.readArg();
+        warp = warp.toLowerCase();
+
         String password = this.readArg(null);
         Faction faction = this.readArg(msenderFaction);
 

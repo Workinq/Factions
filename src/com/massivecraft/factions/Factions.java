@@ -8,12 +8,7 @@ import com.massivecraft.factions.chat.ChatActive;
 import com.massivecraft.factions.cmd.type.TypeFactionChunkChangeType;
 import com.massivecraft.factions.cmd.type.TypeRel;
 import com.massivecraft.factions.engine.EngineEcon;
-import com.massivecraft.factions.engine.EngineScoreboard;
 import com.massivecraft.factions.entity.*;
-import com.massivecraft.factions.entity.migrator.MigratorFaction001Invitations;
-import com.massivecraft.factions.entity.migrator.MigratorMConf001EnumerationUtil;
-import com.massivecraft.factions.entity.migrator.MigratorMConf002CleanInactivity;
-import com.massivecraft.factions.entity.migrator.MigratorMConf003CleanInactivity;
 import com.massivecraft.factions.event.EventFactionsChunkChangeType;
 import com.massivecraft.factions.mission.MissionsManager;
 import com.massivecraft.factions.mixin.PowerMixin;
@@ -36,7 +31,7 @@ public class Factions extends MassivePlugin
 	// CONSTANTS
 	// -------------------------------------------- //
 
-	public final static String FACTION_MONEY_ACCOUNT_ID_PREFIX = "faction-"; 
+	public final static String FACTION_MONEY_ACCOUNT_ID_PREFIX = "faction-";
 
 	public final static String ID_NONE = "none";
 	public final static String ID_SAFEZONE = "safezone";
@@ -53,26 +48,26 @@ public class Factions extends MassivePlugin
 	private static Factions i;
 	public static Factions get() { return i; }
 	public Factions() { Factions.i = this; }
-	
+
 	// -------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------- //
-	
+
 	// Mixins
 	@Deprecated public PowerMixin getPowerMixin() { return PowerMixin.get(); }
 	@Deprecated public void setPowerMixin(PowerMixin powerMixin) { PowerMixin.get().setInstance(powerMixin); }
-	
+
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-	
+
 	@Override
 	public void onEnableInner()
 	{
 		// Register types
 		RegistryType.register(Rel.class, TypeRel.get());
 		RegistryType.register(EventFactionsChunkChangeType.class, TypeFactionChunkChangeType.get());
-		
+
 		// Register Faction accountId Extractor
 		// TODO: Perhaps this should be placed in the econ integration somewhere?
 		MUtil.registerExtractor(String.class, "accountId", ExtractorFactionAccountId.get());
@@ -93,17 +88,6 @@ public class Factions extends MassivePlugin
 	{
 		for (Player player : Bukkit.getOnlinePlayers()) player.closeInventory();
 		super.onDisable();
-	}
-
-	@Override
-	public List<Class<?>> getClassesActiveMigrators()
-	{
-		return new MassiveList<>(
-				MigratorFaction001Invitations.class,
-				MigratorMConf001EnumerationUtil.class,
-				MigratorMConf002CleanInactivity.class,
-				MigratorMConf003CleanInactivity.class
-		);
 	}
 
 	@Override

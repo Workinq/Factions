@@ -7,6 +7,7 @@ import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.Parameter;
+import com.massivecraft.massivecore.money.Money;
 import com.massivecraft.massivecore.pager.Pager;
 import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
@@ -41,7 +42,7 @@ public class CmdFactionsList extends FactionsCommand
 		
 		// NOTE: The faction list is quite slow and mostly thread safe.
 		// We run it asynchronously to spare the primary server thread.
-		
+
 		// Pager Create
 		final Pager<Faction> pager = new Pager<>(this, "Faction List", page, new Stringifier<Faction>()
 		{

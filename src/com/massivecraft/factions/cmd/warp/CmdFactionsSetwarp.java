@@ -64,7 +64,7 @@ public class CmdFactionsSetwarp extends FactionsCommand
         event.run();
         if (event.isCancelled()) return;
 
-        warp = event.getNewWarp();
+        warp = event.getNewWarp().toLowerCase();
         password = event.getNewPassword();
         location = event.getNewLocation();
 
