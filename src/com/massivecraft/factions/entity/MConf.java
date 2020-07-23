@@ -559,6 +559,7 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 
 	public int truceLimit = 1;
+	public int allyLimit = 0;
 
 	// -------------------------------------------- //
 	// PREFIXES
@@ -787,7 +788,6 @@ public class MConf extends Entity<MConf>
 	// SHIELDS
 	// -------------------------------------------- //
 
-	public boolean shieldEnabled = true;
 	public int shieldHours = 10;
 
 }

@@ -46,8 +46,13 @@ public class CmdFactionsRelationSet extends FactionsCommand
 		int truceLimit = this.getRelationAmount(msenderFaction, Rel.TRUCE);
 		if (newRelation == Rel.TRUCE && (MConf.get().truceLimit == 0 || truceLimit >= MConf.get().truceLimit))
 		{
-			msg("<b>You've reached the limit of <h>%,d <b>truces.", truceLimit);
-			return;
+			throw new MassiveException().setMsg("<b>You've reached the limit of <h>%,d <b>truces.", truceLimit);
+		}
+
+		int allyLimit = this.getRelationAmount(msenderFaction, Rel.ALLY);
+		if (newRelation == Rel.ALLY && (MConf.get().allyLimit == 0 || allyLimit >= MConf.get().allyLimit))
+		{
+			throw new MassiveException().setMsg("<b>You've reached the limit of <h>%,d <b>allies.", allyLimit);
 		}
 
 		// Verify

@@ -29,7 +29,6 @@ import com.massivecraft.massivecore.util.Txt;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -251,7 +250,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This will store a list of all the banned members.
 	// By default it's empty and members can be banned using /f ban <player>.
 	private MassiveSet<FactionBan> bannedMembers = new MassiveSet<>();
-	// private final EntityInternalMap<FactionBan> bannedMembers = new EntityInternalMap<>(this, FactionBan.class);
 
 	// Can anyone join the Faction?
 	// If the faction is open they can.
