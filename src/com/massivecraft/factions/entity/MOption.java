@@ -14,6 +14,20 @@ public class MOption extends Entity<MOption>
     public static MOption get() { return i; }
 
     // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
+
+    @Override
+    public MOption load(MOption that)
+    {
+        super.load(that);
+        this.setGrace(that.grace);
+        this.setFlight(that.flight);
+        this.setShields(that.shields);
+        return this;
+    }
+
+    // -------------------------------------------- //
     // FIELDS
     // -------------------------------------------- //
 
@@ -60,19 +74,6 @@ public class MOption extends Entity<MOption>
 
         // Mark as changed
         this.changed();
-    }
-
-    // -------------------------------------------- //
-    // OVERRIDE
-    // -------------------------------------------- //
-
-    @Override
-    public MOption load(MOption that)
-    {
-        super.load(that);
-        this.setGrace(that.grace);
-        this.setFlight(that.flight);
-        return this;
     }
 
 }
