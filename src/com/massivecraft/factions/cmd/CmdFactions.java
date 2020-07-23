@@ -19,7 +19,6 @@ import com.massivecraft.factions.cmd.home.CmdFactionsUnsethome;
 import com.massivecraft.factions.cmd.invite.CmdFactionsDeinvite;
 import com.massivecraft.factions.cmd.invite.CmdFactionsInvite;
 import com.massivecraft.factions.cmd.invite.CmdFactionsInviteList;
-import com.massivecraft.factions.cmd.loot.CmdFactionsLoot;
 import com.massivecraft.factions.cmd.money.CmdFactionsMoney;
 import com.massivecraft.factions.cmd.mute.CmdFactionsMute;
 import com.massivecraft.factions.cmd.mute.CmdFactionsMutelist;
@@ -152,7 +151,6 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsLogin cmdFactionsLogin = new CmdFactionsLogin();
 	public CmdFactionsFf cmdFactionsFf = new CmdFactionsFf();
 	public CmdFactionsToggle cmdFactionsToggle = new CmdFactionsToggle();
-	public CmdFactionsLoot cmdFactionsLoot = new CmdFactionsLoot();
 	public MassiveCommandVersion cmdFactionsVersion = new MassiveCommandVersion(Factions.get()).setAliases("v", "version").addRequirements(RequirementHasPerm.get(Perm.VERSION));
 
 	// -------------------------------------------- //

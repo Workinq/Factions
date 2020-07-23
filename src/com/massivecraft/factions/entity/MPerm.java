@@ -76,7 +76,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient String ID_ROSTER = "roster";
 	public final static transient String ID_DRAIN = "drain";
 	public final static transient String ID_SANDALT = "sandalt";
-	public final static transient String ID_LOOT = "loot";
 	public final static transient String ID_FLY = "fly";
 //	public final static transient String ID_BANNER = "banner";
 //	public final static transient String ID_ASSIST = "assist";
@@ -130,7 +129,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_ROSTER = 48000;
 	public final static transient int PRIORITY_DRAIN = 49000;
 	public final static transient int PRIORITY_SANDALT = 50000;
-	public final static transient int PRIORITY_LOOT = 51000;
 	public final static transient int PRIORITY_FLY = 52000;
 	public final static  transient int PRIORITY_MUTE = 53000;
 	// public final static transient int PRIORITY_BANNER = 47000;
@@ -207,7 +205,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		getPermRoster();
 		getPermDrain();
 		getPermSandalt();
-		getPermLoot();
 		getPermFly();
 //		getPermBanner();
 //		getPermAssist();
@@ -263,7 +260,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public static MPerm getPermRoster() { return getCreative(PRIORITY_ROSTER, ID_ROSTER, ID_ROSTER, "manage the faction roster", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
 	public static MPerm getPermDrain() { return getCreative(PRIORITY_DRAIN, ID_DRAIN, ID_DRAIN, "drain members balances", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
 	public static MPerm getPermSandalt() { return getCreative(PRIORITY_SANDALT, ID_SANDALT, ID_SANDALT, "mange faction sandalts", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
-	public static MPerm getPermLoot() { return getCreative(PRIORITY_LOOT, ID_LOOT, ID_LOOT, "manage faction loot", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
 	public static MPerm getPermFly() { return getCreative(PRIORITY_FLY, ID_FLY, ID_FLY, "toggle faction fly", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER, Rel.RECRUIT), false, true, true); }
 //	public static MPerm getPermBanner() { return getCreative(PRIORITY_BANNER, ID_BANNER, ID_BANNER, "manage faction banner", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 //	public static MPerm getPermAssist() { return getCreative(PRIORITY_ASSIST, ID_ASSIST, ID_ASSIST, "teleport to faction banner", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER), false, true, true); }

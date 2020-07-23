@@ -790,10 +790,4 @@ public class MConf extends Entity<MConf>
 	public boolean shieldEnabled = true;
 	public int shieldHours = 10;
 
-	// -------------------------------------------- //
-	// LOOT REWARDS
-	// -------------------------------------------- //
-
-	public String lootRewardCommand = "scrates givekey Event %player% %amount%";
-
 }

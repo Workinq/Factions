@@ -101,7 +101,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setBanner(that.banner);
 		this.setRoster(that.roster);
 		this.setSandAlts(that.sandAlts);
-		this.setLootRewards(that.lootRewards);
 		this.setBannedMembers(that.bannedMembers);
 		this.setMutedMembers(that.mutedMembers);
 		return this;
@@ -202,8 +201,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	private String activeMission = null;
 
 	// This will store the time when the mission was started.
-	// 0L will mean there is no ongoing mission.
-	private long missionStart = 0L;
+	// null will mean there is no ongoing mission.
+	private Long missionStart = null;
 
 	// This will store the current progress for the faction's current mission.
 	// Null either means there is no mission ongoing or there is no progress.
@@ -215,7 +214,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This stores the faction's credits.
 	// Credits are awarded when a faction completes a mission.
 	// By default the faction starts with 0 credits.
-	private int credits = 0;
+	private Integer credits = 0;
 
 	// This will store a list of strikes the faction has acquired.
 	// A strike can be given using /f strike <faction> <points> <reason>.
@@ -254,10 +253,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This will store the faction's currently active sand alts.
 	// By default there will be none, obviously.
 	private MassiveSet<SandAlt> sandAlts = new MassiveSet<>();
-
-	// This will store the number of keys the faction has from winning koths.
-	// By default the faction will start with 0 keys.
-	private int lootRewards = 0;
 
 	// This will store a list of all the banned members.
 	// By default it's empty and members can be banned using /f ban <player>.
@@ -873,18 +868,25 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: missionStart
 	// -------------------------------------------- //
 
-	public long getMissionStart()
+	public Long getMissionStart()
 	{
-		return missionStart;
+		Long ret = this.missionStart;
+		if (ret == null) ret = 0L;
+		return ret;
 	}
 
-	public void setMissionStart(long missionStart)
+	public void setMissionStart(Long missionStart)
 	{
+		// Clean input
+		Long target = missionStart;
+
+		if (target == null || target == 0L) target = null;
+
 		// Detect Nochange
-		if (this.missionStart == missionStart) return;
+		if (MUtil.equals(this.missionStart, target)) return;
 
 		// Apply
-		this.missionStart = missionStart;
+		this.missionStart = target;
 
 		// Mark as changed
 		this.changed();
@@ -908,7 +910,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		// Clean input
 		Integer target = missionGoal;
 
-		if (target == null || target == 0.0D) target = null;
+		if (target == null || target == 0) target = null;
 
 		// Detect Nochange
 		if (MUtil.equals(this.missionGoal, target)) return;
@@ -956,30 +958,40 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: credits
 	// -------------------------------------------- //
 
-	public int getCredits()
+	public Integer getCredits()
 	{
-		return credits;
+		Integer target = this.credits;
+
+		if (target == null) target = 0;
+
+		return target;
 	}
 
-	public void setCredits(int credits)
+	public void setCredits(Integer credits)
 	{
+		// Clean input
+		Integer target = credits;
+
+		if (target == null || target == 0) target = null;
+
 		// Detect Nochange
-		if (this.credits == credits) return;
+		if (MUtil.equals(this.credits, target)) return;
 
 		// Apply
-		this.credits = credits;
+		this.credits = target;
 
 		// Mark as changed
 		this.changed();
 	}
 
-	public void addCredits(int credits)
+	public void addCredits(Integer credits)
 	{
 		// Clean Input
-		int newCredits = this.getCredits() + credits;
+		Integer ret = credits;
+		if (ret == null) ret = 0;
 
-		// Detect Nochange
-		if (this.credits == newCredits) return;
+		// Args
+		Integer newCredits = this.getCredits() + ret;
 
 		// Apply
 		this.setCredits(newCredits);
@@ -988,10 +1000,14 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void takeCredits(int credits)
+	public void takeCredits(Integer credits)
 	{
 		// Clean Input
-		int newCredits = this.getCredits() - credits;
+		Integer ret = credits;
+		if (ret == null) ret = 0;
+
+		// Args
+		Integer newCredits = this.getCredits() - ret;
 
 		// Detect Negative
 		if (newCredits < 0) newCredits = 0;
@@ -1389,7 +1405,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	{
 		for (SandAlt sandAlt : this.sandAlts)
 		{
-			if ( ! sandAlt.isPaused()) continue;
+			if ( ! sandAlt.isPaused() ) continue;
 			sandAlt.setPaused(false);
 			sandAlt.changed();
 		}
@@ -1439,27 +1455,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public MassiveSet<SandAlt> getSandAlts()
 	{
 		return sandAlts;
-	}
-
-	// -------------------------------------------- //
-	// FIELD: lootRewards
-	// -------------------------------------------- //
-
-	public int getLootRewards()
-	{
-		return lootRewards;
-	}
-
-	public void setLootRewards(int lootRewards)
-	{
-		// Detect Nochange
-		if (this.lootRewards == lootRewards) return;
-
-		// Apply
-		this.lootRewards = lootRewards;
-
-		// Mark as changed
-		this.changed();
 	}
 
 	// -------------------------------------------- //
