@@ -76,6 +76,8 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient String ID_DRAIN = "drain";
 	public final static transient String ID_SANDALT = "sandalt";
 	public final static transient String ID_FLY = "fly";
+	public final static transient String ID_ALARM = "alarm";
+	public final static transient String ID_CLEAR = "clear";
 //	public final static transient String ID_BANNER = "banner";
 //	public final static transient String ID_ASSIST = "assist";
 
@@ -128,7 +130,9 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_DRAIN = 49000;
 	public final static transient int PRIORITY_SANDALT = 50000;
 	public final static transient int PRIORITY_FLY = 52000;
-	public final static  transient int PRIORITY_MUTE = 53000;
+	public final static transient int PRIORITY_MUTE = 53000;
+	public final static transient int PRIORITY_ALARM = 54000;
+	public final static transient int PRIORITY_CLEAR = 55000;
 	// public final static transient int PRIORITY_BANNER = 47000;
 	// public final static transient int PRIORITY_ASSIST = 48000;
 
@@ -146,14 +150,16 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		return getAll(false);
 	}
 	
-	public static List<MPerm> getAll(boolean isAsync) {
+	public static List<MPerm> getAll(boolean isAsync)
+	{
 		setupStandardPerms();
 		new EventFactionsCreatePerms().run();
 		
 		return MPermColl.get().getAll(PredicateIsRegistered.get(), ComparatorSmart.get());
 	}
 	
-	public static void setupStandardPerms() {
+	public static void setupStandardPerms()
+	{
 		getPermBuild();
 		getPermPainbuild();
 		getPermDoor();
@@ -203,6 +209,8 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		getPermDrain();
 		getPermSandalt();
 		getPermFly();
+		getPermAlarm();
+		getPermClear();
 //		getPermBanner();
 //		getPermAssist();
 	}
@@ -257,6 +265,8 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public static MPerm getPermDrain() { return getCreative(PRIORITY_DRAIN, ID_DRAIN, ID_DRAIN, "drain members balances", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
 	public static MPerm getPermSandalt() { return getCreative(PRIORITY_SANDALT, ID_SANDALT, ID_SANDALT, "mange faction sandalts", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermFly() { return getCreative(PRIORITY_FLY, ID_FLY, ID_FLY, "toggle faction fly", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER, Rel.RECRUIT), false, true, true); }
+	public static MPerm getPermAlarm() { return getCreative(PRIORITY_ALARM, ID_ALARM, ID_ALARM, "toggle faction alarm", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
+	public static MPerm getPermClear() { return getCreative(PRIORITY_CLEAR, ID_CLEAR, ID_CLEAR, "mark walls as cleared", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 //	public static MPerm getPermBanner() { return getCreative(PRIORITY_BANNER, ID_BANNER, ID_BANNER, "manage faction banner", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 //	public static MPerm getPermAssist() { return getCreative(PRIORITY_ASSIST, ID_ASSIST, ID_ASSIST, "teleport to faction banner", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER), false, true, true); }
 

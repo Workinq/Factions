@@ -189,6 +189,10 @@ public enum Perm implements Identified
 	UNMUTE,
 	MUTELIST,
 	MUTELIST_OTHER,
+	ALARM,
+	ALARM_ANY,
+	CLEAR,
+	CLEAR_ANY,
 
 	// END OF LIST
 	;

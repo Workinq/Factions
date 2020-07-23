@@ -151,6 +151,8 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsLogin cmdFactionsLogin = new CmdFactionsLogin();
 	public CmdFactionsFf cmdFactionsFf = new CmdFactionsFf();
 	public CmdFactionsToggle cmdFactionsToggle = new CmdFactionsToggle();
+	public CmdFactionsAlarm cmdFactionsAlarm = new CmdFactionsAlarm();
+	public CmdFactionsClear cmdFactionsClear = new CmdFactionsClear();
 	public MassiveCommandVersion cmdFactionsVersion = new MassiveCommandVersion(Factions.get()).setAliases("v", "version").addRequirements(RequirementHasPerm.get(Perm.VERSION));
 
 	// -------------------------------------------- //

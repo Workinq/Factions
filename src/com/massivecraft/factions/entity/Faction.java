@@ -236,6 +236,14 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// Null means no player has been focused.
 	private String focusedPlayer = null;
 
+	// Stores whether or not the faction's alarm is active.
+	// Null means it isn't.
+	private Boolean alarmEnabled = null;
+
+	// This stores the last time walls were checked.
+	// Null means walls have never been checked.
+	private Long lastCheckedMillis = null;
+
 	// This stores the patterns for the faction banner.
 	// By default there are 0 patterns (i think).
 	private MassiveList<String> banner = new MassiveList<>();
@@ -543,16 +551,15 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// -------------------------------------------- //
 
 	// RAW
-	@Override
-	public double getPowerBoost()
+
+	@Override public double getPowerBoost()
 	{
 		Double ret = this.powerBoost;
 		if (ret == null) ret = 0D;
 		return ret;
 	}
 
-	@Override
-	public void setPowerBoost(Double powerBoost)
+	@Override public void setPowerBoost(Double powerBoost)
 	{
 		// Clean input
 		Double target = powerBoost;
@@ -575,8 +582,10 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public int getTnt()
 	{
+		// Clean input
 		Integer ret = this.tnt;
 		if (ret == null) ret = 0;
+
 		return ret;
 	}
 
@@ -584,7 +593,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	{
 		// Clean input
 		Integer target = tnt;
-
 		if (target == null || target == 0) target = null;
 
 		// Detect Nochange
@@ -615,6 +623,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 			String inventorySerialized = this.getInventorySerialized();
 			if (inventorySerialized == null) inventorySerialized = "";
 			ret = SerializationUtil.fromBase64(inventorySerialized, Txt.parse("<gray>%s - Faction Chest", this.getName()));
+
 			// Set inventory.
 			this.inventory = ret;
 		}
@@ -641,15 +650,17 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public String getInventorySerialized()
 	{
+		// Clean input
 		String ret = this.inventorySerialized;
 		if (ret == null) ret = "";
+
 		return ret;
 	}
 
 	public void setInventorySerialized(String inventorySerialized)
 	{
+		// Clean input
 		String target = inventorySerialized;
-
 		if (target == null || target.equals("")) target = null;
 
 		// Detect Nochange
@@ -792,15 +803,17 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public String getPaypal()
 	{
+		// Clean input
 		String ret = this.paypal;
-		if (ret == null) ret = "";
+		if (ret == null) ret = "none";
+
 		return ret;
 	}
 
 	public void setPaypal(String paypal)
 	{
+		// Clean input
 		String target = paypal;
-
 		if (target == null || target.equals("")) target = null;
 
 		// Detect Nochange
@@ -821,13 +834,14 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	{
 		String ret = this.discord;
 		if (ret == null) ret = "none";
+
 		return ret;
 	}
 
 	public void setDiscord(String discord)
 	{
+		// Clean input
 		String target = discord;
-
 		if (target == null || target.equals("")) target = null;
 
 		// Detect Nochange
@@ -873,7 +887,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	{
 		// Clean input
 		Long target = missionStart;
-
 		if (target == null || target == 0L) target = null;
 
 		// Detect Nochange
@@ -892,8 +905,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public Integer getMissionGoal()
 	{
+		// Clean input
 		Integer target = this.missionGoal;
-
 		if (target == null) target = 0;
 
 		return target;
@@ -954,8 +967,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public Integer getCredits()
 	{
+		// Clean input
 		Integer target = this.credits;
-
 		if (target == null) target = 0;
 
 		return target;
@@ -1118,14 +1131,14 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public void setShieldedHour(Integer shieldedHour)
 	{
 		// Clean input
-		Integer ret = shieldedHour;
-		if (ret == null || ret == 0) ret = null;
+		Integer target = shieldedHour;
+		if (target == null || target == 0) target = null;
 
 		// Detect Nochange
-		if (MUtil.equals(this.shieldedHour, ret)) return;
+		if (MUtil.equals(this.shieldedHour, target)) return;
 
 		// Apply
-		this.shieldedHour = ret;
+		this.shieldedHour = target;
 
 		// Mark as changed
 		this.changed();
@@ -1214,7 +1227,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public ItemStack getBanner()
+	@SuppressWarnings("deprecation") public ItemStack getBanner()
 	{
 		// Args
 		ItemStack banner = new ItemStack(Material.BANNER);
@@ -1439,6 +1452,64 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public MassiveSet<SandAlt> getSandAlts()
 	{
 		return sandAlts;
+	}
+
+	// -------------------------------------------- //
+	// FIELD: alarmEnabled
+	// -------------------------------------------- //
+
+	public boolean isAlarmEnabled()
+	{
+		// Clean input
+		Boolean ret = this.alarmEnabled;
+		if (ret == null) ret = false;
+
+		return ret;
+	}
+
+	public void setAlarmEnabled(Boolean alarmEnabled)
+	{
+		// Clean input
+		Boolean target = alarmEnabled;
+		if (target == null || ! target) target = null;
+
+		// Detect Nochange
+		if (MUtil.equals(this.alarmEnabled, target)) return;
+
+		// Apply
+		this.alarmEnabled = target;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: lastCheckedMillis
+	// -------------------------------------------- //
+
+	public Long getLastCheckedMillis()
+	{
+		// Clean input
+		Long ret = this.lastCheckedMillis;
+		if (ret == null) ret = 0L;
+
+		return ret;
+	}
+
+	public void setLastCheckedMillis(Long lastCheckedMillis)
+	{
+		// Clean input
+		Long target = lastCheckedMillis;
+		if (target == null || target == 0L) target = null;
+
+		// Detect Nochange
+		if (MUtil.equals(this.lastCheckedMillis, target)) return;
+
+		// Apply
+		this.lastCheckedMillis = target;
+
+		// Mark as changed
+		this.changed();
 	}
 
 	// -------------------------------------------- //

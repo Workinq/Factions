@@ -3,7 +3,7 @@ name: ${project.name}
 version: ${project.version}
 website: ${project.url}
 description: ${project.description}
-authors: [Cayorion, Madus, Ulumulu1510, MarkehMe, Brettflan, Kieraaaan, Jerry, Marto]
+authors: [Cayorion, Madus, Ulumulu1510, MarkehMe, Brettflan, Kieraaaan]
 depend: [MassiveCore]
 softdepend: [PermissionsEx, Permissions, Essentials, EssentialsChat, iChat, LocalAreaChat, nChat, ChatManager, AuthMe, Vault, Spout, WorldEdit, WorldGuard, AuthDB, CaptureThePoints, CombatTag, CoreProtect, Citizens, HolographicDisplays, MobExtras]
 permissions:
@@ -184,7 +184,11 @@ permissions:
   factions.toggle.fly: {description: toggle server faction flight, default: false}
   factions.toggle.grace: {description: toggle server grace period, default: false}
   factions.toggle.shield: {description: toggle shields for all factions, default: false}
-  factions.mute: {description: manage faction mutes,default: false}
+  factions.mute: {description: manage faction mutes, default: false}
+  factions.alarm: {description: toggle the faction alarm, default: false}
+  factions.alarm.any: {description: toggle a faction's alarm, default: false}
+  factions.clear: {description: mark your faction walls as cleared, default: false}
+  factions.clear.any: {description: mark a faction's walls as cleared, default: false}
 
   # -------------------------------------------- #
   # STAR NOTATION
@@ -367,6 +371,10 @@ permissions:
       factions.toggle.fly: true
       factions.toggle.grace: true
       factions.mute: true
+      factions.alarm: true
+      factions.alarm.any: true
+      factions.clear: true
+      factions.clear.any: true
 
   # -------------------------------------------- #
   # KITS
@@ -549,6 +557,8 @@ permissions:
       factions.login: true
       factions.ff: true
       factions.mute: true
+      factions.alarm: true
+      factions.clear: true
   factions.kit.default:
     default: true
     children:
