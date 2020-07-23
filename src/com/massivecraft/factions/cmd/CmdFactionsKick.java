@@ -98,6 +98,8 @@ public class CmdFactionsKick extends FactionsCommand
 		{
 			mplayerFaction.promoteNewLeader();
 		}
+
+		mplayerFaction.removeFromRoster(mplayer);
 		mplayerFaction.uninvite(mplayer);
 		mplayer.resetFactionData();
 	}
