@@ -129,6 +129,8 @@ public class CmdFactionsAltJoin extends FactionsCommand
         // Apply
         mplayer.resetFactionData();
         mplayer.setFaction(faction);
+
+        // Alt
         mplayer.setAlt(true);
 
         faction.uninvite(mplayer);

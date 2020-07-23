@@ -18,10 +18,6 @@ public class CmdFactionsLeave extends FactionsCommand
 	// OVERRIDE
 	// -------------------------------------------- //
 	
-	@Override
-	public void perform()
-	{
-		msender.leave();
-	}
-	
+	@Override public void perform() { msender.leave(); }
+
 }
