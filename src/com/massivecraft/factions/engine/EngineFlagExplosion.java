@@ -101,7 +101,7 @@ public class EngineFlagExplosion extends Engine
 		if (faction.isShieldedAt(hour) && MOption.get().isShields())
 		{
 			PS at = PS.valueOf(location.getChunk());
-			if (faction.hasBaseRegion() && faction.getBaseRegion().contains(at) && BoardColl.get().getFactionAt(at) == faction)
+			if (faction.hasBaseRegion() && faction.getBaseRegion().contains(at))
 			{
 				cancellable.setCancelled(true);
 				return;
