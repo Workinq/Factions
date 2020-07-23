@@ -12,23 +12,25 @@ public class ActionConfirmShield extends ChestActionAbstract
     private final int from;
     private final Faction faction;
     private final MPlayer mplayer;
-    private final String time;
+    private final String fromText, toText;
 
-    public ActionConfirmShield(int from, Faction faction, MPlayer mplayer, String time)
+    public ActionConfirmShield(int from, Faction faction, MPlayer mplayer, String fromText, String toText)
     {
         this.from = from;
         this.faction = faction;
         this.mplayer = mplayer;
-        this.time = time;
+        this.fromText = fromText;
+        this.toText = toText;
     }
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)
     {
+        // Apply
         faction.setShieldedHour(from);
-        faction.setShieldString(time);
 
-        faction.msg("%s <i>set the faction shield from %s", mplayer.describeTo(faction, true), time.substring(0, time.indexOf('(') - 2));
+        // Inform
+        faction.msg("%s <i>set the faction shield from <h>%s <i>to <h>%s<i>.", mplayer.describeTo(faction, true), fromText, toText);
         return true;
     }
 

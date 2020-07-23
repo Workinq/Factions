@@ -1,6 +1,7 @@
 package com.massivecraft.factions.action;
 
 import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.util.InventoryUtil;
 import com.massivecraft.factions.util.ItemBuilder;
@@ -19,14 +20,15 @@ public class ActionClickShield extends ChestActionAbstract
     private final int from;
     private final Faction faction;
     private final MPlayer mplayer;
-    private final String time;
+    private final String fromText, toText;
 
-    public ActionClickShield(int from, Faction faction, MPlayer mplayer, String time)
+    public ActionClickShield(int from, Faction faction, MPlayer mplayer, String fromText, String toText)
     {
         this.from = from;
         this.faction = faction;
         this.mplayer = mplayer;
-        this.time = time;
+        this.fromText = fromText;
+        this.toText = toText;
     }
 
     @Override
@@ -48,10 +50,10 @@ public class ActionClickShield extends ChestActionAbstract
         chestGui.setSoundClose(null);
 
         chestGui.getInventory().setItem(11, new ItemBuilder(Material.STAINED_GLASS_PANE).name(Txt.parse("<g>Confirm")).durability(13));
-        chestGui.setAction(11, new ActionConfirmShield(from, faction, mplayer, time));
-        chestGui.getInventory().setItem(13, new ItemBuilder(Material.WATCH).name(" ").addLore(Txt.parse("<g>Click to change your shielded hours to")).addLore(time));
+        chestGui.setAction(11, new ActionConfirmShield(from, faction, mplayer, fromText, toText));
+        chestGui.getInventory().setItem(13, new ItemBuilder(Material.WATCH).name(" ").addLore(Txt.parse("<g>Click to change your shielded hours to")).addLore(Txt.parse("<k>%s <white>---> <k>%s <n>(<k>" + MConf.get().shieldHours + " hours total<n>)", fromText, toText)));
         chestGui.getInventory().setItem(15, new ItemBuilder(Material.STAINED_GLASS_PANE).name(Txt.parse("<b>Cancel")).durability(14));
-        chestGui.setAction(15, event -> true);
+        chestGui.setAction(15, new ActionCloseInventory());
 
         // Fill
         InventoryUtil.fillInventory(chestGui.getInventory());

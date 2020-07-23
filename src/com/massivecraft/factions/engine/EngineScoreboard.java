@@ -147,11 +147,7 @@ public class EngineScoreboard extends Engine
         {
             // Args
             Scoreboard scoreboard = target.getScoreboard();
-            if (scoreboard == Bukkit.getScoreboardManager().getMainScoreboard() || target == player)
-            {
-                // Do nothing
-            }
-            else
+            if (scoreboard != Bukkit.getScoreboardManager().getMainScoreboard() && target != player)
             {
                 // Args
                 Faction faction = MPlayer.get(target).getFaction();

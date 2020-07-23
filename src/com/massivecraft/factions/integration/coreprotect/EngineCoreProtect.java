@@ -173,7 +173,6 @@ public class EngineCoreProtect extends Engine
                     return inspectData.get(index);
                 }
             });
-            // final Pager<Mson> pager = new Pager<>(CmdFactions.get().cmdFactionsLastInspected, "Inspect Log", 1, inspectData, (Msonifier<Mson>) (item, index) -> inspectData.get(index));
             pager.setSender(mplayer.getSender());
 
             // Send pager

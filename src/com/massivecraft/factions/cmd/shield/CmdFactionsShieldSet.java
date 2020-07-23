@@ -64,7 +64,7 @@ public class CmdFactionsShieldSet extends FactionsCommand
         ChestGui chestGui = ChestGui.getCreative(inventory);
 
         // Chest Setup
-        chestGui.setAutoclosing(true);
+        chestGui.setAutoclosing(false);
         chestGui.setAutoremoving(true);
         chestGui.setSoundOpen(null);
         chestGui.setSoundClose(null);
@@ -78,10 +78,10 @@ public class CmdFactionsShieldSet extends FactionsCommand
         for (int i = 0; i <= 23; i++)
         {
             // Args
-            String from = getTime(calendar);
+            String from = this.getTime(calendar);
             Calendar clone = (Calendar) calendar.clone();
             clone.add(Calendar.HOUR_OF_DAY, MConf.get().shieldHours);
-            String to = getTime(clone);
+            String to = this.getTime(clone);
             String fromTo = Txt.parse("<k>%s <white>---> <k>%s <n>(<k>" + MConf.get().shieldHours + " hours total<n>)", from, to);
 
             if (faction.isShieldedAtHour(calendar.get(Calendar.HOUR_OF_DAY)))
@@ -91,7 +91,7 @@ public class CmdFactionsShieldSet extends FactionsCommand
             else
             {
                 chestGui.getInventory().setItem(i, new ItemBuilder(Material.STAINED_GLASS_PANE).name(" ").durability(14).addLore("").addLore(Txt.parse("<g>Click to change your shield hours to")).addLore(fromTo).addLore("").addLore(Txt.parse("<n>Current Time: <k>%s", now)));
-                chestGui.setAction(i, new ActionClickShield(calendar.get(Calendar.HOUR_OF_DAY), faction, msender, fromTo));
+                chestGui.setAction(i, new ActionClickShield(calendar.get(Calendar.HOUR_OF_DAY), faction, msender, from, to));
             }
 
             // Increment
@@ -104,6 +104,7 @@ public class CmdFactionsShieldSet extends FactionsCommand
             chestGui.getInventory().setItem(i, new ItemBuilder(Material.BARRIER).name(" "));
         }
 
+        // Information
         chestGui.getInventory().setItem(40, new ItemBuilder(Material.PAPER).name(Txt.parse("<k>Shield Information")).setLore(Txt.parse(MUtil.list("", "<white>Whilst a shield is active, tnt won't", "<white>explode within the faction's base region", "", "<b>Abuse of this mechanic in any way will be", "<b>punished severely"))));
 
         // Fill
@@ -113,15 +114,16 @@ public class CmdFactionsShieldSet extends FactionsCommand
         return chestGui.getInventory();
     }
 
-    private String getTime(Calendar calendar)
+    public String getTime(Calendar calendar)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
         if (calendar.get(Calendar.HOUR_OF_DAY) == 0) return "Midnight";
         if (calendar.get(Calendar.HOUR_OF_DAY) == 12) return "Midday";
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
         return dateFormat.format(calendar.getTime());
     }
 
-    private Calendar getFreshCalendar()
+    public Calendar getFreshCalendar()
     {
         Calendar calendar = Calendar.getInstance();
         calendar.clear();

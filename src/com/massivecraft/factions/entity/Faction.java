@@ -96,7 +96,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setCoreChunk(that.coreChunk);
 		this.setBaseRegion(that.baseRegion);
 		this.setShieldedHour(that.shieldedHour);
-		this.setShieldString(that.shieldString);
 		this.setFocusedPlayer(that.focusedPlayer);
 		this.setBanner(that.banner);
 		this.setRoster(that.roster);
@@ -232,11 +231,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This will store the hour for which the faction is protected.
 	// Null means no hour has been set.
 	private Integer shieldedHour = null;
-
-	// This will store the string which shows in /f show.
-	// Example: 5:00 PM ---> 3:00 AM
-	// Null means no shield is set.
-	private String shieldString = null;
 
 	// Stores the uuid of the focused player.
 	// Null means no player has been focused.
@@ -1123,8 +1117,15 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public void setShieldedHour(Integer shieldedHour)
 	{
+		// Clean input
+		Integer ret = shieldedHour;
+		if (ret == null || ret == 0) ret = null;
+
+		// Detect Nochange
+		if (MUtil.equals(this.shieldedHour, ret)) return;
+
 		// Apply
-		this.shieldedHour = shieldedHour;
+		this.shieldedHour = ret;
 
 		// Mark as changed
 		this.changed();
@@ -1161,23 +1162,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public Integer getShieldedHour()
 	{
 		return shieldedHour;
-	}
-
-	// -------------------------------------------- //
-	// FIELD: shieldString
-	// -------------------------------------------- //
-
-	public void setShieldString(String shieldString)
-	{
-		this.shieldString = shieldString;
-
-		// Mark as changed
-		this.changed();
-	}
-
-	public String getShieldString()
-	{
-		return shieldString;
 	}
 
 	// -------------------------------------------- //
