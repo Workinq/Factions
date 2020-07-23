@@ -20,7 +20,7 @@ public class TaskRemindBaseRegion extends ModuloRepeatTask
     @Override
     public long getDelayMillis()
     {
-        return super.getDelayMillis();
+        return 300000L;
     }
 
     @Override
