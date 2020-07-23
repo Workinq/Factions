@@ -51,7 +51,7 @@ public class CmdFactionsWarp extends FactionsCommand
 
         if ( faction.warpHasPassword(warp) && ! faction.getWarpPassword(warp).equals(password) )
         {
-            throw new MassiveException().addMsg("<b>The password you provided is incorrect.");
+            throw new MassiveException().setMsg("<b>The password you provided is incorrect.");
         }
 
         // Teleport

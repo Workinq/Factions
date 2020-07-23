@@ -43,20 +43,17 @@ public class CmdFactionsSetwarp extends FactionsCommand
 
         if (!msender.isOverriding() && !msenderFaction.isValidWarp(location))
         {
-            msender.msg("<b>You can only be set faction warps in your own claimed territory.");
-            return;
+            throw new MassiveException().setMsg("<b>You can only be set faction warps in your own claimed territory.");
         }
 
         if (msenderFaction.getWarpLocations().size() >= MConf.get().amountOfWarps + msenderFaction.getLevel(MUpgrade.get().warpUpgrade.getUpgradeName()) * 2)
         {
-            msg("<b>You can not set any more faction warps as you've reached the limit.");
-            return;
+            throw new MassiveException().setMsg("<b>You can not set any more faction warps as you've reached the limit.");
         }
 
         if (msenderFaction.warpExists(warp))
         {
-            msg("<b>A faction warp already exists with this name.");
-            return;
+            throw new MassiveException().setMsg("<b>A faction warp already exists with this name.");
         }
 
         // Event
