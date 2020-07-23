@@ -1,9 +1,8 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.cmd.req.ReqHasFaction;
+import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.collections.MassiveList;
@@ -14,7 +13,6 @@ import com.massivecraft.massivecore.pager.Pager;
 import com.massivecraft.massivecore.pager.Stringifier;
 import com.massivecraft.massivecore.util.Txt;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -27,11 +25,8 @@ public class CmdFactionsBaltop extends FactionsCommand
     public CmdFactionsBaltop()
     {
         // Parameters
-        this.addParameter(TypeFaction.get(), "faction", "you");
         this.addParameter(Parameter.getPage());
-
-        // Requirements
-        this.addRequirements(ReqHasFaction.get());
+        this.addParameter(TypeFaction.get(), "faction", "you");
     }
 
     // -------------------------------------------- //
@@ -44,12 +39,11 @@ public class CmdFactionsBaltop extends FactionsCommand
         int page = this.readArg();
         Faction faction = this.readArg(msenderFaction);
 
-        if ( ! MPerm.getPermBaltop().has(msender, faction, true)) return;
+        if (faction != msenderFaction && ! Perm.BALTOP_ANY.has(sender, true)) return;
 
         // Pager Create
         final List<MPlayer> mplayers = new MassiveList<>(faction.getMPlayers());
-
-        Collections.sort(mplayers, new Comparator<MPlayer>()
+        mplayers.sort(new Comparator<MPlayer>()
         {
             @Override
             public int compare(MPlayer p1, MPlayer p2)
