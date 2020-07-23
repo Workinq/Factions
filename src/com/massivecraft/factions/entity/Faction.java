@@ -295,7 +295,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ! this.isNone();
 	}
 
-	public boolean isSystemFaction() {
+	public boolean isSystemFaction()
+	{
 		return this.getId().equals(Factions.ID_NONE) || this.getId().equals(Factions.ID_WARZONE) || this.getId().equals(Factions.ID_SAFEZONE);
 	}
 
