@@ -19,7 +19,7 @@ public class UpgradesManager
     private static final UpgradesManager i = new UpgradesManager();
     public static UpgradesManager get() { return i; }
 
-    private final List<Upgrade> upgrades = new ArrayList<>();
+    private final List<AbstractUpgrade> upgrades = new ArrayList<>();
 
     public Inventory getFactionUpgrades(Faction faction)
     {
@@ -37,7 +37,7 @@ public class UpgradesManager
         priceFormat.setGroupingUsed(true);
 
         // Loop
-        for (Upgrade upgrade : upgrades)
+        for (AbstractUpgrade upgrade : upgrades)
         {
             List<String> lore = new ArrayList<>();
             int upgradeLevel = faction.getLevel(upgrade.getUpgradeName());
@@ -92,7 +92,7 @@ public class UpgradesManager
         return chestGui.getInventory();
     }
 
-    public List<Upgrade> getUpgrades()
+    public List<AbstractUpgrade> getUpgrades()
     {
         return upgrades;
     }
@@ -108,9 +108,9 @@ public class UpgradesManager
         upgrades.add(new SandAltUpgrade());
     }
 
-    public Upgrade getUpgradeByName(String string)
+    public AbstractUpgrade getUpgradeByName(String string)
     {
-        for (Upgrade upgrade : upgrades)
+        for (AbstractUpgrade upgrade : upgrades)
         {
             if (upgrade.getUpgradeName().equalsIgnoreCase(string))
             {
@@ -120,7 +120,7 @@ public class UpgradesManager
         return null;
     }
 
-    public void increaseUpgrade(Faction faction, Upgrade upgrade)
+    public void increaseUpgrade(Faction faction, AbstractUpgrade upgrade)
     {
         if (faction.getLevel(upgrade.getUpgradeName()) < upgrade.getMaxLevel())
         {

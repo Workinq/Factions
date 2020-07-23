@@ -2,7 +2,7 @@ package com.massivecraft.factions.mission.missions;
 
 import com.massivecraft.factions.entity.conf.ConfMission;
 import com.massivecraft.factions.entity.MPlayer;
-import com.massivecraft.factions.mission.Mission;
+import com.massivecraft.factions.mission.AbstractMission;
 import com.massivecraft.factions.mission.MissionsManager;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-public class MissionBlaze extends Mission
+public class MissionBlaze extends AbstractMission
 {
 
    private final ConfMission confMission = MissionsManager.get().getConfMissionByName("Blaze");

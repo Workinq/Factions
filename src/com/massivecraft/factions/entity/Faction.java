@@ -3,7 +3,7 @@ package com.massivecraft.factions.entity;
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.entity.object.Invitation;
 import com.massivecraft.factions.entity.object.*;
-import com.massivecraft.factions.mission.Mission;
+import com.massivecraft.factions.mission.AbstractMission;
 import com.massivecraft.factions.mission.MissionsManager;
 import com.massivecraft.factions.predicate.PredicateCommandSenderFaction;
 import com.massivecraft.factions.predicate.PredicateMPlayerAlt;
@@ -843,7 +843,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: mission
 	// -------------------------------------------- //
 
-	public Mission getActiveMission()
+	public AbstractMission getActiveMission()
 	{
 		return MissionsManager.get().getMissionByName(activeMission);
 	}

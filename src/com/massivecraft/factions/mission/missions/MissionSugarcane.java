@@ -2,7 +2,7 @@ package com.massivecraft.factions.mission.missions;
 
 import com.massivecraft.factions.entity.conf.ConfMission;
 import com.massivecraft.factions.entity.MPlayer;
-import com.massivecraft.factions.mission.Mission;
+import com.massivecraft.factions.mission.AbstractMission;
 import com.massivecraft.factions.mission.MissionsManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,7 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 
-public class MissionSugarcane extends Mission
+public class MissionSugarcane extends AbstractMission
 {
 
    private final ConfMission confMission = MissionsManager.get().getConfMissionByName("Sugarcane");

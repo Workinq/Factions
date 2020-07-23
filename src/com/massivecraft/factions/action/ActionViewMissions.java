@@ -5,7 +5,7 @@ import com.massivecraft.factions.util.ItemBuilder;
 import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
 import com.massivecraft.massivecore.chestgui.ChestGui;
 import com.massivecraft.massivecore.util.Txt;
-import com.massivecraft.factions.mission.Mission;
+import com.massivecraft.factions.mission.AbstractMission;
 import com.massivecraft.factions.mission.MissionsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -42,7 +42,7 @@ public class ActionViewMissions extends ChestActionAbstract
         rewardFormat.setGroupingUsed(true);
 
         // Loop
-        for (Mission mission : MissionsManager.get().getMissions())
+        for (AbstractMission mission : MissionsManager.get().getMissions())
         {
             List<String> lore = new ArrayList<>();
             lore.add(Txt.parse("<n>Challenge: <k>%s", mission.getDescription()));

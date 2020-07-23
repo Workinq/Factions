@@ -21,15 +21,13 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MissionsManager {
+public class MissionsManager
+{
 
     private static final MissionsManager i = new MissionsManager();
-    private final List<Mission> missions = new ArrayList<>();
+    public static MissionsManager get() { return i; }
 
-    public static MissionsManager get()
-    {
-        return i;
-    }
+    private final List<AbstractMission> missions = new ArrayList<>();
 
     public ConfMission getConfMissionByName(String missionName)
     {
@@ -49,7 +47,7 @@ public class MissionsManager {
         chestGui.setSoundClose(null);
 
         List<String> lore = new ArrayList<>();
-        Mission activeMission = faction.getActiveMission();
+        AbstractMission activeMission = faction.getActiveMission();
 
         if (activeMission == null)
         {
@@ -97,26 +95,26 @@ public class MissionsManager {
         return chestGui.getInventory();
     }
 
-    public void incrementProgress(Mission mission, MPlayer mplayer)
+    public void incrementProgress(AbstractMission mission, MPlayer mplayer)
     {
         if (mplayer.isConsole()) return;
 
         this.incrementProgress(mission, mplayer, 1);
     }
 
-    public void incrementProgress(Mission mission, MPlayer mplayer, Integer amount)
+    public void incrementProgress(AbstractMission mission, MPlayer mplayer, Integer amount)
     {
         if (mplayer.isConsole()) return;
 
         this.incrementProgress(mission, mplayer.getFaction(), amount);
     }
 
-    public void incrementProgress(Mission mission, Faction faction)
+    public void incrementProgress(AbstractMission mission, Faction faction)
     {
         this.incrementProgress(mission, faction, 1);
     }
 
-    public void incrementProgress(Mission mission, Faction faction, Integer amount)
+    public void incrementProgress(AbstractMission mission, Faction faction, Integer amount)
     {
         if (faction.getActiveMission() == null) return;
         if (!faction.getActiveMission().getName().equalsIgnoreCase(mission.getName())) return;
@@ -138,12 +136,12 @@ public class MissionsManager {
         }
     }
 
-    public Mission getMissionByName(String missionName)
+    public AbstractMission getMissionByName(String missionName)
     {
         return missions.stream().filter((mission) -> mission.getName().equalsIgnoreCase(missionName)).findFirst().orElse(null);
     }
 
-    public List<Mission> getMissions()
+    public List<AbstractMission> getMissions()
     {
         return missions;
     }

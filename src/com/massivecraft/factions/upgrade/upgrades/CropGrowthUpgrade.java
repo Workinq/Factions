@@ -2,10 +2,10 @@ package com.massivecraft.factions.upgrade.upgrades;
 
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MUpgrade;
-import com.massivecraft.factions.upgrade.Upgrade;
+import com.massivecraft.factions.upgrade.AbstractUpgrade;
 import org.bukkit.Material;
 
-public class CropGrowthUpgrade extends Upgrade
+public class CropGrowthUpgrade extends AbstractUpgrade
 {
 
    @Override

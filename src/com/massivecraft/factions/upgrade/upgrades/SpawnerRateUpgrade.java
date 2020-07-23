@@ -4,7 +4,7 @@ import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MUpgrade;
 import com.massivecraft.massivecore.ps.PS;
-import com.massivecraft.factions.upgrade.Upgrade;
+import com.massivecraft.factions.upgrade.AbstractUpgrade;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.TileEntityMobSpawner;
 import org.bukkit.Material;
@@ -13,7 +13,7 @@ import org.bukkit.craftbukkit.v1_8_R3.block.CraftCreatureSpawner;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
 
-public class SpawnerRateUpgrade extends Upgrade
+public class SpawnerRateUpgrade extends AbstractUpgrade
 {
 
    @Override

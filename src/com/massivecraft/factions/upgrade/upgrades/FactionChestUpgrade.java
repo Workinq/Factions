@@ -3,14 +3,14 @@ package com.massivecraft.factions.upgrade.upgrades;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MUpgrade;
 import com.massivecraft.massivecore.util.Txt;
-import com.massivecraft.factions.upgrade.Upgrade;
+import com.massivecraft.factions.upgrade.AbstractUpgrade;
 import com.massivecraft.factions.upgrade.UpgradesManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 
-public class FactionChestUpgrade extends Upgrade
+public class FactionChestUpgrade extends AbstractUpgrade
 {
 
    @Override
