@@ -24,10 +24,11 @@ public class CmdFactionsDiscordSet extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        if ( ! MPerm.getPermDiscord().has(msender, msenderFaction, true)) return;
-
         // Args
         String discord = this.readArg();
+
+        // MPerm
+        if ( ! MPerm.getPermDiscord().has(msender, msenderFaction, true) ) return;
 
         // Apply
         msenderFaction.setDiscord(discord);

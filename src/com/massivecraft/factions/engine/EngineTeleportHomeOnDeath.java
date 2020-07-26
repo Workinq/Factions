@@ -46,7 +46,7 @@ public class EngineTeleportHomeOnDeath extends Engine
 		if (home == null) return;
 		
 		// ... and the home is translatable ...
-		Location respawnLocation = null;
+		Location respawnLocation;
 		try
 		{
 			respawnLocation = home.asBukkitLocation(true);

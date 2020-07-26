@@ -2,7 +2,6 @@ package com.massivecraft.factions.cmd.shield;
 
 import com.massivecraft.factions.action.ActionClickShield;
 import com.massivecraft.factions.cmd.FactionsCommand;
-import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
@@ -34,7 +33,6 @@ public class CmdFactionsShieldSet extends FactionsCommand
         this.addParameter(TypeFaction.get(), "faction", "you");
 
         // Requirements
-        this.addRequirements(ReqHasFaction.get());
         this.addRequirements(RequirementIsPlayer.get());
     }
 
@@ -47,13 +45,12 @@ public class CmdFactionsShieldSet extends FactionsCommand
     {
         Faction faction = this.readArg(msenderFaction);
 
-        if ( ! MOption.get().isGrace() && faction.isShielded() )
+        if ( ! MOption.get().isGrace() && faction.isShielded() && ! msender.isOverriding() )
         {
-            msg("<b>You can't change your faction shield as grace has been disabled.");
-            return;
+            throw new MassiveException().setMsg("<b>You can't change your faction shield as grace has been disabled.");
         }
 
-        if ( ! MPerm.getPermShield().has(msender, faction, true)) return;
+        if ( ! MPerm.getPermShield().has(msender, faction, true) ) return;
 
         me.openInventory(getShieldGui(faction));
     }

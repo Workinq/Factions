@@ -1,12 +1,10 @@
-package com.massivecraft.factions.cmd.credit;
+package com.massivecraft.factions.cmd.credits;
 
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
-import com.massivecraft.factions.cmd.req.ReqBankCommandsEnabled;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
-import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.massivecore.MassiveException;
 
 public class CmdFactionsCreditsBalance extends FactionsCommand

@@ -10,7 +10,7 @@ import com.massivecraft.factions.cmd.ban.CmdFactionsUnban;
 import com.massivecraft.factions.cmd.chest.CmdFactionsChest;
 import com.massivecraft.factions.cmd.claim.CmdFactionsClaim;
 import com.massivecraft.factions.cmd.claim.CmdFactionsUnclaim;
-import com.massivecraft.factions.cmd.credit.CmdFactionsCredits;
+import com.massivecraft.factions.cmd.credits.CmdFactionsCredits;
 import com.massivecraft.factions.cmd.discord.CmdFactionsDiscord;
 import com.massivecraft.factions.cmd.flag.CmdFactionsFlag;
 import com.massivecraft.factions.cmd.home.CmdFactionsHome;
@@ -46,6 +46,7 @@ import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class CmdFactions extends FactionsCommand
 {
 	// -------------------------------------------- //

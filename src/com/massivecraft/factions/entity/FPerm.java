@@ -3,8 +3,6 @@ package com.massivecraft.factions.entity;
 import com.massivecraft.factions.entity.object.FactionPermission;
 import com.massivecraft.massivecore.command.editor.annotation.EditorName;
 import com.massivecraft.massivecore.store.Entity;
-import com.massivecraft.massivecore.util.MUtil;
-import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -44,9 +42,9 @@ public class FPerm extends Entity<FPerm>
     {
         if ( ! factionPermissions.isEmpty()) return;
 
-        for (MPerm mPerm : MPermColl.get().getAll())
+        for (MPerm mperm : MPermColl.get().getAll())
         {
-            factionPermissions.add(new FactionPermission(mPerm.getName(), Material.ENCHANTED_BOOK));
+            factionPermissions.add(new FactionPermission(mperm.getName(), Material.ENCHANTED_BOOK));
         }
     }
 

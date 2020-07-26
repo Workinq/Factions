@@ -1,4 +1,4 @@
-package com.massivecraft.factions.cmd.credit;
+package com.massivecraft.factions.cmd.credits;
 
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
@@ -7,13 +7,13 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.type.primitive.TypeInteger;
 
-public class CmdFactionsCreditsTake extends FactionsCommand
+public class CmdFactionsCreditsSet extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsCreditsTake()
+    public CmdFactionsCreditsSet()
     {
         // Parameters
         this.addParameter(TypeInteger.get(), "amount");
@@ -30,13 +30,13 @@ public class CmdFactionsCreditsTake extends FactionsCommand
         int amount = this.readArg();
         Faction faction = this.readArg(msenderFaction);
 
-        if ( ! Perm.CREDITS_TAKE.has(sender, true)) return;
+        if ( ! Perm.CREDITS_SET.has(sender, true)) return;
 
         if (amount < 0) amount *= -1;
 
-        faction.takeCredits(amount);
+        faction.setCredits(amount);
 
-        msg("<a>%s <i>credits have been deducted from %s<i>.", String.format("%,d", amount), faction.describeTo(msender));
+        msg("%s's <i>credits have been set to <a>%s<i>.", faction.describeTo(msender, true), String.format("%,d", amount));
     }
 
 }

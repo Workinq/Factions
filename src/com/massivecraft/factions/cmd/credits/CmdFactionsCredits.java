@@ -1,4 +1,4 @@
-package com.massivecraft.factions.cmd.credit;
+package com.massivecraft.factions.cmd.credits;
 
 import com.massivecraft.factions.cmd.FactionsCommand;
 
