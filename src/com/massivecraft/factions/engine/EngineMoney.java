@@ -28,7 +28,11 @@ public class EngineMoney extends Engine
     // -------------------------------------------- //
 
     @EventHandler
-    public void onMoneyDrop(SpawnerSpawnEvent event) {
+    public void onMoneyDrop(SpawnerSpawnEvent event)
+    {
+        // Verify
+        if ( ! MConf.get().autoSellMobs ) return;
+
         // Args
         EntityType type = event.getEntityType();
         if ( ! MConf.get().moneyChances.containsKey(type) ) return;

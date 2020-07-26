@@ -175,9 +175,6 @@ public class MConf extends Entity<MConf>
 	// NOTE: This only makes sense to set to false if your "powerMin" setting is negative.
 	public boolean canLeaveWithNegativePower = true;
 
-	// How much should TNT sell for?
-	public double tntSellPrice = 5;
-
 	// -------------------------------------------- //
 	// FLY
 	// -------------------------------------------- //
@@ -508,6 +505,11 @@ public class MConf extends Entity<MConf>
 			EntityType.CREEPER, MUtil.list(1, 3)
 	);
 
+	public boolean autoDepositTnt = false;
+
+	// How much should TNT sell for?
+	public double tntSellPrice = 5;
+
 	// -------------------------------------------- //
 	// ROSTER
 	// -------------------------------------------- //
@@ -768,6 +770,8 @@ public class MConf extends Entity<MConf>
 	public Map<EntityType, List<Integer>> moneyChances = MUtil.map(
 			EntityType.PIG_ZOMBIE, MUtil.list(20, 30)
 	);
+
+	public boolean autoSellMobs = false;
 
 	// -------------------------------------------- //
 	// ITEMS

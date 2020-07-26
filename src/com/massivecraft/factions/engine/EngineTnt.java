@@ -33,6 +33,9 @@ public class EngineTnt extends Engine
     @EventHandler
     public void onTntDrop(SpawnerSpawnEvent event)
     {
+        // Verify
+        if ( ! MConf.get().autoDepositTnt ) return;
+
         // Args
         EntityType type = event.getEntityType();
         if ( ! MConf.get().tntChances.containsKey(type)) return;
