@@ -54,15 +54,13 @@ public class CmdFactionsList extends FactionsCommand
 				}
 				else
 				{
-					List<MPlayer> mplayersWhereOnline = faction.getMPlayersWhereOnlineTo(sender);
-					mplayersWhereOnline.removeIf(MPlayer::isAlt);
+					List<MPlayer> mplayersWhereOnlineTo = faction.getMPlayersWhereOnlineTo(sender);
+					mplayersWhereOnlineTo.removeIf(MPlayer::isAlt);
 
 					return Txt.parse("%s<i> %d/%d online, %d/%d/%d",
 							faction.getName(msender),
-							// faction.getMPlayersWhereOnlineTo(sender).size(),
-							mplayersWhereOnline,
-							// faction.getMPlayers().size(),
-							faction.getMPlayersWhereAlt(false).size(),
+							mplayersWhereOnlineTo.size(),
+							faction.getMPlayersWhere(MPlayer::isntAlt).size(),
 							faction.getLandCount(),
 							faction.getPowerRounded(),
 							faction.getPowerMaxRounded()
