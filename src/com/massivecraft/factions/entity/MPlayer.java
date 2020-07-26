@@ -582,10 +582,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// FIELD: alt
 	// -------------------------------------------- //
 
-	public boolean isAlt()
-	{
-		return this.alt;
-	}
+	public boolean isAlt() { return this.alt; }
+	public boolean isntAlt() { return ! this.alt; }
 
 	public void setAlt(boolean alt)
 	{
