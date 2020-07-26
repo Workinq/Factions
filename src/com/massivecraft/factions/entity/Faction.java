@@ -93,7 +93,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setMissionStart(that.missionStart);
 		this.setCredits(that.credits);
 		this.setStrikes(that.strikes);
-		this.setCoreChunk(that.coreChunk);
 		this.setBaseRegion(that.baseRegion);
 		this.setShieldedHour(that.shieldedHour);
 		this.setFocusedPlayer(that.focusedPlayer);
@@ -108,7 +107,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	@Override
 	public void preDetach(String id)
 	{
-		if (!this.isLive()) return;
+		if ( ! this.isLive() ) return;
 
 		// NOTE: Existence check is required for compatibility with some plugins.
 		// If they have money ...
@@ -218,10 +217,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This will store a list of strikes the faction has acquired.
 	// A strike can be given using /f strike <faction> <points> <reason>.
 	private MassiveSet<FactionStrike> strikes = new MassiveSet<>();
-
-	// This will store the faction's core chunk for where they set the base region.
-	// Null means no core chunk exists.
-	private PS coreChunk = null;
 
 	// The faction's base region will be stored here.
 	// Using /f setbaseregion will run a loop to save chunks in a 60x60 radius from the sender.
@@ -1076,32 +1071,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	}
 
 	// -------------------------------------------- //
-	// FIELD: coreChunk
-	// -------------------------------------------- //
-
-	public PS getCoreChunk()
-	{
-		return coreChunk;
-	}
-
-	public boolean hasCoreChunk()
-	{
-		return coreChunk != null;
-	}
-
-	public void setCoreChunk(PS coreChunk)
-	{
-		// Detect Nochange
-		if (MUtil.equals(this.coreChunk, coreChunk)) return;
-
-		// Apply
-		this.coreChunk = coreChunk;
-
-		// Mark as changed
-		this.changed();
-	}
-
-	// -------------------------------------------- //
 	// FIELD: baseRegion
 	// -------------------------------------------- //
 
@@ -1130,15 +1099,11 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public void setShieldedHour(Integer shieldedHour)
 	{
-		// Clean input
-		Integer target = shieldedHour;
-		if (target == null || target == 0) target = null;
-
 		// Detect Nochange
-		if (MUtil.equals(this.shieldedHour, target)) return;
+		if (MUtil.equals(this.shieldedHour, shieldedHour)) return;
 
 		// Apply
-		this.shieldedHour = target;
+		this.shieldedHour = shieldedHour;
 
 		// Mark as changed
 		this.changed();
