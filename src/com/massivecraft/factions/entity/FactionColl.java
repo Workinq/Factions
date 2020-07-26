@@ -101,6 +101,7 @@ public class FactionColl extends Coll<Faction>
 		faction.setPermittedRelations(MPerm.getPermDisband(), Rel.LEADER);
 		faction.setPermittedRelations(MPerm.getPermPerms(), Rel.LEADER, Rel.COLEADER, Rel.OFFICER);
 		faction.setPermittedRelations(MPerm.getPermFly(), Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER);
+		faction.setPermittedRelations(MPerm.getPermExplosives(), Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER, Rel.RECRUIT, Rel.ALLY, Rel.TRUCE, Rel.NEUTRAL, Rel.ENEMY);
 
 		return faction;
 	}
@@ -212,8 +213,8 @@ public class FactionColl extends Coll<Faction>
 	public void econLandRewardRoutine()
 	{
 		// If econ is enabled ...
-		if (!Econ.isEnabled()) return;
-		
+		if ( ! Econ.isEnabled() ) return;
+
 		// ... and the land reward is non zero ...
 		double econLandReward = MConf.get().econLandReward;
 		if (econLandReward == 0.0) return;
@@ -244,7 +245,6 @@ public class FactionColl extends Coll<Faction>
 			{
 				Econ.modifyMoney(player, reward, description);
 			}
-			
 		}
 	}
 	
