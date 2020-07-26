@@ -32,7 +32,7 @@ public class CmdFactionsChest extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        cmdFactionsChestOpen.execute(sender, new ArrayList<>());
+        cmdFactionsChestOpen.execute(sender, args);
     }
 
 }
