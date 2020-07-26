@@ -31,7 +31,6 @@ public class EngineShow extends Engine
 	public static final String SHOW_ID_FACTION_AGE = BASENAME_ + "age";
 	public static final String SHOW_ID_FACTION_SHIELD = BASENAME_ + "shield";
 	public static final String SHOW_ID_FACTION_STRIKES = BASENAME_ + "strikes";
-	public static final String SHOW_ID_FACTION_BANS = BASENAME_ + "bans";
 	public static final String SHOW_ID_FACTION_FLAGS = BASENAME_ + "flags";
 	public static final String SHOW_ID_FACTION_POWER = BASENAME_ + "power";
 	public static final String SHOW_ID_FACTION_BANK = BASENAME_ + "bank";
@@ -44,7 +43,6 @@ public class EngineShow extends Engine
 	public static final int SHOW_PRIORITY_FACTION_AGE = 4000;
 	public static final int SHOW_PRIORITY_FACTION_SHIELD = 5000;
 	public static final int SHOW_PRIORITY_FACTION_STRIKES = 6000;
-	public static final int SHOW_PRIORITY_FACTION_BANS = 7000;
 	public static final int SHOW_PRIORITY_FACTION_FLAGS = 8000;
 	public static final int SHOW_PRIORITY_FACTION_POWER = 9000;
 	public static final int SHOW_PRIORITY_FACTION_BANK = 10000;
@@ -103,10 +101,6 @@ public class EngineShow extends Engine
 			int strikes = faction.getStrikes().size();
 			int strikePoints = faction.getStrikePoints();
 			show(idPriorityLiness, SHOW_ID_FACTION_STRIKES, SHOW_PRIORITY_FACTION_STRIKES, "Strikes / Points", Txt.parse("%d/%d", strikes, strikePoints));
-
-			// BANS
-			int bans = faction.getBannedMembers().size();
-			show(idPriorityLiness, SHOW_ID_FACTION_BANS, SHOW_PRIORITY_FACTION_BANS, "Bans", Txt.parse("%d", bans));
 
 			// FLAGS
 			// We display all editable and non default ones. The rest we skip.
