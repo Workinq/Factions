@@ -160,7 +160,9 @@ permissions:
   factions.shield: {description: manage faction shield, default: false}
   factions.shield.set: {description: set your faction shield, default: false}
   factions.shield.view: {description: view your shield hours, default: false}
-  factions.shield.view.other: {description: view other faction shield hours, default: false}
+  factions.shield.view.any: {description: view other faction shield hours, default: false}
+  factions.shield.clear: {description: clear your faction shield, default: false}
+  factions.shield.clear.any: {description: clear a faction's shield, default: false}
   factions.focus: {description: focus a player, default: false}
   factions.unfocus: {description: unfocus a player, default: false}
   factions.baltop: {description: list top balances in faction, default: false}
@@ -347,8 +349,9 @@ permissions:
       factions.shield: true
       factions.shield.set: true
       factions.shield.view: true
-      factions.shield.view.other: true
-      factions.shield.toggle: true
+      factions.shield.view.any: true
+      factions.shield.clear: true
+      factions.shield.clear.any: true
       factions.focus: true
       factions.unfocus: true
       factions.baltop: true
@@ -370,6 +373,7 @@ permissions:
       factions.toggle: true
       factions.toggle.fly: true
       factions.toggle.grace: true
+      factions.toggle.shield: true
       factions.mute: true
       factions.alarm: true
       factions.alarm.any: true
@@ -540,7 +544,8 @@ permissions:
       factions.shield: true
       factions.shield.set: true
       factions.shield.view: true
-      factions.shield.view.other: true
+      factions.shield.view.any: true
+      factions.shield.clear: true
       factions.focus: true
       factions.unfocus: true
       factions.baltop: true
