@@ -162,6 +162,8 @@ public enum Perm implements Identified
 	SHIELD_SET,
 	SHIELD_VIEW,
 	SHIELD_VIEW_ANY,
+	SHIELD_CLEAR,
+	SHIELD_CLEAR_ANY,
 	FOCUS,
 	UNFOCUS,
 	BALTOP,
@@ -193,6 +195,7 @@ public enum Perm implements Identified
 	ALARM_ANY,
 	CLEAR,
 	CLEAR_ANY,
+	ALERT_NOTIFICATIONS,
 
 	// END OF LIST
 	;

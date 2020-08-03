@@ -62,10 +62,13 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.setMapAutoUpdating(that.mapAutoUpdating);
 		this.setOverriding(that.overriding);
 		this.setTerritoryInfoTitles(that.territoryInfoTitles);
+		this.setStealth(that.stealth);
+		this.setSpying(that.spying);
 		this.setChat(that.chat);
 		this.setIgnoredPlayers(that.ignoredPlayers);
 		this.setAlt(that.alt);
 		this.setLogins(that.logins);
+		this.setAlertNotifications(that.alertNotifications);
 		return this;
 	}
 
@@ -85,6 +88,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		// if (this.isMapAutoUpdating()) return false; // Just having an auto updating map is not in itself reason enough for database storage.
 		if (this.isOverriding()) return false;
 		if (this.isTerritoryInfoTitles() != MConf.get().territoryInfoTitlesDefault) return false;
+		if (this.isStealth()) return false;
+		if (this.isSpying()) return false;
+		if (this.isAlt()) return false;
 
 		return true;
 	}
@@ -165,11 +171,11 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	// A player can choose to enable stealth mode, by default it's false / off.
 	// When stealth mode is enabled, flight for enemy players won't be disabled.
-	private boolean stealth = false;
+	private Boolean stealth = null;
 
 	// A player can choose to spy on faction chats using /f spy.
 	// A very mean feature since it's an invasion of privacy :(
-	private boolean spying = false;
+	private Boolean spying = null;
 
 	// Each player can choose their chat mode.
 	// Chat modes are public, truce, ally and faction.
@@ -179,7 +185,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// A player can choose to inspect their own faction land by using /f inspect.
 	// When inspecting, if the player right clicks a block they will receive information on who's interacted with it.
 	// By default inspect is off.
-	private boolean inspecting = false;
+	private Boolean inspecting = null;
 
 	// Each player can choose to ignore another player.
 	// This will prevent them from seeing messages from faction, truce and ally chat.
@@ -191,18 +197,22 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	private String lastInspected = null;
 
 	// If a player joins a faction as an alt, this will be set to true.
-	private boolean alt = false;
+	private Boolean alt = null;
 
 	// Stores if a player was flying, idfk.
-	private boolean wasFlying = false;
+	private Boolean wasFlying = null;
 
 	// This determines if the player should receive login notifications from their faction members.
 	// By default they will receive notifications but they can be toggled using /f login.
-	private boolean logins = true;
+	private Boolean logins = Boolean.TRUE;
 
 	// This will store the user's status for draining their balance.
 	// Null means false
 	private Boolean drainToggled = null;
+
+	// Stores whether or not the player wants to receive faction alarm notifications.
+	// Null means false
+	private Boolean alertNotifications = Boolean.TRUE;
 
 	// Has this player requested an auto-updating ascii art map?
 	// Null means false
@@ -445,16 +455,23 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	public boolean isStealth()
 	{
-		return stealth;
+		if (this.stealth == null) return false;
+		if (!this.stealth) return false;
+
+		return true;
 	}
 
-	public void setStealth(boolean stealth)
+	public void setStealth(Boolean stealth)
 	{
+		// Clean input
+		Boolean target = stealth;
+		if (MUtil.equals(target, false)) target = null;
+
 		// Detect Nochange
-		if (this.stealth == stealth) return;
+		if (MUtil.equals(this.stealth, target)) return;
 
 		// Apply
-		this.stealth = stealth;
+		this.stealth = target;
 
 		// Mark as changed
 		this.changed();
@@ -466,16 +483,23 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	public boolean isSpying()
 	{
-		return spying;
+		if (this.spying == null) return false;
+		if (!this.spying) return false;
+
+		return true;
 	}
 
-	public void setSpying(boolean spying)
+	public void setSpying(Boolean spying)
 	{
+		// Clean input
+		Boolean target = spying;
+		if (MUtil.equals(target, false)) target = null;
+
 		// Detect Nochange
-		if (this.spying == spying) return;
+		if (MUtil.equals(this.spying, target)) return;
 
 		// Apply
-		this.spying = spying;
+		this.spying = target;
 
 		// Mark as changed
 		this.changed();
@@ -487,16 +511,23 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	public boolean wasFlying()
 	{
-		return wasFlying;
+		if (this.wasFlying == null) return false;
+		if (!this.wasFlying) return false;
+
+		return true;
 	}
 
-	public void setWasFlying(final boolean wasFlying)
+	public void setWasFlying(Boolean wasFlying)
 	{
+		// Clean input
+		Boolean target = wasFlying;
+		if (MUtil.equals(target, false)) target = null;
+
 		// Detect Nochange
-		if (this.wasFlying == wasFlying) return;
+		if (MUtil.equals(this.wasFlying, target)) return;
 
 		// Apply
-		this.wasFlying = wasFlying;
+		this.wasFlying = target;
 
 		// Mark as changed
 		this.changed();
@@ -512,10 +543,10 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return this.chat;
 	}
 
-	public void setChat(Chat role)
+	public void setChat(Chat chat)
 	{
 		// Clean input
-		Chat target = role;
+		Chat target = chat;
 
 		// Detect Nochange
 		if (MUtil.equals(this.chat, target)) return;
@@ -533,16 +564,23 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	public boolean isInspecting()
 	{
-		return this.inspecting;
+		if (this.inspecting == null) return false;
+		if (!this.inspecting) return false;
+
+		return true;
 	}
 
-	public void setInspecting(boolean inspecting)
+	public void setInspecting(Boolean inspecting)
 	{
+		// Clean input
+		Boolean target = inspecting;
+		if (MUtil.equals(target, false)) target = null;
+
 		// Detect Nochange
-		if (this.inspecting == inspecting) return;
+		if (MUtil.equals(this.inspecting, target)) return;
 
 		// Apply
-		this.inspecting = inspecting;
+		this.inspecting = target;
 
 		// Mark as changed
 		this.changed();
@@ -582,16 +620,28 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// FIELD: alt
 	// -------------------------------------------- //
 
-	public boolean isAlt() { return this.alt; }
-	public boolean isntAlt() { return ! this.alt; }
-
-	public void setAlt(boolean alt)
+	public boolean isAlt()
 	{
+		if (this.alt == null) return false;
+		if (!this.alt) return false;
+
+		return true;
+	}
+
+	public boolean isntAlt() { return !this.isAlt(); }
+
+	public void setAlt(Boolean alt)
+	{
+		// Clean input
+		Boolean target = alt;
+
+		if (MUtil.equals(target, false)) target = null;
+
 		// Detect Nochange
-		if (this.alt == alt) return;
+		if (MUtil.equals(this.alt, target)) return;
 
 		// Apply
-		this.alt = alt;
+		this.alt = target;
 
 		// Mark as changed
 		this.changed();
@@ -601,21 +651,28 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// FIELD: logins
 	// -------------------------------------------- //
 
-	public void setLogins(boolean logins)
+	public boolean getLogins()
 	{
+		if (this.logins == null) return false;
+		if (!this.logins) return false;
+
+		return true;
+	}
+
+	public void setLogins(Boolean logins)
+	{
+		// Clean input
+		Boolean target = logins;
+		if (MUtil.equals(target, false)) target = null;
+
 		// Detect Nochange
-		if (this.logins == logins) return;
+		if (MUtil.equals(this.logins, target)) return;
 
 		// Apply
-		this.logins = logins;
+		this.logins = target;
 
 		// Mark as changed
 		this.changed();
-	}
-
-	public boolean getLogins()
-	{
-		return this.logins;
 	}
 
 	// -------------------------------------------- //
@@ -624,7 +681,11 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	public void setIgnoredPlayers(MassiveSet<String> ignoredPlayers)
 	{
+		// Apply
 		this.ignoredPlayers = ignoredPlayers;
+
+		// Mark as changed
+		this.changed();
 	}
 
 	public boolean isIgnoring(MPlayer mplayer)
@@ -644,6 +705,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	public void ignore(String playerId)
 	{
+		// Apply
 		this.ignoredPlayers.add(playerId);
 
 		// Mark as changed
@@ -657,7 +719,36 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	public void unignore(String playerId)
 	{
+		// Apply
 		this.ignoredPlayers.remove(playerId);
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: alertNotifications
+	// -------------------------------------------- //
+
+	public boolean hasAlertNotifications()
+	{
+		if (this.alertNotifications == null) return false;
+		if (!this.alertNotifications) return false;
+
+		return true;
+	}
+
+	public void setAlertNotifications(Boolean alertNotifications)
+	{
+		// Clean input
+		Boolean target = alertNotifications;
+		if (MUtil.equals(target, false)) target = null;
+
+		// Detect Nochange
+		if (MUtil.equals(this.alertNotifications, target)) return;
+
+		// Apply
+		this.alertNotifications = target;
 
 		// Mark as changed
 		this.changed();
@@ -1046,7 +1137,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 		this.setPowerBoost(0.0D);
 		this.resetFactionData();
-		this.setAlt(false);
+		if (this.isAlt()) this.setAlt(false);
 
 		if (myFaction.isNormal() && !permanent && myFaction.getMPlayers().isEmpty())
 		{

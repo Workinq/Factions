@@ -191,6 +191,7 @@ permissions:
   factions.alarm.any: {description: toggle a faction's alarm, default: false}
   factions.clear: {description: mark your faction walls as cleared, default: false}
   factions.clear.any: {description: mark a faction's walls as cleared, default: false}
+  factions.alert.notifications: {description: toggle raid alert notifications, default: false}
 
   # -------------------------------------------- #
   # STAR NOTATION
@@ -379,6 +380,7 @@ permissions:
       factions.alarm.any: true
       factions.clear: true
       factions.clear.any: true
+      factions.alert.notifications: true
 
   # -------------------------------------------- #
   # KITS
@@ -564,6 +566,7 @@ permissions:
       factions.mute: true
       factions.alarm: true
       factions.clear: true
+      factions.alert.notifications: true
   factions.kit.default:
     default: true
     children:
