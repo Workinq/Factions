@@ -48,7 +48,7 @@ public class CmdFactionsAlarm extends FactionsCommand
         faction.setAlarmEnabled(target);
 
         // Inform
-        String desc = Txt.parse(msender.isStealth() ? "<g>ENABLED" : "<b>DISABLED");
+        String desc = Txt.parse(faction.isAlarmEnabled() ? "<g>ENABLED" : "<b>DISABLED");
         String messageFaction = Txt.parse("<i>%s %s <i>the faction alarm.", msender.describeTo(faction, true), desc);
         faction.msg(messageFaction);
     }
