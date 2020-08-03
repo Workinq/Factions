@@ -52,7 +52,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient String ID_FLAGS = "flags";
 	public final static transient String ID_PERMS = "perms";
 	public final static transient String ID_STATUS = "status";
-	public final static transient String ID_CHEST = "chest";
+	public final static transient String ID_VAULT = "vault";
 	public final static transient String ID_TNT = "tnt";
 	public final static transient String ID_WARP = "warp";
 	public final static transient String ID_SETWARP = "setwarp";
@@ -106,7 +106,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_FLAGS = 22000;
 	public final static transient int PRIORITY_PERMS = 23000;
 	public final static transient int PRIORITY_STATUS = 24000;
-	public final static transient int PRIORITY_CHEST = 25000;
+	public final static transient int PRIORITY_VAULT = 25000;
 	public final static transient int PRIORITY_TNT = 26000;
 	public final static transient int PRIORITY_CREDITS = 27000;
 	public final static transient int PRIORITY_WARP = 28000;
@@ -185,7 +185,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		getPermDisband();
 		getPermFlags();
 		getPermPerms();
-		getPermChest();
+		getPermVault();
 		getPermTnt();
 		getPermWarp();
 		getPermSetwarp();
@@ -240,7 +240,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public static MPerm getPermDisband() { return getCreative(PRIORITY_DISBAND, ID_DISBAND, ID_DISBAND, "disband the faction", MUtil.set(Rel.LEADER), false, true, true); }
 	public static MPerm getPermFlags() { return getCreative(PRIORITY_FLAGS, ID_FLAGS, ID_FLAGS, "manage flags", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
 	public static MPerm getPermPerms() { return getCreative(PRIORITY_PERMS, ID_PERMS, ID_PERMS, "manage permissions", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
-	public static MPerm getPermChest() { return getCreative(PRIORITY_CHEST, ID_CHEST, ID_CHEST, "open the faction chest", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
+	public static MPerm getPermVault() { return getCreative(PRIORITY_VAULT, ID_VAULT, ID_VAULT, "open the faction vault", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermTnt() { return getCreative(PRIORITY_TNT, ID_TNT, ID_TNT, "manage faction tnt", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermWarp() { return getCreative(PRIORITY_WARP, ID_WARP, ID_WARP, "teleport to a faction warp", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermSetwarp() { return getCreative(PRIORITY_SETWARP, ID_SETWARP, ID_SETWARP, "set a faction warp", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }

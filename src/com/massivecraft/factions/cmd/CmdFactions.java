@@ -7,7 +7,7 @@ import com.massivecraft.factions.cmd.alt.CmdFactionsAlt;
 import com.massivecraft.factions.cmd.ban.CmdFactionsBan;
 import com.massivecraft.factions.cmd.ban.CmdFactionsBanlist;
 import com.massivecraft.factions.cmd.ban.CmdFactionsUnban;
-import com.massivecraft.factions.cmd.chest.CmdFactionsChest;
+import com.massivecraft.factions.cmd.vault.CmdFactionsVault;
 import com.massivecraft.factions.cmd.claim.CmdFactionsClaim;
 import com.massivecraft.factions.cmd.claim.CmdFactionsUnclaim;
 import com.massivecraft.factions.cmd.credits.CmdFactionsCredits;
@@ -112,7 +112,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsConfig cmdFactionsConfig = new CmdFactionsConfig();
 	public CmdFactionsClean cmdFactionsClean = new CmdFactionsClean();
 	public CmdFactionsTnt cmdFactionsTnt = new CmdFactionsTnt();
-	public CmdFactionsChest cmdFactionsChest = new CmdFactionsChest();
+	public CmdFactionsVault cmdFactionsVault = new CmdFactionsVault();
 	public CmdFactionsStealth cmdFactionsStealth = new CmdFactionsStealth();
 	public CmdFactionsFly cmdFactionsFly = new CmdFactionsFly();
 	public CmdFactionsWarp cmdFactionsWarp = new CmdFactionsWarp();

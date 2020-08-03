@@ -1,4 +1,4 @@
-package com.massivecraft.factions.cmd.chest;
+package com.massivecraft.factions.cmd.vault;
 
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.type.TypeFaction;
@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CmdFactionsChestLog extends FactionsCommand
+public class CmdFactionsVaultLog extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsChestLog()
+    public CmdFactionsVaultLog()
     {
         // Parameters
         this.addParameter(Parameter.getPage());
@@ -43,7 +43,7 @@ public class CmdFactionsChestLog extends FactionsCommand
         int page = this.readArg();
         Faction faction = this.readArg(msenderFaction);
 
-        if ( ! MPerm.getPermChest().has(msender, faction, true)) return;
+        if ( ! MPerm.getPermVault().has(msender, faction, true)) return;
 
         final List<Mson> chestActions = new ArrayList<>();
         for (ChestAction chestAction : faction.getChestActions())
