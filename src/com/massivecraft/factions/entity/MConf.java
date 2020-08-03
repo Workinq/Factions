@@ -97,6 +97,8 @@ public class MConf extends Entity<MConf>
 	public double taskPlayerPowerUpdateMinutes = 1;
 	public double taskPlayerDataRemoveMinutes = 5;
 	public double taskEconLandRewardMinutes = 20;
+	public double taskRemindBaseRegionMinutes = 5;
+	public double taskRingFactionAlarmMinutes = 0.25;
 	
 	// -------------------------------------------- //
 	// REMOVE DATA
@@ -793,5 +795,11 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 
 	public int shieldHours = 10;
+
+	// -------------------------------------------- //
+	// ALARM
+	// -------------------------------------------- //
+
+	public String alarmSound = "NOTE_BASS";
 
 }
