@@ -1,5 +1,6 @@
 package com.massivecraft.factions.cmd.shield;
 
+import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
@@ -35,6 +36,9 @@ public class CmdFactionsShieldClear extends FactionsCommand
         {
             throw new MassiveException().setMsg("<b>You can't clear %s's shield as grace has been disabled.", faction.describeTo(msender));
         }
+
+        // Permission
+        if (faction != msenderFaction && ! Perm.SHIELD_CLEAR_ANY.has(sender, true)) return;
 
         // MPerm
         if ( ! MPerm.getPermShield().has(msender, faction, true) ) return;
