@@ -9,7 +9,8 @@ import com.massivecraft.massivecore.mixin.MixinCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class ActionRelationModify extends ChestActionAbstract {
+public class ActionRelationModify extends ChestActionAbstract
+{
 
     private final MPlayer mplayer;
     private final boolean newStatus;

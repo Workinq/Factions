@@ -40,15 +40,11 @@ public class ActionClickShield extends ChestActionAbstract
 
     private Inventory getConfirmGui()
     {
+        // Args
         Inventory inventory = Bukkit.createInventory(null, 27, Txt.parse("<gray>Confirm Shield"));
-        ChestGui chestGui = ChestGui.getCreative(inventory);
+        ChestGui chestGui = InventoryUtil.getChestGui(inventory);
 
-        // Chest Setup
-        chestGui.setAutoclosing(true);
-        chestGui.setAutoremoving(true);
-        chestGui.setSoundOpen(null);
-        chestGui.setSoundClose(null);
-
+        // Items
         chestGui.getInventory().setItem(11, new ItemBuilder(Material.STAINED_GLASS_PANE).name(Txt.parse("<g>Confirm")).durability(13));
         chestGui.setAction(11, new ActionConfirmShield(from, faction, mplayer, fromText, toText));
         chestGui.getInventory().setItem(13, new ItemBuilder(Material.WATCH).name(" ").addLore(Txt.parse("<g>Click to change your shielded hours to")).addLore(Txt.parse("<k>%s <white>---> <k>%s <n>(<k>" + MConf.get().shieldHours + " hours total<n>)", fromText, toText)));

@@ -69,13 +69,7 @@ public class CmdFactionsInvsee extends FactionsCommand
     {
         // Args
         Inventory inventory = Bukkit.createInventory(null, 45, Txt.parse("<gray>%s's Inventory", player.getName()));
-        ChestGui chestGui = ChestGui.getCreative(inventory);
-
-        // Chest Setup
-        chestGui.setAutoclosing(false);
-        chestGui.setAutoremoving(true);
-        chestGui.setSoundOpen(null);
-        chestGui.setSoundClose(null);
+        ChestGui chestGui = InventoryUtil.getChestGui(inventory, false);
 
         // Inventory Contents
         chestGui.getInventory().setContents(player.getInventory().getContents());

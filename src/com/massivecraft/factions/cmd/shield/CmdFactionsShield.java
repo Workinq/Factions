@@ -29,7 +29,7 @@ public class CmdFactionsShield extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        cmdFactionsShieldSet.execute(sender, args);
+        cmdFactionsShieldSet.execute(sender, new ArrayList<>());
     }
 
 }

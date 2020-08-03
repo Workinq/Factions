@@ -63,14 +63,8 @@ public class CmdFactionsSandAltGui extends FactionsCommand
         }
 
         Inventory inventory = Bukkit.createInventory(null, MConf.get().sandAltGuiSize, Txt.parse(MConf.get().sandAltGuiName));
-        ChestGui chestGui = ChestGui.getCreative(inventory);
+        ChestGui chestGui = InventoryUtil.getChestGui(inventory);
         int[] altSlots = new int[]{12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 30, 31, 32, 33, 34, 39, 40, 41, 42, 43};
-
-        // Chest Setup
-        chestGui.setAutoclosing(true);
-        chestGui.setAutoremoving(true);
-        chestGui.setSoundOpen(null);
-        chestGui.setSoundClose(null);
 
         // Items
         chestGui.getInventory().setItem(10, new ItemBuilder(Material.SKULL_ITEM).name(Txt.parse("<k><bold>Spawn Alt")).durability(3).setLore(Txt.parse(MUtil.list("<n>Click here to spawn a sand alt at", "<n>where you are currently standing", "", "<n>It will cost your faction bank" , Txt.parse("<k>$%.1f <n>per sand placed", MConf.get().sandCost), "", Txt.parse("<n>Faction Limit: <k>%d", maxAlts), "<n>Upgrade limit in <k>/f upgrade"))));

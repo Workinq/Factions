@@ -112,14 +112,8 @@ public class EngineSand extends Engine
     public Inventory getEditGui(SandAlt sandAlt, Faction faction, MPlayer mplayer)
     {
         Inventory inventory = Bukkit.createInventory(null, 27, Txt.parse("<gray>Edit Sand Alt"));
-        ChestGui chestGui = ChestGui.getCreative(inventory);
+        ChestGui chestGui = InventoryUtil.getChestGui(inventory);
         int radius = MConf.get().sandSpawnRadius;
-
-        // Chest Setup
-        chestGui.setAutoclosing(true);
-        chestGui.setAutoremoving(true);
-        chestGui.setSoundOpen(null);
-        chestGui.setSoundClose(null);
 
         // Stop/Start placing
         if (sandAlt.isPaused())

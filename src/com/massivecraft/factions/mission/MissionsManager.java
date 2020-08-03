@@ -38,14 +38,7 @@ public class MissionsManager
     {
         // Args
         Inventory inventory = Bukkit.createInventory(null, MConf.get().missionGuiSize, Txt.parse(MConf.get().missionGuiName));
-        ChestGui chestGui = ChestGui.getCreative(inventory);
-
-        // Arg Setup
-        chestGui.setAutoclosing(false);
-        chestGui.setAutoremoving(false);
-        chestGui.setSoundOpen(null);
-        chestGui.setSoundClose(null);
-
+        ChestGui chestGui = InventoryUtil.getChestGui(inventory, false);
         List<String> lore = new ArrayList<>();
         AbstractMission activeMission = faction.getActiveMission();
 
@@ -97,28 +90,35 @@ public class MissionsManager
 
     public void incrementProgress(AbstractMission mission, MPlayer mplayer)
     {
+        // Verify
         if (mplayer.isConsole()) return;
 
+        // Apply
         this.incrementProgress(mission, mplayer, 1);
     }
 
     public void incrementProgress(AbstractMission mission, MPlayer mplayer, Integer amount)
     {
+        // Verify
         if (mplayer.isConsole()) return;
 
+        // Apply
         this.incrementProgress(mission, mplayer.getFaction(), amount);
     }
 
     public void incrementProgress(AbstractMission mission, Faction faction)
     {
+        // Apply
         this.incrementProgress(mission, faction, 1);
     }
 
     public void incrementProgress(AbstractMission mission, Faction faction, Integer amount)
     {
+        // Verify
         if (faction.getActiveMission() == null) return;
         if (!faction.getActiveMission().getName().equalsIgnoreCase(mission.getName())) return;
 
+        // Args
         Integer missionComplete = faction.getMissionGoal();
         if ((double) (missionComplete + amount) >= mission.getRequirement() - (double) amount)
         {

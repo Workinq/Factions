@@ -50,14 +50,8 @@ public class CmdFactionsPermGui extends FactionsCommand
 
         // Args
         Inventory inventory = Bukkit.createInventory(null, 54, Txt.parse(FPerm.get().permissionGuiName));
-        ChestGui chestGui = ChestGui.getCreative(inventory);
+        ChestGui chestGui = InventoryUtil.getChestGui(inventory);
         int slot = 0;
-
-        // Chest Setup
-        chestGui.setAutoclosing(true);
-        chestGui.setAutoremoving(true);
-        chestGui.setSoundOpen(null);
-        chestGui.setSoundClose(null);
 
         // Loop - Permissions
         for (FactionPermission permission : FPerm.get().factionPermissions)
@@ -91,13 +85,7 @@ public class CmdFactionsPermGui extends FactionsCommand
     {
         Faction faction = mplayer.getFaction();
         Inventory inventory = Bukkit.createInventory(null, 9, Txt.parse("<gray>Editing %s", mperm.getName()));
-        ChestGui chestGui = ChestGui.getCreative(inventory);
-
-        // Chest Setup
-        chestGui.setAutoclosing(true);
-        chestGui.setAutoremoving(true);
-        chestGui.setSoundOpen(null);
-        chestGui.setSoundClose(null);
+        ChestGui chestGui = InventoryUtil.getChestGui(inventory);
 
         int slot = 0;
         for (Rel rel : Rel.values())

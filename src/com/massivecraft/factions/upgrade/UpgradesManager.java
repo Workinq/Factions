@@ -3,6 +3,7 @@ package com.massivecraft.factions.upgrade;
 import com.massivecraft.factions.action.ActionUpgrade;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.upgrade.upgrades.*;
+import com.massivecraft.factions.util.InventoryUtil;
 import com.massivecraft.factions.util.ItemBuilder;
 import com.massivecraft.massivecore.chestgui.ChestGui;
 import com.massivecraft.massivecore.util.Txt;
@@ -25,16 +26,9 @@ public class UpgradesManager
     {
         // Args
         Inventory inventory = Bukkit.createInventory(null, 9, Txt.parse("<gray>Faction Upgrades"));
-        ChestGui chestGui = ChestGui.getCreative(inventory);
-        NumberFormat priceFormat = NumberFormat.getInstance();
+        ChestGui chestGui = InventoryUtil.getChestGui(inventory);
+        NumberFormat priceFormat = NumberFormat.getInstance(); priceFormat.setGroupingUsed(true);
         int slot = 0;
-
-        // Arg Setup
-        chestGui.setAutoclosing(true);
-        chestGui.setAutoremoving(true);
-        chestGui.setSoundOpen(null);
-        chestGui.setSoundClose(null);
-        priceFormat.setGroupingUsed(true);
 
         // Loop
         for (AbstractUpgrade upgrade : upgrades)
