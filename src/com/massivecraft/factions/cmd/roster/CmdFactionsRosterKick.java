@@ -5,20 +5,21 @@ import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MOption;
-import com.massivecraft.factions.entity.MPerm;
-import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.entity.*;
 import com.massivecraft.massivecore.MassiveException;
+import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.util.MUtil;
+import com.massivecraft.massivecore.util.TimeUnit;
 
-public class CmdFactionsRosterRemove extends FactionsCommand
+import java.util.Collections;
+
+public class CmdFactionsRosterKick extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsRosterRemove()
+    public CmdFactionsRosterKick()
     {
         // Aliases
         this.addAliases("kick");
@@ -49,9 +50,10 @@ public class CmdFactionsRosterRemove extends FactionsCommand
             return;
         }
 
-        // Verify
+        // MPerm
         if ( ! MPerm.getPermRoster().has(msender, faction, true)) return;
 
+        // Verify
         if ( ! faction.isInRoster(mplayer) )
         {
             msg("%s <i>is not in the faction roster.", mplayer.describeTo(msender));
@@ -68,9 +70,42 @@ public class CmdFactionsRosterRemove extends FactionsCommand
             throw new MassiveException().addMsg("<b>You can't kick people of the same rank as yourself.");
         }
 
-        faction.removeFromRoster(mplayer); // Remove from roster
-        CmdFactions.get().cmdFactionsKick.execute(sender, MUtil.list(mplayer.getName())); // Kick
+        if (faction.getNumberOfRosterKicks() == MConf.get().rosterKickLimit)
+        {
+            // Args
+            MassiveList<Long> rosterKickTimes = new MassiveList<>(faction.getRosterKickTimes());
+            boolean canKick = false;
 
+            // Sort
+            Collections.sort(rosterKickTimes);
+
+            // Loop
+            for (long time : rosterKickTimes)
+            {
+                long total = time + TimeUnit.MILLIS_PER_DAY;
+                if (System.currentTimeMillis() > total)
+                {
+                    // Apply
+                    canKick = true;
+
+                    // Remove
+                    faction.removeRosterKick(time);
+                }
+            }
+
+            // Verify
+            if (!canKick)
+            {
+                throw new MassiveException().setMsg("<b>You've reached the maximum number of roster kicks in the last 24 hours.");
+            }
+        }
+
+        // Apply
+        faction.addRosterKick();
+        faction.removeFromRoster(mplayer);
+        CmdFactions.get().cmdFactionsKick.execute(sender, MUtil.list(mplayer.getName()));
+
+        // Inform
         msg("%s <i>removed %s <i>from the faction roster.", msender.describeTo(msender, true), mplayer.describeTo(msender));
         faction.msg("%s <i>was removed to the faction roster.", mplayer.describeTo(faction, true));
     }

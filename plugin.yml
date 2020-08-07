@@ -170,7 +170,7 @@ permissions:
   factions.invsee: {description: view a members inventory, default: false}
   factions.roster: {description: manage the faction roster, default: false}
   factions.roster.add: {description: add a player to the faction roster, default: false}
-  factions.roster.remove: {description: remove a player from the faction roster, default: false}
+  factions.roster.kick: {description: kick a player from the faction roster, default: false}
   factions.roster.setrank: {description: set a player's rank in the roster, default: false}
   factions.roster.list: {description: list the factions roster list, default: false}
   factions.roster.list.any: {description: list other factions roster list, default: false}
@@ -359,7 +359,7 @@ permissions:
       factions.invsee: true
       factions.roster: true
       factions.roster.add: true
-      factions.roster.remove: true
+      factions.roster.kick: true
       factions.roster.setrank: true
       factions.roster.list: true
       factions.roster.list.any: true
@@ -554,7 +554,7 @@ permissions:
       factions.invsee: true
       factions.roster: true
       factions.roster.add: true
-      factions.roster.remove: true
+      factions.roster.kick: true
       factions.roster.setrank: true
       factions.roster.list: true
       factions.drain: true
