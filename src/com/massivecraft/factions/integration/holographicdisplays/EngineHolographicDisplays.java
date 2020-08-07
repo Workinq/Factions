@@ -7,6 +7,7 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.massivecore.Engine;
+import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
 
 import java.util.Collection;
@@ -26,7 +27,6 @@ public class EngineHolographicDisplays extends Engine
     // -------------------------------------------- //
 
     private static EngineHolographicDisplays i = new EngineHolographicDisplays();
-
     public static EngineHolographicDisplays get()
     {
         return i;
@@ -89,7 +89,19 @@ public class EngineHolographicDisplays extends Engine
     @Override
     public void run()
     {
-        topFactions = FactionColl.get().getAll(ComparatorFactionList.get(null), LIMIT);
+        try
+        {
+            topFactions = FactionColl.get().getAll(ComparatorFactionList.get(null), LIMIT);
+        }
+        catch (NullPointerException e)
+        {
+            topFactions = this.getAll();
+        }
+    }
+
+    private List<Faction> getAll()
+    {
+        return MUtil.transform(FactionColl.get().getAll(), null, ComparatorFactionList.get(null), LIMIT, 0);
     }
 
     // -------------------------------------------- //
