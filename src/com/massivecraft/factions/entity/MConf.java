@@ -517,6 +517,7 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 
 	public int rosterMemberLimit = 15;
+	public int rosterKickLimit = 5;
 
 	// -------------------------------------------- //
 	// DRAIN
