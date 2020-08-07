@@ -21,6 +21,8 @@ import com.massivecraft.massivecore.xlib.gson.annotations.SerializedName;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
 import java.util.Collection;
@@ -41,7 +43,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// META
 	// -------------------------------------------- //
 
-	public static MPlayer get(Object oid)
+	@Nullable
+	public static MPlayer get(@Nullable Object oid)
 	{
 		return MPlayerColl.get().get(oid);
 	}
@@ -50,8 +53,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// LOAD
 	// -------------------------------------------- //
 
-	@Override
-	public MPlayer load(MPlayer that)
+	@Override @NotNull
+	public MPlayer load(@NotNull MPlayer that)
 	{
 		this.setLastActivityMillis(that.lastActivityMillis);
 		this.setFactionId(that.factionId);
@@ -100,13 +103,13 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// -------------------------------------------- //
 
 	@Override
-	public void postAttach(String id)
+	public void postAttach(@NotNull String id)
 	{
 		FactionsIndex.get().update(this);
 	}
 
 	@Override
-	public void preDetach(String id)
+	public void preDetach(@NotNull String id)
 	{
 		FactionsIndex.get().update(this);
 	}
@@ -232,6 +235,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// NOTE: This field will not be saved to the database ever.
 	private transient WeakReference<Faction> autoClaimFaction = new WeakReference<>(null);
 
+	@Nullable
 	public Faction getAutoClaimFaction()
 	{
 		if (this.isFactionOrphan()) return null;
@@ -240,7 +244,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		if (ret.detached()) return null;
 		return ret;
 	}
-	public void setAutoClaimFaction(Faction autoClaimFaction) { this.autoClaimFaction = new WeakReference<>(autoClaimFaction); }
+	public void setAutoClaimFaction(@Nullable Faction autoClaimFaction) { this.autoClaimFaction = new WeakReference<>(autoClaimFaction); }
 
 	// Does the player have /f seechunk activated?
 	// NOTE: This field will not be saved to the database ever.
@@ -274,7 +278,14 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	public void setLastActivityMillis(long lastActivityMillis)
 	{
-		this.lastActivityMillis = convertSet(lastActivityMillis, this.lastActivityMillis, null);
+		// Detect Nochange
+		if (MUtil.equals(this.lastActivityMillis, lastActivityMillis)) return;
+
+		// Apply
+		this.lastActivityMillis = lastActivityMillis;
+
+		// Mark as changed
+		this.changed();
 	}
 
 	public void setLastActivityMillis()
@@ -291,7 +302,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// -------------------------------------------- //
 	// FIELD: factionId
 	// -------------------------------------------- //
-	
+
+	@Nullable
 	private Faction getFactionInternal()
 	{
 		String effectiveFactionId = this.convertGet(this.factionId, MConf.get().defaultPlayerFactionId);
@@ -309,8 +321,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return this.getFaction().getId();
 	}
 
-	// This method never returns null
-	public Faction getFaction()
+	@NotNull
+	public Faction getFaction() // This method never returns null
 	{
 		Faction ret;
 		
@@ -396,6 +408,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return !this.isFactionOrphan() && this.title != null;
 	}
 
+	@NotNull
 	public String getTitle()
 	{
 		if (this.isFactionOrphan()) return NOTITLE;
@@ -405,7 +418,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return NOTITLE;
 	}
 
-	public void setTitle(String title)
+	public void setTitle(@Nullable String title)
 	{
 		// Clean input
 		String target = Faction.clean(title);
@@ -433,7 +446,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	}
 
 	@Override
-	public void setPowerBoost(Double powerBoost)
+	public void setPowerBoost(@Nullable Double powerBoost)
 	{
 		// Clean input
 		Double target = powerBoost;
@@ -461,7 +474,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return true;
 	}
 
-	public void setStealth(Boolean stealth)
+	public void setStealth(@Nullable Boolean stealth)
 	{
 		// Clean input
 		Boolean target = stealth;
@@ -489,7 +502,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return true;
 	}
 
-	public void setSpying(Boolean spying)
+	public void setSpying(@Nullable Boolean spying)
 	{
 		// Clean input
 		Boolean target = spying;
@@ -517,7 +530,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return true;
 	}
 
-	public void setWasFlying(Boolean wasFlying)
+	public void setWasFlying(@Nullable Boolean wasFlying)
 	{
 		// Clean input
 		Boolean target = wasFlying;
@@ -543,10 +556,11 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return this.chat;
 	}
 
-	public void setChat(Chat chat)
+	public void setChat(@Nullable Chat chat)
 	{
 		// Clean input
 		Chat target = chat;
+		if (target == null) chat = Chat.PUBLIC;
 
 		// Detect Nochange
 		if (MUtil.equals(this.chat, target)) return;
@@ -570,7 +584,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return true;
 	}
 
-	public void setInspecting(Boolean inspecting)
+	public void setInspecting(@Nullable Boolean inspecting)
 	{
 		// Clean input
 		Boolean target = inspecting;
@@ -590,6 +604,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// FIELD: lastInspected
 	// -------------------------------------------- //
 
+	@Nullable
 	public String getLastInspected()
 	{
 		String target = this.lastInspected;
@@ -599,7 +614,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return target;
 	}
 
-	public void setLastInspected(String lastInspected)
+	public void setLastInspected(@Nullable String lastInspected)
 	{
 		// Clean input
 		String target = lastInspected;
@@ -630,7 +645,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	public boolean isntAlt() { return !this.isAlt(); }
 
-	public void setAlt(Boolean alt)
+	public void setAlt(@Nullable Boolean alt)
 	{
 		// Clean input
 		Boolean target = alt;
@@ -659,7 +674,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return true;
 	}
 
-	public void setLogins(Boolean logins)
+	public void setLogins(@Nullable Boolean logins)
 	{
 		// Clean input
 		Boolean target = logins;
@@ -679,7 +694,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// FIELD: ignoredPlayers
 	// -------------------------------------------- //
 
-	public void setIgnoredPlayers(MassiveSet<String> ignoredPlayers)
+	public void setIgnoredPlayers(@NotNull MassiveSet<String> ignoredPlayers)
 	{
 		// Apply
 		this.ignoredPlayers = ignoredPlayers;
@@ -688,22 +703,22 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.changed();
 	}
 
-	public boolean isIgnoring(MPlayer mplayer)
+	public boolean isIgnoring(@NotNull MPlayer mplayer)
 	{
 		return this.isIgnoring(mplayer.getId());
 	}
 
-	public boolean isIgnoring(String playerId)
+	public boolean isIgnoring(@NotNull String playerId)
 	{
 		return this.ignoredPlayers.contains(playerId);
 	}
 
-	public void ignore(MPlayer mplayer)
+	public void ignore(@NotNull MPlayer mplayer)
 	{
 		this.ignore(mplayer.getId());
 	}
 
-	public void ignore(String playerId)
+	public void ignore(@NotNull String playerId)
 	{
 		// Apply
 		this.ignoredPlayers.add(playerId);
@@ -712,12 +727,12 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.changed();
 	}
 
-	public void unignore(MPlayer mplayer)
+	public void unignore(@NotNull MPlayer mplayer)
 	{
 		this.unignore(mplayer.getId());
 	}
 
-	public void unignore(String playerId)
+	public void unignore(@NotNull String playerId)
 	{
 		// Apply
 		this.ignoredPlayers.remove(playerId);
@@ -738,7 +753,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return true;
 	}
 
-	public void setAlertNotifications(Boolean alertNotifications)
+	public void setAlertNotifications(@Nullable Boolean alertNotifications)
 	{
 		// Clean input
 		Boolean target = alertNotifications;
@@ -831,10 +846,11 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return ret;
 	}
 
-	public void setPower(Double power)
+	public void setPower(@Nullable Double power)
 	{
 		// Clean input
 		Double target = power;
+		if (target == null || target == 0.0D) target = null;
 
 		// Detect Nochange
 		if (MUtil.equals(this.power, target)) return;
@@ -864,7 +880,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return true;
 	}
 
-	public void setMapAutoUpdating(Boolean mapAutoUpdating)
+	public void setMapAutoUpdating(@Nullable Boolean mapAutoUpdating)
 	{
 		// Clean input
 		Boolean target = mapAutoUpdating;
@@ -898,7 +914,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return true;
 	}
 
-	public void setOverriding(Boolean overriding)
+	public void setOverriding(@Nullable Boolean overriding)
 	{
 		// Clean input
 		Boolean target = overriding;
@@ -925,7 +941,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return true;
 	}
 
-	public void setDrainToggled(Boolean drainToggled)
+	public void setDrainToggled(@Nullable Boolean drainToggled)
 	{
 		// Clean input
 		Boolean target = drainToggled;
@@ -952,7 +968,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return this.territoryInfoTitles;
 	}
 
-	public void setTerritoryInfoTitles(Boolean territoryInfoTitles)
+	public void setTerritoryInfoTitles(@Nullable Boolean territoryInfoTitles)
 	{
 		// Clean input
 		Boolean target = territoryInfoTitles;
@@ -972,6 +988,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// TITLE, NAME, FACTION NAME AND CHAT
 	// -------------------------------------------- //
 
+	@NotNull
 	public String getFactionName()
 	{
 		Faction faction = this.getFaction();
@@ -981,7 +998,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	// Base concatenations:
 
-	public String getNameAndSomething(String color, String something)
+	@NotNull
+	public String getNameAndSomething(@NotNull String color, @Nullable String something)
 	{
 		String ret = "";
 		ret += color;
@@ -996,12 +1014,14 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return ret;
 	}
 
+	@NotNull
 	public String getNameAndFactionName()
 	{
 		return this.getNameAndSomething("", this.getFactionName());
 	}
 
-	public String getNameAndTitle(String color)
+	@NotNull
+	public String getNameAndTitle(@NotNull String color)
 	{
 		if (this.hasTitle())
 		{
@@ -1016,12 +1036,14 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// Colored concatenations:
 	// These are used in information messages
 
-	public String getNameAndTitle(Faction faction)
+	@NotNull
+	public String getNameAndTitle(@NotNull Faction faction)
 	{
 		return this.getNameAndTitle(this.getColorTo(faction).toString());
 	}
 
-	public String getNameAndTitle(MPlayer mplayer)
+	@NotNull
+	public String getNameAndTitle(@NotNull MPlayer mplayer)
 	{
 		return this.getNameAndTitle(this.getColorTo(mplayer).toString());
 	}
@@ -1030,32 +1052,32 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// RELATION AND RELATION COLORS
 	// -------------------------------------------- //
 
-	@Override
-	public String describeTo(RelationParticipator observer, boolean ucfirst)
+	@Override @NotNull
+	public String describeTo(@Nullable RelationParticipator observer, boolean ucfirst)
 	{
 		return RelationUtil.describeThatToMe(this, observer, ucfirst);
 	}
 
-	@Override
-	public String describeTo(RelationParticipator observer)
+	@Override @NotNull
+	public String describeTo(@Nullable RelationParticipator observer)
 	{
 		return RelationUtil.describeThatToMe(this, observer);
 	}
 
-	@Override
-	public Rel getRelationTo(RelationParticipator observer)
+	@Override @NotNull
+	public Rel getRelationTo(@Nullable RelationParticipator observer)
 	{
 		return RelationUtil.getRelationOfThatToMe(this, observer);
 	}
 
-	@Override
-	public Rel getRelationTo(RelationParticipator observer, boolean ignorePeaceful)
+	@Override @NotNull
+	public Rel getRelationTo(@Nullable RelationParticipator observer, boolean ignorePeaceful)
 	{
 		return RelationUtil.getRelationOfThatToMe(this, observer, ignorePeaceful);
 	}
 
-	@Override
-	public ChatColor getColorTo(RelationParticipator observer)
+	@Override @NotNull
+	public ChatColor getColorTo(@Nullable RelationParticipator observer)
 	{
 		return RelationUtil.getColorOfThatToMe(this, observer);
 	}
@@ -1064,14 +1086,14 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// HEALTH
 	// -------------------------------------------- //
 
-	public void heal(int amnt)
+	public void heal(int amount)
 	{
 		Player player = this.getPlayer();
 		if (player == null)
 		{
 			return;
 		}
-		player.setHealth(player.getHealth() + amnt);
+		player.setHealth(player.getHealth() + amount);
 	}
 
 	// -------------------------------------------- //
@@ -1157,20 +1179,17 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	}
 
 	// NEW
-	public boolean tryClaim(Faction newFaction, Collection<PS> pss)
+	public boolean tryClaim(@NotNull Faction newFaction, @NotNull Collection<PS> pss)
 	{
 		return this.tryClaim(newFaction, pss, null, null);
 	}
 
-	public boolean tryClaim(Faction newFaction, Collection<PS> pss, String formatOne, String formatMany)
+	public boolean tryClaim(@NotNull Faction newFaction, @NotNull Collection<PS> pss, @Nullable String formatOne, @Nullable String formatMany)
 	{
 		// Args
 		if (formatOne == null) formatOne = "<h>%s<i> %s <h>%d <i>chunk %s<i>.";
 		if (formatMany == null) formatMany = "<h>%s<i> %s <h>%d <i>chunks near %s<i>.";
 
-		if (newFaction == null) throw new NullPointerException("newFaction");
-
-		if (pss == null) throw new NullPointerException("pss");
 		final Set<PS> chunks = PS.getDistinctChunks(pss);
 
 		// NoChange
@@ -1239,7 +1258,8 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// UTIL
 	// -------------------------------------------- //
 
-	public static Set<MPlayer> getClaimInformees(MPlayer msender, Faction... factions)
+	@NotNull
+	public static Set<MPlayer> getClaimInformees(@Nullable MPlayer msender, @Nullable Faction... factions)
 	{
 		Set<MPlayer> ret = new HashSet<>();
 
