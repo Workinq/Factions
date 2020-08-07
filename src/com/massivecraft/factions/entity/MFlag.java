@@ -148,7 +148,7 @@ public class MFlag extends Entity<MFlag> implements Prioritized, Registerable, N
 	// -------------------------------------------- //
 	
 	private transient boolean registered = false;
-	public boolean isRegistered() { return this.registered; }
+	@Override public boolean isRegistered() { return this.registered; }
 	public void setRegistered(boolean registered) { this.registered = registered; }
 	
 	// -------------------------------------------- //

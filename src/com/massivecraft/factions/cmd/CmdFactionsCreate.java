@@ -14,6 +14,7 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.mson.Mson;
 import com.massivecraft.massivecore.store.MStore;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 
 public class CmdFactionsCreate extends FactionsCommand

@@ -146,7 +146,7 @@ public class MissionsManager
         return missions;
     }
 
-    public void load()
+    public void registerMissions()
     {
         missions.add(new MissionBlaze());
         missions.add(new MissionSugarcane());

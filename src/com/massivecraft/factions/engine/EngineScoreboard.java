@@ -137,10 +137,9 @@ public class EngineScoreboard extends Engine
 
         // Args
         MPlayer mplayer = MPlayer.get(player);
-        if (mplayer == null) return; // WHY THE FUCK DOES THIS HAPPEN??
+        if (mplayer == null) return;
 
         Faction mfaction = mplayer.getFaction();
-        if (mfaction == null) return; // This should never happen.
 
         // Loop - Players
         for (Player target : Bukkit.getServer().getOnlinePlayers())

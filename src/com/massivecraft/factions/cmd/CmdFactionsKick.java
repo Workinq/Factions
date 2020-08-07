@@ -52,23 +52,22 @@ public class CmdFactionsKick extends FactionsCommand
 		
 		if (mplayer.getRole() == Rel.LEADER && ! msender.isOverriding() )
 		{
-			throw new MassiveException().addMsg("<b>The leader cannot be kicked.");
+			throw new MassiveException().setMsg("<b>The leader cannot be kicked.");
 		}
 		
 		if (mplayer.getRole().isMoreThan(msender.getRole()) && ! msender.isOverriding())
 		{
-			throw new MassiveException().addMsg("<b>You can't kick people of higher rank than yourself.");
+			throw new MassiveException().setMsg("<b>You can't kick people of higher rank than yourself.");
 		}
 		
 		if (mplayer.getRole() == msender.getRole() && ! msender.isOverriding())
 		{
-			throw new MassiveException().addMsg("<b>You can't kick people of the same rank as yourself.");
+			throw new MassiveException().setMsg("<b>You can't kick people of the same rank as yourself.");
 		}
 
 		if ( ! MConf.get().canLeaveWithNegativePower && mplayer.getPower() < 0 && ! msender.isOverriding())
 		{
-			msg("<b>You can't kick that person until their power is positive.");
-			return;
+			throw new MassiveException().setMsg("<b>You can't kick that person until their power is positive.");
 		}
 		
 		// MPerm
@@ -98,8 +97,6 @@ public class CmdFactionsKick extends FactionsCommand
 		{
 			mplayerFaction.promoteNewLeader();
 		}
-
-		mplayerFaction.removeFromRoster(mplayer);
 		mplayerFaction.uninvite(mplayer);
 		mplayer.resetFactionData();
 	}

@@ -79,8 +79,8 @@ public class Factions extends MassivePlugin
 		this.activate(this.getClassesActive("chat", ChatActive.class));
 
 		// Load Add-ons
-		MissionsManager.get().load();
-		UpgradesManager.get().load();
+		MissionsManager.get().registerMissions();
+		UpgradesManager.get().registerUpgrades();
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import com.massivecraft.massivecore.util.Txt;
 import com.massivecraft.factions.mission.AbstractMission;
 import com.massivecraft.factions.mission.MissionsManager;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -20,9 +21,9 @@ public class ActionViewMissions extends ChestActionAbstract
 {
 
     @Override
-    public boolean onClick(InventoryClickEvent event)
+    public boolean onClick(InventoryClickEvent event, Player player)
     {
-        event.getWhoClicked().openInventory(this.getMissionsGui());
+        player.openInventory(this.getMissionsGui());
         return true;
     }
 

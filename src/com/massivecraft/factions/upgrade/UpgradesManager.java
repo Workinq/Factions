@@ -91,17 +91,6 @@ public class UpgradesManager
         return upgrades;
     }
 
-    public void load()
-    {
-        upgrades.add(new SpawnerRateUpgrade());
-        upgrades.add(new CropGrowthUpgrade());
-        upgrades.add(new FactionChestUpgrade());
-        upgrades.add(new TNTStorageUpgrade());
-        upgrades.add(new WarpUpgrade());
-        upgrades.add(new PowerboostUpgrade());
-        upgrades.add(new SandAltUpgrade());
-    }
-
     public AbstractUpgrade getUpgradeByName(String string)
     {
         for (AbstractUpgrade upgrade : upgrades)
@@ -121,6 +110,17 @@ public class UpgradesManager
             faction.increaseLevel(upgrade.getUpgradeName());
             upgrade.onUpgrade(faction);
         }
+    }
+
+    public void registerUpgrades()
+    {
+        upgrades.add(new SpawnerRateUpgrade());
+        upgrades.add(new CropGrowthUpgrade());
+        upgrades.add(new FactionChestUpgrade());
+        upgrades.add(new TNTStorageUpgrade());
+        upgrades.add(new WarpUpgrade());
+        upgrades.add(new PowerboostUpgrade());
+        upgrades.add(new SandAltUpgrade());
     }
 
 }

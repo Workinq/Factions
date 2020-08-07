@@ -1,9 +1,12 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.cmd.type.TypeFaction;
-import com.massivecraft.factions.entity.*;
+import com.massivecraft.factions.entity.BoardColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.MOption;
+import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.massivecore.MassiveException;
-import com.massivecraft.massivecore.collections.MassiveSet;
+import com.massivecraft.massivecore.collections.MassiveSetDef;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.ps.PS;
 
@@ -46,7 +49,7 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
         }
 
         // Args
-        MassiveSet<PS> chunks = this.getChunks();
+        MassiveSetDef<PS> chunks = this.getChunks();
 
         // Verify
         if (chunks.isEmpty())
@@ -62,11 +65,11 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
         msg("<g>Successfully set your base region.");
     }
 
-    public MassiveSet<PS> getChunks()
+    public MassiveSetDef<PS> getChunks()
     {
         // Common Startup
         final PS chunk = PS.valueOf(me.getLocation()).getChunk(true);
-        final MassiveSet<PS> chunks = new MassiveSet<>();
+        final MassiveSetDef<PS> chunks = new MassiveSetDef<>();
 
         chunks.add(chunk); // The center should come first for pretty messages
 

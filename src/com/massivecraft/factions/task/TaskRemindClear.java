@@ -25,7 +25,7 @@ public class TaskRemindClear extends ModuloRepeatTask
 //            if (faction.getNotificationTimeMinutes() == 0) continue;
 //            if (faction.getLastCheckedMillis() + faction.getNotificationTimeMinutes() * 60000 >= System.currentTimeMillis()) continue;
 
-            faction.msg("");
+            // faction.msg("");
         }
     }
 

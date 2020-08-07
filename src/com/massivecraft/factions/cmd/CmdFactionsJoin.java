@@ -49,8 +49,7 @@ public class CmdFactionsJoin extends FactionsCommand
 		// Validate
 		if ( ! samePlayer  && ! Perm.JOIN_OTHERS.has(sender, false))
 		{
-			msg("<b>You do not have permission to move other players into a faction.");
-			return;
+			throw new MassiveException().setMsg("<b>You do not have permission to move other players into a faction.");
 		}
 
 		if (faction == mplayerFaction)
@@ -69,8 +68,7 @@ public class CmdFactionsJoin extends FactionsCommand
 
 		if (MConf.get().factionMemberLimit > 0 && faction.getMPlayersWhere(mp -> ! mp.isAlt()).size() >= MConf.get().factionMemberLimit && ! mplayer.isOverriding() )
 		{
-			msg(" <b>!<white> The faction %s is at the limit of %d members, so %s cannot currently join.", faction.getName(msender), MConf.get().factionMemberLimit, mplayer.describeTo(msender));
-			return;
+			throw new MassiveException().setMsg(" <b>!<white> The faction %s is at the limit of %d members, so %s cannot currently join.", faction.getName(msender), MConf.get().factionMemberLimit, mplayer.describeTo(msender));
 		}
 
 		if (mplayerFaction.isNormal())
@@ -89,32 +87,32 @@ public class CmdFactionsJoin extends FactionsCommand
 
 		if ( ! MConf.get().canLeaveWithNegativePower && mplayer.getPower() < 0 && ! mplayer.isOverriding() )
 		{
-			msg("<b>%s cannot join a faction with a negative power level.", mplayer.describeTo(msender, true));
-			return;
+			throw new MassiveException().setMsg("%s <b>cannot join a faction with a negative power level.", mplayer.describeTo(msender, true));
 		}
 
-		if (faction.isBanned(msender) && ! mplayer.isOverriding() )
+		if (faction.isBanned(mplayer) && ! mplayer.isOverriding() )
 		{
-			msg("<b>You've been banned from joining %s<b>.", faction.describeTo(msender));
-			return;
+			throw new MassiveException().setMsg("%s <b>cannot join a faction when banned from it.", mplayer.describeTo(msender, true));
 		}
 
 		if (faction.isInvitedAlt(mplayer) && ! mplayer.isOverriding() )
 		{
-			msg("<b>You can't join this faction as a member, use /f alt join instead.");
-			return;
+			throw new MassiveException().setMsg("%s <b>can't join %s <b>as a member, use /f alt join instead.", mplayer.describeTo(msender, true), faction.describeTo(msender));
 		}
 
 		if ( ! faction.isInRoster(mplayer) && ! mplayer.isOverriding() )
 		{
-			msg("<b>You must be added to this faction's roster in order to join.");
-			return;
+			throw new MassiveException().setMsg("%s <b>must be added to %s's <b>roster to join.", mplayer.describeTo(msender, true), faction.describeTo(msender));
 		}
 
 		if (faction.isFull())
 		{
 			// Args
-			List<MPlayer> mplayers = faction.getMPlayers();
+			List<MPlayer> mplayers = faction.getMPlayersWhereOnline(false);
+			if (mplayers.isEmpty())
+			{
+				throw new MassiveException().setMsg("<b>There are no players that can be rotated out of the faction.");
+			}
 
 			// Sort by inactivity
 			mplayers.sort(new ComparatorMPlayerInactivity());
@@ -122,7 +120,8 @@ public class CmdFactionsJoin extends FactionsCommand
 			MPlayer toKick = null;
 			for (MPlayer member : mplayers)
 			{
-				if (member.isOnline()) continue;
+				if (member.getRole().isMoreThan(mplayer.getRole())) continue;
+				if (member.getRole() == mplayer.getRole()) continue;
 
 				toKick = member;
 				break;
@@ -130,8 +129,7 @@ public class CmdFactionsJoin extends FactionsCommand
 
 			if (toKick == null)
 			{
-				msg("<b>There are no players that can be kicked at the moment.");
-				return;
+				throw new MassiveException().setMsg("<b>There are no players that can be rotated out of the faction.");
 			}
 
 			// Event
@@ -139,11 +137,14 @@ public class CmdFactionsJoin extends FactionsCommand
 			event.run();
 			if (event.isCancelled())
 			{
-				msg("<b>There are no players that can be kicked at the moment.");
-				return;
+				throw new MassiveException().setMsg("<b>There are no players that can be rotated out of the faction.");
 			}
 
+			// Inform
+			faction.msg("%s <i>has been rotated out of <g>your faction's <i>roster.", toKick.describeTo(faction, true), faction.describeTo(faction));
+
 			// Apply
+			faction.uninvite(toKick);
 			toKick.resetFactionData();
 		}
 
@@ -174,10 +175,11 @@ public class CmdFactionsJoin extends FactionsCommand
 		mplayer.resetFactionData();
 		mplayer.setFaction(faction);
 		mplayer.setRole(faction.getRosterRole(mplayer));
-		
+
+		// Uninvite
 		faction.uninvite(mplayer);
 
-		// Derplog
+		// Log
 		if (MConf.get().logFactionJoin)
 		{
 			if (samePlayer)
