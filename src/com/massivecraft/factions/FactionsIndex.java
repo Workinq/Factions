@@ -15,7 +15,7 @@ import java.util.WeakHashMap;
  * This Index class contains the MPlayer <--> Faction index.
  *
  * In the background it's powered by WeakHashMaps and all public methods are synchronized.
- * That should increase thread safety but no thread safety is actually guarranteed.
+ * That should increase thread safety but no thread safety is actually guaranteed.
  * That is because the mplayer.getFaction() method is not threadsafe.
  * TODO: Something to fix in the future perhaps?
  */
@@ -161,8 +161,8 @@ public class FactionsIndex
 		@Override
 		public Set<MPlayer> createValue()
 		{
-			return Collections.newSetFromMap(new WeakHashMap<MPlayer, Boolean>());
+			return Collections.newSetFromMap(new WeakHashMap<>());
 		}
 	}
-	
+
 }

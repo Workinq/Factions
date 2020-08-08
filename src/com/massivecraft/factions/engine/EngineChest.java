@@ -25,7 +25,7 @@ public class EngineChest extends Engine
     private final Map<HumanEntity, ItemStack[]> containers = new HashMap<>();
 
     // -------------------------------------------- //
-    // INSTANCE & CONSTRUCT
+    // INSTANCE
     // -------------------------------------------- //
 
     private static EngineChest i = new EngineChest();

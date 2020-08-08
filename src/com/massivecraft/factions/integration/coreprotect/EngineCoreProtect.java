@@ -130,11 +130,13 @@ public class EngineCoreProtect extends Engine
                 data = Lookup.block_lookup(statement, block, mplayer.getPlayer().getName(), 0, 1, MConf.get().inspectResultLimit);
                 chest = false;
             }
-            if (!data.contains("\n"))
+
+            if ( ! data.contains("\n") )
             {
                 mplayer.msg("<b>No data was found for that block.");
                 return;
             }
+
             mplayer.setLastInspected(data);
             List<Mson> inspectData = new ArrayList<>();
             String[] blockData = data.split("\n");
@@ -144,7 +146,7 @@ public class EngineCoreProtect extends Engine
 
                 if (info.contains("older data by typing") || info.contains("-----") || info.contains("CoreProtect")) continue;
 
-                // Format: TIME - ACTION (e.g. 0.01/h ago - Kieraaaan placed cobblestone.)
+                // Format: TIME - ACTION (e.g. 0.01/h ago - Player placed cobblestone.)
                 String[] dataSplit = info.split("-");
                 String time = dataSplit[0];
                 String actionString = dataSplit[1].replace(".", "");
@@ -165,14 +167,9 @@ public class EngineCoreProtect extends Engine
                 info = Txt.parse("<a>%s <i>%s <a>%s <n>%s", player, action, material, time);
                 inspectData.add(Mson.mson(info));
             }
-            final Pager<Mson> pager = new Pager<>(CmdFactions.get().cmdFactionsLastInspected, "Inspect Log", 1, inspectData, new Msonifier<Mson>()
-            {
-                @Override
-                public Mson toMson(Mson item, int index)
-                {
-                    return inspectData.get(index);
-                }
-            });
+
+            // Pager
+            final Pager<Mson> pager = new Pager<>(CmdFactions.get().cmdFactionsLastInspected, "Inspect Log", 1, inspectData, (Msonifier<Mson>) (item, index) -> inspectData.get(index));
             pager.setSender(mplayer.getSender());
 
             // Send pager

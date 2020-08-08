@@ -10,12 +10,11 @@ public abstract class EventFactionsAbstract extends EventMassiveCore
 	
 	public EventFactionsAbstract()
 	{
-		
 	}
 	
 	public EventFactionsAbstract(boolean isAsync)
 	{
 		super(isAsync);
 	}
-	
+
 }

@@ -56,7 +56,7 @@ public class TaskFactionsFly extends ModuloRepeatTask
             }
             else
             {
-                if (EngineFly.get().playersWithFlyDisabled.contains(player.getUniqueId().toString()) || player.getAllowFlight() || EngineFly.get().isEnemyNear(mplayer, player, hostFaction) || (!MPerm.getPermFly().has(mplayer, hostFaction, false) && (!hostFaction.isNone() || ! (player.hasPermission("factions.wildfly") || player.hasPermission("factions.fly.any"))))) continue;
+                if (EngineFly.get().playersWithFlyDisabled.contains(player.getUniqueId().toString()) || player.getAllowFlight() || EngineFly.get().isEnemyNear(mplayer, player, hostFaction) || ( ! MPerm.getPermFly().has(mplayer, hostFaction, false) && ( ! hostFaction.isNone() || ! (player.hasPermission("factions.wildfly") || player.hasPermission("factions.fly.any"))))) continue;
                 EngineFly.get().enableFlight(player, null);
             }
         }
