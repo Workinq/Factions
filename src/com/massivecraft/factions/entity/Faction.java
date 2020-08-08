@@ -58,8 +58,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// META
 	// -------------------------------------------- //
 
-	@Nullable
-	public static Faction get(@Nullable Object oid)
+	public static Faction get(Object oid)
 	{
 		return FactionColl.get().get(oid);
 	}
@@ -68,8 +67,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// OVERRIDE: ENTITY
 	// -------------------------------------------- //
 
-	@Override @NotNull
-	public Faction load(@NotNull Faction that)
+	@Override
+	public Faction load(Faction that)
 	{
 		this.setName(that.name);
 		this.setDescription(that.description);
@@ -109,7 +108,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	}
 
 	@Override
-	public void preDetach(@NotNull String id)
+	public void preDetach(String id)
 	{
 		if ( ! this.isLive() ) return;
 
@@ -322,7 +321,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	@Override @NotNull
+	@Override
 	public String getName()
 	{
 		String ret = this.name;
@@ -335,7 +334,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setName(@NotNull String name)
+	public void setName(String name)
 	{
 		// Detect no change
 		if (MUtil.equals(this.name, name)) return;
@@ -349,20 +348,17 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// FINER
 
-	@NotNull
 	public String getComparisonName()
 	{
 		return MiscUtil.getComparisonString(this.getName());
 	}
 
-	@NotNull
-	public String getName(@Nullable String prefix)
+	public String getName(String prefix)
 	{
 		return prefix + this.getName();
 	}
 
-	@NotNull
-	public String getName(@Nullable RelationParticipator observer)
+	public String getName(RelationParticipator observer)
 	{
 		if (observer == null) return getName();
 		return this.getName(this.getColorTo(observer).toString());
@@ -379,13 +375,12 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return this.description != null;
 	}
 
-	@Nullable
 	public String getDescription()
 	{
 		return this.description;
 	}
 
-	public void setDescription(@Nullable String description)
+	public void setDescription(String description)
 	{
 		// Clean input
 		String target = clean(description);
@@ -402,7 +397,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// FINER
 
-	@NotNull
+	
 	public String getDescriptionDesc()
 	{
 		String motd = this.getDescription();
@@ -421,13 +416,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return this.motd != null;
 	}
 
-	@Nullable
+	
 	public String getMotd()
 	{
 		return this.motd;
 	}
 
-	public void setMotd(@Nullable String motd)
+	public void setMotd(String motd)
 	{
 		// Clean input
 		String target = clean(motd);
@@ -444,20 +439,17 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// FINER
 
-	@NotNull
 	public String getMotdDesc()
 	{
 		return getMotdDesc(this.getMotd());
 	}
 
-	@NotNull
-	private static String getMotdDesc(@Nullable String motd)
+	private static String getMotdDesc(String motd)
 	{
 		if (motd == null) motd = NOMOTD;
 		return motd;
 	}
-
-	@NotNull
+	
 	public List<Object> getMotdMessages()
 	{
 		// Create
@@ -512,7 +504,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: home
 	// -------------------------------------------- //
 
-	@Nullable
 	public PS getHome()
 	{
 		this.verifyHomeIsValid();
@@ -527,7 +518,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		msg("<b>Your faction home has been un-set since it is no longer in your territory.");
 	}
 
-	public boolean isValidHome(@Nullable PS ps)
+	public boolean isValidHome(PS ps)
 	{
 		if (ps == null) return true;
 		if (!MConf.get().homesMustBeInClaimedTerritory) return true;
@@ -539,7 +530,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return this.getHome() != null;
 	}
 
-	public void setHome(@Nullable PS home)
+	public void setHome(PS home)
 	{
 		// Detect no change
 		if (MUtil.equals(this.home, home)) return;
@@ -566,7 +557,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	}
 
 	@Override
-	public void setPowerBoost(@Nullable Double powerBoost)
+	public void setPowerBoost(Double powerBoost)
 	{
 		// Clean input
 		Double target = powerBoost;
@@ -596,7 +587,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setTnt(@Nullable Integer tnt)
+	public void setTnt(Integer tnt)
 	{
 		// Clean input
 		Integer target = tnt;
@@ -622,7 +613,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setInventorySerialized(SerializationUtil.toBase64(inventory));
 	}
 
-	@NotNull
 	public Inventory getInventory()
 	{
 		Inventory ret = inventory;
@@ -637,7 +627,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setInventory(@Nullable Inventory inventory)
+	public void setInventory(Inventory inventory)
 	{
 		// Detect no change
 		if (MUtil.equals(this.inventory, inventory)) return;
@@ -652,8 +642,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// -------------------------------------------- //
 	// FIELD: inventorySerialized
 	// -------------------------------------------- //
-
-	@NotNull
+	
 	public String getInventorySerialized()
 	{
 		// Clean input
@@ -663,7 +652,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setInventorySerialized(@Nullable String inventorySerialized)
+	public void setInventorySerialized(String inventorySerialized)
 	{
 		// Clean input
 		String target = inventorySerialized;
@@ -683,13 +672,12 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: chestActions
 	// -------------------------------------------- //
 
-	@NotNull
 	public MassiveSetDef<ChestAction> getChestActions()
 	{
 		return chestActions;
 	}
 
-	public void addChestAction(@NotNull ChestAction chestAction)
+	public void addChestAction(ChestAction chestAction)
 	{
 		// Add
 		chestActions.add(chestAction);
@@ -698,7 +686,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void setChestActions(@NotNull MassiveSetDef<ChestAction> chestActions)
+	public void setChestActions(MassiveSetDef<ChestAction> chestActions)
 	{
 		// Apply
 		this.chestActions = chestActions;
@@ -711,19 +699,17 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: warps
 	// -------------------------------------------- //
 
-	@NotNull
 	public MassiveMapDef<String, PS> getWarpLocations()
 	{
 		return warpLocations;
 	}
-
-	@NotNull
+	
 	public MassiveMapDef<String, String> getWarpPasswords()
 	{
 		return warpPasswords;
 	}
 
-	public void addWarp(@NotNull String warp, @NotNull PS location, @Nullable String password)
+	public void addWarp(String warp, PS location, String password)
 	{
 		warpLocations.put(warp, location);
 		if (password != null) warpPasswords.put(warp, password);
@@ -732,7 +718,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void deleteWarp(@NotNull String warp)
+	public void deleteWarp(String warp)
 	{
 		// Remove
 		warpLocations.remove(warp);
@@ -742,7 +728,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void setWarpLocations(@NotNull MassiveMapDef<String, PS> warpLocations)
+	public void setWarpLocations(MassiveMapDef<String, PS> warpLocations)
 	{
 		// Apply
 		this.warpLocations = warpLocations;
@@ -751,7 +737,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void setWarpPasswords(@NotNull MassiveMapDef<String, String> warpPasswords)
+	public void setWarpPasswords(MassiveMapDef<String, String> warpPasswords)
 	{
 		// Apply
 		this.warpPasswords = warpPasswords;
@@ -760,7 +746,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public boolean verifyWarpIsValid(@NotNull String warp)
+	public boolean verifyWarpIsValid(String warp)
 	{
 		// Verify
 		if ( ! warpLocations.containsKey(warp) ) return false;
@@ -779,14 +765,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return false;
 	}
 
-	public boolean isValidWarp(@Nullable PS ps)
+	public boolean isValidWarp(PS ps)
 	{
 		if (ps == null) return true;
 		if ( ! MConf.get().warpsMustBeInClaimedTerritory ) return true;
 		return BoardColl.get().getFactionAt(ps) == this;
 	}
 
-	@NotNull
 	public List<String> getWarpNames()
 	{
 		return new ArrayList<>(this.warpLocations.keySet());
@@ -802,13 +787,11 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return this.warpPasswords.containsKey(warp);
 	}
 
-	@Nullable
 	public String getWarpPassword(String warp)
 	{
 		return this.warpPasswords.get(warp);
 	}
 
-	@Nullable
 	public PS getWarpLocation(String warp)
 	{
 		return this.warpLocations.get(warp);
@@ -817,8 +800,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// -------------------------------------------- //
 	// FIELD: paypal
 	// -------------------------------------------- //
-
-	@NotNull
+	
 	public String getPaypal()
 	{
 		// Clean input
@@ -828,7 +810,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setPaypal(@Nullable String paypal)
+	public void setPaypal(String paypal)
 	{
 		// Clean input
 		String target = paypal;
@@ -847,8 +829,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// -------------------------------------------- //
 	// FIELD: discord
 	// -------------------------------------------- //
-
-	@NotNull
+	
 	public String getDiscord()
 	{
 		String ret = this.discord;
@@ -857,7 +838,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setDiscord(@Nullable String discord)
+	public void setDiscord(String discord)
 	{
 		// Clean input
 		String target = discord;
@@ -876,14 +857,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// -------------------------------------------- //
 	// FIELD: mission
 	// -------------------------------------------- //
-
-	@Nullable
+	
 	public AbstractMission getActiveMission()
 	{
 		return MissionsManager.get().getMissionByName(activeMission);
 	}
 
-	public void setActiveMission(@Nullable String activeMission)
+	public void setActiveMission(String activeMission)
 	{
 		// Apply
 		this.activeMission = activeMission;
@@ -903,7 +883,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setMissionStart(@Nullable Long missionStart)
+	public void setMissionStart(Long missionStart)
 	{
 		// Clean input
 		Long target = missionStart;
@@ -932,7 +912,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return target;
 	}
 
-	public void setMissionGoal(@Nullable Integer missionGoal)
+	public void setMissionGoal(Integer missionGoal)
 	{
 		// Clean input
 		Integer target = missionGoal;
@@ -952,14 +932,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// -------------------------------------------- //
 	// FIELD: upgrades
 	// -------------------------------------------- //
-
-	@NotNull
+	
 	public MassiveMapDef<String, Integer> getUpgrades()
 	{
 		return upgrades;
 	}
 
-	public void setUpgrades(@NotNull MassiveMapDef<String, Integer> upgrades)
+	public void setUpgrades(MassiveMapDef<String, Integer> upgrades)
 	{
 		// Apply
 		this.upgrades = upgrades;
@@ -968,12 +947,12 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public int getLevel(@NotNull String upgrade)
+	public int getLevel(String upgrade)
 	{
 		return upgrades.get(upgrade) == null ? 0 : upgrades.get(upgrade);
 	}
 
-	public void increaseLevel(@NotNull String upgrade)
+	public void increaseLevel(String upgrade)
 	{
 		// Args
 		int newLevel = this.getLevel(upgrade) + 1;
@@ -999,7 +978,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return target;
 	}
 
-	public void setCredits(@Nullable Integer credits)
+	public void setCredits(Integer credits)
 	{
 		// Clean input
 		Integer target = credits;
@@ -1016,7 +995,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void addCredits(@Nullable Integer credits)
+	public void addCredits(Integer credits)
 	{
 		// Clean Input
 		Integer ret = credits;
@@ -1032,7 +1011,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void takeCredits(@Nullable Integer credits)
+	public void takeCredits(Integer credits)
 	{
 		// Clean Input
 		Integer ret = credits;
@@ -1055,13 +1034,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: strikes
 	// -------------------------------------------- //
 
-	@NotNull
+	
 	public MassiveSetDef<FactionStrike> getStrikes()
 	{
 		return strikes;
 	}
 
-	public void addStrike(@NotNull FactionStrike strike)
+	public void addStrike(FactionStrike strike)
 	{
 		// Add
 		strikes.add(strike);
@@ -1070,7 +1049,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void deleteStrike(@NotNull FactionStrike strike)
+	public void deleteStrike(FactionStrike strike)
 	{
 		// Remove
 		strikes.remove(strike);
@@ -1079,8 +1058,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	@Nullable
-	public FactionStrike getStrikeFromId(@NotNull String strikeId)
+	
+	public FactionStrike getStrikeFromId(String strikeId)
 	{
 		for (FactionStrike strike : this.strikes)
 		{
@@ -1099,7 +1078,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return total;
 	}
 
-	public void setStrikes(@NotNull MassiveSetDef<FactionStrike> strikes)
+	public void setStrikes(MassiveSetDef<FactionStrike> strikes)
 	{
 		// Apply
 		this.strikes = strikes;
@@ -1112,7 +1091,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: baseRegion
 	// -------------------------------------------- //
 
-	public void setBaseRegion(@NotNull MassiveSetDef<PS> baseRegion)
+	public void setBaseRegion(MassiveSetDef<PS> baseRegion)
 	{
 		// Apply
 		this.baseRegion = baseRegion;
@@ -1121,7 +1100,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	@NotNull
+	
 	public MassiveSetDef<PS> getBaseRegion()
 	{
 		return baseRegion;
@@ -1136,7 +1115,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: shieldedHour
 	// -------------------------------------------- //
 
-	public void setShieldedHour(@Nullable Integer shieldedHour)
+	public void setShieldedHour(Integer shieldedHour)
 	{
 		// Detect no change
 		if (MUtil.equals(this.shieldedHour, shieldedHour)) return;
@@ -1176,7 +1155,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return this.shieldedHour != null;
 	}
 
-	@Nullable
+	
 	public Integer getShieldedHour()
 	{
 		return shieldedHour;
@@ -1186,7 +1165,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: focusedPlayer
 	// -------------------------------------------- //
 
-	public void setFocusedPlayer(@Nullable String focusedPlayer)
+	public void setFocusedPlayer(String focusedPlayer)
 	{
 		// Apply
 		this.focusedPlayer = focusedPlayer;
@@ -1195,12 +1174,12 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public boolean isPlayerFocused(@NotNull String uuid)
+	public boolean isPlayerFocused(String uuid)
 	{
 		return this.focusedPlayer != null && this.focusedPlayer.equals(uuid);
 	}
 
-	@Nullable
+	
 	public String getFocusedPlayer()
 	{
 		return focusedPlayer;
@@ -1210,7 +1189,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: banner
 	// -------------------------------------------- //
 
-	public void setBanner(@NotNull List<String> patterns)
+	public void setBanner(List<String> patterns)
 	{
 		// Clear
 		this.banner.clear();
@@ -1222,7 +1201,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void setBanner(@NotNull MassiveList<String> patterns)
+	public void setBanner(MassiveList<String> patterns)
 	{
 		// Clear
 		this.banner.clear();
@@ -1234,7 +1213,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	@SuppressWarnings("deprecation") @NotNull
+	@SuppressWarnings("deprecation")
 	public ItemStack getBanner()
 	{
 		// Args
@@ -1291,13 +1270,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: roster
 	// -------------------------------------------- //
 
-	@NotNull
+	
 	public MassiveMapDef<String, Rel> getRoster()
 	{
 		return roster;
 	}
 
-	public void addToRoster(@NotNull MPlayer mplayer)
+	public void addToRoster(MPlayer mplayer)
 	{
 		// Detect no change
 		if (this.roster.containsKey(mplayer.getId())) return;
@@ -1309,7 +1288,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void addToRoster(@NotNull MPlayer mplayer, @NotNull Rel rank)
+	public void addToRoster(MPlayer mplayer, Rel rank)
 	{
 		// Apply
 		this.roster.put(mplayer.getId(), rank);
@@ -1318,7 +1297,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void removeFromRoster(@NotNull MPlayer mplayer)
+	public void removeFromRoster(MPlayer mplayer)
 	{
 		// Detect no change
 		if ( ! this.roster.containsKey(mplayer.getId())) return;
@@ -1330,7 +1309,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void setRosterRank(@NotNull MPlayer mplayer, @NotNull Rel role)
+	public void setRosterRank(MPlayer mplayer, Rel role)
 	{
 		// Detect no change
 		if (this.roster.get(mplayer.getId()) == role) return;
@@ -1342,18 +1321,18 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	@NotNull
-	public Rel getRosterRole(@NotNull MPlayer mplayer)
+	
+	public Rel getRosterRole(MPlayer mplayer)
 	{
 		return this.roster.get(mplayer.getId());
 	}
 
-	public boolean isInRoster(@NotNull MPlayer mplayer)
+	public boolean isInRoster(MPlayer mplayer)
 	{
 		return this.roster.containsKey(mplayer.getId());
 	}
 
-	public void setRoster(@NotNull MassiveMapDef<String, Rel> roster)
+	public void setRoster(MassiveMapDef<String, Rel> roster)
 	{
 		// Apply
 		this.roster = roster;
@@ -1366,7 +1345,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: rosterKickTimes
 	// -------------------------------------------- //
 
-	public void setRosterKickTimes(@NotNull MassiveSetDef<Long> rosterKickTimes)
+	public void setRosterKickTimes(MassiveSetDef<Long> rosterKickTimes)
 	{
 		// Apply
 		this.rosterKickTimes = rosterKickTimes;
@@ -1375,7 +1354,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	@NotNull
+	
 	public MassiveSetDef<Long> getRosterKickTimes()
 	{
 		return rosterKickTimes;
@@ -1412,7 +1391,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: sandAlts
 	// -------------------------------------------- //
 
-	public void setSandAlts(@NotNull MassiveSetDef<SandAlt> sandAlts)
+	public void setSandAlts(MassiveSetDef<SandAlt> sandAlts)
 	{
 		// Apply
 		this.sandAlts = sandAlts;
@@ -1421,7 +1400,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void addSandAlt(@NotNull SandAlt sandAlt)
+	public void addSandAlt(SandAlt sandAlt)
 	{
 		// Apply
 		sandAlts.add(sandAlt);
@@ -1430,7 +1409,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void despawnSandAlt(@NotNull SandAlt sandAlt)
+	public void despawnSandAlt(SandAlt sandAlt)
 	{
 		// Args
 		NPC npc = CitizensAPI.getNPCRegistry().getByUniqueId(sandAlt.getNpcId());
@@ -1449,8 +1428,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	@Nullable
-	public SandAlt getSandAltAt(@NotNull PS location)
+	
+	public SandAlt getSandAltAt(PS location)
 	{
 		for (SandAlt sandAlt : this.sandAlts)
 		{
@@ -1497,8 +1476,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	@NotNull
-	public Set<SandAlt> getSandAltsInChunk(@NotNull PS chunk)
+	
+	public Set<SandAlt> getSandAltsInChunk(PS chunk)
 	{
 		Set<SandAlt> sandAlts = new MassiveSetDef<>();
 		for (SandAlt sandAlt : this.sandAlts)
@@ -1511,7 +1490,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return sandAlts;
 	}
 
-	@NotNull
+	
 	public MassiveSetDef<SandAlt> getSandAlts()
 	{
 		return sandAlts;
@@ -1530,7 +1509,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setAlarmEnabled(@Nullable Boolean alarmEnabled)
+	public void setAlarmEnabled(Boolean alarmEnabled)
 	{
 		// Clean input
 		Boolean target = alarmEnabled;
@@ -1559,7 +1538,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setLastCheckedMillis(@Nullable Long lastCheckedMillis)
+	public void setLastCheckedMillis(Long lastCheckedMillis)
 	{
 		// Clean input
 		Long target = lastCheckedMillis;
@@ -1581,10 +1560,10 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	@NotNull
+	
 	public MassiveSetDef<FactionBan> getBannedMembers() { return this.bannedMembers; }
 
-	public void setBannedMembers(@NotNull MassiveSetDef<FactionBan> bannedMembers)
+	public void setBannedMembers(MassiveSetDef<FactionBan> bannedMembers)
 	{
 		this.bannedMembers = bannedMembers;
 
@@ -1594,17 +1573,17 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// FINER
 
-	public boolean isBanned(@NotNull String playerId)
+	public boolean isBanned(String playerId)
 	{
 		return bannedMembers.stream().anyMatch(factionBan -> factionBan.getBannedId().equals(playerId));
 	}
 
-	public boolean isBanned(@NotNull MPlayer mplayer)
+	public boolean isBanned(MPlayer mplayer)
 	{
 		return this.isBanned(mplayer.getId());
 	}
 
-	public void unban(@NotNull String playerId)
+	public void unban(String playerId)
 	{
 		Optional<FactionBan> optional = bannedMembers.stream().filter(factionBan -> factionBan.getBannedId().equals(playerId)).findAny();
 		boolean result = optional.filter(factionBan -> bannedMembers.remove(factionBan)).isPresent();
@@ -1614,9 +1593,9 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		// Mark as changed
 		this.changed();
 	}
-	public void unban(@NotNull MPlayer mplayer) { this.unban(mplayer.getId()); }
+	public void unban(MPlayer mplayer) { this.unban(mplayer.getId()); }
 
-	public void unban(@NotNull FactionBan factionBan)
+	public void unban(FactionBan factionBan)
 	{
 		boolean result = bannedMembers.remove(factionBan);
 
@@ -1626,7 +1605,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public void ban(@NotNull FactionBan factionBan)
+	public void ban(FactionBan factionBan)
 	{
 		this.unban(factionBan);
 		this.bannedMembers.add(factionBan);
@@ -1639,7 +1618,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: mutedMembers
 	// -------------------------------------------- //
 
-	public void setMutedMembers(@NotNull MassiveSetDef<FactionMute> mutedMembers)
+	public void setMutedMembers(MassiveSetDef<FactionMute> mutedMembers)
 	{
 		// Apply
 		this.mutedMembers = mutedMembers;
@@ -1648,23 +1627,23 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	@NotNull
+	
 	public MassiveSetDef<FactionMute> getMutedMembers()
 	{
 		return this.mutedMembers;
 	}
 
-	public boolean isMuted(@NotNull String playerId)
+	public boolean isMuted(String playerId)
 	{
 		return mutedMembers.stream().anyMatch(factionMute -> factionMute.getMutedId().equals(playerId));
 	}
 
-	public boolean isMuted(@NotNull MPlayer mPlayer)
+	public boolean isMuted(MPlayer mPlayer)
 	{
 		return this.isMuted(mPlayer.getId());
 	}
 
-	public boolean unmute(@NotNull String playerId)
+	public boolean unmute(String playerId)
 	{
 		Optional<FactionMute> optional = mutedMembers.stream().filter(factionMute -> factionMute.getMutedId().equals(playerId)).findAny();
 		boolean result = optional.filter(factionMute -> mutedMembers.remove(factionMute)).isPresent();
@@ -1676,12 +1655,12 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return true;
 	}
 
-	public boolean unmute(@NotNull MPlayer mplayer)
+	public boolean unmute(MPlayer mplayer)
 	{
 		return this.unmute(mplayer.getId());
 	}
 
-	public boolean unmute(@NotNull FactionMute factionMute)
+	public boolean unmute(FactionMute factionMute)
 	{
 		boolean result = mutedMembers.remove(factionMute);
 
@@ -1695,7 +1674,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return true;
 	}
 
-	public void mute(@NotNull FactionMute factionMute)
+	public void mute(FactionMute factionMute)
 	{
 		// Unmute
 		this.unmute(factionMute);
@@ -1726,7 +1705,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	}
 
 	@Deprecated
-	public void setOpen(@Nullable Boolean open)
+	public void setOpen(Boolean open)
 	{
 		MFlag flag = MFlag.getFlagOpen();
 		if (open == null) open = flag.isStandard();
@@ -1739,42 +1718,42 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	@NotNull
+	
 	public EntityInternalMap<Invitation> getInvitations() { return this.invitations; }
 
 	// FINER
 
-	public boolean isInvited(@NotNull String playerId)
+	public boolean isInvited(String playerId)
 	{
 		return this.getInvitations().containsKey(playerId);
 	}
 
-	public boolean isInvited(@NotNull MPlayer mplayer)
+	public boolean isInvited(MPlayer mplayer)
 	{
 		return this.isInvited(mplayer.getId());
 	}
 
-	public boolean isInvitedAlt(@NotNull String playerId)
+	public boolean isInvitedAlt(String playerId)
 	{
 		return this.isInvited(playerId) && this.getInvitations().get(playerId).isAlt();
 	}
 
-	public boolean isInvitedAlt(@NotNull MPlayer mplayer)
+	public boolean isInvitedAlt(MPlayer mplayer)
 	{
 		return this.isInvitedAlt(mplayer.getId());
 	}
 
-	public boolean uninvite(@NotNull String playerId)
+	public boolean uninvite(String playerId)
 	{
 		return this.getInvitations().detachId(playerId) != null;
 	}
 
-	public boolean uninvite(@NotNull MPlayer mplayer)
+	public boolean uninvite(MPlayer mplayer)
 	{
 		return this.uninvite(mplayer.getId());
 	}
 
-	public void invite(@NotNull String playerId, @NotNull Invitation invitation)
+	public void invite(String playerId, Invitation invitation)
 	{
 		this.uninvite(playerId);
 		this.invitations.attach(invitation, playerId);
@@ -1786,13 +1765,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	@NotNull
+	
 	public Map<String, Rel> getRelationWishes()
 	{
 		return this.relationWishes;
 	}
 
-	public void setRelationWishes(@NotNull Map<String, Rel> relationWishes)
+	public void setRelationWishes(Map<String, Rel> relationWishes)
 	{
 		// Clean input
 		MassiveMapDef<String, Rel> target = new MassiveMapDef<>(relationWishes);
@@ -1809,21 +1788,21 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// FINER
 
-	@NotNull
-	public Rel getRelationWish(@NotNull String factionId)
+	
+	public Rel getRelationWish(String factionId)
 	{
 		Rel ret = this.getRelationWishes().get(factionId);
 		if (ret == null) ret = Rel.NEUTRAL;
 		return ret;
 	}
 
-	@NotNull
-	public Rel getRelationWish(@NotNull Faction faction)
+	
+	public Rel getRelationWish(Faction faction)
 	{
 		return this.getRelationWish(faction.getId());
 	}
 
-	public void setRelationWish(@NotNull String factionId, @Nullable Rel rel)
+	public void setRelationWish(String factionId, Rel rel)
 	{
 		Map<String, Rel> relationWishes = this.getRelationWishes();
 		if (rel == null || rel == Rel.NEUTRAL)
@@ -1837,7 +1816,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setRelationWishes(relationWishes);
 	}
 
-	public void setRelationWish(@NotNull Faction faction, @Nullable Rel rel)
+	public void setRelationWish(Faction faction, Rel rel)
 	{
 		this.setRelationWish(faction.getId(), rel);
 	}
@@ -1848,7 +1827,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	@NotNull
+	
 	public Map<MFlag, Boolean> getFlags()
 	{
 		// We start with default values ...
@@ -1884,7 +1863,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setFlags(@NotNull Map<MFlag, Boolean> flags)
+	public void setFlags(Map<MFlag, Boolean> flags)
 	{
 		Map<String, Boolean> flagIds = new MassiveMap<>();
 		for (Entry<MFlag, Boolean> entry : flags.entrySet())
@@ -1894,7 +1873,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		setFlagIds(flagIds);
 	}
 
-	public void setFlagIds(@NotNull Map<String, Boolean> flagIds)
+	public void setFlagIds(Map<String, Boolean> flagIds)
 	{
 		// Clean input
 		MassiveMapDef<String, Boolean> target = new MassiveMapDef<>();
@@ -1922,7 +1901,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// FINER
 
-	public boolean getFlag(@NotNull String flagId)
+	public boolean getFlag(String flagId)
 	{
 		Boolean ret = this.flags.get(flagId);
 		if (ret != null) return ret;
@@ -1933,7 +1912,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return flag.isStandard();
 	}
 
-	public boolean getFlag(@NotNull MFlag flag)
+	public boolean getFlag(MFlag flag)
 	{
 		String flagId = flag.getId();
 		if (flagId == null) throw new NullPointerException("flagId");
@@ -1944,16 +1923,16 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return flag.isStandard();
 	}
 
-	@Nullable
-	public Boolean setFlag(@NotNull String flagId, boolean value)
+	
+	public Boolean setFlag(String flagId, boolean value)
 	{
 		Boolean ret = this.flags.put(flagId, value);
 		if (ret == null || ret != value) this.changed();
 		return ret;
 	}
 
-	@Nullable
-	public Boolean setFlag(@NotNull MFlag flag, boolean value)
+	
+	public Boolean setFlag(MFlag flag, boolean value)
 	{
 		String flagId = flag.getId();
 		if (flagId == null) throw new NullPointerException("flagId");
@@ -1969,7 +1948,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	@NotNull
+	
 	public Map<MPerm, Set<Rel>> getPerms()
 	{
 		// We start with default values ...
@@ -2004,7 +1983,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setPerms(@NotNull Map<MPerm, Set<Rel>> perms)
+	public void setPerms(Map<MPerm, Set<Rel>> perms)
 	{
 		Map<String, Set<Rel>> permIds = new MassiveMap<>();
 		for (Entry<MPerm, Set<Rel>> entry : perms.entrySet())
@@ -2014,7 +1993,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setPermIds(permIds);
 	}
 
-	public void setPermIds(@NotNull Map<String, Set<Rel>> perms)
+	public void setPermIds(Map<String, Set<Rel>> perms)
 	{
 		// Clean input
 		MassiveMapDef<String, Set<Rel>> target = new MassiveMapDef<>();
@@ -2042,7 +2021,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// FINER
 
-	public boolean isPermitted(@NotNull String permId, @NotNull Rel rel)
+	public boolean isPermitted(String permId, Rel rel)
 	{
 		Set<Rel> rels = this.perms.get(permId);
 		if (rels != null) return rels.contains(rel);
@@ -2053,7 +2032,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return perm.getStandard().contains(rel);
 	}
 
-	public boolean isPermitted(@NotNull MPerm perm, @NotNull Rel rel)
+	public boolean isPermitted(MPerm perm, Rel rel)
 	{
 		String permId = perm.getId();
 		if (permId == null) throw new NullPointerException("permId");
@@ -2066,8 +2045,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// ---
 
-	@NotNull
-	public Set<Rel> getPermitted(@NotNull MPerm perm)
+	
+	public Set<Rel> getPermitted(MPerm perm)
 	{
 		String permId = perm.getId();
 		if (permId == null) throw new NullPointerException("permId");
@@ -2078,8 +2057,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return perm.getStandard();
 	}
 
-	@NotNull
-	public Set<Rel> getPermitted(@NotNull String permId)
+	
+	public Set<Rel> getPermitted(String permId)
 	{
 		Set<Rel> rels = this.perms.get(permId);
 		if (rels != null) return rels;
@@ -2090,9 +2069,9 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return perm.getStandard();
 	}
 
-	@Deprecated @NotNull
+	@Deprecated
 	// Use getPermitted instead. It's much quicker although not immutable.
-	public Set<Rel> getPermittedRelations(@NotNull MPerm perm)
+	public Set<Rel> getPermittedRelations(MPerm perm)
 	{
 		return this.getPerms().get(perm);
 	}
@@ -2100,20 +2079,20 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// ---
 	// TODO: Fix these below. They are reworking the whole map.
 
-	public void setPermittedRelations(@NotNull MPerm perm, @NotNull Set<Rel> rels)
+	public void setPermittedRelations(MPerm perm, Set<Rel> rels)
 	{
 		Map<MPerm, Set<Rel>> perms = this.getPerms();
 		perms.put(perm, rels);
 		this.setPerms(perms);
 	}
 
-	public void setPermittedRelations(@NotNull MPerm perm, @NotNull Rel... rels)
+	public void setPermittedRelations(MPerm perm, Rel... rels)
 	{
 		Set<Rel> temp = new HashSet<>(Arrays.asList(rels));
 		this.setPermittedRelations(perm, temp);
 	}
 
-	public void setRelationPermitted(@NotNull MPerm perm, @NotNull Rel rel, boolean permitted)
+	public void setRelationPermitted(MPerm perm, Rel rel, boolean permitted)
 	{
 		Map<MPerm, Set<Rel>> perms = this.getPerms();
 		Set<Rel> rels = perms.get(perm);
@@ -2138,31 +2117,31 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// -------------------------------------------- //
 
 	@Override
-	public String describeTo(@Nullable RelationParticipator observer, boolean ucfirst)
+	public String describeTo(RelationParticipator observer, boolean ucfirst)
 	{
 		return RelationUtil.describeThatToMe(this, observer, ucfirst);
 	}
 
 	@Override
-	public String describeTo(@Nullable RelationParticipator observer)
+	public String describeTo(RelationParticipator observer)
 	{
 		return RelationUtil.describeThatToMe(this, observer);
 	}
 
 	@Override
-	public Rel getRelationTo(@Nullable RelationParticipator observer)
+	public Rel getRelationTo(RelationParticipator observer)
 	{
 		return RelationUtil.getRelationOfThatToMe(this, observer);
 	}
 
 	@Override
-	public Rel getRelationTo(@Nullable RelationParticipator observer, boolean ignorePeaceful)
+	public Rel getRelationTo(RelationParticipator observer, boolean ignorePeaceful)
 	{
 		return RelationUtil.getRelationOfThatToMe(this, observer, ignorePeaceful);
 	}
 
 	@Override
-	public ChatColor getColorTo(@Nullable RelationParticipator observer)
+	public ChatColor getColorTo(RelationParticipator observer)
 	{
 		return RelationUtil.getColorOfThatToMe(this, observer);
 	}
@@ -2469,9 +2448,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// UTIL
 	// -------------------------------------------- //
 
-	@Nullable
 	// FIXME this probably needs to be moved elsewhere
-	public static String clean(@Nullable String message)
+	public static String clean(String message)
 	{
 		String target = message;
 		if (target == null) return null;

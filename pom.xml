@@ -90,13 +90,6 @@
             <groupId>org.jdgames.mobextras</groupId>
             <artifactId>MobExtrasPlugin</artifactId>
         </dependency>
-        <!-- Annotations -->
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>19.0.0</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <!-- Build -->
