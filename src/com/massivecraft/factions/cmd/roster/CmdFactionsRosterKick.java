@@ -21,15 +21,9 @@ public class CmdFactionsRosterKick extends FactionsCommand
 
     public CmdFactionsRosterKick()
     {
-        // Aliases
-        this.addAliases("kick");
-
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player");
         this.addParameter(TypeFaction.get(), "faction", "you");
-
-        // Requirements
-        this.addRequirements(ReqHasFaction.get());
     }
 
     // -------------------------------------------- //
@@ -46,8 +40,7 @@ public class CmdFactionsRosterKick extends FactionsCommand
         // Grace
         if ( ! MOption.get().isGrace() && ! msender.isOverriding() )
         {
-            msg("<b>You can't kick players from your roster as grace has been disabled.");
-            return;
+            throw new MassiveException().setMsg("<b>You can't kick players from your roster as grace has been disabled.");
         }
 
         // MPerm
@@ -56,8 +49,7 @@ public class CmdFactionsRosterKick extends FactionsCommand
         // Verify
         if ( ! faction.isInRoster(mplayer) )
         {
-            msg("%s <i>is not in the faction roster.", mplayer.describeTo(msender));
-            return;
+            throw new MassiveException().setMsg("%s <i>is not in the faction roster.", mplayer.describeTo(msender));
         }
 
         if (mplayer.getRole().isMoreThan(msender.getRole()) && ! msender.isOverriding())

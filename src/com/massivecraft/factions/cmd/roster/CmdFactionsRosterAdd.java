@@ -24,9 +24,6 @@ public class CmdFactionsRosterAdd extends FactionsCommand
         this.addParameter(TypeMPlayer.get(), "player");
         this.addParameter(TypeRel.get(), "role", "recruit");
         this.addParameter(TypeFaction.get(), "faction", "you");
-
-        // Requirements
-        this.addRequirements(ReqHasFaction.get());
     }
 
     // -------------------------------------------- //
