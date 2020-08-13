@@ -50,13 +50,16 @@ public abstract class ScrollerInventory
     }
 
     public abstract void fillSidesWithItem(Inventory inventory, ItemStack item);
-    public abstract List<Integer> getNonSideSlots();
+    public abstract List<Integer> getNonSideSlots(Inventory inventory);
+    public abstract List<Integer> getEmptyNonSideSlots(Inventory inventory);
 
     public Map<UUID, ScrollerInventory> getUsers() { return users; }
     public List<ChestGui> getPages() { return pages; }
     public int getCurrentPage() { return currentPage; }
     public void setCurrentPage(int currentPage) { this.currentPage += currentPage; }
     public UUID getId() { return id; }
+    public ItemStack getNextPageButton() { return nextPageButton; }
+    public ItemStack getPreviousPageButton() { return previousPageButton; }
     public String getNextPageButtonName() { return nextPageButton.getItemMeta().getDisplayName(); }
     public String getPreviousPageButtonName() { return previousPageButton.getItemMeta().getDisplayName(); }
 
