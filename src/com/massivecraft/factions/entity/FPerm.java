@@ -4,7 +4,6 @@ import com.massivecraft.factions.entity.object.FactionPermission;
 import com.massivecraft.massivecore.command.editor.annotation.EditorName;
 import com.massivecraft.massivecore.store.Entity;
 import org.bukkit.Material;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +23,8 @@ public class FPerm extends Entity<FPerm>
     // OVERRIDE: ENTITY
     // -------------------------------------------- //
 
-    @Override @NotNull
-    public FPerm load(@NotNull FPerm that)
+    @Override
+    public FPerm load(FPerm that)
     {
         super.load(that);
         this.setupPermissions();

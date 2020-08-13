@@ -39,8 +39,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -397,7 +395,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// FINER
 
-	
 	public String getDescriptionDesc()
 	{
 		String motd = this.getDescription();
@@ -1033,7 +1030,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// -------------------------------------------- //
 	// FIELD: strikes
 	// -------------------------------------------- //
-
 	
 	public MassiveSetDef<FactionStrike> getStrikes()
 	{
@@ -1057,7 +1053,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		// Mark as changed
 		this.changed();
 	}
-
 	
 	public FactionStrike getStrikeFromId(String strikeId)
 	{
@@ -1100,7 +1095,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	
 	public MassiveSetDef<PS> getBaseRegion()
 	{
 		return baseRegion;
@@ -1155,7 +1149,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return this.shieldedHour != null;
 	}
 
-	
 	public Integer getShieldedHour()
 	{
 		return shieldedHour;
@@ -1178,7 +1171,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	{
 		return this.focusedPlayer != null && this.focusedPlayer.equals(uuid);
 	}
-
 	
 	public String getFocusedPlayer()
 	{
@@ -1269,7 +1261,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// -------------------------------------------- //
 	// FIELD: roster
 	// -------------------------------------------- //
-
 	
 	public MassiveMapDef<String, Rel> getRoster()
 	{
@@ -1353,7 +1344,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		// Mark as changed
 		this.changed();
 	}
-
 	
 	public MassiveSetDef<Long> getRosterKickTimes()
 	{
@@ -1428,7 +1418,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	
 	public SandAlt getSandAltAt(PS location)
 	{
 		for (SandAlt sandAlt : this.sandAlts)
@@ -1476,7 +1465,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	
 	public Set<SandAlt> getSandAltsInChunk(PS chunk)
 	{
 		Set<SandAlt> sandAlts = new MassiveSetDef<>();
@@ -1489,7 +1477,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		}
 		return sandAlts;
 	}
-
 	
 	public MassiveSetDef<SandAlt> getSandAlts()
 	{
@@ -1560,7 +1547,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	
 	public MassiveSetDef<FactionBan> getBannedMembers() { return this.bannedMembers; }
 
 	public void setBannedMembers(MassiveSetDef<FactionBan> bannedMembers)
@@ -1594,7 +1580,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 	public void unban(MPlayer mplayer) { this.unban(mplayer.getId()); }
-
 	public void unban(FactionBan factionBan)
 	{
 		boolean result = bannedMembers.remove(factionBan);
@@ -1627,7 +1612,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	
 	public MassiveSetDef<FactionMute> getMutedMembers()
 	{
 		return this.mutedMembers;
@@ -1765,7 +1749,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	
 	public Map<String, Rel> getRelationWishes()
 	{
 		return this.relationWishes;
@@ -1788,7 +1771,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// FINER
 
-	
 	public Rel getRelationWish(String factionId)
 	{
 		Rel ret = this.getRelationWishes().get(factionId);
@@ -1796,7 +1778,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	
 	public Rel getRelationWish(Faction faction)
 	{
 		return this.getRelationWish(faction.getId());
@@ -1827,7 +1808,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	
 	public Map<MFlag, Boolean> getFlags()
 	{
 		// We start with default values ...
@@ -1923,7 +1903,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return flag.isStandard();
 	}
 
-	
 	public Boolean setFlag(String flagId, boolean value)
 	{
 		Boolean ret = this.flags.put(flagId, value);
@@ -1931,7 +1910,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	
 	public Boolean setFlag(MFlag flag, boolean value)
 	{
 		String flagId = flag.getId();
@@ -1948,7 +1926,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	
 	public Map<MPerm, Set<Rel>> getPerms()
 	{
 		// We start with default values ...
@@ -2045,7 +2022,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// ---
 
-	
 	public Set<Rel> getPermitted(MPerm perm)
 	{
 		String permId = perm.getId();
@@ -2056,7 +2032,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 		return perm.getStandard();
 	}
-
 	
 	public Set<Rel> getPermitted(String permId)
 	{
