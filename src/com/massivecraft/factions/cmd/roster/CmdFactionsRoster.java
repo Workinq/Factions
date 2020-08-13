@@ -12,5 +12,6 @@ public class CmdFactionsRoster extends FactionsCommand
     public CmdFactionsRosterKick cmdFactionsRosterKick = new CmdFactionsRosterKick();
     public CmdFactionsRosterSetrank cmdFactionsRosterSetrank = new CmdFactionsRosterSetrank();
     public CmdFactionsRosterList cmdFactionsRosterList = new CmdFactionsRosterList();
+    public CmdFactionsRosterView cmdFactionsRosterView = new CmdFactionsRosterView();
 
 }
