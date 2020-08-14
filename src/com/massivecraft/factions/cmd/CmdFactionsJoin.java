@@ -23,7 +23,7 @@ public class CmdFactionsJoin extends FactionsCommand
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
-	
+
 	public CmdFactionsJoin()
 	{
 		// Parameters
@@ -34,16 +34,14 @@ public class CmdFactionsJoin extends FactionsCommand
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-	
+
 	@Override
 	public void perform() throws MassiveException
 	{
 		// Args
-		Faction faction = this.readArg();		
-
+		Faction faction = this.readArg();
 		MPlayer mplayer = this.readArg(msender);
 		Faction mplayerFaction = mplayer.getFaction();
-		
 		boolean samePlayer = mplayer == msender;
 		
 		// Validate
@@ -55,7 +53,7 @@ public class CmdFactionsJoin extends FactionsCommand
 		if (faction == mplayerFaction)
 		{
 			String command = CmdFactions.get().cmdFactionsKick.getCommandLine(mplayer.getName());
-			
+
 			// Mson creation
 			Mson alreadyMember = Mson.mson(
 				Mson.parse(mplayer.describeTo(msender, true)),
@@ -68,7 +66,7 @@ public class CmdFactionsJoin extends FactionsCommand
 
 		if (MConf.get().factionMemberLimit > 0 && faction.getMPlayersWhere(mp -> ! mp.isAlt()).size() >= MConf.get().factionMemberLimit && ! mplayer.isOverriding() )
 		{
-			throw new MassiveException().setMsg(" <b>!<white> The faction %s is at the limit of %d members, so %s cannot currently join.", faction.getName(msender), MConf.get().factionMemberLimit, mplayer.describeTo(msender));
+			throw new MassiveException().setMsg("<b>The faction %s <b>is at the limit of <h>%d <b>members, so %s <b>cannot currently join.", faction.getName(msender), MConf.get().factionMemberLimit, mplayer.describeTo(msender));
 		}
 
 		if (mplayerFaction.isNormal())
@@ -162,7 +160,7 @@ public class CmdFactionsJoin extends FactionsCommand
 		EventFactionsMembershipChange membershipChangeEvent = new EventFactionsMembershipChange(sender, msender, faction, MembershipChangeReason.JOIN);
 		membershipChangeEvent.run();
 		if (membershipChangeEvent.isCancelled()) return;
-		
+
 		// Inform
 		if (!samePlayer)
 		{
@@ -170,7 +168,7 @@ public class CmdFactionsJoin extends FactionsCommand
 		}
 		faction.msg("<i>%s <i>joined <lime>your faction<i>.", mplayer.describeTo(faction, true));
 		msg("<i>%s <i>successfully joined %s<i>.", mplayer.describeTo(msender, true), faction.getName(msender));
-		
+
 		// Apply
 		mplayer.resetFactionData();
 		mplayer.setFaction(faction);
@@ -192,5 +190,5 @@ public class CmdFactionsJoin extends FactionsCommand
 			}
 		}
 	}
-	
+
 }

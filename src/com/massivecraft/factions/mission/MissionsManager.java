@@ -88,30 +88,9 @@ public class MissionsManager
         return chestGui.getInventory();
     }
 
-    public void incrementProgress(AbstractMission mission, MPlayer mplayer)
-    {
-        // Verify
-        if (mplayer.isConsole()) return;
-
-        // Apply
-        this.incrementProgress(mission, mplayer, 1);
-    }
-
-    public void incrementProgress(AbstractMission mission, MPlayer mplayer, Integer amount)
-    {
-        // Verify
-        if (mplayer.isConsole()) return;
-
-        // Apply
-        this.incrementProgress(mission, mplayer.getFaction(), amount);
-    }
-
-    public void incrementProgress(AbstractMission mission, Faction faction)
-    {
-        // Apply
-        this.incrementProgress(mission, faction, 1);
-    }
-
+    public void incrementProgress(AbstractMission mission, MPlayer mplayer) { this.incrementProgress(mission, mplayer, 1); }
+    public void incrementProgress(AbstractMission mission, MPlayer mplayer, Integer amount) { this.incrementProgress(mission, mplayer.getFaction(), amount); }
+    public void incrementProgress(AbstractMission mission, Faction faction) { this.incrementProgress(mission, faction, 1); }
     public void incrementProgress(AbstractMission mission, Faction faction, Integer amount)
     {
         // Verify
@@ -143,7 +122,7 @@ public class MissionsManager
 
     public List<AbstractMission> getMissions()
     {
-        return missions;
+        return new ArrayList<>(missions);
     }
 
     public void registerMissions()
