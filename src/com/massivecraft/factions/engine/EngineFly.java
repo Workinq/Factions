@@ -23,9 +23,16 @@ import org.bukkit.util.Vector;
 
 public class EngineFly extends Engine
 {
+    // -------------------------------------------- //
+    // INSTANCE & CONSTRUCT
+    // -------------------------------------------- //
 
-    private static final EngineFly i = new EngineFly();
+    private static EngineFly i = new EngineFly();
     public static EngineFly get() { return i; }
+
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     public MassiveSet<String> playersWithFlyDisabled = new MassiveSet<>();
 
