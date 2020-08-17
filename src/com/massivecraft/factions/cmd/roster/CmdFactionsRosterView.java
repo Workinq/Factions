@@ -3,6 +3,7 @@ package com.massivecraft.factions.cmd.roster;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.comparator.ComparatorMPlayerRole;
+import com.massivecraft.factions.engine.EngineSkull;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPerm;
@@ -16,7 +17,6 @@ import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
-import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -89,7 +89,7 @@ public class CmdFactionsRosterView extends FactionsCommand
                 lore.add(Txt.parse("<white>perm so they can be kicked as well"));
             }
 
-            chestGui.getInventory().setItem(slot, new ItemBuilder(Material.SKULL_ITEM).name(mplayer.describeTo(faction, true)).setLore(lore).durability(3));
+            chestGui.getInventory().setItem(slot, new ItemBuilder(EngineSkull.get().getSkullItem(mplayer.getPlayer())).name(mplayer.describeTo(faction, true)).setLore(lore).durability(3));
         }
 
         return chestGui.getInventory();
