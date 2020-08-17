@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
@@ -151,6 +152,14 @@ public class ItemBuilder extends ItemStack
             return this;
         }
         throw new IllegalArgumentException("color() only applicable for leather armor!");
+    }
+
+    public ItemBuilder owner(String owner)
+    {
+        SkullMeta meta = (SkullMeta) this.getItemMeta();
+        meta.setOwner(owner);
+        this.setItemMeta(meta);
+        return this;
     }
 
 }
