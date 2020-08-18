@@ -10,7 +10,6 @@ import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MUpgrade;
 import com.massivecraft.factions.entity.object.SandAlt;
-import com.massivecraft.factions.upgrade.UpgradesManager;
 import com.massivecraft.factions.util.InventoryUtil;
 import com.massivecraft.factions.util.ItemBuilder;
 import com.massivecraft.massivecore.MassiveException;
@@ -59,7 +58,7 @@ public class CmdFactionsSandAltGui extends FactionsCommand
         }
         else
         {
-            maxAlts = Integer.parseInt(UpgradesManager.get().getUpgradeByName(MUpgrade.get().sandAltUpgrade.getUpgradeName()).getCurrentDescription()[msenderFaction.getLevel(MUpgrade.get().sandAltUpgrade.getUpgradeName()) - 1].split(" ")[0]);
+            maxAlts = Integer.parseInt(MUpgrade.get().getUpgradeByName(MUpgrade.get().sandAltUpgrade.getUpgradeName()).getCurrentDescription()[msenderFaction.getLevel(MUpgrade.get().sandAltUpgrade.getUpgradeName()) - 1].split(" ")[0]);
         }
 
         Inventory inventory = Bukkit.createInventory(null, MConf.get().sandAltGuiSize, Txt.parse(MConf.get().sandAltGuiName));

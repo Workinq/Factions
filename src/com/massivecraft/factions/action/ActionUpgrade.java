@@ -3,7 +3,7 @@ package com.massivecraft.factions.action;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
-import com.massivecraft.factions.upgrade.UpgradesManager;
+import com.massivecraft.factions.entity.MUpgrade;
 import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
 import com.massivecraft.massivecore.mson.Mson;
 import com.massivecraft.massivecore.util.Txt;
@@ -53,7 +53,7 @@ public class ActionUpgrade extends ChestActionAbstract
         Mson mson = Mson.mson(Txt.parse("%s<i> has upgraded <a>%s <i>to level %s<i>.", mplayer.describeTo(faction, true), ChatColor.stripColor(upgradeName), level + 1));
 
         // Increase
-        UpgradesManager.get().increaseUpgrade(faction, UpgradesManager.get().getUpgradeByName(upgradeName));
+        MUpgrade.get().increaseUpgrade(faction, MUpgrade.get().getUpgradeByName(upgradeName));
 
         // Apply
         faction.takeCredits(price);

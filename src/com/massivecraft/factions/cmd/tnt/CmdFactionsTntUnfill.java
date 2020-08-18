@@ -2,7 +2,6 @@ package com.massivecraft.factions.cmd.tnt;
 
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.entity.*;
-import com.massivecraft.factions.upgrade.UpgradesManager;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.command.type.primitive.TypeInteger;
@@ -80,7 +79,7 @@ public class CmdFactionsTntUnfill extends FactionsCommand
             return;
         }
 
-        maximumTnt = Integer.parseInt(UpgradesManager.get().getUpgradeByName(MUpgrade.get().tntUpgrade.getUpgradeName()).getCurrentDescription()[msenderFaction.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) - 1].split(" ")[0].replaceAll(",", ""));
+        maximumTnt = Integer.parseInt(MUpgrade.get().getUpgradeByName(MUpgrade.get().tntUpgrade.getUpgradeName()).getCurrentDescription()[msenderFaction.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) - 1].split(" ")[0].replaceAll(",", ""));
         tntToMove = 0;
         dispensersChanged = 0;
 

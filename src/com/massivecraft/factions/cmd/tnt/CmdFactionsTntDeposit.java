@@ -10,7 +10,6 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.command.type.primitive.TypeInteger;
 import com.massivecraft.massivecore.util.Txt;
-import com.massivecraft.factions.upgrade.UpgradesManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -56,7 +55,7 @@ public class CmdFactionsTntDeposit extends FactionsCommand
             return;
         }
 
-        int maximumTnt = Integer.parseInt(UpgradesManager.get().getUpgradeByName(MUpgrade.get().tntUpgrade.getUpgradeName()).getCurrentDescription()[msenderFaction.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) - 1].split(" ")[0].replaceAll(",", ""));
+        int maximumTnt = Integer.parseInt(MUpgrade.get().getUpgradeByName(MUpgrade.get().tntUpgrade.getUpgradeName()).getCurrentDescription()[msenderFaction.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) - 1].split(" ")[0].replaceAll(",", ""));
         int tntInInventory = InventoryUtil.getTntIn(me.getInventory());
         int factionTnt = msenderFaction.getTnt();
 
