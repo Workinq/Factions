@@ -1,5 +1,6 @@
 package com.massivecraft.factions.entity;
 
+import com.massivecraft.factions.BoardInterface;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.TerritoryAccess;
 import com.massivecraft.massivecore.collections.MassiveMap;
