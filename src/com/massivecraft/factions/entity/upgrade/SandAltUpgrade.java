@@ -1,8 +1,7 @@
-package com.massivecraft.factions.upgrade.upgrades;
+package com.massivecraft.factions.entity.upgrade;
 
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MUpgrade;
-import com.massivecraft.factions.upgrade.AbstractUpgrade;
 import org.bukkit.Material;
 
 public class SandAltUpgrade extends AbstractUpgrade

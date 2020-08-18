@@ -1,4 +1,4 @@
-package com.massivecraft.factions.mission;
+package com.massivecraft.factions.entity.mission;
 
 import com.massivecraft.factions.Factions;
 import org.bukkit.Bukkit;
@@ -13,7 +13,7 @@ public abstract class AbstractMission implements Listener
       Bukkit.getServer().getPluginManager().registerEvents(this, Factions.get());
    }
 
-   public abstract String getName();
+   public abstract String getMissionName();
 
    public abstract String getDescription();
 

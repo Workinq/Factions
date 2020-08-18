@@ -1,10 +1,9 @@
 package com.massivecraft.factions.entity;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.entity.mission.AbstractMission;
 import com.massivecraft.factions.entity.object.Invitation;
 import com.massivecraft.factions.entity.object.*;
-import com.massivecraft.factions.mission.AbstractMission;
-import com.massivecraft.factions.mission.MissionsManager;
 import com.massivecraft.factions.predicate.PredicateCommandSenderFaction;
 import com.massivecraft.factions.predicate.PredicateMPlayerRole;
 import com.massivecraft.factions.util.MiscUtil;
@@ -857,7 +856,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	
 	public AbstractMission getActiveMission()
 	{
-		return MissionsManager.get().getMissionByName(activeMission);
+		return MMission.get().getMissionByName(activeMission);
 	}
 
 	public void setActiveMission(String activeMission)

@@ -1,4 +1,4 @@
-package com.massivecraft.factions.upgrade;
+package com.massivecraft.factions.entity.upgrade;
 
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.entity.Faction;

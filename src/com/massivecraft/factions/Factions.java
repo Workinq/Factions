@@ -10,9 +10,7 @@ import com.massivecraft.factions.cmd.type.TypeRel;
 import com.massivecraft.factions.engine.EngineEcon;
 import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.event.EventFactionsChunkChangeType;
-import com.massivecraft.factions.mission.MissionsManager;
 import com.massivecraft.factions.mixin.PowerMixin;
-import com.massivecraft.factions.upgrade.UpgradesManager;
 import com.massivecraft.massivecore.MassivePlugin;
 import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.command.type.RegistryType;
@@ -77,10 +75,6 @@ public class Factions extends MassivePlugin
 		// Activate
 		this.activateAuto();
 		this.activate(this.getClassesActive("chat", ChatActive.class));
-
-		// Load Add-ons
-		MissionsManager.get().registerMissions();
-		UpgradesManager.get().registerUpgrades();
 	}
 
 	@Override

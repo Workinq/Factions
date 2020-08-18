@@ -1,9 +1,7 @@
-package com.massivecraft.factions.mission.missions;
+package com.massivecraft.factions.entity.mission;
 
-import com.massivecraft.factions.entity.conf.ConfMission;
+import com.massivecraft.factions.entity.MMission;
 import com.massivecraft.factions.entity.MPlayer;
-import com.massivecraft.factions.mission.AbstractMission;
-import com.massivecraft.factions.mission.MissionsManager;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -13,10 +11,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
 public class MissionWitch extends AbstractMission
 {
 
-    private final ConfMission confMission = MissionsManager.get().getConfMissionByName("Witch");
-
     @Override
-    public String getName()
+    public String getMissionName()
     {
         return "Witch";
     }
@@ -24,37 +20,37 @@ public class MissionWitch extends AbstractMission
     @Override
     public String getItemName()
     {
-        return confMission.getItemName();
+        return MMission.get().witchMission.getItemName();
     }
 
     @Override
     public String getDescription()
     {
-        return confMission.getDescription();
+        return MMission.get().witchMission.getDescription();
     }
 
     @Override
     public Double getRequirement()
     {
-        return confMission.getGoal();
+        return MMission.get().witchMission.getGoal();
     }
 
     @Override
     public Integer getReward()
     {
-        return confMission.getCreditsReward();
+        return MMission.get().witchMission.getCreditsReward();
     }
 
     @Override
     public Material getItemMaterial()
     {
-        return confMission.getItemMaterial();
+        return MMission.get().witchMission.getItemMaterial();
     }
 
     @Override
     public Integer getItemData()
     {
-        return confMission.getItemData();
+        return MMission.get().witchMission.getItemData();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -63,7 +59,7 @@ public class MissionWitch extends AbstractMission
         if (event.getEntity().getKiller() == null) return;
         if (event.getEntityType() != EntityType.WITCH) return;
 
-        MissionsManager.get().incrementProgress(this, MPlayer.get(MPlayer.get(event.getEntity().getKiller())));
+        MMission.get().incrementProgress(this, MPlayer.get(MPlayer.get(event.getEntity().getKiller())));
     }
 
 }

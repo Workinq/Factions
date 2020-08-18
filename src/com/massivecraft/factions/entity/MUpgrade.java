@@ -1,10 +1,15 @@
 package com.massivecraft.factions.entity;
 
 import com.massivecraft.factions.entity.conf.ConfUpgrade;
+import com.massivecraft.factions.entity.upgrade.*;
 import com.massivecraft.massivecore.command.editor.annotation.EditorName;
 import com.massivecraft.massivecore.store.Entity;
+import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Material;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @EditorName("config")
 public class MUpgrade extends Entity<MUpgrade>
@@ -27,6 +32,37 @@ public class MUpgrade extends Entity<MUpgrade>
     public ConfUpgrade cropGrowth = new ConfUpgrade(Txt.parse("Crop Growth"), Material.CACTUS, 5, new String[]{"+2% crop growth rate", "+4% crop growth rate", "+6% crop growth rate", "+8% crop growth rate", "+10% crop growth rate"}, new String[]{"2% crop growth rate", "6% crop growth rate", "12% crop growth rate", "20% crop growth rate", "30% crop growth rate"}, new Integer[]{1000000, 2000000, 3000000, 4000000, 5000000});
     public ConfUpgrade powerboostUpgrade = new ConfUpgrade(Txt.parse("Faction Power"), Material.DIAMOND_SWORD, 5, new String[]{"100 faction power", "200 faction power", "300 faction power", "400 faction power", "500 faction power"}, new String[]{"100 faction power", "200 faction power", "300 faction power", "400 faction power", "500 faction power"}, new Integer[]{1000000, 2000000, 3000000, 4000000, 5000000});
     public ConfUpgrade sandAltUpgrade = new ConfUpgrade(Txt.parse("Sand Alts"), Material.SAND, 3, new String[]{"10 sand alts in /f sandalt", "15 sand alts in /f sandalt", "20 sand alts in /f sandalt"}, new String[]{"10 sand alts in /f sandalt", "15 sand alts in /f sandalt", "20 sand alts in /f sandalt"}, new Integer[]{500000, 1000000, 2000000});
+    public transient List<AbstractUpgrade> upgrades = MUtil.list(new SpawnerRateUpgrade(), new CropGrowthUpgrade(), new FactionChestUpgrade(), new TNTStorageUpgrade(), new WarpUpgrade(), new PowerboostUpgrade(), new SandAltUpgrade());
+
+    // -------------------------------------------- //
+    // FIELD: upgrades
+    // -------------------------------------------- //
+
+    public List<AbstractUpgrade> getUpgrades()
+    {
+        return new ArrayList<>(upgrades);
+    }
+
+    public AbstractUpgrade getUpgradeByName(String string)
+    {
+        for (AbstractUpgrade upgrade : upgrades)
+        {
+            if (upgrade.getUpgradeName().equalsIgnoreCase(string))
+            {
+                return upgrade;
+            }
+        }
+        return null;
+    }
+
+    public void increaseUpgrade(Faction faction, AbstractUpgrade upgrade)
+    {
+        if (faction.getLevel(upgrade.getUpgradeName()) < upgrade.getMaxLevel())
+        {
+            faction.increaseLevel(upgrade.getUpgradeName());
+            upgrade.onUpgrade(faction);
+        }
+    }
 
     // -------------------------------------------- //
     // OVERRIDE
