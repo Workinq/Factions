@@ -1,6 +1,6 @@
 package com.massivecraft.factions.entity;
 
-import com.massivecraft.factions.entity.conf.ConfUpgrade;
+import com.massivecraft.factions.entity.upgrade.ConfUpgrade;
 import com.massivecraft.factions.entity.upgrade.*;
 import com.massivecraft.massivecore.command.editor.annotation.EditorName;
 import com.massivecraft.massivecore.store.Entity;
