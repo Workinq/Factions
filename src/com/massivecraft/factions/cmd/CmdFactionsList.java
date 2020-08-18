@@ -60,7 +60,7 @@ public class CmdFactionsList extends FactionsCommand
 					return Txt.parse("%s<i> %d/%d online, %d/%d/%d",
 							faction.getName(msender),
 							mplayersWhereOnlineTo.size(),
-							faction.getMPlayersWhere(MPlayer::isntAlt).size(),
+							faction.getMPlayersWhereAlt(false).size(),
 							faction.getLandCount(),
 							faction.getPowerRounded(),
 							faction.getPowerMaxRounded()

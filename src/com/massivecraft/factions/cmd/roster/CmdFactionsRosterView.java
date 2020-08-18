@@ -61,7 +61,7 @@ public class CmdFactionsRosterView extends FactionsCommand
         String rosterKicks = String.format("%,d", this.getRosterKicksRemaining(faction));
 
         // Loop
-        List<MPlayer> mplayers = faction.getMPlayersWhere(MPlayer::isntAlt);
+        List<MPlayer> mplayers = faction.getMPlayersWhereAlt(false);
         mplayers.sort(ComparatorMPlayerRole.get());
 
         for (MPlayer mplayer : mplayers)

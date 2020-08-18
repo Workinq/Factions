@@ -51,7 +51,7 @@ public class ComparatorFactionList extends ComparatorAbstract<Faction>
 		if (ret != 0) return ret;
 
 		// Players Total
-		ret = f2.getMPlayersWhere(MPlayer::isntAlt).size() - f1.getMPlayersWhere(MPlayer::isntAlt).size();
+		ret = f2.getMPlayersWhereAlt(false).size() - f1.getMPlayersWhereAlt(false).size();
 		if (ret != 0) return ret;
 
 		// Tie by Id

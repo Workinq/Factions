@@ -39,7 +39,7 @@ public class TaskRingFactionAlarm extends ModuloRepeatTask
             if (!faction.isAlarmEnabled()) continue;
 
             // Loop - MPlayers
-            for (MPlayer mplayer : faction.getMPlayersWhere(MPlayer::isntAlt))
+            for (MPlayer mplayer : faction.getMPlayersWhereAlt(false))
             {
                 // Verify
                 if (!mplayer.hasAlertNotifications()) continue;

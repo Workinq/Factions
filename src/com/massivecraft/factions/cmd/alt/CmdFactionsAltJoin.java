@@ -65,7 +65,7 @@ public class CmdFactionsAltJoin extends FactionsCommand
             return;
         }
 
-        if (MConf.get().factionAltLimit > 0 && faction.getMPlayersWhere(MPlayer::isAlt).size() >= MConf.get().factionAltLimit)
+        if (MConf.get().factionAltLimit > 0 && faction.getMPlayersWhereAlt(true).size() >= MConf.get().factionAltLimit)
         {
             msg(" <b>!<white> The faction %s is at the limit of %d alts, so %s cannot currently join.", faction.getName(msender), MConf.get().factionMemberLimit, mplayer.describeTo(msender, false));
             return;

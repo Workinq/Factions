@@ -2223,6 +2223,11 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return this.getMPlayersWhere(online ? SenderColl.PREDICATE_ONLINE : SenderColl.PREDICATE_OFFLINE);
 	}
 
+	public List<MPlayer> getMPlayersWhereAlt(boolean alt)
+	{
+		return this.getMPlayersWhere(alt ? MPlayerColl.PREDICATE_ALT : MPlayerColl.PREDICATE_NALT);
+	}
+
 	public List<MPlayer> getMPlayersWhereOnlineTo(Object senderObject)
 	{
 		return this.getMPlayersWhere(PredicateAnd.get(SenderColl.PREDICATE_ONLINE, PredicateVisibleTo.get(senderObject)));
