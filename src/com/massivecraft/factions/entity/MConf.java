@@ -213,6 +213,7 @@ public class MConf extends Entity<MConf>
 			"",
 			"<n>Time Remaining: <k>%time%"
 	);
+	public int missionDeadlineHours = 4;
 
 	// -------------------------------------------- //
 	// CORE

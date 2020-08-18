@@ -13,6 +13,7 @@ import com.massivecraft.factions.util.TimeUtil;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.chestgui.ChestGui;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
+import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -63,11 +64,11 @@ public class CmdFactionsMission extends FactionsCommand
 
         if (activeMission == null)
         {
-            if (System.currentTimeMillis() - faction.getMissionStart() < 86400000L)
+            if (System.currentTimeMillis() - faction.getMissionStart() < TimeUnit.MILLIS_PER_HOUR * MConf.get().missionDeadlineHours)
             {
                 lore.add(Txt.parse("<b>Cannot start mission for:"));
                 lore.add("");
-                lore.add(Txt.parse("<n>%s", TimeUtil.formatTime(86400000L - (System.currentTimeMillis() - faction.getMissionStart()), true)));
+                lore.add(Txt.parse("<n>%s", TimeUtil.formatTime((TimeUnit.MILLIS_PER_HOUR * MConf.get().missionDeadlineHours) - (System.currentTimeMillis() - faction.getMissionStart()), true)));
                 chestGui.getInventory().setItem(MConf.get().missionItemSlot, new ItemBuilder(MConf.get().missionItemType).name(Txt.parse(MConf.get().missionItemName)).data(MConf.get().missionItemData).setLore(lore));
             }
             else
@@ -85,7 +86,7 @@ public class CmdFactionsMission extends FactionsCommand
                         .replace("%progress", String.format("%.1f", (faction.getMissionGoal() / activeMission.getRequirement()) * 100))
                         .replace("%description%", activeMission.getDescription())
                         .replace("%reward%", String.valueOf(activeMission.getReward()))
-                        .replace("%time%", TimeUtil.formatTime(86400000L - (System.currentTimeMillis() - faction.getMissionStart()), false))));
+                        .replace("%time%", TimeUtil.formatTime((TimeUnit.MILLIS_PER_HOUR * MConf.get().missionDeadlineHours) - (System.currentTimeMillis() - faction.getMissionStart()), false))));
             }
             chestGui.getInventory().setItem(MConf.get().missionItemSlot, new ItemBuilder(activeMission.getItemMaterial()).durability(activeMission.getItemData()).amount(1).name(Txt.parse("<k>" + activeMission.getItemName())).setLore(lore));
         }
