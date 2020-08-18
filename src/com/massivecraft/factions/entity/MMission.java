@@ -1,14 +1,12 @@
 package com.massivecraft.factions.entity;
 
-import com.massivecraft.factions.entity.conf.ConfMission;
 import com.massivecraft.factions.entity.mission.*;
-import com.massivecraft.factions.entity.mission.AbstractMission;
 import com.massivecraft.massivecore.command.editor.annotation.EditorName;
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.MUtil;
+import com.massivecraft.massivecore.util.TimeUnit;
 import org.bukkit.Material;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +62,7 @@ public class MMission extends Entity<MMission>
         // Verify
         if (faction.getActiveMission() == null) return;
         if (!faction.getActiveMission().getMissionName().equalsIgnoreCase(mission.getMissionName())) return;
+        if (faction.getMissionStart() != 0 && System.currentTimeMillis() > faction.getMissionStart() + (TimeUnit.MILLIS_PER_HOUR * MConf.get().missionDeadlineHours)) return;
 
         // Args
         Integer missionComplete = faction.getMissionGoal();
@@ -73,9 +72,7 @@ public class MMission extends Entity<MMission>
             faction.addCredits(credits);
             faction.setActiveMission(null);
             faction.setMissionGoal(0);
-            NumberFormat creditsFormat = NumberFormat.getInstance();
-            creditsFormat.setGroupingUsed(true);
-            faction.msg("%s <g>has received <h>%s <g>credits for completing the <h>%s <g>mission.", faction.describeTo(faction), creditsFormat.format(credits), mission.getMissionName());
+            faction.msg("%s <g>has received <h>%,d <g>credits for completing the <h>%s <g>mission.", faction.describeTo(faction), credits, mission.getMissionName());
         }
         else
         {
