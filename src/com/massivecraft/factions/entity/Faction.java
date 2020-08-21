@@ -1331,6 +1331,11 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
+	public Set<String> getRosterUuids()
+	{
+		return new HashSet<>(roster.keySet());
+	}
+
 	// -------------------------------------------- //
 	// FIELD: rosterKickTimes
 	// -------------------------------------------- //

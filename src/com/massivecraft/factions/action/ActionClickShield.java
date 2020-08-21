@@ -49,7 +49,7 @@ public class ActionClickShield extends ChestActionAbstract
         chestGui.setAction(11, new ActionConfirmShield(from, faction, mplayer, fromText, toText));
         chestGui.getInventory().setItem(13, new ItemBuilder(Material.WATCH).name(" ").addLore(Txt.parse("<g>Click to change your shielded hours to")).addLore(Txt.parse("<k>%s <white>---> <k>%s <n>(<k>" + MConf.get().shieldHours + " hours total<n>)", fromText, toText)));
         chestGui.getInventory().setItem(15, new ItemBuilder(Material.STAINED_GLASS_PANE).name(Txt.parse("<b>Cancel")).durability(14));
-        chestGui.setAction(15, new ActionCloseInventory());
+        chestGui.setAction(15, event -> true);
 
         // Fill
         InventoryUtil.fillInventory(chestGui.getInventory());

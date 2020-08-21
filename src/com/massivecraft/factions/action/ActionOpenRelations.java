@@ -4,6 +4,7 @@ import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ActionOpenRelations extends ChestActionAbstract
@@ -19,10 +20,10 @@ public class ActionOpenRelations extends ChestActionAbstract
     }
 
     @Override
-    public boolean onClick(InventoryClickEvent event)
+    public boolean onClick(InventoryClickEvent event, Player player)
     {
         // Open Inventory
-        event.getWhoClicked().openInventory(CmdFactions.get().cmdFactionsPerm.cmdFactionsPermGui.getPermissionGui(mplayer, mPerm));
+        player.openInventory(CmdFactions.get().cmdFactionsPerm.cmdFactionsPermGui.getPermissionGui(mplayer, mPerm));
         return true;
     }
 

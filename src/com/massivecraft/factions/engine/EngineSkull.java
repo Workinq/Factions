@@ -7,6 +7,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -54,7 +55,7 @@ public class EngineSkull extends Engine
         }
     }
 
-    public ItemStack getSkullItem(Player player)
+    public ItemStack getSkullItem(OfflinePlayer player)
     {
         ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
         String texture = MSkull.get().getSkullTexture(player.getUniqueId());

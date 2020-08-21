@@ -56,7 +56,7 @@ public abstract class ScrollerInventory
     public Map<UUID, ScrollerInventory> getUsers() { return users; }
     public List<ChestGui> getPages() { return pages; }
     public int getCurrentPage() { return currentPage; }
-    public void setCurrentPage(int currentPage) { this.currentPage += currentPage; }
+    public void setCurrentPage(int currentPage) { this.currentPage = currentPage; }
     public UUID getId() { return id; }
     public ItemStack getNextPageButton() { return nextPageButton; }
     public ItemStack getPreviousPageButton() { return previousPageButton; }
