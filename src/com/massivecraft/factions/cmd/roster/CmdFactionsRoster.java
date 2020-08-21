@@ -1,6 +1,9 @@
 package com.massivecraft.factions.cmd.roster;
 
 import com.massivecraft.factions.cmd.FactionsCommand;
+import com.massivecraft.massivecore.MassiveException;
+
+import java.util.ArrayList;
 
 public class CmdFactionsRoster extends FactionsCommand
 {
@@ -9,9 +12,14 @@ public class CmdFactionsRoster extends FactionsCommand
     // -------------------------------------------- //
 
     public CmdFactionsRosterAdd cmdFactionsRosterAdd = new CmdFactionsRosterAdd();
-    public CmdFactionsRosterKick cmdFactionsRosterKick = new CmdFactionsRosterKick();
     public CmdFactionsRosterSetrank cmdFactionsRosterSetrank = new CmdFactionsRosterSetrank();
     public CmdFactionsRosterList cmdFactionsRosterList = new CmdFactionsRosterList();
     public CmdFactionsRosterView cmdFactionsRosterView = new CmdFactionsRosterView();
+
+    @Override
+    public void perform() throws MassiveException
+    {
+        cmdFactionsRosterView.execute(sender, new ArrayList<>());
+    }
 
 }

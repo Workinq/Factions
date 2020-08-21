@@ -1,5 +1,6 @@
 package com.massivecraft.factions.cmd.roster;
 
+import com.massivecraft.factions.action.ActionRosterKick;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.comparator.ComparatorMPlayerRole;
@@ -15,14 +16,17 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.chestgui.ChestGui;
 import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
+import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CmdFactionsRosterView extends FactionsCommand
 {
@@ -52,18 +56,16 @@ public class CmdFactionsRosterView extends FactionsCommand
         me.openInventory(this.getRosterGui(faction));
     }
 
-    private Inventory getRosterGui(Faction faction)
+    public Inventory getRosterGui(Faction faction)
     {
         // Args
         RosterScrollerInventory scrollerInventory = new RosterScrollerInventory();
         ChestGui chestGui = scrollerInventory.getBlankPage(Txt.parse("<gray>Faction Roster"), 54, me);
         scrollerInventory.fillSidesWithItem(chestGui.getInventory(), new ItemBuilder(MConf.get().fillerItemMaterial).name(Txt.parse(MConf.get().fillerItemName)).durability(MConf.get().fillerItemData));
-        String rosterKicks = String.format("%,d", this.getRosterKicksRemaining(faction));
+        int rosterKicksRemaining = this.getRosterKicksRemaining(faction);
+        List<MPlayer> mplayers = faction.getRosterUuids().stream().map(MPlayer::get).sorted(ComparatorMPlayerRole.get()).collect(Collectors.toList());
 
         // Loop
-        List<MPlayer> mplayers = faction.getMPlayersWhereAlt(false);
-        mplayers.sort(ComparatorMPlayerRole.get());
-
         for (MPlayer mplayer : mplayers)
         {
             Integer slot = scrollerInventory.getEmptyNonSideSlots(chestGui.getInventory()).stream().findFirst().orElse(null);
@@ -82,14 +84,34 @@ public class CmdFactionsRosterView extends FactionsCommand
                 lore.add(Txt.parse("<white>Join as: <n>" + mplayer.getRole().getDescPlayerOne()));
                 lore.add(Txt.parse("<i>Click to kick from roster"));
                 lore.add("");
-                lore.add(Txt.parse("<n>Roster kicks remaining: <i>" + rosterKicks));
+                lore.add(Txt.parse("<n>Roster kicks remaining: <i>" + String.format("%,d", rosterKicksRemaining)));
                 lore.add("");
                 lore.add(Txt.parse("<b>Note: <white>If this player is in the"));
                 lore.add(Txt.parse("<white>faction, you must also have the kick"));
                 lore.add(Txt.parse("<white>perm so they can be kicked as well"));
             }
 
-            chestGui.getInventory().setItem(slot, new ItemBuilder(EngineSkull.get().getSkullItem(mplayer.getPlayer())).name(mplayer.describeTo(faction, true)).setLore(lore).durability(3));
+            // Player
+            OfflinePlayer player = mplayer.getPlayer();
+            if (player == null)
+            {
+                player = Bukkit.getServer().getOfflinePlayer(MUtil.asUuid(mplayer.getId()));
+                if (player == null) continue;
+            }
+
+            // Name
+            String name;
+            if (mplayer.getFaction() == faction)
+            {
+                name = mplayer.describeTo(faction, true);
+            }
+            else
+            {
+                name = Txt.parse("<b>%s <n>(<white>not member<n>)", player.getName());
+            }
+
+            chestGui.getInventory().setItem(slot, new ItemBuilder(EngineSkull.get().getSkullItem(player)).name(name).setLore(lore).durability(3));
+            chestGui.setAction(slot, new ActionRosterKick(msender, mplayer, faction, rosterKicksRemaining));
         }
 
         return chestGui.getInventory();
@@ -99,10 +121,6 @@ public class CmdFactionsRosterView extends FactionsCommand
     {
         // Args
         MassiveList<Long> rosterKickTimes = new MassiveList<>(faction.getRosterKickTimes());
-        boolean canKick = false;
-
-        // Sort
-        Collections.sort(rosterKickTimes);
 
         // Loop
         for (long time : rosterKickTimes)
@@ -110,19 +128,13 @@ public class CmdFactionsRosterView extends FactionsCommand
             long total = time + TimeUnit.MILLIS_PER_DAY;
             if (System.currentTimeMillis() > total)
             {
-                // Apply
-                canKick = true;
-
                 // Remove
                 faction.removeRosterKick(time);
             }
         }
 
-        // Verify
-        if (!canKick) return 0;
-
         // Return
-        return MConf.get().rosterKickLimit - rosterKickTimes.size();
+        return MConf.get().rosterKickLimit - faction.getNumberOfRosterKicks();
     }
 
     private static class RosterScrollerInventory extends ScrollerInventory
