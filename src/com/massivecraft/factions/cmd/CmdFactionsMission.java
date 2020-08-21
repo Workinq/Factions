@@ -58,7 +58,7 @@ public class CmdFactionsMission extends FactionsCommand
     {
         // Args
         Inventory inventory = Bukkit.createInventory(null, MConf.get().missionGuiSize, Txt.parse(MConf.get().missionGuiName));
-        ChestGui chestGui = InventoryUtil.getChestGui(inventory, false);
+        ChestGui chestGui = InventoryUtil.getChestGui(inventory);
         List<String> lore = new ArrayList<>();
         AbstractMission activeMission = faction.getActiveMission();
 

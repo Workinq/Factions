@@ -58,7 +58,7 @@ public class CmdFactionsShieldSet extends FactionsCommand
     private Inventory getShieldGui(Faction faction)
     {
         Inventory inventory = Bukkit.createInventory(null, 45, Txt.parse("<gray>Faction Shield"));
-        ChestGui chestGui = InventoryUtil.getChestGui(inventory, false);
+        ChestGui chestGui = InventoryUtil.getChestGui(inventory);
 
         // Args
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");

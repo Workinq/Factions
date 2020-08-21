@@ -31,7 +31,7 @@ public class ActionViewMissions extends ChestActionAbstract
     {
         // Args
         Inventory inventory = Bukkit.createInventory(null, 27, Txt.parse("<gray>All Missions"));
-        ChestGui chestGui = InventoryUtil.getChestGui(inventory, false);
+        ChestGui chestGui = InventoryUtil.getChestGui(inventory);
         NumberFormat rewardFormat = NumberFormat.getInstance();
         int slot = 10;
 
