@@ -5,10 +5,7 @@ import com.massivecraft.factions.action.ActionOpenRelations;
 import com.massivecraft.factions.action.ActionRelationModify;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqHasFaction;
-import com.massivecraft.factions.entity.FPerm;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MPerm;
-import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.entity.object.FactionPermission;
 import com.massivecraft.factions.util.InventoryUtil;
 import com.massivecraft.massivecore.MassiveException;
@@ -22,6 +19,9 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CmdFactionsPermGui extends FactionsCommand
 {
@@ -43,18 +43,17 @@ public class CmdFactionsPermGui extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        if (FPerm.get().factionPermissions.isEmpty()) FPerm.get().setupPermissions();
-
         // Verify
         if ( ! MPerm.getPermPerms().has(msender, msenderFaction, true)) return;
 
         // Args
-        Inventory inventory = Bukkit.createInventory(null, 54, Txt.parse(FPerm.get().permissionGuiName));
+        List<FactionPermission> factionPermissions = MPermColl.get().getAll().stream().map(mperm -> new FactionPermission(mperm.getName(), Material.ENCHANTED_BOOK)).collect(Collectors.toList());
+        Inventory inventory = Bukkit.createInventory(null, 54, Txt.parse("<gray>Faction Permissions"));
         ChestGui chestGui = InventoryUtil.getChestGui(inventory);
         int slot = 0;
 
         // Loop - Permissions
-        for (FactionPermission permission : FPerm.get().factionPermissions)
+        for (FactionPermission permission : factionPermissions)
         {
             // Args
             MPerm mPerm = permission.getMPerm();
