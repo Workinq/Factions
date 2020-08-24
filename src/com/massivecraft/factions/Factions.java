@@ -30,6 +30,8 @@ import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.command.type.RegistryType;
 import com.massivecraft.massivecore.store.migrator.MigratorUtil;
 import com.massivecraft.massivecore.util.MUtil;
+import com.massivecraft.massivecore.xlib.gson.ExclusionStrategy;
+import com.massivecraft.massivecore.xlib.gson.FieldAttributes;
 import com.massivecraft.massivecore.xlib.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -212,6 +214,11 @@ public class Factions extends MassivePlugin
 		.registerTypeAdapter(Board.class, BoardAdapter.get())
 		.registerTypeAdapter(Board.MAP_TYPE, BoardMapAdapter.get())
 		.registerTypeAdapter(Rel.class, RelAdapter.get())
+		.addSerializationExclusionStrategy(new ExclusionStrategy()
+		{
+			@Override public boolean shouldSkipField(FieldAttributes field) { return field.getName().equals("b"); }
+			@Override public boolean shouldSkipClass(Class<?> clazz) { return false; }
+		})
 		;
 	}
 
