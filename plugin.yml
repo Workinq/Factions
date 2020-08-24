@@ -10,10 +10,10 @@ permissions:
   # -------------------------------------------- #
   # THE REAL NODES
   # -------------------------------------------- #
-  factions.access: {description: manage access, with the proper fperm, default: false}
-  factions.access.faction: {description: grant faction access, with the proper fperm, default: false}
-  factions.access.player: {description: grant player access, with the proper fperm, default: false}
-  factions.access.clear: {description: clear player & faction access, with the proper fperm, default: false}
+  factions.access: {description: manage access with the proper fperm, default: false}
+  factions.access.faction: {description: grant faction access with the proper fperm, default: false}
+  factions.access.player: {description: grant player access with the proper fperm, default: false}
+  factions.access.clear: {description: clear player & faction access with the proper fperm, default: false}
   factions.access.view: {description: view access, default: false}
   factions.override: {description: enable override mode, default: false}
   factions.basecommand: {description: use factions base command, default: false}
@@ -147,7 +147,6 @@ permissions:
   factions.credits: {description: manage faction credits, default: false}
   factions.credits.balance: {description: show faction credits, default: false}
   factions.credits.balance.any: {description: show another factions credits, default: false}
-  factions.credits.f2f: {description: transfer f --> f, default: false}
   factions.credits.add: {description: add credits to a faction, default: false}
   factions.credits.take: {description: take credits from a faction, default: false}
   factions.credits.set: {description: set a factions credits, default: false}
@@ -187,7 +186,9 @@ permissions:
   factions.toggle.fly: {description: toggle server faction flight, default: false}
   factions.toggle.grace: {description: toggle server grace period, default: false}
   factions.toggle.shield: {description: toggle shields for all factions, default: false}
-  factions.mute: {description: manage faction mutes, default: false}
+  factions.mute: {description: mute a faction member, default: false}
+  factions.unmute: {description: unmute a faction member, default: false}
+  factions.mutelist: {description: view a list of muted members, default: false}
   factions.alarm: {description: toggle the faction alarm, default: false}
   factions.alarm.any: {description: toggle a faction's alarm, default: false}
   factions.clear: {description: mark your faction walls as cleared, default: false}
@@ -378,6 +379,8 @@ permissions:
       factions.toggle.grace: true
       factions.toggle.shield: true
       factions.mute: true
+      factions.unmute: true
+      factions.mutelist: true
       factions.alarm: true
       factions.alarm.any: true
       factions.clear: true
@@ -412,7 +415,7 @@ permissions:
     children:
       factions.kit.rank0: true
       factions.override: true
-      factions.invite.list.other: true
+      factions.inviteslist.other: true
   factions.kit.rank0:
     default: false
     children:
@@ -567,6 +570,8 @@ permissions:
       factions.login: true
       factions.ff: true
       factions.mute: true
+      factions.unmute: true
+      factions.mutelist: true
       factions.alarm: true
       factions.clear: true
       factions.alert.notifications: true

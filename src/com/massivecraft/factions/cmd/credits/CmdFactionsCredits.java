@@ -9,9 +9,8 @@ public class CmdFactionsCredits extends FactionsCommand
 	// -------------------------------------------- //
 
 	public CmdFactionsCreditsBalance cmdMoneyBalance = new CmdFactionsCreditsBalance();
-	public CmdFactionsCreditsTransferFf cmdMoneyTransferFf = new CmdFactionsCreditsTransferFf();
 	public CmdFactionsCreditsAdd cmdFactionsCreditsAdd = new CmdFactionsCreditsAdd();
 	public CmdFactionsCreditsTake cmdFactionsCreditsTake = new CmdFactionsCreditsTake();
 	public CmdFactionsCreditsSet cmdFactionsCreditsSet = new CmdFactionsCreditsSet();
-	
+
 }
