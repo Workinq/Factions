@@ -95,8 +95,6 @@ obfuscate   changeLogFileOut="%project.build.directory%%file.separator%%project.
             exceptionObfuscation=heavy
             autoReflectionHandling=normal
             obfuscateReferences=normal
-            // obfuscateReferenceStructures=inSpecialClass
-            // obfuscateReferencesPackage="tools"
             lineNumbers=scramble
             localVariables=delete
             methodParameters=obfuscate
@@ -107,6 +105,7 @@ obfuscate   changeLogFileOut="%project.build.directory%%file.separator%%project.
             keepBalancedLocks=false
             preverify=true
             assumeRuntimeVersion="8"
+            legalIdentifiers=true
             ;
 
 saveAll     "%project.build.directory%%file.separator%%project.build.finalName%.%project.packaging%";
