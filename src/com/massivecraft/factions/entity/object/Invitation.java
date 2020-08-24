@@ -30,7 +30,7 @@ public class Invitation extends EntityInternal<Invitation>
 	public void setCreationMillis(Long creationMillis) { this.creationMillis = creationMillis; }
 
 	private Boolean alt;
-	public Boolean isAlt() { return (alt == null ? false : alt); }
+	public Boolean isAlt() { return (alt != null && alt); }
 	public void setAlt(Boolean alt) { this.alt = alt; }
 	
 	// -------------------------------------------- //
