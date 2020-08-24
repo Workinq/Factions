@@ -259,3 +259,4 @@ $RECYCLE.BIN/
 .dropbox.attr
 .dropbox.cache
 /libs/server.jar
+/ZKM_log.txt
