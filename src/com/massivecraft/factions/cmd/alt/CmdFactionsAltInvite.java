@@ -26,6 +26,12 @@ public class CmdFactionsAltInvite extends FactionsCommand
 
     public CmdFactionsAltInvite()
     {
+        // Aliases
+        this.addAliases("invite");
+
+        // Desc
+        this.setDescPermission("factions.alt.invite");
+
         // Parameters
         this.addParameter(TypeSet.get(TypeMPlayer.get()), "players", true);
     }

@@ -11,6 +11,12 @@ public class CmdFactionsPowerBoostPlayer extends CmdFactionsPowerBoostAbstract
 	public CmdFactionsPowerBoostPlayer()
 	{
 		super(TypeMPlayer.get(), "player");
+
+		// Aliases
+		this.addAliases("player");
+
+		// Desc
+		this.setDescPermission("factions.powerboost.player");
 	}
 	
 }

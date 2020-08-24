@@ -21,6 +21,12 @@ public class CmdFactionsPermShow extends FactionsCommand
 	
 	public CmdFactionsPermShow()
 	{
+		// Aliases
+		this.addAliases("show");
+
+		// Desc
+		this.setDescPermission("factions.perm.show");
+
 		// Parameters
 		this.addParameter(TypeFaction.get(), "faction", "you");
 		this.addParameter(TypeSet.get(TypeMPerm.get()), "perms", "all", true);

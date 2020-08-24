@@ -22,6 +22,12 @@ public class CmdFactionsMoneyWithdraw extends FactionsCommand
 
 	public CmdFactionsMoneyWithdraw()
 	{
+		// Aliases
+		this.addAliases("withdraw");
+
+		// Desc
+		this.setDescPermission("factions.money.withdraw");
+
 		// Parameters
 		this.addParameter(TypeDouble.get(), "amount");
 		this.addParameter(TypeFaction.get(), "faction", "you");

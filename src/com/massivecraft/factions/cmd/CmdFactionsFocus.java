@@ -17,6 +17,12 @@ public class CmdFactionsFocus extends FactionsCommand
 
     public CmdFactionsFocus()
     {
+        // Aliases
+        this.setAliases("focus");
+
+        // Desc
+        this.setDescPermission("factions.focus");
+
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player");
 

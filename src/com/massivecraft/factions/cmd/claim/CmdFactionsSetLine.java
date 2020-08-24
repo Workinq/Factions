@@ -1,8 +1,11 @@
 package com.massivecraft.factions.cmd.claim;
 
+import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.massivecore.MassiveException;
+import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
+import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.command.type.primitive.TypeInteger;
 import com.massivecraft.massivecore.command.type.primitive.TypeString;
 import com.massivecraft.massivecore.ps.PS;
@@ -48,6 +51,10 @@ public class CmdFactionsSetLine extends CmdFactionsSetX
             this.addParameter(TypeFaction.get(), "faction", "you");
             this.setFactionArgIndex(2);
         }
+
+        this.addRequirements(RequirementIsPlayer.get());
+        Perm perm = claim ? Perm.CLAIM_AUTO : Perm.UNCLAIM_AUTO;
+        this.addRequirements(RequirementHasPerm.get(perm));
     }
 
     // -------------------------------------------- //

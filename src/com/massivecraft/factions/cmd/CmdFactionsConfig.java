@@ -14,7 +14,13 @@ public class CmdFactionsConfig extends CommandEditSingleton<MConf>
 	public CmdFactionsConfig()
 	{
 		super(MConf.get());
-		
+
+		// Aliases
+		this.setAliases("config");
+
+		// Desc
+		this.setDescPermission("factions.config");
+
 		// Requirements
 		this.addRequirements(RequirementHasPerm.get(Perm.CONFIG));
 	}

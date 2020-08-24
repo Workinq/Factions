@@ -21,8 +21,15 @@ public class CmdFactionsSandAlt extends FactionsCommand
     public CmdFactionsSandAlt()
     {
         // Aliases
-        this.addAliases("sandBot");
+        this.setAliases("sandAlt", "sandBot");
+
+        // Desc
+        this.setDescPermission("factions.sandalt");
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public void perform() throws MassiveException

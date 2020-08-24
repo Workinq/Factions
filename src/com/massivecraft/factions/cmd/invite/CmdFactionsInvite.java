@@ -28,6 +28,12 @@ public class CmdFactionsInvite extends FactionsCommand
 
 	public CmdFactionsInvite()
 	{
+		// Aliases
+		this.setAliases("invite");
+
+		// Desc
+		this.setDescPermission("factions.invite");
+
 		// Parameters
 		this.addParameter(TypeSet.get(TypeMPlayer.get()), "players", true);
 

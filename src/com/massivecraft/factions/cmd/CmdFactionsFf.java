@@ -21,6 +21,12 @@ public class CmdFactionsFf extends FactionsCommand
 
     public CmdFactionsFf()
     {
+        // Aliases
+        this.setAliases("ff");
+
+        // Desc
+        this.setDescPermission("factions.ff");
+
         // Parameters
         this.addParameter(TypeList.get(TypeString.get()), "message", true);
 

@@ -21,6 +21,12 @@ public class CmdFactionsTntWithdraw extends FactionsCommand
 
     public CmdFactionsTntWithdraw()
     {
+        // Aliases
+        this.addAliases("withdraw");
+
+        // Desc
+        this.setDescPermission("factions.tnt.withdraw");
+
         // Parameters
         this.addParameter(TypeInteger.get(), "amount");
     }

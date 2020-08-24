@@ -26,7 +26,10 @@ public class CmdFactionsWarpList extends FactionsCommand
     public CmdFactionsWarpList()
     {
         // Aliases
-        this.addAliases("warps");
+        this.addAliases("warpList", "warps");
+
+        // Desc
+        this.setDescPermission("factions.warplist");
 
         // Parameters
         this.addParameter(Parameter.getPage());

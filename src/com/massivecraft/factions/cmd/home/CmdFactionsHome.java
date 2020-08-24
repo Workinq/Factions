@@ -32,6 +32,12 @@ public class CmdFactionsHome extends FactionsCommandHome
 	
 	public CmdFactionsHome()
 	{
+		// Aliases
+		this.setAliases("home");
+
+		// Desc
+		this.setDescPermission("factions.home");
+
 		// Parameters
 		this.addParameter(TypeFaction.get(), "faction", "you");
 

@@ -13,4 +13,17 @@ public class CmdFactionsCredits extends FactionsCommand
 	public CmdFactionsCreditsTake cmdFactionsCreditsTake = new CmdFactionsCreditsTake();
 	public CmdFactionsCreditsSet cmdFactionsCreditsSet = new CmdFactionsCreditsSet();
 
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
+
+	public CmdFactionsCredits()
+	{
+		// Aliases
+		this.setAliases("credits");
+
+		// Desc
+		this.setDescPermission("factions.credits");
+	}
+
 }

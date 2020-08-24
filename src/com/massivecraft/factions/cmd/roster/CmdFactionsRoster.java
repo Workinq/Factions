@@ -16,6 +16,23 @@ public class CmdFactionsRoster extends FactionsCommand
     public CmdFactionsRosterList cmdFactionsRosterList = new CmdFactionsRosterList();
     public CmdFactionsRosterView cmdFactionsRosterView = new CmdFactionsRosterView();
 
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
+
+    public CmdFactionsRoster()
+    {
+        // Aliases
+        this.setAliases("roster");
+
+        // Desc
+        this.setDescPermission("factions.roster");
+    }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
+
     @Override
     public void perform() throws MassiveException
     {

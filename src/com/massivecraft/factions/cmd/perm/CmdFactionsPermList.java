@@ -34,6 +34,12 @@ public class CmdFactionsPermList extends FactionsCommand
 	
 	public CmdFactionsPermList()
 	{
+		// Aliases
+		this.addAliases("list");
+
+		// Desc
+		this.setDescPermission("factions.perm.list");
+
 		// Parameters
 		this.addParameter(Parameter.getPage());
 	}

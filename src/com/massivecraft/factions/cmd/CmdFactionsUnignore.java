@@ -13,6 +13,12 @@ public class CmdFactionsUnignore extends FactionsCommand
 
     public CmdFactionsUnignore()
     {
+        // Aliases
+        this.setAliases("unignore");
+
+        // Desc
+        this.setDescPermission("factions.unignore");
+
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player");
     }

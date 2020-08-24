@@ -31,6 +31,12 @@ public class CmdFactionsInviteList extends FactionsCommand
 	
 	public CmdFactionsInviteList()
 	{
+		// Aliases
+		this.setAliases("inviteList");
+
+		// Desc
+		this.setDescPermission("factions.invitelist");
+
 		// Parameters
 		this.addParameter(Parameter.getPage());
 		this.addParameter(TypeFaction.get(), "faction", "you");

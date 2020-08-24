@@ -26,6 +26,12 @@ public class CmdFactionsRelationWishes extends FactionsCommand
 
 	public CmdFactionsRelationWishes()
 	{
+		// Aliases
+		this.addAliases("wishes");
+
+		// Desc
+		this.setDescPermission("factions.relation.wishes");
+
 		// Parameter
 		this.addParameter(Parameter.getPage());
 		this.addParameter(TypeFaction.get(), "faction", "you");

@@ -4,13 +4,27 @@ import com.massivecraft.factions.adapter.BoardAdapter;
 import com.massivecraft.factions.adapter.BoardMapAdapter;
 import com.massivecraft.factions.adapter.RelAdapter;
 import com.massivecraft.factions.adapter.TerritoryAccessAdapter;
-import com.massivecraft.factions.chat.ChatActive;
+import com.massivecraft.factions.chat.modifier.*;
+import com.massivecraft.factions.chat.tag.*;
+import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.cmd.type.TypeFactionChunkChangeType;
 import com.massivecraft.factions.cmd.type.TypeRel;
-import com.massivecraft.factions.engine.EngineEcon;
+import com.massivecraft.factions.engine.*;
 import com.massivecraft.factions.entity.*;
+import com.massivecraft.factions.entity.migrator.MigratorFaction001Invitations;
+import com.massivecraft.factions.entity.migrator.MigratorMConf001EnumerationUtil;
+import com.massivecraft.factions.entity.migrator.MigratorMConf002CleanInactivity;
+import com.massivecraft.factions.entity.migrator.MigratorMConf003CleanInactivity;
 import com.massivecraft.factions.event.EventFactionsChunkChangeType;
+import com.massivecraft.factions.integration.V18.IntegrationV18;
+import com.massivecraft.factions.integration.V19.IntegrationV19;
+import com.massivecraft.factions.integration.coreprotect.IntegrationCoreProtect;
+import com.massivecraft.factions.integration.holographicdisplays.IntegrationHolographicDisplays;
+import com.massivecraft.factions.integration.mobextras.IntegrationMobExtras;
+import com.massivecraft.factions.integration.spigot.IntegrationSpigot;
+import com.massivecraft.factions.integration.worldguard.IntegrationWorldGuard;
 import com.massivecraft.factions.mixin.PowerMixin;
+import com.massivecraft.factions.task.*;
 import com.massivecraft.massivecore.MassivePlugin;
 import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.command.type.RegistryType;
@@ -73,8 +87,13 @@ public class Factions extends MassivePlugin
 		MigratorUtil.addJsonRepresentation(Board.class, Board.MAP_TYPE);
 
 		// Activate
-		this.activateAuto();
-		this.activate(this.getClassesActive("chat", ChatActive.class));
+		this.activate(this.getClassesActiveMigrators()); // Migrators
+		this.activate(this.getClassesActiveColls()); // Colls
+		this.activate(this.getClassesActiveCommands()); // Commands
+		this.activate(this.getClassesActiveEngines()); // Engines
+		this.activate(this.getClassesActiveIntegrations()); // Integrations
+		this.activate(this.getClassesActiveTasks()); // Tasks
+		this.activate(this.getClassesActiveChat()); // Chat
 	}
 
 	@Override
@@ -82,6 +101,17 @@ public class Factions extends MassivePlugin
 	{
 		for (Player player : Bukkit.getOnlinePlayers()) player.closeInventory();
 		super.onDisable();
+	}
+
+	@Override
+	public List<Class<?>> getClassesActiveMigrators()
+	{
+		return new MassiveList<>(
+				MigratorFaction001Invitations.class,
+				MigratorMConf001EnumerationUtil.class,
+				MigratorMConf002CleanInactivity.class,
+				MigratorMConf003CleanInactivity.class
+		);
 	}
 
 	@Override
@@ -110,14 +140,68 @@ public class Factions extends MassivePlugin
 	}
 
 	@Override
+	public List<Class<?>> getClassesActiveCommands()
+	{
+		return new MassiveList<>(CmdFactions.class);
+	}
+
+	@Override
 	public List<Class<?>> getClassesActiveEngines()
 	{
-		List<Class<?>> ret = super.getClassesActiveEngines();
+		List<Class<?>> ret = new MassiveList<>(EngineCanCombatHappen.class, EngineChat.class, EngineChest.class, EngineChunkChange.class, EngineCleanInactivity.class, EngineDenyCommands.class, EngineExploit.class, EngineExtras.class, EngineFactionChat.class, EngineFlagEndergrief.class, EngineFlagExplosion.class, EngineFlagFireSpread.class, EngineFlagSpawn.class, EngineFlagZombiegrief.class, EngineFly.class, EngineLastActivity.class, EngineLogin.class, EngineMoney.class, EngineMotd.class, EngineMoveChunk.class, EnginePermBuild.class, EnginePlayerData.class, EnginePower.class, EngineSand.class, EngineScoreboard.class, EngineSeeChunk.class, EngineShow.class, EngineSkull.class, EngineTeleportHomeOnDeath.class, EngineTerritoryShield.class, EngineTnt.class, EngineVisualizations.class, EngineEcon.class);
 
 		ret.remove(EngineEcon.class);
 		ret.add(EngineEcon.class);
 
 		return ret;
+	}
+
+	@Override
+	public List<Class<?>> getClassesActiveIntegrations()
+	{
+		return new MassiveList<>(
+				IntegrationCoreProtect.class,
+				IntegrationHolographicDisplays.class,
+				IntegrationMobExtras.class,
+				IntegrationSpigot.class,
+				IntegrationV18.class,
+				IntegrationV19.class,
+				IntegrationWorldGuard.class
+		);
+	}
+
+	@Override
+	public List<Class<?>> getClassesActiveTasks()
+	{
+		return new MassiveList<>(
+				TaskEconLandReward.class,
+				TaskFactionsFly.class,
+				TaskFlagPermCreate.class,
+				TaskPlaceSand.class,
+				TaskPlayerPowerUpdate.class,
+				TaskRemindBaseRegion.class,
+				TaskRemindClear.class,
+				TaskRingFactionAlarm.class
+		);
+	}
+
+	public List<Class<?>> getClassesActiveChat()
+	{
+		return new MassiveList<>(
+				ChatModifierLc.class,
+				ChatModifierLp.class,
+				ChatModifierParse.class,
+				ChatModifierRp.class,
+				ChatModifierUc.class,
+				ChatModifierUcf.class,
+				ChatTagName.class,
+				ChatTagNameforce.class,
+				ChatTagRelcolor.class,
+				ChatTagRole.class,
+				ChatTagRoleprefix.class,
+				ChatTagRoleprefixforce.class,
+				ChatTagTitle.class
+		);
 	}
 
 	@Override

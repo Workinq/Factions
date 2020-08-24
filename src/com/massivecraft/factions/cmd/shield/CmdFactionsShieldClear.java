@@ -17,6 +17,12 @@ public class CmdFactionsShieldClear extends FactionsCommand
 
     public CmdFactionsShieldClear()
     {
+        // Aliases
+        this.addAliases("clear");
+
+        // Desc
+        this.setDescPermission("factions.shield.clear");
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
         this.addParameter(TypeBooleanYes.get(), "silent", "yes");

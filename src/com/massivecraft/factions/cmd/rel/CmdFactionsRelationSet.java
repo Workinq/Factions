@@ -23,6 +23,12 @@ public class CmdFactionsRelationSet extends FactionsCommand
 	
 	public CmdFactionsRelationSet()
 	{
+		// Aliases
+		this.addAliases("set");
+
+		// Desc
+		this.setDescPermission("factions.relation.set");
+
 		// Parameter
 		this.addParameter(TypeFaction.get(), "faction");
 		this.addParameter(TypeRelation.get(), "relation");

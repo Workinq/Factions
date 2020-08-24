@@ -15,6 +15,12 @@ public class CmdFactionsSandAltKillAll extends FactionsCommand
 
     public CmdFactionsSandAltKillAll()
     {
+        // Aliases
+        this.addAliases("killAll");
+
+        // Desc
+        this.setDescPermission("factions.sandalt.killall");
+
         // Requirements
         this.addRequirements(RequirementHasPerm.get(Perm.SANDALT_KILLALL));
     }

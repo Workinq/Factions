@@ -28,6 +28,12 @@ public class CmdFactionsUpgrade extends FactionsCommand
 
     public CmdFactionsUpgrade()
     {
+        // Aliases
+        this.setAliases("upgrade");
+
+        // Desc
+        this.setDescPermission("factions.upgrade");
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
 

@@ -5,23 +5,20 @@ import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.type.primitive.TypeString;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class CmdFactionsPaypalSet extends FactionsCommand
 {
-    // -------------------------------------------- //
-    // FIELDS
-    // -------------------------------------------- //
-
-    private Pattern pattern = Pattern.compile("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
-
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
     public CmdFactionsPaypalSet()
     {
+        // Aliases
+        this.addAliases("set");
+
+        // Desc
+        this.setDescPermission("factions.paypal.set");
+
         // Parameters
         this.addParameter(TypeString.get(), "paypal");
     }
@@ -37,14 +34,6 @@ public class CmdFactionsPaypalSet extends FactionsCommand
 
         // Args
         String paypal = this.readArg();
-
-        // Verify
-        Matcher matcher = pattern.matcher(paypal);
-        if (!matcher.matches())
-        {
-            msender.msg("<b>Invalid email address entered.");
-            return;
-        }
 
         // Apply
         msenderFaction.setPaypal(paypal);

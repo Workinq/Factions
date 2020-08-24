@@ -29,6 +29,12 @@ public class CmdFactionsStrikeList extends FactionsCommand
 
     public CmdFactionsStrikeList()
     {
+        // Aliases
+        this.addAliases("list");
+
+        // Desc
+        this.setDescPermission("factions.strike.list");
+
         // Parameters
         this.addParameter(Parameter.getPage());
         this.addParameter(TypeFaction.get(), "faction", "you");

@@ -21,7 +21,10 @@ public class CmdFactionsVault extends FactionsCommand
     public CmdFactionsVault()
     {
         // Aliases
-        this.addAliases("chest", "pv");
+        this.setAliases("chest", "pv");
+
+        // Desc
+        this.setDescPermission("factions.vault");
     }
 
     // -------------------------------------------- //

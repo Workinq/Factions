@@ -14,6 +14,12 @@ public class CmdFactionsRelationCheck extends FactionsCommand
 
     public CmdFactionsRelationCheck()
     {
+        // Aliases
+        this.addAliases("check");
+
+        // Desc
+        this.setDescPermission("factions.relation.check");
+
         // Parameter
         this.addParameter(TypeFaction.get(), "faction");
         this.addParameter(TypeFaction.get(), "faction", "you");

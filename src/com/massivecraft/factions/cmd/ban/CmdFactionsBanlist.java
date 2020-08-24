@@ -29,7 +29,10 @@ public class CmdFactionsBanlist extends FactionsCommand
 	public CmdFactionsBanlist()
 	{
 		// Aliases
-		this.addAliases("bans");
+		this.setAliases("banlist", "bans");
+
+		// Desc
+		this.setDescPermission("factions.banlist");
 
 		// Parameters
 		this.addParameter(Parameter.getPage());

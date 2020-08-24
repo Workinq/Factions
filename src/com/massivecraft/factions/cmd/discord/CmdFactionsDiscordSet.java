@@ -13,6 +13,12 @@ public class CmdFactionsDiscordSet extends FactionsCommand
 
     public CmdFactionsDiscordSet()
     {
+        // Aliases
+        this.addAliases("set");
+
+        // Desc
+        this.setDescPermission("factions.discord.set");
+
         // Parameters
         this.addParameter(TypeString.get(), "discord");
     }

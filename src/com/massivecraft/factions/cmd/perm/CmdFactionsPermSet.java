@@ -24,6 +24,12 @@ public class CmdFactionsPermSet extends FactionsCommand
 	
 	public CmdFactionsPermSet()
 	{
+		// Aliases
+		this.addAliases("set");
+
+		// Desc
+		this.setDescPermission("factions.perm.set");
+
 		// Parameters
 		this.addParameter(TypeMPerm.get(), "perm");
 		this.addParameter(TypeRel.get(), "relation");

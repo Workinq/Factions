@@ -24,6 +24,12 @@ public class CmdFactionsTntDeposit extends FactionsCommand
 
     public CmdFactionsTntDeposit()
     {
+        // Aliases
+        this.addAliases("deposit");
+
+        // Desc
+        this.setDescPermission("factions.tnt.deposit");
+
         // Parameters
         this.addParameter(TypeInteger.get(), "amount");
 

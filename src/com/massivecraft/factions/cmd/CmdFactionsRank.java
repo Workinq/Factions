@@ -53,6 +53,12 @@ public class CmdFactionsRank extends FactionsCommand
 	
 	public CmdFactionsRank()
 	{
+		// Aliases
+		this.setAliases("rank");
+
+		// Desc
+		this.setDescPermission("factions.rank");
+
 		// Parameters
 		this.addParameter(TypeMPlayer.get(), "player");
 		this.addParameter(TypeRank.get(), "action", "show");

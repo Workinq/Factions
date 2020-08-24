@@ -15,6 +15,12 @@ public class CmdFactionsVaultOpen extends FactionsCommand
 
     public CmdFactionsVaultOpen()
     {
+        // Aliases
+        this.addAliases("open");
+
+        // Desc
+        this.setDescPermission("factions.vault.open");
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
 

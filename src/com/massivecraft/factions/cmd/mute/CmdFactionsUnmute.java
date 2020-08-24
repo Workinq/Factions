@@ -20,6 +20,12 @@ public class CmdFactionsUnmute extends FactionsCommand
 
     public CmdFactionsUnmute()
     {
+        // Aliases
+        this.setAliases("unmute");
+
+        // Desc
+        this.setDescPermission("factions.unmute");
+
         // Parameters
         this.addParameter(TypeSet.get(TypeMPlayer.get()), "players", true);
     }

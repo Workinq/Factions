@@ -24,6 +24,12 @@ public class CmdFactionsKick extends FactionsCommand
 	
 	public CmdFactionsKick()
 	{
+		// Aliases
+		this.setAliases("kick");
+
+		// Desc
+		this.setDescPermission("factions.kick");
+
 		// Parameters
 		this.addParameter(TypeMPlayer.get(), "player");
 

@@ -15,6 +15,12 @@ public class CmdFactionsCreditsAdd extends FactionsCommand
 
     public CmdFactionsCreditsAdd()
     {
+        // Aliases
+        this.addAliases("add");
+
+        // Desc
+        this.setDescPermission("factions.credits.add");
+
         // Parameters
         this.addParameter(TypeInteger.get(), "amount");
         this.addParameter(TypeFaction.get(), "faction", "you");

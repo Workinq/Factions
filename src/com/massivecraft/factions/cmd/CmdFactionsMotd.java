@@ -18,6 +18,12 @@ public class CmdFactionsMotd extends FactionsCommand
 	
 	public CmdFactionsMotd()
 	{
+		// Aliases
+		this.setAliases("motd");
+
+		// Desc
+		this.setDescPermission("factions.motd");
+
 		// Parameters
 		this.addParameter(TypeNullable.get(TypeString.get()), "new", "read", true);
 	}

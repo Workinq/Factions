@@ -15,4 +15,13 @@ public class CmdFactionsAlt extends FactionsCommand
     public CmdFactionsAltJoin cmdFactionsAltJoin = new CmdFactionsAltJoin();
     public CmdFactionsAltInviteList cmdFactionsAltInviteList = new CmdFactionsAltInviteList();
 
+    public CmdFactionsAlt()
+    {
+        // Aliases
+        this.setAliases("alt");
+
+        // Desc
+        this.setDescPermission("factions.alt");
+    }
+
 }

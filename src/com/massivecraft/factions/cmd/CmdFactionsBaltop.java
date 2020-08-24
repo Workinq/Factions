@@ -24,6 +24,12 @@ public class CmdFactionsBaltop extends FactionsCommand
 
     public CmdFactionsBaltop()
     {
+        // Aliases
+        this.setAliases("baltop");
+
+        // Desc
+        this.setDescPermission("factions.baltop");
+
         // Parameters
         this.addParameter(Parameter.getPage());
         this.addParameter(TypeFaction.get(), "faction", "you");
@@ -54,14 +60,7 @@ public class CmdFactionsBaltop extends FactionsCommand
             }
         });
 
-        final Pager<MPlayer> pager = new Pager<>(this, "Faction Baltop", page, mplayers, new Stringifier<MPlayer>()
-        {
-            @Override
-            public String toString(MPlayer mplayer, int index)
-            {
-                return Txt.parse("<n>%,d. %s <white>- <h>%s", index + 1, mplayer.describeTo(msender, true), MoneyMixinVault.get().format(MoneyMixinVault.get().get(mplayer.getName()), true));
-            }
-        });
+        final Pager<MPlayer> pager = new Pager<>(this, "Faction Baltop", page, mplayers, (Stringifier<MPlayer>) (mplayer, index) -> Txt.parse("<n>%,d. %s <white>- <h>%s", index + 1, mplayer.describeTo(msender, true), MoneyMixinVault.get().format(MoneyMixinVault.get().get(mplayer.getName()), true)));
 
         // Pager Message
         pager.message();

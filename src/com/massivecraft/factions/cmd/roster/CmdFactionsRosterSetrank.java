@@ -19,6 +19,12 @@ public class CmdFactionsRosterSetrank extends FactionsCommand
 
     public CmdFactionsRosterSetrank()
     {
+        // Aliases
+        this.addAliases("setrank");
+
+        // Desc
+        this.setDescPermission("factions.roster.setrank");
+
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player");
         this.addParameter(TypeRel.get(), "role");

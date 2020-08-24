@@ -13,6 +13,12 @@ public class CmdFactionsIgnore extends FactionsCommand
 
     public CmdFactionsIgnore()
     {
+        // Aliases
+        this.setAliases("ignore");
+
+        // Desc
+        this.setDescPermission("factions.ignore");
+
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player");
     }

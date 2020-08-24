@@ -18,8 +18,15 @@ public class CmdFactionsUnfocus extends FactionsCommand
 
     public CmdFactionsUnfocus()
     {
+        // Aliases
+        this.setAliases("unfocus");
+
+        // Desc
+        this.setDescPermission("factions.unfocus");
+
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player", "focused");
+
         // Requirements
         this.addRequirements(RequirementIsPlayer.get());
         this.addRequirements(ReqHasFaction.get());
@@ -33,6 +40,7 @@ public class CmdFactionsUnfocus extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
+        // Args
         MPlayer mplayer = this.readArg(MPlayer.get(msenderFaction.getFocusedPlayer()));
 
         if ( ! MPerm.getPermFocus().has(this.msender, this.msenderFaction, true) ) return;

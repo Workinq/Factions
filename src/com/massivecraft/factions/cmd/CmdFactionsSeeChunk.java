@@ -14,7 +14,10 @@ public class CmdFactionsSeeChunk extends FactionsCommand
 	public CmdFactionsSeeChunk()
 	{
 		// Aliases
-		this.addAliases("sc");
+		this.setAliases("seeChunk", "sc");
+
+		// Desc
+		this.setDescPermission("factions.seechunk");
 		
 		// Parameters
 		this.addParameter(TypeBooleanOn.get(), "active", "toggle");

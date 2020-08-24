@@ -16,7 +16,10 @@ public class CmdFactionsChat extends FactionsCommand
     public CmdFactionsChat()
     {
         // Aliases
-        this.addAliases("c");
+        this.setAliases("chat", "c");
+
+        // Desc
+        this.setDescPermission("factions.chat");
 
         // Parameters
         this.addParameter(new TypeEnum<>(Chat.class), "mode", "next");

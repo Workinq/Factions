@@ -31,6 +31,12 @@ public class CmdFactionsPermGui extends FactionsCommand
 
     public CmdFactionsPermGui()
     {
+        // Aliases
+        this.addAliases("gui");
+
+        // Desc
+        this.setDescPermission("factions.perm.gui");
+
         // Requirements
         this.addRequirements(RequirementIsPlayer.get());
         this.addRequirements(ReqHasFaction.get());

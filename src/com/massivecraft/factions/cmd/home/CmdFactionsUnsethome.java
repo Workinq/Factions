@@ -15,6 +15,12 @@ public class CmdFactionsUnsethome extends FactionsCommandHome
 	
 	public CmdFactionsUnsethome()
 	{
+		// Aliases
+		this.setAliases("unsethome");
+
+		// Desc
+		this.setDescPermission("factions.unsethome");
+
 		// Parameters
 		this.addParameter(TypeFaction.get(), "faction", "you");
 	}

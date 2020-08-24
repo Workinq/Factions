@@ -13,6 +13,12 @@ public class CmdFactionsSpy extends FactionsCommand
 
     public CmdFactionsSpy()
     {
+        // Aliases
+        this.setAliases("spy");
+
+        // Desc
+        this.setDescPermission("factions.spy");
+
         // Parameters
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");
     }

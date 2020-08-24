@@ -24,7 +24,16 @@ public class CmdFactionsClean extends FactionsCommand
 	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
-	
+
+	public CmdFactionsClean()
+	{
+		// Aliases
+		this.setAliases("clean");
+
+		// Desc
+		this.setDescPermission("factions.clean");
+	}
+
 	@Override
 	public void perform() throws MassiveException
 	{

@@ -22,7 +22,10 @@ public class CmdFactionsLastInspected extends FactionsCommand
     public CmdFactionsLastInspected()
     {
         // Aliases
-        this.addAliases("lastinspect");
+        this.setAliases("lastInspected");
+
+        // Desc
+        this.setDescPermission("factions.last.inspected");
 
         // Requirements
         this.addRequirements(ReqHasFaction.get());

@@ -13,6 +13,12 @@ public class CmdFactionsDrainToggle extends FactionsCommand
 
     public CmdFactionsDrainToggle()
     {
+        // Aliases
+        this.setAliases("drainToggle");
+
+        // Desc
+        this.setDescPermission("factions.drain.toggle");
+
         // Parameters
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");
     }

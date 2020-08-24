@@ -15,6 +15,12 @@ public class CmdFactionsDiscordCheck extends FactionsCommand
 
     public CmdFactionsDiscordCheck()
     {
+        // Aliases
+        this.addAliases("check");
+
+        // Desc
+        this.setDescPermission("factions.discord.check");
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
     }
@@ -38,10 +44,10 @@ public class CmdFactionsDiscordCheck extends FactionsCommand
         // Inform
         if (discord.equals(""))
         {
-            msender.msg("%s <i>doesn't have a discord set.", faction.describeTo(msender));
+            msender.msg("%s <i>doesn't have a discord set.", faction.describeTo(msender, true));
             return;
         }
-        msender.msg("%s's <i>discord is <h>%s<i>.", faction.describeTo(msender), discord);
+        msender.msg("%s's <i>discord is <h>%s<i>.", faction.describeTo(msender, true), discord);
     }
 
 }

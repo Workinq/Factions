@@ -28,6 +28,12 @@ public class CmdFactionsRosterList extends FactionsCommand
 
     public CmdFactionsRosterList()
     {
+        // Aliases
+        this.addAliases("list");
+
+        // Desc
+        this.setDescPermission("factions.roster.list");
+
         // Parameters
         this.addParameter(Parameter.getPage());
         this.addParameter(TypeFaction.get(), "faction", "you");

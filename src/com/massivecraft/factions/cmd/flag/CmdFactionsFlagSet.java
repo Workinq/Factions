@@ -18,6 +18,12 @@ public class CmdFactionsFlagSet extends FactionsCommand
 	
 	public CmdFactionsFlagSet()
 	{
+		// Aliases
+		this.addAliases("set");
+
+		// Desc
+		this.setDescPermission("factions.flag.set");
+
 		// Parameters
 		this.addParameter(TypeMFlag.get(), "flag");
 		this.addParameter(TypeBooleanYes.get(), "yes/no");

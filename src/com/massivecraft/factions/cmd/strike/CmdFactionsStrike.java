@@ -12,4 +12,17 @@ public class CmdFactionsStrike extends FactionsCommand
     public CmdFactionsStrikeRemove cmdFactionsStrikeRemove = new CmdFactionsStrikeRemove();
     public CmdFactionsStrikeList cmdFactionsStrikeList = new CmdFactionsStrikeList();
 
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
+
+    public CmdFactionsStrike()
+    {
+        // Aliases
+        this.setAliases("strike");
+
+        // Desc
+        this.setDescPermission("factions.strike");
+    }
+
 }

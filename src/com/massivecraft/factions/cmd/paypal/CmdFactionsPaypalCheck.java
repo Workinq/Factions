@@ -15,6 +15,12 @@ public class CmdFactionsPaypalCheck extends FactionsCommand
 
     public CmdFactionsPaypalCheck()
     {
+        // Aliases
+        this.addAliases("check");
+
+        // Desc
+        this.setDescPermission("factions.paypal.check");
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
     }
@@ -38,10 +44,10 @@ public class CmdFactionsPaypalCheck extends FactionsCommand
         // Inform
         if (paypal.equals(""))
         {
-            msg("%s <i>doesn't have a paypal set.", faction.describeTo(msender));
+            msg("%s <i>doesn't have a paypal set.", faction.describeTo(msender, true));
             return;
         }
-        msg("%s's <i>paypal is <a>%s<i>.", faction.describeTo(msender), paypal);
+        msg("%s's <i>paypal is <a>%s<i>.", faction.describeTo(msender, true), paypal);
     }
 
 }

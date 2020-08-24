@@ -27,6 +27,12 @@ public class CmdFactionsVaultLog extends FactionsCommand
 
     public CmdFactionsVaultLog()
     {
+        // Aliases
+        this.addAliases("log");
+
+        // Desc
+        this.setDescPermission("factions.vault.log");
+
         // Parameters
         this.addParameter(Parameter.getPage());
         this.addParameter(TypeFaction.get(), "faction", "you");

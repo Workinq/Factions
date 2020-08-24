@@ -1,0 +1,112 @@
+classpath   "%classpathLibs%"
+            "%compileArtifactPath%"
+            "%pluginArtifactPath%"
+            ;
+
+open        "%project.build.directory%%file.separator%%project.build.finalName%.%project.packaging%";
+
+trimExclude none;
+
+exclude     // ESSENTIAL EXCLUSIONS
+            com.massivecraft.factions. and
+            public com.massivecraft.factions.Factions and
+            com.massivecraft.factions.Factions get(*) and
+            com.massivecraft.factions.Perm and
+
+            // GET() METHODS
+            com.massivecraft.factions.* get(*) and
+            com.massivecraft.factions.adapter.* get(*) and
+            com.massivecraft.factions.chat.tag.* get(*) and
+            com.massivecraft.factions.chat.modifier.* get(*) and
+            com.massivecraft.factions.cmd.* get(*) and
+            com.massivecraft.factions.comparator.* get(*) and
+            com.massivecraft.factions.chat.tag.* get(*) and
+            com.massivecraft.factions.engine.* get(*) and
+            com.massivecraft.factions.entity.* get(*) and
+            com.massivecraft.factions.entity.migrator.* get(*) and
+            com.massivecraft.factions.integration.coreprotect.* get(*) and
+            com.massivecraft.factions.integration.holographicdisplays.* get(*) and
+            com.massivecraft.factions.integration.mobextras.* get(*) and
+            com.massivecraft.factions.integration.spigot.* get(*) and
+            com.massivecraft.factions.integration.V18.* get(*) and
+            com.massivecraft.factions.integration.V19.* get(*) and
+            com.massivecraft.factions.integration.worldguard.* get(*) and
+            com.massivecraft.factions.mixin.* get(*) and
+            com.massivecraft.factions.predicate.* get(*) and
+            com.massivecraft.factions.task.* get(*) and
+
+            // ENTITY CLASSES
+            com.massivecraft.factions.entity. and
+            com.massivecraft.factions.entity.* and
+            com.massivecraft.factions.entity.migrator.* and
+            com.massivecraft.factions.entity.mission.* and
+            com.massivecraft.factions.entity.object.* and
+            com.massivecraft.factions.entity.upgrade.* and
+
+            // ENTITY METHODS
+            com.massivecraft.factions.entity.* and
+            com.massivecraft.factions.entity.* * and
+            com.massivecraft.factions.entity.* *(*) and
+            com.massivecraft.factions.entity.migrator.* and
+            com.massivecraft.factions.entity.migrator.* * and
+            com.massivecraft.factions.entity.migrator.* *(*) and
+            com.massivecraft.factions.entity.mission.* and
+            com.massivecraft.factions.entity.mission.* * and
+            com.massivecraft.factions.entity.object.* and
+            com.massivecraft.factions.entity.object.* * and
+            com.massivecraft.factions.entity.upgrade.* and
+            com.massivecraft.factions.entity.upgrade.* * and
+
+            // EVENT EXCLUSIONS
+            com.massivecraft.factions.event. and
+            com.massivecraft.factions.event.* and
+            com.massivecraft.factions.event.* * and
+            com.massivecraft.factions.event.* *(*) and
+
+            // COMPARATORS
+            com.massivecraft.factions.comparator. and
+            com.massivecraft.factions.comparator.* and
+            com.massivecraft.factions.comparator.* * and
+            com.massivecraft.factions.comparator.* *(*) and
+
+            // PREDICATES
+            com.massivecraft.factions.predicate. and
+            com.massivecraft.factions.predicate.* and
+            com.massivecraft.factions.predicate.* * and
+            com.massivecraft.factions.predicate.* *(*) and
+
+            // MIXINS
+            com.massivecraft.factions.mixin. and
+            com.massivecraft.factions.mixin.* and
+            com.massivecraft.factions.mixin.* * and
+            com.massivecraft.factions.mixin.* *(*)
+            ;
+
+obfuscateFlowExclude none;
+
+stringEncryptionExclude none;
+
+obfuscate   changeLogFileOut="%project.build.directory%%file.separator%%project.build.finalName%-Changelog.txt"
+            aggressiveMethodRenaming=true
+            keepInnerClassInfo=true
+            keepGenericsInfo=true
+            obfuscateFlow=aggressive
+            encryptStringLiterals=none
+            exceptionObfuscation=heavy
+            autoReflectionHandling=normal
+            obfuscateReferences=normal
+            // obfuscateReferenceStructures=inSpecialClass
+            // obfuscateReferencesPackage="tools"
+            lineNumbers=scramble
+            localVariables=delete
+            methodParameters=obfuscate
+            mixedCaseClassNames=ifInArchive
+            randomize=true
+            allClassesOpened=true
+            deriveGroupingsFromInputChangeLog=false
+            keepBalancedLocks=false
+            preverify=true
+            assumeRuntimeVersion="8"
+            ;
+
+saveAll     "%project.build.directory%%file.separator%%project.build.finalName%.%project.packaging%";

@@ -19,6 +19,12 @@ public class CmdFactionsToggleGrace extends FactionsCommand
 
     public CmdFactionsToggleGrace()
     {
+        // Aliases
+        this.addAliases("grace");
+
+        // Desc
+        this.setDescPermission("factions.toggle.grace");
+
         // Parameters
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");
 

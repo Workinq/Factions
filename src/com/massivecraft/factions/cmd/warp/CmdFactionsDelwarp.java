@@ -16,6 +16,12 @@ public class CmdFactionsDelwarp extends FactionsCommand
 
     public CmdFactionsDelwarp()
     {
+        // Aliases
+        this.setAliases("delwarp");
+
+        // Desc
+        this.setDescPermission("factions.delwarp");
+
         // Parameters
         this.addParameter(TypeString.get(), "warp");
         this.addParameter(TypeFaction.get(), "faction", "you");

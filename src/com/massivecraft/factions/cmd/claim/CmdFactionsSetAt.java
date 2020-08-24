@@ -33,16 +33,16 @@ public class CmdFactionsSetAt extends CmdFactionsSetXSimple
         // Aliases
         this.addAliases("at");
 
-        // Requirements
-        this.addRequirements(RequirementIsPlayer.get());
-        Perm perm = claim ? Perm.CLAIM_ONE : Perm.UNCLAIM_ONE;
-        this.addRequirements(RequirementHasPerm.get(perm));
-
         // Parameters
         this.addParameter(TypeInteger.get(), "x", "you");
         this.addParameter(TypeInteger.get(), "z", "you");
         this.addParameter(TypeWorld.get(), "world", "you");
         this.addParameter(TypeBooleanYes.get(), "map", "false");
+
+        // Requirements
+        this.addRequirements(RequirementIsPlayer.get());
+        Perm perm = claim ? Perm.CLAIM_ONE : Perm.UNCLAIM_ONE;
+        this.addRequirements(RequirementHasPerm.get(perm));
     }
 
     // -------------------------------------------- //

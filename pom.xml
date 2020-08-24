@@ -105,10 +105,10 @@
                 </includes>
             </resource>
             <!-- OpenSource -->
-            <!--<resource>-->
-            <!--<directory>${project.build.sourceDirectory}</directory>-->
-            <!--<filtering>false</filtering>-->
-            <!--</resource>-->
+            <!--<resource>
+                <directory>${project.build.sourceDirectory}</directory>
+                <filtering>false</filtering>
+            </resource>-->
         </resources>
         <plugins>
             <plugin>
@@ -117,6 +117,35 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.zelix.plugins</groupId>
+                <artifactId>zkm-plugin</artifactId>
+                <version>1.0.3</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.zelix.plugins</groupId>
+                        <artifactId>ZKM</artifactId>
+                        <version>8.0.8</version>
+                        <scope>system</scope>
+                        <systemPath>/Users/kieran/ZKM/ZKM.jar</systemPath>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>obfuscate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <isSkip>false</isSkip>
+                    <scriptFile>script.txt</scriptFile>
+                    <classpathLibs>
+                        <lib>${java.home}/lib/rt.jar</lib>
+                    </classpathLibs>
                 </configuration>
             </plugin>
         </plugins>

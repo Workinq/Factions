@@ -20,7 +20,16 @@ public class CmdFactionsAccessClear extends CmdFactionsAccessAbstract
 
     public CmdFactionsAccessClear()
     {
+        // Aliases
+        this.addAliases("clear");
+
+        // Desc
+        this.setDescPermission("factions.access.clear");
+
+        // Parameters
         this.addParameter(Acc.ALL, new TypeEnum<>(Acc.class), "access");
+
+        // Requirements
         this.addRequirements(RequirementHasPerm.get(Perm.ACCESS_CLEAR));
     }
 

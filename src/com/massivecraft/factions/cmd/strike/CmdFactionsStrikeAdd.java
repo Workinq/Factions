@@ -22,6 +22,12 @@ public class CmdFactionsStrikeAdd extends FactionsCommand
 
     public CmdFactionsStrikeAdd()
     {
+        // Aliases
+        this.addAliases("add");
+
+        // Desc
+        this.setDescPermission("factions.strike.add");
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction");
         this.addParameter(TypeInteger.get(), "points");

@@ -27,6 +27,12 @@ public class CmdFactionsBan extends FactionsCommand
 
 	public CmdFactionsBan()
 	{
+		// Aliases
+		this.setAliases("ban");
+
+		// Desc
+		this.setDescPermission("factions.ban");
+
 		// Parameters
 		this.addParameter(TypeSet.get(TypeMPlayer.get()), "players", true);
 	}

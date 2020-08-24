@@ -30,6 +30,12 @@ public class CmdFactionsSandAltGui extends FactionsCommand
 
     public CmdFactionsSandAltGui()
     {
+        // Aliases
+        this.addAliases("gui");
+
+        // Desc
+        this.setDescPermission("factions.sandalt.gui");
+
         // Requirements
         this.addRequirements(RequirementIsPlayer.get());
         this.addRequirements(ReqHasFaction.get());

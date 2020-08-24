@@ -36,6 +36,12 @@ public class CmdFactionsRelationList extends FactionsCommand
 
 	public CmdFactionsRelationList()
 	{
+		// Aliases
+		this.addAliases("list");
+
+		// Desc
+		this.setDescPermission("factions.relation.list");
+
 		// Parameter
 		this.addParameter(Parameter.getPage());
 		this.addParameter(TypeFaction.get(), "faction", "you");

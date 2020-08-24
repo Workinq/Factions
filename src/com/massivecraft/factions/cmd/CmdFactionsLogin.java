@@ -15,7 +15,10 @@ public class CmdFactionsLogin extends FactionsCommand
     public CmdFactionsLogin()
     {
         // Aliases
-        this.addAliases("logins");
+        this.setAliases("login", "logins");
+
+        // Desc
+        this.setDescPermission("factions.login");
 
         // Parameters
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");

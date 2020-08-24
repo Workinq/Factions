@@ -15,6 +15,12 @@ public class CmdFactionsClear extends FactionsCommand
 
     public CmdFactionsClear()
     {
+        // Aliases
+        this.setAliases("clear");
+
+        // Desc
+        this.setDescPermission("factions.clear");
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
     }

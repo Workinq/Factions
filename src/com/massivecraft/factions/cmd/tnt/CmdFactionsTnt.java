@@ -15,4 +15,17 @@ public class CmdFactionsTnt extends FactionsCommand
     public CmdFactionsTntFill cmdFactionsTntFill = new CmdFactionsTntFill();
     public CmdFactionsTntUnfill cmdFactionsTntUnfill = new CmdFactionsTntUnfill();
 
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
+
+    public CmdFactionsTnt()
+    {
+        // Aliases
+        this.setAliases("tnt");
+
+        // Desc
+        this.setDescPermission("factions.tnt");
+    }
+
 }

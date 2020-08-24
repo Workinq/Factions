@@ -36,6 +36,12 @@ public class CmdFactionsRosterView extends FactionsCommand
 
     public CmdFactionsRosterView()
     {
+        // Aliases
+        this.addAliases("view");
+
+        // Desc
+        this.setDescPermission("factions.roster.view");
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
 

@@ -18,6 +18,12 @@ public class CmdFactionsShieldView extends FactionsCommand
 
     public CmdFactionsShieldView()
     {
+        // Aliases
+        this.addAliases("view");
+
+        // Desc
+        this.setDescPermission("factions.shield.view");
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
     }

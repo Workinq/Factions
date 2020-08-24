@@ -22,7 +22,10 @@ public class CmdFactionsFaction extends FactionsCommand
 	public CmdFactionsFaction()
 	{
 		// Aliases
-		this.addAliases("f", "show", "who");
+		this.setAliases("faction", "f", "show", "who");
+
+		// Desc
+		this.setDescPermission("factions.faction");
 
 		// Parameters
 		this.addParameter(TypeFaction.get(), "faction", "you");

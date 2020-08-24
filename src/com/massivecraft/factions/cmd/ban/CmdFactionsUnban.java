@@ -25,8 +25,15 @@ public class CmdFactionsUnban extends FactionsCommand
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
+
     public CmdFactionsUnban()
     {
+        // Aliases
+        this.setAliases("unban");
+
+        // Desc
+        this.setDescPermission("factions.unban");
+
         // Parameters
         this.addParameter(TypeSet.get(TypeMPlayer.get()), "players/all", true);
     }

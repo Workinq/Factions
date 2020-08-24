@@ -18,6 +18,12 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
 
     public CmdFactionsSetBaseRegion()
     {
+        // Aliases
+        this.setAliases("setBaseRegion");
+
+        // Desc
+        this.setDescPermission("factions.setbaseregion");
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
 

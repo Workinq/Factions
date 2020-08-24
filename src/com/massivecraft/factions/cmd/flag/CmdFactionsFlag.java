@@ -8,8 +8,21 @@ public class CmdFactionsFlag extends FactionsCommand
 	// FIELDS
 	// -------------------------------------------- //
 	
-	CmdFactionsFlagList cmdFactionsFlagList = new CmdFactionsFlagList();
-	CmdFactionsFlagShow cmdFactionsFlagShow = new CmdFactionsFlagShow();
-	CmdFactionsFlagSet cmdFactionsFlagSet = new CmdFactionsFlagSet();
+	public CmdFactionsFlagList cmdFactionsFlagList = new CmdFactionsFlagList();
+	public CmdFactionsFlagShow cmdFactionsFlagShow = new CmdFactionsFlagShow();
+	public CmdFactionsFlagSet cmdFactionsFlagSet = new CmdFactionsFlagSet();
+
+	// -------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------- //
+
+	public CmdFactionsFlag()
+	{
+		// Aliases
+		this.setAliases("flag");
+
+		// Desc
+		this.setDescPermission("factions.flag");
+	}
 
 }

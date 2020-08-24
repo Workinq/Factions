@@ -16,6 +16,12 @@ public class CmdFactionsMoneyBalance extends FactionsCommand
 	
 	public CmdFactionsMoneyBalance()
 	{
+		// Aliases
+		this.addAliases("balance");
+
+		// Desc
+		this.setDescPermission("factions.money.balance");
+
 		// Parameters
 		this.addParameter(TypeFaction.get(), "faction", "you");
 

@@ -23,8 +23,15 @@ public class CmdFactionsShield extends FactionsCommand
     public CmdFactionsShield()
     {
         // Aliases
-        this.addAliases("forcefield");
+        this.setAliases("shield", "forcefield");
+
+        // Desc
+        this.setDescPermission("factions.shield");
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public void perform() throws MassiveException

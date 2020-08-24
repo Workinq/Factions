@@ -15,6 +15,12 @@ public class CmdFactionsAccessPlayer extends CmdFactionsAccessAbstract
 	
 	public CmdFactionsAccessPlayer()
 	{
+		// Aliases
+		this.addAliases("player");
+
+		// Desc
+		this.setDescPermission("factions.access.player");
+
 		// Parameters
 		this.addParameter(TypeMPlayer.get(), "player");
 		this.addParameter(TypeBooleanYes.get(), "yes/no", "toggle");

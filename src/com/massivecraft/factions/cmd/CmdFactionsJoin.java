@@ -26,6 +26,12 @@ public class CmdFactionsJoin extends FactionsCommand
 
 	public CmdFactionsJoin()
 	{
+		// Aliases
+		this.setAliases("join");
+
+		// Desc
+		this.setDescPermission("factions.join");
+
 		// Parameters
 		this.addParameter(TypeFaction.get(), "faction");
 		this.addParameter(TypeMPlayer.get(), "player", "you");

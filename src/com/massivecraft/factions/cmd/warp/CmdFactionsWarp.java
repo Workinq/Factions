@@ -21,6 +21,12 @@ public class CmdFactionsWarp extends FactionsCommand
 
     public CmdFactionsWarp()
     {
+        // Aliases
+        this.setAliases("warp");
+
+        // Desc
+        this.setDescPermission("factions.warp");
+
         // Parameters
         this.addParameter(TypeString.get(), "warp");
         this.addParameter(null, TypeString.get(), "password");

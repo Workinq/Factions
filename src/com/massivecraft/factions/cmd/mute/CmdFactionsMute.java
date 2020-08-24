@@ -21,6 +21,12 @@ public class CmdFactionsMute extends FactionsCommand
 
     public CmdFactionsMute()
     {
+        // Aliases
+        this.setAliases("mute");
+
+        // Desc
+        this.setDescPermission("factions.mute");
+
         // Parameters
         this.addParameter(TypeSet.get(TypeMPlayer.get()), "players", true);
     }

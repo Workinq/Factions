@@ -25,7 +25,13 @@ public class CmdFactionsAltDeinvite extends FactionsCommand
 
     public CmdFactionsAltDeinvite()
     {
-        // Parameters
+       // Aliases
+       this.addAliases("deinvite");
+
+       // Desc
+       this.setDescPermission("factions.alt.deinvite");
+
+       // Parameters
         this.addParameter(TypeSet.get(TypeMPlayer.get()), "players/all", true);
     }
 

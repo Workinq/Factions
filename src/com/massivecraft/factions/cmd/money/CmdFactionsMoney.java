@@ -23,7 +23,10 @@ public class CmdFactionsMoney extends FactionsCommand
 	public CmdFactionsMoney()
 	{
 		// Aliases
-		this.addAliases("bank");
+		this.setAliases("money", "bank");
+
+		// Desc
+		this.setDescPermission("factions.money");
 
 		// Requirements
 		this.addRequirements(ReqBankCommandsEnabled.get());

@@ -16,6 +16,12 @@ public class CmdFactionsAlarm extends FactionsCommand
 
     public CmdFactionsAlarm()
     {
+        // Aliases
+        this.setAliases("alarm");
+
+        // Desc
+        this.setDescPermission("factions.alarm");
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");
