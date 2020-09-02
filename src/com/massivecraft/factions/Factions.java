@@ -1,9 +1,6 @@
 package com.massivecraft.factions;
 
-import com.massivecraft.factions.adapter.BoardAdapter;
-import com.massivecraft.factions.adapter.BoardMapAdapter;
-import com.massivecraft.factions.adapter.RelAdapter;
-import com.massivecraft.factions.adapter.TerritoryAccessAdapter;
+import com.massivecraft.factions.adapter.*;
 import com.massivecraft.factions.chat.modifier.*;
 import com.massivecraft.factions.chat.tag.*;
 import com.massivecraft.factions.cmd.CmdFactions;
@@ -213,6 +210,7 @@ public class Factions extends MassivePlugin
 		.registerTypeAdapter(Board.class, BoardAdapter.get())
 		.registerTypeAdapter(Board.MAP_TYPE, BoardMapAdapter.get())
 		.registerTypeAdapter(Rel.class, RelAdapter.get())
+		.registerTypeAdapter(Chat.class, ChatAdapter.get())
 		.addSerializationExclusionStrategy(new ExclusionStrategy()
 		{
 			@Override public boolean shouldSkipField(FieldAttributes field) { return field.getName().equals("b"); }
