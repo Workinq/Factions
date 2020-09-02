@@ -124,15 +124,15 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_SHIELD = 40000;
 	public final static transient int PRIORITY_EXPLOSIVES = 41000;
 	public final static transient int PRIORITY_SPAWNERS = 42000;
-	public final static transient int PRIORITY_FOCUS = 44000;
-	public final static transient int PRIORITY_INVSEE = 46000;
-	public final static transient int PRIORITY_ROSTER = 48000;
-	public final static transient int PRIORITY_DRAIN = 49000;
-	public final static transient int PRIORITY_SANDALT = 50000;
-	public final static transient int PRIORITY_FLY = 52000;
-	public final static transient int PRIORITY_MUTE = 53000;
-	public final static transient int PRIORITY_ALARM = 54000;
-	public final static transient int PRIORITY_CLEAR = 55000;
+	public final static transient int PRIORITY_FOCUS = 43000;
+	public final static transient int PRIORITY_INVSEE = 44000;
+	public final static transient int PRIORITY_ROSTER = 45000;
+	public final static transient int PRIORITY_DRAIN = 46000;
+	public final static transient int PRIORITY_SANDALT = 47000;
+	public final static transient int PRIORITY_FLY = 48000;
+	public final static transient int PRIORITY_MUTE = 49000;
+	public final static transient int PRIORITY_ALARM = 50000;
+	public final static transient int PRIORITY_CLEAR = 51000;
 	// public final static transient int PRIORITY_BANNER = 47000;
 	// public final static transient int PRIORITY_ASSIST = 48000;
 
@@ -512,32 +512,32 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	
 	public static String getStateHeaders()
 	{
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
 		for (Rel rel : Rel.values())
 		{
-			ret += rel.getColor().toString();
-			ret += rel.toString().substring(0, 3);
-			ret += " ";
+			ret.append(rel.getColor().toString());
+			ret.append(rel.toString(), 0, 3);
+			ret.append(" ");
 		}
 		
-		return ret;
+		return ret.toString();
 	}
 	
 	public String getStateInfo(Set<Rel> value, boolean withDesc)
 	{
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
 		
 		for (Rel rel : Rel.values())
 		{
 			if (value.contains(rel))
 			{
-				ret += "<g>YES";
+				ret.append("<g>YES");
 			}
 			else
 			{
-				ret += "<b>NOO";
+				ret.append("<b>NOO");
 			}
-			ret += " ";
+			ret.append(" ");
 		}
 		
 		String color = "<aqua>";
@@ -550,14 +550,14 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 			color = "<pink>";
 		}
 		
-		ret += color;
-		ret += this.getName();
+		ret.append(color);
+		ret.append(this.getName());
 		
-		ret = Txt.parse(ret);
+		ret = new StringBuilder(Txt.parse(ret.toString()));
 		
-		if (withDesc) ret += " <i>" + this.getDesc();
+		if (withDesc) ret.append(" <i>").append(this.getDesc());
 		
-		return ret;
+		return ret.toString();
 	}
 	
 }
