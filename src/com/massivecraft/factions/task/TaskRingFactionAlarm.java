@@ -49,7 +49,7 @@ public class TaskRingFactionAlarm extends ModuloRepeatTask
 
                 // Inform
                 mplayer.msg("<b><bold>ALERT: %s <i>has sounded the alarm, get to the walls!", faction.describeTo(mplayer, true));
-                player.playSound(player.getLocation(), MConf.get().alarmSound, 1.0f, 1.0f);
+                if (MConf.get().alarmVolume > 0.0f) player.playSound(player.getLocation(), MConf.get().alarmSound, MConf.get().alarmVolume, MConf.get().alarmPitch);
             }
         }
     }
