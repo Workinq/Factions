@@ -14,11 +14,28 @@ import java.util.*;
 public abstract class ScrollerInventory
 {
 
-    private final Map<UUID, ScrollerInventory> users = new HashMap<>();
+    // DATA STRUCTURES
+    public static final Map<UUID, ScrollerInventory> USERS = new HashMap<>();
+
+    // PAGES
     private final List<ChestGui> pages = new ArrayList<>();
-    private final ItemStack nextPageButton, previousPageButton;
+    public List<ChestGui> getPages() { return pages; }
+
+    // BUTTONS
+    private final ItemStack nextPageButton;
+    public ItemStack getNextPageButton() { return nextPageButton; }
+
+    private final ItemStack previousPageButton;
+    public ItemStack getPreviousPageButton() { return previousPageButton; }
+
+    // PAGE NUMBER
     private int currentPage = 0;
-    private UUID id;
+    public int getCurrentPage() { return currentPage; }
+    public void setCurrentPage(int currentPage) { this.currentPage = currentPage; }
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ScrollerInventory()
     {
@@ -26,10 +43,13 @@ public abstract class ScrollerInventory
         this.previousPageButton = new ItemBuilder(Material.ARROW).name(Txt.parse("<k><bold>Previous Page"));
     }
 
+    // -------------------------------------------- //
+    // METHODS
+    // -------------------------------------------- //
+
     public ChestGui getBlankPage(String name, int size, Player player)
     {
         // Args
-        this.id = UUID.randomUUID();
         Inventory inventory = Bukkit.createInventory(null, size, name);
         ChestGui chestGui = InventoryUtil.getChestGui(inventory, false, false);
 
@@ -43,24 +63,18 @@ public abstract class ScrollerInventory
 
         // Add
         pages.add(chestGui);
-        users.put(player.getUniqueId(), this);
+        USERS.put(player.getUniqueId(), this);
 
         // Return
         return chestGui;
     }
 
+    // -------------------------------------------- //
+    // ABSTRACT
+    // -------------------------------------------- //
+
     public abstract void fillSidesWithItem(Inventory inventory, ItemStack item);
     public abstract List<Integer> getNonSideSlots(Inventory inventory);
     public abstract List<Integer> getEmptyNonSideSlots(Inventory inventory);
-
-    public Map<UUID, ScrollerInventory> getUsers() { return users; }
-    public List<ChestGui> getPages() { return pages; }
-    public int getCurrentPage() { return currentPage; }
-    public void setCurrentPage(int currentPage) { this.currentPage = currentPage; }
-    public UUID getId() { return id; }
-    public ItemStack getNextPageButton() { return nextPageButton; }
-    public ItemStack getPreviousPageButton() { return previousPageButton; }
-    public String getNextPageButtonName() { return nextPageButton.getItemMeta().getDisplayName(); }
-    public String getPreviousPageButtonName() { return previousPageButton.getItemMeta().getDisplayName(); }
 
 }

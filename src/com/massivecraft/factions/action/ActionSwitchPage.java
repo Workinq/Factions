@@ -2,7 +2,6 @@ package com.massivecraft.factions.action;
 
 import com.massivecraft.factions.util.ScrollerInventory;
 import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
-import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
@@ -20,13 +19,13 @@ public class ActionSwitchPage extends ChestActionAbstract
     public boolean onClick(InventoryClickEvent event, Player player)
     {
         // Verify
-        if (!scrollerInventory.getUsers().containsKey(player.getUniqueId())) return false;
+        if (!ScrollerInventory.USERS.containsKey(player.getUniqueId())) return false;
         if (event.getCurrentItem() == null) return false;
         if (!event.getCurrentItem().hasItemMeta()) return false;
         if (!event.getCurrentItem().getItemMeta().hasDisplayName()) return false;
 
         // Next
-        if (event.getCurrentItem().getItemMeta().getDisplayName().equals(Txt.parse(scrollerInventory.getNextPageButtonName())))
+        if (event.getRawSlot() == 51)
         {
             if (scrollerInventory.getCurrentPage() < scrollerInventory.getPages().size() - 1)
             {
@@ -37,7 +36,7 @@ public class ActionSwitchPage extends ChestActionAbstract
         }
 
         // Previous
-        if (event.getCurrentItem().getItemMeta().getDisplayName().equals(Txt.parse(scrollerInventory.getPreviousPageButtonName())))
+        if (event.getRawSlot() == 47)
         {
             if (scrollerInventory.getCurrentPage() > 0)
             {
