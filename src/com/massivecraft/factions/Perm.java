@@ -132,7 +132,7 @@ public enum Perm implements Identified
 	SPY,
 	INSPECT,
 	INSPECT_ANY,
-	LAST_INSPECTED,
+	LASTINSPECTED,
 	IGNORE,
 	UNIGNORE,
 	ALT,
@@ -195,7 +195,7 @@ public enum Perm implements Identified
 	ALARM_ANY,
 	CLEAR,
 	CLEAR_ANY,
-	ALERT_NOTIFICATIONS,
+	ALERTNOTIFICATIONS,
 
 	// END OF LIST
 	;

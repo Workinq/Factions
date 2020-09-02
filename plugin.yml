@@ -132,7 +132,7 @@ permissions:
   factions.spy: {description: toggle chat spy, default: false}
   factions.inspect: {description: toggle inspect mode, default: false}
   factions.inspect.any: {description: inspect blocks in any territory, default: false}
-  factions.last.inspected: {description: see inspections on last inspected block, default: false}
+  factions.lastinspected: {description: see inspections on last inspected block, default: false}
   factions.ignore: {description: ignore a player, default: false}
   factions.unignore: {description: unignore a player, default: false}
   factions.alt: {description: manage faction alts, default: false}
@@ -193,7 +193,7 @@ permissions:
   factions.alarm.any: {description: toggle a faction's alarm, default: false}
   factions.clear: {description: mark your faction walls as cleared, default: false}
   factions.clear.any: {description: mark a faction's walls as cleared, default: false}
-  factions.alert.notifications: {description: toggle raid alert notifications, default: false}
+  factions.alertnotifications: {description: toggle raid alert notifications, default: false}
 
   # -------------------------------------------- #
   # STAR NOTATION

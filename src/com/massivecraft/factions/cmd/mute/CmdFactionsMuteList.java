@@ -20,12 +20,13 @@ import com.massivecraft.massivecore.util.Txt;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class CmdFactionsMutelist extends FactionsCommand {
+public class CmdFactionsMuteList extends FactionsCommand
+{
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsMutelist()
+    public CmdFactionsMuteList()
     {
         // Aliases
         this.setAliases("mutelist", "mutes");
@@ -43,7 +44,8 @@ public class CmdFactionsMutelist extends FactionsCommand {
     // -------------------------------------------- //
 
     @Override
-    public void perform() throws MassiveException {
+    public void perform() throws MassiveException
+    {
         // Args
         int page = this.readArg();
         Faction faction = this.readArg(msenderFaction);
@@ -60,20 +62,25 @@ public class CmdFactionsMutelist extends FactionsCommand {
 
         final long now = System.currentTimeMillis();
 
-        final Pager<FactionMute> pager = new Pager<>(this, "Muted Members", page, mutedMembers, (Stringifier<FactionMute>) (factionMute, index) -> {
-            String mutedId = factionMute.getMutedId();
-            String muterId = factionMute.getMuterId();
+        final Pager<FactionMute> pager = new Pager<>(this, "Muted Members", page, mutedMembers, new Stringifier<FactionMute>()
+        {
+            @Override
+            public String toString(FactionMute factionMute, int index)
+            {
+                String mutedId = factionMute.getMutedId();
+                String muterId = factionMute.getMuterId();
 
-            String mutedDisplayName = MixinDisplayName.get().getDisplayName(mutedId, sender);
-            String muterDisplayName = muterId != null ? MixinDisplayName.get().getDisplayName(muterId, sender) : Txt.parse("<silver>unknown");
+                String mutedDisplayName = MixinDisplayName.get().getDisplayName(mutedId, sender);
+                String muterDisplayName = muterId != null ? MixinDisplayName.get().getDisplayName(muterId, sender) : Txt.parse("<silver>unknown");
 
-            String ageDesc;
-            long millis = now - factionMute.getCreationMillis();
-            LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(millis, TimeUnit.getAllButMillis()), 2);
-            ageDesc = TimeDiffUtil.formatedMinimal(ageUnitcounts, "<i>");
-            ageDesc = " " + ageDesc + Txt.parse(" ago");
+                String ageDesc;
+                long millis = now - factionMute.getCreationMillis();
+                LinkedHashMap<TimeUnit, Long> ageUnitcounts = TimeDiffUtil.limit(TimeDiffUtil.unitcounts(millis, TimeUnit.getAllButMillis()), 2);
+                ageDesc = TimeDiffUtil.formatedMinimal(ageUnitcounts, "<i>");
+                ageDesc = " " + ageDesc + Txt.parse(" ago");
 
-            return Txt.parse("%s<i> was muted by %s<reset>%s<i>.", mutedDisplayName, muterDisplayName, ageDesc);
+                return Txt.parse("%s<i> was muted by %s<reset>%s<i>.", mutedDisplayName, muterDisplayName, ageDesc);
+            }
         });
 
         // Pager Message
