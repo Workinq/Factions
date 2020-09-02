@@ -13,6 +13,7 @@ public class CmdFactionsToggle extends FactionsCommand
     public CmdFactionsToggleFly cmdFactionsToggleFly = new CmdFactionsToggleFly();
     public CmdFactionsToggleGrace cmdFactionsToggleGrace = new CmdFactionsToggleGrace();
     public CmdFactionsToggleShield cmdFactionsToggleShield = new CmdFactionsToggleShield();
+    public CmdFactionsToggleRoster cmdFactionsToggleRoster = new CmdFactionsToggleRoster();
 
     // -------------------------------------------- //
     // CONSTRUCT

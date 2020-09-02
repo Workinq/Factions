@@ -186,6 +186,7 @@ permissions:
   factions.toggle.fly: {description: toggle server faction flight, default: false}
   factions.toggle.grace: {description: toggle server grace period, default: false}
   factions.toggle.shield: {description: toggle shields for all factions, default: false}
+  factions.toggle.roster: {description: toggle faction rosters, default: false}
   factions.mute: {description: mute a faction member, default: false}
   factions.unmute: {description: unmute a faction member, default: false}
   factions.mutelist: {description: view a list of muted members, default: false}
@@ -378,6 +379,7 @@ permissions:
       factions.toggle.fly: true
       factions.toggle.grace: true
       factions.toggle.shield: true
+      factions.toggle.roster: true
       factions.mute: true
       factions.unmute: true
       factions.mutelist: true

@@ -187,6 +187,7 @@ public enum Perm implements Identified
 	TOGGLE_FLY,
 	TOGGLE_GRACE,
 	TOGGLE_SHIELD,
+	TOGGLE_ROSTER,
 	MUTE,
 	UNMUTE,
 	MUTELIST,
