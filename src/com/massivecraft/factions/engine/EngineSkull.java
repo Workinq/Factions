@@ -34,7 +34,10 @@ public class EngineSkull extends Engine
 
     private void handleTexture(Player player)
     {
+        // Args
         MPlayer mplayer = MPlayer.get(player);
+
+        // Update
         try
         {
             Method getHandle = player.getClass().getDeclaredMethod("getHandle");
@@ -60,71 +63,77 @@ public class EngineSkull extends Engine
 
     public ItemStack getSkullItem(OfflinePlayer player)
     {
+        // Args
         MPlayer mplayer = MPlayer.get(player);
         ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-        String texture = mplayer.getSkullTexture();
-        if (texture != null)
+
+        // Verify
+        if (mplayer != null)
         {
-            try
+            String texture = mplayer.getSkullTexture();
+            if (texture != null)
             {
-                // Args
-                String version = Bukkit.getServer().getClass().getPackage().getName().substring(23);
-
-                // getting the item as nms
-                Class<?> craftItemStack = Class.forName("org.bukkit.craftbukkit." + version + ".inventory.CraftItemStack");
-                Method asNmsCopyMethod = craftItemStack.getDeclaredMethod("asNMSCopy", ItemStack.class);
-                asNmsCopyMethod.setAccessible(true);
-                Object vanillaStack = asNmsCopyMethod.invoke(null, skull);
-                if (vanillaStack == null) return skull;
-
-                // check if there is an nbt tag
-                Method hasTagMethod = vanillaStack.getClass().getDeclaredMethod("hasTag");
-                hasTagMethod.setAccessible(true);
-                boolean hasTag = (boolean) hasTagMethod.invoke(vanillaStack);
-
-                // get the nbt tag
-                Object baseCompound;
-                if (hasTag)
+                try
                 {
-                    Method getTagMethod = vanillaStack.getClass().getDeclaredMethod("getTag");
-                    baseCompound = getTagMethod.invoke(vanillaStack);
+                    // Args
+                    String version = Bukkit.getServer().getClass().getPackage().getName().substring(23);
+
+                    // getting the item as nms
+                    Class<?> craftItemStack = Class.forName("org.bukkit.craftbukkit." + version + ".inventory.CraftItemStack");
+                    Method asNmsCopyMethod = craftItemStack.getDeclaredMethod("asNMSCopy", ItemStack.class);
+                    asNmsCopyMethod.setAccessible(true);
+                    Object vanillaStack = asNmsCopyMethod.invoke(null, skull);
+                    if (vanillaStack == null) return skull;
+
+                    // check if there is an nbt tag
+                    Method hasTagMethod = vanillaStack.getClass().getDeclaredMethod("hasTag");
+                    hasTagMethod.setAccessible(true);
+                    boolean hasTag = (boolean) hasTagMethod.invoke(vanillaStack);
+
+                    // get the nbt tag
+                    Object baseCompound;
+                    if (hasTag)
+                    {
+                        Method getTagMethod = vanillaStack.getClass().getDeclaredMethod("getTag");
+                        baseCompound = getTagMethod.invoke(vanillaStack);
+                    }
+                    else
+                    {
+                        baseCompound = Class.forName("net.minecraft.server." + version + ".NBTTagCompound").newInstance();
+                    }
+
+                    // skin stuff
+                    GameProfile profile = new GameProfile(player.getUniqueId(), player.getName());
+                    profile.getProperties().put("textures", new Property("textures", texture));
+                    Object skullOwner = Class.forName("net.minecraft.server." + version + ".NBTTagCompound").newInstance();
+                    Class<?> gameProfileSerializer = Class.forName("net.minecraft.server." + version + ".GameProfileSerializer");
+                    Method serializeMethod = gameProfileSerializer.getDeclaredMethod("serialize", Class.forName("net.minecraft.server." + version + ".NBTTagCompound"), GameProfile.class);
+                    serializeMethod.setAccessible(true);
+                    serializeMethod.invoke(null, skullOwner, profile);
+
+                    // set the required tags to set the skull skin
+                    Method setMethod = baseCompound.getClass().getDeclaredMethod("set", String.class, Class.forName("net.minecraft.server." + version + ".NBTBase"));
+                    setMethod.setAccessible(true);
+                    setMethod.invoke(baseCompound, "SkullOwner", skullOwner);
+
+                    Method setTagMethod = vanillaStack.getClass().getDeclaredMethod("setTag", Class.forName("net.minecraft.server." + version + ".NBTTagCompound"));
+                    setTagMethod.setAccessible(true);
+                    setTagMethod.invoke(vanillaStack, baseCompound);
+
+                    // return
+                    Method asBukkitCopyMethod = craftItemStack.getDeclaredMethod("asBukkitCopy", Class.forName("net.minecraft.server." + version + ".ItemStack"));
+                    asBukkitCopyMethod.setAccessible(true);
+                    ItemStack asBukkitCopy = (ItemStack) asBukkitCopyMethod.invoke(null, vanillaStack);
+
+                    Method asCraftCopyMethod = craftItemStack.getDeclaredMethod("asCraftCopy", ItemStack.class);
+                    asCraftCopyMethod.setAccessible(true);
+                    Object asCraftCopy = asCraftCopyMethod.invoke(null, asBukkitCopy);
+
+                    return (ItemStack) asCraftCopy;
                 }
-                else
+                catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | ClassNotFoundException | InstantiationException ignored)
                 {
-                    baseCompound = Class.forName("net.minecraft.server." + version + ".NBTTagCompound").newInstance();
                 }
-
-                // skin stuff
-                GameProfile profile = new GameProfile(player.getUniqueId(), player.getName());
-                profile.getProperties().put("textures", new Property("textures", texture));
-                Object skullOwner = Class.forName("net.minecraft.server." + version + ".NBTTagCompound").newInstance();
-                Class<?> gameProfileSerializer = Class.forName("net.minecraft.server." + version + ".GameProfileSerializer");
-                Method serializeMethod = gameProfileSerializer.getDeclaredMethod("serialize", Class.forName("net.minecraft.server." + version + ".NBTTagCompound"), GameProfile.class);
-                serializeMethod.setAccessible(true);
-                serializeMethod.invoke(null, skullOwner, profile);
-
-                // set the required tags to set the skull skin
-                Method setMethod = baseCompound.getClass().getDeclaredMethod("set", String.class, Class.forName("net.minecraft.server." + version + ".NBTBase"));
-                setMethod.setAccessible(true);
-                setMethod.invoke(baseCompound, "SkullOwner", skullOwner);
-
-                Method setTagMethod = vanillaStack.getClass().getDeclaredMethod("setTag", Class.forName("net.minecraft.server." + version + ".NBTTagCompound"));
-                setTagMethod.setAccessible(true);
-                setTagMethod.invoke(vanillaStack, baseCompound);
-
-                // return
-                Method asBukkitCopyMethod = craftItemStack.getDeclaredMethod("asBukkitCopy", Class.forName("net.minecraft.server." + version + ".ItemStack"));
-                asBukkitCopyMethod.setAccessible(true);
-                ItemStack asBukkitCopy = (ItemStack) asBukkitCopyMethod.invoke(null, vanillaStack);
-
-                Method asCraftCopyMethod = craftItemStack.getDeclaredMethod("asCraftCopy", ItemStack.class);
-                asCraftCopyMethod.setAccessible(true);
-                Object asCraftCopy = asCraftCopyMethod.invoke(null, asBukkitCopy);
-
-                return (ItemStack) asCraftCopy;
-            }
-            catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | ClassNotFoundException | InstantiationException ignored)
-            {
             }
         }
 
