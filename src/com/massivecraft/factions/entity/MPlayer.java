@@ -783,7 +783,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	public String getSkullTexture()
 	{
 		if (this.hasSkullTexture()) return this.skullTexture;
-
 		return null;
 	}
 
