@@ -16,11 +16,18 @@ import org.bukkit.inventory.Inventory;
 
 public class ActionClickShield extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final int from;
     private final Faction faction;
     private final MPlayer mplayer;
     private final String fromText, toText;
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ActionClickShield(int from, Faction faction, MPlayer mplayer, String fromText, String toText)
     {
@@ -30,6 +37,10 @@ public class ActionClickShield extends ChestActionAbstract
         this.fromText = fromText;
         this.toText = toText;
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)

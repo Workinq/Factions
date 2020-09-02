@@ -19,10 +19,17 @@ import org.bukkit.inventory.Inventory;
 
 public class ActionEditSandAlt extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final SandAlt sandAlt;
     private final Faction faction;
     private final MPlayer mplayer;
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ActionEditSandAlt(SandAlt sandAlt, Faction faction, MPlayer mplayer)
     {
@@ -30,6 +37,10 @@ public class ActionEditSandAlt extends ChestActionAbstract
         this.faction = faction;
         this.mplayer = mplayer;
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)

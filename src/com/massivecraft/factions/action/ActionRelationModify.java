@@ -11,11 +11,18 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ActionRelationModify extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final MPlayer mplayer;
     private final boolean newStatus;
     private final MPerm mperm;
     private final Rel rel;
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ActionRelationModify(MPlayer mplayer, boolean newStatus, MPerm mperm, Rel rel)
     {
@@ -24,6 +31,10 @@ public class ActionRelationModify extends ChestActionAbstract
         this.mperm = mperm;
         this.rel = rel;
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)

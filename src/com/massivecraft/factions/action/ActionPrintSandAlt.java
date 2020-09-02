@@ -7,15 +7,26 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ActionPrintSandAlt extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final SandAlt sandAlt;
     private final boolean paused;
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ActionPrintSandAlt(SandAlt sandAlt, boolean paused)
     {
         this.sandAlt = sandAlt;
         this.paused = paused;
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)

@@ -8,10 +8,17 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ActionUpdateSandAlts extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final Faction faction;
     private final MPlayer mplayer;
     private final boolean pause;
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ActionUpdateSandAlts(Faction faction, MPlayer mplayer, boolean pause)
     {
@@ -19,6 +26,10 @@ public class ActionUpdateSandAlts extends ChestActionAbstract
         this.mplayer = mplayer;
         this.pause = pause;
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)

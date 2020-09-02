@@ -9,15 +9,26 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ActionOpenRelations extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final MPerm mPerm;
     private final MPlayer mplayer;
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ActionOpenRelations(MPerm mPerm, MPlayer mplayer)
     {
         this.mPerm = mPerm;
         this.mplayer = mplayer;
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)

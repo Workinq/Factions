@@ -11,10 +11,17 @@ import javax.annotation.Nullable;
 
 public class ActionDespawnSandAlt extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final Faction faction;
     private final MPlayer mplayer;
     private final SandAlt sandAlt;
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ActionDespawnSandAlt(Faction faction, MPlayer mplayer, @Nullable SandAlt sandAlt)
     {
@@ -22,6 +29,10 @@ public class ActionDespawnSandAlt extends ChestActionAbstract
         this.mplayer = mplayer;
         this.sandAlt = sandAlt;
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)

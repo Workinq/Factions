@@ -19,6 +19,9 @@ import java.util.List;
 
 public class ActionViewMissions extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)

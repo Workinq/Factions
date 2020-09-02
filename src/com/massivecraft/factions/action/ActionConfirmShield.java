@@ -8,11 +8,18 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ActionConfirmShield extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final int from;
     private final Faction faction;
     private final MPlayer mplayer;
     private final String fromText, toText;
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ActionConfirmShield(int from, Faction faction, MPlayer mplayer, String fromText, String toText)
     {
@@ -22,6 +29,10 @@ public class ActionConfirmShield extends ChestActionAbstract
         this.fromText = fromText;
         this.toText = toText;
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)

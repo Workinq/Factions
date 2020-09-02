@@ -7,13 +7,24 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ActionSwitchPage extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final ScrollerInventory scrollerInventory;
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ActionSwitchPage(ScrollerInventory scrollerInventory)
     {
         this.scrollerInventory = scrollerInventory;
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)

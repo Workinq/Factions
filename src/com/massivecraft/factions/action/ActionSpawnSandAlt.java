@@ -23,11 +23,18 @@ import java.util.UUID;
 
 public class ActionSpawnSandAlt extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final Faction faction;
     private final Player player;
     private final Location location;
     private final int maxAlts;
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ActionSpawnSandAlt(Faction faction, Player player, Location location, int maxAlts)
     {
@@ -36,6 +43,10 @@ public class ActionSpawnSandAlt extends ChestActionAbstract
         this.location = location;
         this.maxAlts = maxAlts;
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)

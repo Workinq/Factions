@@ -13,25 +13,36 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ActionUpgrade extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
+    private final MPlayer mplayer;
     private final Faction faction;
     private final Integer price;
     private final String upgradeName;
     private final Integer level;
 
-    public ActionUpgrade(Faction faction, Integer price, String upgradeName, Integer level)
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
+
+    public ActionUpgrade(MPlayer mplayer, Faction faction, Integer price, String upgradeName, Integer level)
     {
+        this.mplayer = mplayer;
         this.faction = faction;
         this.price = price;
         this.upgradeName = upgradeName;
         this.level = level;
     }
 
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
+
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)
     {
-        MPlayer mplayer = MPlayer.get(player);
-
         // Verify - Level
         if (price == 0)
         {
