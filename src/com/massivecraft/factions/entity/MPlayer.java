@@ -69,6 +69,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.setAlt(that.alt);
 		this.setLogins(that.logins);
 		this.setAlertNotifications(that.alertNotifications);
+		this.setSkullTexture(that.skullTexture);
 		return this;
 	}
 
@@ -91,6 +92,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		if (this.isStealth()) return false;
 		if (this.isSpying()) return false;
 		if (this.isAlt()) return false;
+		if (this.hasSkullTexture()) return false;
 
 		return true;
 	}
@@ -213,6 +215,10 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// Stores whether or not the player wants to receive faction alarm notifications.
 	// Null means false
 	private Boolean alertNotifications = Boolean.TRUE;
+
+	// Stores the player's skull texture
+	// Null means the player hasn't joined before
+	private String skullTexture = null;
 
 	// Has this player requested an auto-updating ascii art map?
 	// Null means false
@@ -405,7 +411,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return !this.isFactionOrphan() && this.title != null;
 	}
 
-	
 	public String getTitle()
 	{
 		if (this.isFactionOrphan()) return NOTITLE;
@@ -761,6 +766,37 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 		// Apply
 		this.alertNotifications = target;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: skullTexture
+	// -------------------------------------------- //
+
+	public boolean hasSkullTexture()
+	{
+		return this.skullTexture != null;
+	}
+
+	public String getSkullTexture()
+	{
+		if (this.hasSkullTexture()) return this.skullTexture;
+
+		return null;
+	}
+
+	public void setSkullTexture(String skullTexture)
+	{
+		// Clean input
+		String target = Faction.clean(skullTexture);
+
+		// Detect Nochange
+		if (MUtil.equals(this.skullTexture, target)) return;
+
+		// Apply
+		this.skullTexture = target;
 
 		// Mark as changed
 		this.changed();

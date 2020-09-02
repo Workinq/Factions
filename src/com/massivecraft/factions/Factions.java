@@ -136,8 +136,7 @@ public class Factions extends MassivePlugin
 				BoardColl.class,
 				MOptionColl.class,
 				MUpgradeColl.class,
-				MMissionColl.class,
-				MSkullColl.class
+				MMissionColl.class
 		);
 	}
 

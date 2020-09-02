@@ -1,7 +1,7 @@
 package com.massivecraft.factions.engine;
 
 import com.google.common.collect.Iterables;
-import com.massivecraft.factions.entity.MSkull;
+import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.Engine;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -34,6 +34,7 @@ public class EngineSkull extends Engine
 
     private void handleTexture(Player player)
     {
+        MPlayer mplayer = MPlayer.get(player);
         try
         {
             Method getHandle = player.getClass().getDeclaredMethod("getHandle");
@@ -48,7 +49,9 @@ public class EngineSkull extends Engine
 
             Property textureProperty = Iterables.getFirst(profile.getProperties().get("textures"), null);
             if (textureProperty == null) return;
-            MSkull.get().addSkullTexture(player.getUniqueId(), textureProperty.getValue());
+
+            // Apply
+            mplayer.setSkullTexture(textureProperty.getValue());
         }
         catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored)
         {
@@ -57,12 +60,14 @@ public class EngineSkull extends Engine
 
     public ItemStack getSkullItem(OfflinePlayer player)
     {
+        MPlayer mplayer = MPlayer.get(player);
         ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-        String texture = MSkull.get().getSkullTexture(player.getUniqueId());
+        String texture = mplayer.getSkullTexture();
         if (texture != null)
         {
             try
             {
+                // Args
                 String version = Bukkit.getServer().getClass().getPackage().getName().substring(23);
 
                 // getting the item as nms
