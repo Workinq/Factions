@@ -97,7 +97,7 @@ public class EngineFlagExplosion extends Engine
 		int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
 		// Check if the faction is shielded.
-		if (faction.isShieldedAt(hour) && MOption.get().isShields())
+		if (faction.isShieldedAt(hour) && MOption.get().isShield())
 		{
 			PS at = PS.valueOf(location.getChunk());
 			if (faction.hasBaseRegion() && faction.getBaseRegion().contains(at))

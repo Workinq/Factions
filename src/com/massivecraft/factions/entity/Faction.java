@@ -2,7 +2,6 @@ package com.massivecraft.factions.entity;
 
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.entity.mission.AbstractMission;
-import com.massivecraft.factions.entity.object.Invitation;
 import com.massivecraft.factions.entity.object.*;
 import com.massivecraft.factions.predicate.PredicateCommandSenderFaction;
 import com.massivecraft.factions.predicate.PredicateMPlayerRole;
@@ -166,6 +165,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// Factions will have their own faction chest in which they can store contents.
 	// By default the chest will contain 27 slots however, the faction can upgrade this.
 	// When first creating a faction, the chest will be empty.
+	// Is transient as the Inventory object cannot be serialised.
+	// TODO: Maybe look into using MassiveCore's AdapterInventory class
 	private transient Inventory inventory = null;
 
 	// This is the serialized string for the inventories contents.

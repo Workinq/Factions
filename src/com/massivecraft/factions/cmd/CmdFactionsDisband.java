@@ -73,11 +73,10 @@ public class CmdFactionsDisband extends FactionsCommand
 			msg("<i>You disbanded <h>%s<i>." , faction.describeTo(msender));
 		}
 
+		// Remove everything from faction chest
 		Inventory inventory = faction.getInventory();
-		for (HumanEntity entity : inventory.getViewers())
-		{
-			entity.closeInventory();
-		}
+		for (HumanEntity entity : inventory.getViewers()) entity.closeInventory();
+
 		for (int i = 0; i < inventory.getSize(); i++)
 		{
 			if (inventory.getItem(i) == null) continue;

@@ -15,7 +15,7 @@ public abstract class ScrollerInventory
 {
 
     // INVENTORIES
-    public static final Map<UUID, ScrollerInventory> USERS = new HashMap<>();
+    public static final Map<UUID, ScrollerInventory> OPEN_INVENTORIES = new HashMap<>();
 
     // PAGES
     private final List<ChestGui> pages = new ArrayList<>();
@@ -63,7 +63,7 @@ public abstract class ScrollerInventory
 
         // Add
         pages.add(chestGui);
-        USERS.put(player.getUniqueId(), this);
+        OPEN_INVENTORIES.put(player.getUniqueId(), this);
 
         // Return
         return chestGui;

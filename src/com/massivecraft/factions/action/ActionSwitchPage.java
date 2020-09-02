@@ -30,7 +30,7 @@ public class ActionSwitchPage extends ChestActionAbstract
     public boolean onClick(InventoryClickEvent event, Player player)
     {
         // Verify
-        if (!ScrollerInventory.USERS.containsKey(player.getUniqueId())) return false;
+        if (!ScrollerInventory.OPEN_INVENTORIES.containsKey(player.getUniqueId())) return false;
         if (event.getCurrentItem() == null) return false;
         if (!event.getCurrentItem().hasItemMeta()) return false;
         if (!event.getCurrentItem().getItemMeta().hasDisplayName()) return false;

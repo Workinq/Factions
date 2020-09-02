@@ -93,7 +93,7 @@ public class EngineShow extends Engine
 
 			// SHIELD
 			Calendar now = Calendar.getInstance();
-			boolean active = faction.isShieldedAt(now.get(Calendar.HOUR_OF_DAY)) && MOption.get().isShields();
+			boolean active = faction.isShieldedAt(now.get(Calendar.HOUR_OF_DAY)) && MOption.get().isShield();
 			String shieldString = Txt.parse(active ? "<g><bold>ACTIVE" : "<b><bold>INACTIVE");
 			show(idPriorityLiness, SHOW_ID_FACTION_SHIELD, SHOW_PRIORITY_FACTION_SHIELD, "Shield", shieldString);
 

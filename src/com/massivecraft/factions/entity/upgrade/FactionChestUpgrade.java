@@ -50,15 +50,16 @@ public class FactionChestUpgrade extends AbstractUpgrade
    @Override
    public void onUpgrade(Faction faction)
    {
-      if (faction.getInventory() == null)
-      {
-         return;
-      }
+      // Verify
+      if (faction.getInventory() == null) return;
+
+      // Args
       int size = Integer.parseInt(MUpgrade.get().getUpgradeByName(MUpgrade.get().factionChestUpgrade.getUpgradeName()).getCurrentDescription()[faction.getLevel(MUpgrade.get().factionChestUpgrade.getUpgradeName()) - 1].split(" ")[0]);
-      for (HumanEntity entity : faction.getInventory().getViewers())
-      {
-         entity.closeInventory();
-      }
+
+      // Close
+      for (HumanEntity entity : faction.getInventory().getViewers()) entity.closeInventory();
+
+      // Upgrade
       Inventory old = faction.getInventory();
       faction.setInventory(Bukkit.createInventory(null, size, Txt.parse("<gray>%s - Faction Chest", faction.getName())));
       faction.getInventory().setContents(old.getContents());

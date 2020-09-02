@@ -33,12 +33,18 @@ public class ActionStartMission extends ChestActionAbstract
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)
     {
+        // Args
         AbstractMission mission = MMission.get().getMissions().get(new Random().nextInt(MMission.get().getMissions().size()));
-        faction.msg("<g>The mission <i>%s <g>is now active. You have <i>1 day <g>to complete it.", mission.getMissionName());
+
+        // Apply
         faction.setMissionStart(System.currentTimeMillis());
         faction.setMissionGoal(0);
         faction.setActiveMission(mission.getMissionName());
-        player.closeInventory();
+
+        // Inform
+        faction.msg("<g>The mission <i>%s <g>is now active. You have <i>1 day <g>to complete it.", mission.getMissionName());
+
+        // Return
         return true;
     }
 
