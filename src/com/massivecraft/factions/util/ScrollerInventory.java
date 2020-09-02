@@ -14,7 +14,7 @@ import java.util.*;
 public abstract class ScrollerInventory
 {
 
-    // DATA STRUCTURES
+    // INVENTORIES
     public static final Map<UUID, ScrollerInventory> USERS = new HashMap<>();
 
     // PAGES

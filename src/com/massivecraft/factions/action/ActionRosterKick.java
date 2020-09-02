@@ -11,11 +11,18 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ActionRosterKick extends ChestActionAbstract
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
 
     private final MPlayer mplayer;
     private final MPlayer mtarget;
     private final Faction faction;
     private final int rosterKicks;
+
+    // -------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------- //
 
     public ActionRosterKick(MPlayer mplayer, MPlayer mtarget, Faction faction, int rosterKicks)
     {
@@ -24,6 +31,10 @@ public class ActionRosterKick extends ChestActionAbstract
         this.faction = faction;
         this.rosterKicks = rosterKicks;
     }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)
@@ -64,6 +75,9 @@ public class ActionRosterKick extends ChestActionAbstract
         // Inform
         mplayer.msg("%s <i>removed %s <i>from the faction roster.", mplayer.describeTo(mplayer, true), mtarget.describeTo(mplayer));
         faction.msg("%s <i>removed %s <i>from the faction roster.", mplayer.describeTo(faction, true), mtarget.describeTo(faction));
+
+        // Open
+        player.openInventory(CmdFactions.get().cmdFactionsRoster.cmdFactionsRosterView.getRosterGui(player, faction));
 
         // Return
         return true;

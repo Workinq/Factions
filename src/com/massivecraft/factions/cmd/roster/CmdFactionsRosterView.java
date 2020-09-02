@@ -21,6 +21,7 @@ import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -59,14 +60,14 @@ public class CmdFactionsRosterView extends FactionsCommand
         if (!MPerm.getPermRoster().has(msender, faction, true)) return;
 
         // Open
-        me.openInventory(this.getRosterGui(faction));
+        me.openInventory(this.getRosterGui(me, faction));
     }
 
-    public Inventory getRosterGui(Faction faction)
+    public Inventory getRosterGui(Player player, Faction faction)
     {
         // Args
         RosterScrollerInventory scrollerInventory = new RosterScrollerInventory();
-        ChestGui chestGui = scrollerInventory.getBlankPage(Txt.parse("<gray>Faction Roster"), 54, me);
+        ChestGui chestGui = scrollerInventory.getBlankPage(Txt.parse("<gray>Faction Roster"), 54, player);
         scrollerInventory.fillSidesWithItem(chestGui.getInventory(), new ItemBuilder(MConf.get().fillerItemMaterial).name(Txt.parse(MConf.get().fillerItemName)).durability(MConf.get().fillerItemData));
         int rosterKicksRemaining = this.getRosterKicksRemaining(faction);
         List<MPlayer> mplayers = faction.getRosterUuids().stream().map(MPlayer::get).sorted(ComparatorMPlayerRole.get()).collect(Collectors.toList());
@@ -77,7 +78,7 @@ public class CmdFactionsRosterView extends FactionsCommand
             Integer slot = scrollerInventory.getEmptyNonSideSlots(chestGui.getInventory()).stream().findFirst().orElse(null);
             if (slot == null)
             {
-                chestGui = scrollerInventory.getBlankPage(Txt.parse("<gray>Faction Roster"), 54, me);
+                chestGui = scrollerInventory.getBlankPage(Txt.parse("<gray>Faction Roster"), 54, player);
                 scrollerInventory.fillSidesWithItem(chestGui.getInventory(), new ItemBuilder(MConf.get().fillerItemMaterial).name(Txt.parse(MConf.get().fillerItemName)).durability(MConf.get().fillerItemData));
                 slot = scrollerInventory.getEmptyNonSideSlots(chestGui.getInventory()).stream().findFirst().orElse(null);
                 if (slot == null) break;
@@ -98,11 +99,11 @@ public class CmdFactionsRosterView extends FactionsCommand
             }
 
             // Player
-            OfflinePlayer player = mplayer.getPlayer();
-            if (player == null)
+            OfflinePlayer offlinePlayer = mplayer.getPlayer();
+            if (offlinePlayer == null)
             {
-                player = Bukkit.getServer().getOfflinePlayer(MUtil.asUuid(mplayer.getId()));
-                if (player == null) continue;
+                offlinePlayer = Bukkit.getServer().getOfflinePlayer(MUtil.asUuid(mplayer.getId()));
+                if (offlinePlayer == null) continue;
             }
 
             // Name
@@ -113,10 +114,10 @@ public class CmdFactionsRosterView extends FactionsCommand
             }
             else
             {
-                name = Txt.parse("<b>%s <n>(<white>not member<n>)", player.getName());
+                name = Txt.parse("<b>%s <n>(<white>not member<n>)", offlinePlayer.getName());
             }
 
-            chestGui.getInventory().setItem(slot, new ItemBuilder(EngineSkull.get().getSkullItem(player)).name(name).setLore(lore).durability(3));
+            chestGui.getInventory().setItem(slot, new ItemBuilder(EngineSkull.get().getSkullItem(offlinePlayer)).name(name).setLore(lore).durability(3));
             chestGui.setAction(slot, new ActionRosterKick(msender, mplayer, faction, rosterKicksRemaining));
         }
 
