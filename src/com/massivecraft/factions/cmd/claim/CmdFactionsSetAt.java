@@ -52,6 +52,7 @@ public class CmdFactionsSetAt extends CmdFactionsSetXSimple
     @Override
     public Set<PS> getChunks() throws MassiveException
     {
+        // Args
         int chunkX = this.readArg(me.getLocation().getChunk().getX());
         int chunkZ = this.readArg(me.getLocation().getChunk().getZ());
         int abX = Math.abs(chunkX);
@@ -63,11 +64,12 @@ public class CmdFactionsSetAt extends CmdFactionsSetXSimple
         World world = this.readArg(me.getLocation().getWorld());
         boolean sendMap = this.readArg(false);
 
+        // Verify
         if (this.isClaim() && me.getLocation().getWorld() != world)
         {
-            msg("<b>You can not claim land in another world.");
-            return Collections.emptySet();
+            throw new MassiveException().setMsg("<b>You can not claim land in another world.");
         }
+
         if (!this.isClaim() || (difX <= MConf.get().maximumClaimDistance && difZ <= MConf.get().maximumClaimDistance))
         {
             PS chunk = PS.valueOf(chunkX, chunkZ).withWorld(world.getName()).getChunk(true);
@@ -75,7 +77,7 @@ public class CmdFactionsSetAt extends CmdFactionsSetXSimple
             {
                 new BukkitRunnable()
                 {
-                    CommandSender sender = CmdFactionsSetAt.this.sender;
+                    final CommandSender sender = CmdFactionsSetAt.this.sender;
 
                     @Override
                     public void run()
@@ -88,8 +90,7 @@ public class CmdFactionsSetAt extends CmdFactionsSetXSimple
         }
         else
         {
-            msg("<b>You can only claim land up to %s chunks away.", MConf.get().maximumClaimDistance);
-            return Collections.emptySet();
+            throw new MassiveException().setMsg("<b>You can only claim land up to %s chunks away.", MConf.get().maximumClaimDistance);
         }
     }
 }
