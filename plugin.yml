@@ -325,7 +325,7 @@ permissions:
       factions.spy: true
       factions.inspect: true
       factions.inspect.any: true
-      factions.last.inspected: true
+      factions.lastinspected: true
       factions.ignore: true
       factions.unignore: true
       factions.alt: true
@@ -532,7 +532,7 @@ permissions:
       factions.location: true
       factions.chat: true
       factions.inspect: true
-      factions.last.inspected: true
+      factions.lastinspected: true
       factions.ignore: true
       factions.unignore: true
       factions.alt: true

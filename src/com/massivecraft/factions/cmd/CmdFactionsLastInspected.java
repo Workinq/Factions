@@ -25,7 +25,7 @@ public class CmdFactionsLastInspected extends FactionsCommand
         this.setAliases("lastInspected");
 
         // Desc
-        this.setDescPermission("factions.last.inspected");
+        this.setDescPermission("factions.lastinspected");
 
         // Requirements
         this.addRequirements(ReqHasFaction.get());
@@ -40,8 +40,7 @@ public class CmdFactionsLastInspected extends FactionsCommand
     {
         if ( ! IntegrationCoreProtect.get().isActive())
         {
-            msg("<b>Inspecting faction land is currently disabled.");
-            return;
+            throw new MassiveException().setMsg("<b>Inspecting faction land is currently disabled.");
         }
 
         if ( ! MPerm.getPermInspect().has(msender, msenderFaction, true)) return;
