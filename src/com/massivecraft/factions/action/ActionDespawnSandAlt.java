@@ -52,7 +52,7 @@ public class ActionDespawnSandAlt extends ChestActionAbstract
         }
 
         // Open gui
-        if (redirect)
+        if (redirect || sandAlt == null)
         {
             player.openInventory(CmdFactions.get().cmdFactionsSandAlt.cmdFactionsSandAltGui.getSandAltGui(player, mplayer, faction));
         }
