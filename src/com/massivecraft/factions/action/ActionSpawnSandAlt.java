@@ -1,5 +1,6 @@
 package com.massivecraft.factions.action;
 
+import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
@@ -90,6 +91,9 @@ public class ActionSpawnSandAlt extends ChestActionAbstract
 
         // Inform
         mplayer.msg("%s <i>placed a sand alt at x:<h>%,d <i>y:<h>%,d <i>z:<h>%,d <n>(<h>%s<n>)", mplayer.describeTo(mplayer, true), location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getWorld().getName());
+
+        // Open
+        player.openInventory(CmdFactions.get().cmdFactionsSandAlt.cmdFactionsSandAltGui.getSandAltGui(player, mplayer, faction));
 
         // Return
         return true;

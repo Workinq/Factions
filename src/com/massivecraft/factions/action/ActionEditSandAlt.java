@@ -45,7 +45,7 @@ public class ActionEditSandAlt extends ChestActionAbstract
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)
     {
-        player.openInventory(EngineSand.get().getEditGui(sandAlt, faction, mplayer));
+        player.openInventory(EngineSand.get().getEditGui(sandAlt, faction, mplayer, true));
         return true;
     }
 

@@ -106,10 +106,10 @@ public class EngineSand extends Engine
         if ( ! MPerm.getPermSandalt().has(mplayer, faction, true)) return;
 
         // Inventory
-        player.openInventory(this.getEditGui(sandAlt, faction, mplayer));
+        player.openInventory(this.getEditGui(sandAlt, faction, mplayer, false));
     }
 
-    public Inventory getEditGui(SandAlt sandAlt, Faction faction, MPlayer mplayer)
+    public Inventory getEditGui(SandAlt sandAlt, Faction faction, MPlayer mplayer, boolean redirect)
     {
         Inventory inventory = Bukkit.createInventory(null, 27, Txt.parse("<gray>Edit Sand Alt"));
         ChestGui chestGui = InventoryUtil.getChestGui(inventory);
@@ -126,7 +126,7 @@ public class EngineSand extends Engine
         }
         chestGui.setAction(12, new ActionPrintSandAlt(sandAlt, ! sandAlt.isPaused()));
         chestGui.getInventory().setItem(14, new ItemBuilder(Material.BARRIER).name(Txt.parse("<red><bold>Despawn")).setLore(Txt.parse(MUtil.list("<n>Click here to despawn this sand alt"))));
-        chestGui.setAction(14, new ActionDespawnSandAlt(faction, mplayer, sandAlt));
+        chestGui.setAction(14, new ActionDespawnSandAlt(faction, mplayer, sandAlt, redirect));
 
         // Fill
         InventoryUtil.fillInventory(chestGui.getInventory());
