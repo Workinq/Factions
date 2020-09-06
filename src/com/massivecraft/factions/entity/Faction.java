@@ -1144,7 +1144,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return this.shieldedHour == hour;
 	}
 
-	public boolean isShielded()
+	public boolean hasShield()
 	{
 		return this.shieldedHour != null;
 	}
