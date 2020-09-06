@@ -39,7 +39,7 @@ public class CmdFactionsShieldView extends FactionsCommand
 
         if (faction != msenderFaction && ! Perm.SHIELD_VIEW_ANY.has(sender, true)) return;
 
-        if ( ! faction.isShielded() )
+        if ( ! faction.hasShield() )
         {
             msg("%s <i>does not have a shield set.", faction.describeTo(msender, true));
         }

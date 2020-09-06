@@ -38,7 +38,7 @@ public class CmdFactionsShieldClear extends FactionsCommand
         Faction faction = this.readArg(msenderFaction);
         boolean silent = this.readArg(true);
 
-        if ( ! MOption.get().isGrace() && faction.isShielded() && ! msender.isOverriding() )
+        if ( ! MOption.get().isGrace() && faction.hasShield() && ! msender.isOverriding() )
         {
             throw new MassiveException().setMsg("<b>You can't clear %s's shield as grace has been disabled.", faction.describeTo(msender));
         }

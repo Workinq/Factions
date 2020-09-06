@@ -51,7 +51,7 @@ public class CmdFactionsShieldSet extends FactionsCommand
     {
         Faction faction = this.readArg(msenderFaction);
 
-        if ( ! MOption.get().isGrace() && faction.isShielded() && ! msender.isOverriding() )
+        if ( ! MOption.get().isGrace() && faction.hasShield() && ! msender.isOverriding() )
         {
             throw new MassiveException().setMsg("<b>You can't change your faction shield as grace has been disabled.");
         }
@@ -69,7 +69,7 @@ public class CmdFactionsShieldSet extends FactionsCommand
         // Args
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
         String now = dateFormat.format(Calendar.getInstance().getTime());
-        Calendar calendar = getFreshCalendar();
+        Calendar calendar = this.getFreshCalendar();
 
         // Time Items
         for (int i = 0; i <= 23; i++)

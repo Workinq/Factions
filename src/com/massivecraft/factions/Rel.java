@@ -147,7 +147,5 @@ public enum Rel implements Colorized, Named
 	{
 		return "";
 	}
-
-
 	
 }
