@@ -1,5 +1,6 @@
 package com.massivecraft.factions.engine;
 
+import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.comparator.ComparatorMPlayerRole;
 import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.event.EventFactionsFactionShowAsync;
@@ -8,11 +9,14 @@ import com.massivecraft.factions.util.TimeUtil;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.PriorityLines;
 import com.massivecraft.massivecore.money.Money;
+import com.massivecraft.massivecore.mson.Mson;
+import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -23,7 +27,7 @@ public class EngineShow extends Engine
 	// -------------------------------------------- //
 	
 	public static final String BASENAME = "factions";
-	public static final String BASENAME_ = BASENAME+"_";
+	public static final String BASENAME_ = BASENAME + "_";
 	
 	public static final String SHOW_ID_FACTION_ID = BASENAME_ + "id";
 	public static final String SHOW_ID_FACTION_DESCRIPTION = BASENAME_ + "description";
@@ -92,10 +96,33 @@ public class EngineShow extends Engine
 			show(idPriorityLiness, SHOW_ID_FACTION_AGE, SHOW_PRIORITY_FACTION_AGE, "Age", ageString);
 
 			// SHIELD
-			Calendar now = Calendar.getInstance();
-			boolean active = faction.isShieldedAt(now.get(Calendar.HOUR_OF_DAY)) && MOption.get().isShield();
-			String shieldString = Txt.parse(active ? "<g><bold>ACTIVE" : "<b><bold>INACTIVE");
-			show(idPriorityLiness, SHOW_ID_FACTION_SHIELD, SHOW_PRIORITY_FACTION_SHIELD, "Shield", shieldString);
+			// Get the time now in a nice format.
+			SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
+			String now = dateFormat.format(Calendar.getInstance().getTime());
+
+			if (faction.hasShield())
+			{
+				boolean active = faction.isShieldedAt(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) && MOption.get().isShield();
+				Mson shieldMson = Mson.mson(Txt.parse(active ? "<g><bold>ACTIVE" : "<b><bold>INACTIVE"));
+
+				// Get the time window for the faction's shield
+				Calendar calendar = CmdFactions.get().cmdFactionsShield.cmdFactionsShieldSet.getFreshCalendar();
+				String from = CmdFactions.get().cmdFactionsShield.cmdFactionsShieldSet.getTime(calendar);
+				Calendar clone = (Calendar) calendar.clone();
+				clone.add(Calendar.HOUR_OF_DAY, MConf.get().shieldHours);
+				String to = CmdFactions.get().cmdFactionsShield.cmdFactionsShieldSet.getTime(clone);
+				List<String> shieldLore = MUtil.list("<k><bold>Forcefield", "", Txt.parse("<white>Forcefield window: <i>%s <white>---> <i>%s", from, to), "", "<white>Current time:", Txt.parse("<i>%s", now));
+				shieldMson = shieldMson.tooltip(Txt.parse(shieldLore));
+
+				show(idPriorityLiness, SHOW_ID_FACTION_SHIELD, SHOW_PRIORITY_FACTION_SHIELD, "Shield", shieldMson);
+			}
+			else
+			{
+				Mson shieldMson = Mson.mson(Txt.parse("<b><bold>INACTIVE"));
+				shieldMson = shieldMson.tooltip(Txt.parse(MUtil.list("<k><bold>Forcefield", "", "<white>Forcefield window: <b>none", "", "<white>Current time:", Txt.parse("<i>%s", now))));
+
+				show(idPriorityLiness, SHOW_ID_FACTION_SHIELD, SHOW_PRIORITY_FACTION_SHIELD, "Shield", shieldMson);
+			}
 
 			// STRIKES
 			int strikes = faction.getStrikes().size();
@@ -146,12 +173,11 @@ public class EngineShow extends Engine
 
 		// FOLLOWERS
 		List<String> followerLines = new ArrayList<>();
-
 		List<String> followerNamesOnline = new ArrayList<>();
 		List<String> followerNamesOffline = new ArrayList<>();
 
 		List<MPlayer> followers = faction.getMPlayers();
-		Collections.sort(followers, ComparatorMPlayerRole.get());
+		followers.sort(ComparatorMPlayerRole.get());
 		for (MPlayer follower : followers)
 		{
 			if (follower.isAlt()) continue;
@@ -195,12 +221,11 @@ public class EngineShow extends Engine
 
 		// ALTS
 		List<String> altLines = new ArrayList<>();
-
 		List<String> altNamesOnline = new ArrayList<>();
 		List<String> altNamesOffline = new ArrayList<>();
 
 		List<MPlayer> alts = faction.getMPlayers();
-		Collections.sort(alts, ComparatorMPlayerRole.get());
+		alts.sort(ComparatorMPlayerRole.get());
 		for (MPlayer alt : alts)
 		{
 			if ( ! alt.isAlt()) continue;
@@ -248,9 +273,24 @@ public class EngineShow extends Engine
 		return Txt.parse("<a>%s: <i>%s", key, value);
 	}
 
+	public static Mson show(String key, Mson value)
+	{
+		return Mson.mson(Txt.parse("<a>%s: <i>", key)).add(value);
+	}
+
 	public static PriorityLines show(int priority, String key, String value)
 	{
 		return new PriorityLines(priority, show(key, value));
+	}
+
+	public static PriorityLines show(int priority, String key, Mson value)
+	{
+		return new PriorityLines(priority, show(key, value));
+	}
+
+	public static void show(Map<String, PriorityLines> idPriorityLiness, String id, int priority, String key, Mson value)
+	{
+		idPriorityLiness.put(id, show(priority, key, value));
 	}
 
 	public static void show(Map<String, PriorityLines> idPriorityLiness, String id, int priority, String key, String value)
