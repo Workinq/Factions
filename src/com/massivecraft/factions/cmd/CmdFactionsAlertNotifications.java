@@ -16,7 +16,7 @@ public class CmdFactionsAlertNotifications extends FactionsCommand
         this.setAliases("alertNotifications");
 
         // Desc
-        this.setDescPermission("factions.alert.notifications");
+        this.setDescPermission("factions.alertnotifications");
 
         // Parameters
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");

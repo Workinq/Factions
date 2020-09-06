@@ -387,7 +387,7 @@ permissions:
       factions.alarm.any: true
       factions.clear: true
       factions.clear.any: true
-      factions.alert.notifications: true
+      factions.alertnotifications: true
 
   # -------------------------------------------- #
   # KITS
@@ -576,7 +576,7 @@ permissions:
       factions.mutelist: true
       factions.alarm: true
       factions.clear: true
-      factions.alert.notifications: true
+      factions.alertnotifications: true
   factions.kit.default:
     default: true
     children:
