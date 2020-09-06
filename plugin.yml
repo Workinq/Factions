@@ -97,9 +97,9 @@ permissions:
   factions.config: {description: edit the factions config, default: false}
   factions.clean: {description: clean the factions database, default: false}
   factions.version: {description: see plugin version, default: false}
-  factions.vault: {description: manage faction vault, default: false}
-  factions.vault.open: {description: open the faction vault, default: false}
-  factions.vault.log: {description: view faction vault logs, default: false}
+  factions.chest: {description: manage the faction chest, default: false}
+  factions.chest.open: {description: open the faction chest, default: false}
+  factions.chest.log: {description: view faction chest logs, default: false}
   factions.tnt: {description: manage faction tnt, default: false}
   factions.tnt.balance: {description: view faction tnt balance, default: false}
   factions.tnt.deposit: {description: add tnt to faction tnt bank, default: false}
@@ -291,9 +291,9 @@ permissions:
       factions.config: true
       factions.clean: true
       factions.version: true
-      factions.vault: true
-      factions.vault.open: true
-      factions.vault.log: true
+      factions.chest: true
+      factions.chest.open: true
+      factions.chest.log: true
       factions.tnt: true
       factions.tnt.balance: true
       factions.tnt.deposit: true
@@ -504,9 +504,9 @@ permissions:
       factions.unsethome: true
       factions.unstuck: true
       factions.version: true
-      factions.vault: true
-      factions.vault.open: true
-      factions.vault.log: true
+      factions.chest: true
+      factions.chest.open: true
+      factions.chest.log: true
       factions.tnt: true
       factions.tnt.balance: true
       factions.tnt.deposit: true

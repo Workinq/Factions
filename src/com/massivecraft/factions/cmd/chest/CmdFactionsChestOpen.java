@@ -1,4 +1,4 @@
-package com.massivecraft.factions.cmd.vault;
+package com.massivecraft.factions.cmd.chest;
 
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.type.TypeFaction;
@@ -7,19 +7,19 @@ import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 
-public class CmdFactionsVaultOpen extends FactionsCommand
+public class CmdFactionsChestOpen extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsVaultOpen()
+    public CmdFactionsChestOpen()
     {
         // Aliases
         this.addAliases("open");
 
         // Desc
-        this.setDescPermission("factions.vault.open");
+        this.setDescPermission("factions.chest.open");
 
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
@@ -37,7 +37,7 @@ public class CmdFactionsVaultOpen extends FactionsCommand
     {
         Faction faction = this.readArg(msenderFaction);
 
-        if ( ! MPerm.getPermVault().has(msender, faction, true) ) return;
+        if ( ! MPerm.getPermChest().has(msender, faction, true) ) return;
 
         me.openInventory(faction.getInventory());
     }

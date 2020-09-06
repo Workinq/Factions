@@ -107,7 +107,7 @@ public class EngineChest extends Engine
                 compressed.add(new ItemStack(type, item.getAmount(), data));
             }
         }
-        Collections.sort(compressed, new ItemStackComparator());
+        compressed.sort(new ItemStackComparator());
         return compressed.toArray(new ItemStack[0]);
     }
 

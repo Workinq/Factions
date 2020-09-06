@@ -1,30 +1,30 @@
-package com.massivecraft.factions.cmd.vault;
+package com.massivecraft.factions.cmd.chest;
 
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.massivecore.MassiveException;
 
 import java.util.ArrayList;
 
-public class CmdFactionsVault extends FactionsCommand
+public class CmdFactionsChest extends FactionsCommand
 {
     // -------------------------------------------- //
     // FIELDS
     // -------------------------------------------- //
 
-    public CmdFactionsVaultOpen cmdFactionsVaultOpen = new CmdFactionsVaultOpen();
-    public CmdFactionsVaultLog cmdFactionsVaultLog = new CmdFactionsVaultLog();
+    public CmdFactionsChestOpen cmdFactionsChestOpen = new CmdFactionsChestOpen();
+    public CmdFactionsChestLog cmdFactionsChestLog = new CmdFactionsChestLog();
 
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsVault()
+    public CmdFactionsChest()
     {
         // Aliases
         this.setAliases("chest", "pv");
 
         // Desc
-        this.setDescPermission("factions.vault");
+        this.setDescPermission("factions.chest");
     }
 
     // -------------------------------------------- //
@@ -34,7 +34,7 @@ public class CmdFactionsVault extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        cmdFactionsVaultOpen.execute(sender, new ArrayList<>());
+        cmdFactionsChestOpen.execute(sender, new ArrayList<>());
     }
 
 }
