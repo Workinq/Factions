@@ -8,7 +8,6 @@ open        "%project.build.directory%%file.separator%%project.build.finalName%.
 trimExclude none;
 
 exclude     // ESSENTIAL EXCLUSIONS
-            com.massivecraft.factions. and
             public com.massivecraft.factions.Factions and
             com.massivecraft.factions.Factions get(*) and
             com.massivecraft.factions.Perm and
@@ -36,14 +35,13 @@ exclude     // ESSENTIAL EXCLUSIONS
             com.massivecraft.factions.task.* get(*) and
 
             // ENTITY CLASSES
-            com.massivecraft.factions.entity. and
             com.massivecraft.factions.entity.* and
             com.massivecraft.factions.entity.migrator.* and
             com.massivecraft.factions.entity.mission.* and
             com.massivecraft.factions.entity.object.* and
             com.massivecraft.factions.entity.upgrade.* and
 
-            // ENTITY METHODS
+            // ENTITY, MIGRATOR & OBJECT METHODS
             com.massivecraft.factions.entity.* and
             com.massivecraft.factions.entity.* * and
             com.massivecraft.factions.entity.* *(*) and
@@ -58,28 +56,75 @@ exclude     // ESSENTIAL EXCLUSIONS
             com.massivecraft.factions.entity.upgrade.* * and
 
             // EVENT EXCLUSIONS
-            com.massivecraft.factions.event. and
             com.massivecraft.factions.event.* and
             com.massivecraft.factions.event.* * and
             com.massivecraft.factions.event.* *(*) and
 
             // COMPARATORS
-            com.massivecraft.factions.comparator. and
             com.massivecraft.factions.comparator.* and
             com.massivecraft.factions.comparator.* * and
             com.massivecraft.factions.comparator.* *(*) and
 
             // PREDICATES
-            com.massivecraft.factions.predicate. and
             com.massivecraft.factions.predicate.* and
             com.massivecraft.factions.predicate.* * and
             com.massivecraft.factions.predicate.* *(*) and
 
             // MIXINS
-            com.massivecraft.factions.mixin. and
             com.massivecraft.factions.mixin.* and
             com.massivecraft.factions.mixin.* * and
-            com.massivecraft.factions.mixin.* *(*)
+            com.massivecraft.factions.mixin.* *(*) and
+
+            // INTERFACES
+            com.massivecraft.factions.BoardInterface and                // BoardInterface
+            com.massivecraft.factions.BoardInterface * and              // BoardInterface
+            com.massivecraft.factions.BoardInterface *(*) and           // BoardInterface
+            com.massivecraft.factions.EconomyParticipator and           // EconomyParticipator
+            com.massivecraft.factions.EconomyParticipator * and         // EconomyParticipator
+            com.massivecraft.factions.EconomyParticipator *(*) and      // EconomyParticipator
+            com.massivecraft.factions.FactionsParticipator and          // FactionsParticipator
+            com.massivecraft.factions.FactionsParticipator * and        // FactionsParticipator
+            com.massivecraft.factions.FactionsParticipator *(*) and     // FactionsParticipator
+            com.massivecraft.factions.PowerBoosted and                  // PowerBoosted
+            com.massivecraft.factions.PowerBoosted * and                // PowerBoosted
+            com.massivecraft.factions.PowerBoosted *(*) and             // PowerBoosted
+            com.massivecraft.factions.RelationParticipator and          // RelationParticipator
+            com.massivecraft.factions.RelationParticipator * and        // RelationParticipator
+            com.massivecraft.factions.RelationParticipator *(*) and     // RelationParticipator
+
+            // ENUMS
+            com.massivecraft.factions.Acc and                               // Acc
+            com.massivecraft.factions.Acc * and                             // Acc
+            com.massivecraft.factions.Acc *(*) and                          // Acc
+            com.massivecraft.factions.AccessStatus and                      // AccessStatus
+            com.massivecraft.factions.AccessStatus * and                    // AccessStatus
+            com.massivecraft.factions.AccessStatus *(*) and                 // AccessStatus
+            com.massivecraft.factions.Chat and                              // Chat
+            com.massivecraft.factions.Chat * and                            // Chat
+            com.massivecraft.factions.Chat *(*) and                         // Chat
+            com.massivecraft.factions.Perm and                              // Perm
+            com.massivecraft.factions.Perm * and                            // Perm
+            com.massivecraft.factions.Perm *(*) and                         // Perm
+            com.massivecraft.factions.Rel and                               // Rel
+            com.massivecraft.factions.Rel * and                             // Rel
+            com.massivecraft.factions.Rel *(*) and                          // Rel
+            com.massivecraft.factions.engine.DisallowCause and              // DisallowCause
+            com.massivecraft.factions.engine.DisallowCause * and            // DisallowCause
+            com.massivecraft.factions.engine.DisallowCause *(*) and         // DisallowCause
+            com.massivecraft.factions.engine.ProtectCase and                // ProtectCase
+            com.massivecraft.factions.engine.ProtectCase * and              // ProtectCase
+            com.massivecraft.factions.engine.ProtectCase *(*) and           // ProtectCase
+            com.massivecraft.factions.util.AsciiCompassDirection and        // AsciiCompassDirection
+            com.massivecraft.factions.util.AsciiCompassDirection * and      // AsciiCompassDirection
+            com.massivecraft.factions.util.AsciiCompassDirection *(*) and   // AsciiCompassDirection
+
+            // PACKAGE EXCLUSIONS
+            com.massivecraft.factions. and              // MAIN DIRECTORY
+            com.massivecraft.factions.entity. and       // ENTITY DIRECTORY
+            com.massivecraft.factions.event. and        // EVENT DIRECTORY
+            com.massivecraft.factions.comparator. and   // COMPARATOR DIRECTORY
+            com.massivecraft.factions.predicate. and    // PREDICATE DIRECTORY
+            com.massivecraft.factions.mixin.            // MIXIN DIRECTORY
             ;
 
 obfuscateFlowExclude none;
