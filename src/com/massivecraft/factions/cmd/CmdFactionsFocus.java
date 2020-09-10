@@ -38,20 +38,31 @@ public class CmdFactionsFocus extends FactionsCommand
     @Override
     public void perform() throws MassiveException 
     {
+        // Args
         MPlayer mplayer = this.readArg();
 
+        // MPerm
         if ( ! MPerm.getPermFocus().has(msender, msenderFaction, true) ) return;
 
-        if (msenderFaction.isPlayerFocused(mplayer.getUuid().toString()))
+        // Verify
+        if (mplayer.getFaction() == msenderFaction)
+        {
+            throw new MassiveException().setMsg("<b>You cannot focus players on your faction.");
+        }
+
+        // Focus / Un-focus
+        if (msenderFaction.isPlayerFocused(mplayer.getUuid()))
         {
             msenderFaction.setFocusedPlayer(null);
             msenderFaction.msg("%s <i>has been unfocused by %s<i>.", mplayer.describeTo(msenderFaction, true), msender.describeTo(msenderFaction));
         }
         else
         {
-            msenderFaction.setFocusedPlayer(mplayer.getUuid().toString());
+            msenderFaction.setFocusedPlayer(mplayer.getUuid());
             msenderFaction.msg("%s <i>has been focused by %s<i>.", mplayer.describeTo(msenderFaction, true), msender.describeTo(msenderFaction));
         }
+
+        // Update scoreboard
         for (Player player : msenderFaction.getOnlinePlayers())
         {
             EngineScoreboard.get().resendTab(player);

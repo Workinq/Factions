@@ -230,7 +230,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// Stores the uuid of the focused player.
 	// Null means no player has been focused.
-	private String focusedPlayer = null;
+	private UUID focusedPlayer = null;
 
 	// Stores whether or not the faction's alarm is active.
 	// Null means it isn't.
@@ -1158,7 +1158,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: focusedPlayer
 	// -------------------------------------------- //
 
-	public void setFocusedPlayer(String focusedPlayer)
+	public void setFocusedPlayer(UUID focusedPlayer)
 	{
 		// Apply
 		this.focusedPlayer = focusedPlayer;
@@ -1167,12 +1167,12 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	public boolean isPlayerFocused(String uuid)
+	public boolean isPlayerFocused(UUID uuid)
 	{
 		return this.focusedPlayer != null && this.focusedPlayer.equals(uuid);
 	}
 	
-	public String getFocusedPlayer()
+	public UUID getFocusedPlayer()
 	{
 		return focusedPlayer;
 	}

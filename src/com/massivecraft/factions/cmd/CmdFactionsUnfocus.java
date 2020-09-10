@@ -45,7 +45,7 @@ public class CmdFactionsUnfocus extends FactionsCommand
 
         if ( ! MPerm.getPermFocus().has(this.msender, this.msenderFaction, true) ) return;
 
-        if (msenderFaction.isPlayerFocused(mplayer.getUuid().toString()))
+        if (msenderFaction.isPlayerFocused(mplayer.getUuid()))
         {
             msenderFaction.setFocusedPlayer(null);
             msenderFaction.msg("%s <i>has been unfocused by %s<i>.", mplayer.describeTo(msenderFaction, true), msender.describeTo(msenderFaction));
