@@ -213,7 +213,7 @@ public class TerritoryAccess
 		
 		return AccessStatus.STANDARD;
 	}
-	
+
 	@Deprecated
 	public Boolean hasTerritoryAccess(MPlayer mplayer)
 	{

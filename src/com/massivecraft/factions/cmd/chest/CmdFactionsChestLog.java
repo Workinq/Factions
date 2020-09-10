@@ -51,7 +51,7 @@ public class CmdFactionsChestLog extends FactionsCommand
 
         if ( ! MPerm.getPermChest().has(msender, faction, true)) return;
 
-        final List<Mson> chestActions = new ArrayList<>();
+        List<Mson> chestActions = new ArrayList<>();
         for (ChestAction chestAction : faction.getChestActions())
         {
             String date = DateFormatUtils.format(chestAction.getTimestamp(), "dd MMM yyyy HH:mm:ss");
@@ -59,22 +59,17 @@ public class CmdFactionsChestLog extends FactionsCommand
             String timeSince = Txt.parse("<a>%s", TimeUtil.formatTime(timeRemaining, true));
 
             Mson mson = mson(Txt.parse("%s <i>%s <h>%sx %s <i>%s ago", MPlayer.get(chestAction.getPlayerId()).describeTo(msender, true), chestAction.getItem().getAmount() < 0 ? "took" : "put", Math.abs(chestAction.getItem().getAmount()), Txt.getItemName(chestAction.getItem()), timeSince));
+            // TODO: Make the tooltip show all the item's properties
             mson = mson.tooltip(Txt.parse("<k>%s", date));
 
             chestActions.add(mson);
         }
 
+        // Reverse so it's in order
         Collections.reverse(chestActions);
 
         // Pager create
-        final Pager<Mson> pager = new Pager<>(this, "Faction Chest Log", page, chestActions, new Msonifier<Mson>()
-        {
-            @Override
-            public Mson toMson(Mson item, int index)
-            {
-                return chestActions.get(index);
-            }
-        });
+        final Pager<Mson> pager = new Pager<>(this, "Faction Chest Log", page, chestActions, (Msonifier<Mson>) (item, index) -> chestActions.get(index));
 
         // Pager message
         pager.message();

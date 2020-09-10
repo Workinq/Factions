@@ -39,5 +39,5 @@ public interface BoardInterface
 	boolean isAnyBorderPs(Set<PS> pss);
 	boolean isConnectedPs(PS ps, Faction faction);
 	boolean isAnyConnectedPs(Set<PS> pss, Faction faction);
-	
+
 }

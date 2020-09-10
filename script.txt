@@ -41,18 +41,13 @@ exclude     // ESSENTIAL EXCLUSIONS
             com.massivecraft.factions.entity.object.* and
             com.massivecraft.factions.entity.upgrade.* and
 
-            // ENTITY, MIGRATOR & OBJECT METHODS
-            com.massivecraft.factions.entity.* and
+            // ENTITY, MIGRATOR AND OBJECT METHODS & FIELDS
             com.massivecraft.factions.entity.* * and
             com.massivecraft.factions.entity.* *(*) and
-            com.massivecraft.factions.entity.migrator.* and
             com.massivecraft.factions.entity.migrator.* * and
             com.massivecraft.factions.entity.migrator.* *(*) and
-            com.massivecraft.factions.entity.mission.* and
             com.massivecraft.factions.entity.mission.* * and
-            com.massivecraft.factions.entity.object.* and
             com.massivecraft.factions.entity.object.* * and
-            com.massivecraft.factions.entity.upgrade.* and
             com.massivecraft.factions.entity.upgrade.* * and
 
             // EVENT EXCLUSIONS
