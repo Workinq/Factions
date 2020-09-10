@@ -11,6 +11,7 @@ import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.factions.event.EventFactionsRelationChange;
 import com.massivecraft.massivecore.Engine;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -132,43 +133,56 @@ public class EngineScoreboard extends Engine
     public void updateTab(Player player)
     {
         // Verify
-        if (player == null) return;
-        if ( ! player.isOnline() ) return;
+        if (player == null || !player.isOnline()) return;
 
         // Args
-        MPlayer mplayer = MPlayer.get(player);
-        if (mplayer == null) return;
+        Faction faction = MPlayer.get(player).getFaction();
 
-        Faction mfaction = mplayer.getFaction();
-
-        // Loop - Players
+        // Loop
         for (Player target : Bukkit.getServer().getOnlinePlayers())
         {
-            // Args
             Scoreboard scoreboard = target.getScoreboard();
+
+            // Team
             if (scoreboard != Bukkit.getScoreboardManager().getMainScoreboard() && target != player)
             {
-                // Args
-                Faction faction = MPlayer.get(target).getFaction();
+                Faction targetFaction = MPlayer.get(target).getFaction();
+                Team enemy = this.getTeam(scoreboard, "factions-enemy", MConf.get().colorEnemy);
+                Team ally = this.getTeam(scoreboard, "factions-ally", MConf.get().colorAlly);
+                Team truce = this.getTeam(scoreboard, "factions-truce", MConf.get().colorTruce);
+                Team member = this.getTeam(scoreboard, "factions-member", MConf.get().colorMember);
+                Team neutral = this.getTeam(scoreboard, "factions-neutral", MConf.get().colorNeutral);
+                Team wilderness = this.getTeam(scoreboard, "factions-wilderness", MConf.get().colorWilderness);
+                Team focus = this.getTeam(scoreboard, "factions-focused", MConf.get().colorFocused);
 
-                // Teams
-                Team enemy = this.getTeam(scoreboard, "fac-enemy", MConf.get().colorEnemy.toString());
-                Team ally = this.getTeam(scoreboard, "fac-ally", MConf.get().colorAlly.toString());
-                Team truce = this.getTeam(scoreboard, "fac-truce", MConf.get().colorTruce.toString());
-                Team member = this.getTeam(scoreboard, "fac-member", MConf.get().colorMember.toString());
-                Team neutral = this.getTeam(scoreboard, "fac-neutral", MConf.get().colorNeutral.toString());
-                Team wilderness = this.getTeam(scoreboard, "fac-wild", MConf.get().colorWilderness.toString());
-                Team focus = this.getTeam(scoreboard, "fac-focus", MConf.get().colorFocused.toString());
-
-                // Relations
-                if (faction.isPlayerFocused(player.getUniqueId().toString())) // Focus
+                if (targetFaction.isPlayerFocused(player.getUniqueId()))
                 {
                     focus.addEntry(player.getName());
                 }
+                else if (faction == null || faction.isNone())
+                {
+                    wilderness.addEntry(player.getName());
+                }
                 else
                 {
-                    // Set
-                    this.setTeam(faction, enemy, ally, truce, member, neutral, wilderness, player, mfaction);
+                    Rel relation = faction.getRelationTo(targetFaction);
+                    switch (relation)
+                    {
+                        case TRUCE:
+                            truce.addEntry(player.getName());
+                            continue;
+                        case ALLY:
+                            ally.addEntry(player.getName());
+                            continue;
+                        case ENEMY:
+                            enemy.addEntry(player.getName());
+                            continue;
+                        case NEUTRAL:
+                            neutral.addEntry(player.getName());
+                            continue;
+                        case MEMBER:
+                            member.addEntry(player.getName());
+                    }
                 }
             }
         }
@@ -177,79 +191,68 @@ public class EngineScoreboard extends Engine
     public void resendTab(Player player)
     {
         // Verify
-        if (player == null) return;
-        if ( ! player.isOnline() ) return;
+        if (player == null || !player.isOnline()) return;
 
         // Args
         MPlayer mplayer = MPlayer.get(player);
         Faction faction = mplayer.getFaction();
         Scoreboard scoreboard = player.getScoreboard();
 
-        // Verify - Scoreboard
-        if (scoreboard == Bukkit.getScoreboardManager().getMainScoreboard()) return;
-
-        // Teams
-        Team enemy = this.getTeam(scoreboard, "fac-enemy", MConf.get().colorEnemy.toString());
-        Team ally = this.getTeam(scoreboard, "fac-ally", MConf.get().colorAlly.toString());
-        Team truce = this.getTeam(scoreboard, "fac-truce", MConf.get().colorTruce.toString());
-        Team member = this.getTeam(scoreboard, "fac-member", MConf.get().colorMember.toString());
-        Team neutral = this.getTeam(scoreboard, "fac-neutral", MConf.get().colorNeutral.toString());
-        Team wilderness = this.getTeam(scoreboard, "fac-wild", MConf.get().colorWilderness.toString());
-        Team focus = this.getTeam(scoreboard, "fac-focus", MConf.get().colorFocused.toString());
-
-        // Loop - Players
-        for (Player target : Bukkit.getOnlinePlayers())
+        // Team
+        if (scoreboard != Bukkit.getScoreboardManager().getMainScoreboard())
         {
-            // Focus - Takes priority
-            if (faction.isPlayerFocused(target.getUniqueId().toString()))
-            {
-                focus.addEntry(target.getName());
-                continue;
-            }
+            Team enemy = this.getTeam(scoreboard, "factions-enemy", MConf.get().colorEnemy);
+            Team ally = this.getTeam(scoreboard, "factions-ally", MConf.get().colorAlly);
+            Team truce = this.getTeam(scoreboard, "factions-truce", MConf.get().colorTruce);
+            Team member = this.getTeam(scoreboard, "factions-member", MConf.get().colorMember);
+            Team neutral = this.getTeam(scoreboard, "factions-neutral", MConf.get().colorNeutral);
+            Team wilderness = this.getTeam(scoreboard, "factions-wilderness", MConf.get().colorWilderness);
+            Team focus = this.getTeam(scoreboard, "factions-focused", MConf.get().colorFocused);
 
-            // Self - isn't this already in setTeam?
-            if (player == target)
+            for (Player target : Bukkit.getOnlinePlayers())
             {
-                member.addEntry(target.getName());
-                continue;
+                if (player == target)
+                {
+                    member.addEntry(target.getName());
+                }
+                else if (faction.isPlayerFocused(target.getUniqueId()))
+                {
+                    focus.addEntry(target.getName());
+                }
+                else
+                {
+                    Faction targetFaction = MPlayer.get(target).getFaction();
+                    if (targetFaction == null || targetFaction.isNone())
+                    {
+                        wilderness.addEntry(target.getName());
+                    }
+                    else
+                    {
+                        Rel relationTo = targetFaction.getRelationTo(faction);
+                        switch (relationTo)
+                        {
+                            case TRUCE:
+                                truce.addEntry(target.getName());
+                                continue;
+                            case ALLY:
+                                ally.addEntry(target.getName());
+                                continue;
+                            case ENEMY:
+                                enemy.addEntry(target.getName());
+                                continue;
+                            case NEUTRAL:
+                                neutral.addEntry(target.getName());
+                                continue;
+                            case MEMBER:
+                                member.addEntry(target.getName());
+                        }
+                    }
+                }
             }
-
-            Faction targetFaction = MPlayer.get(target).getFaction();
-            this.setTeam(faction, enemy, ally, truce, member, neutral, wilderness, target, targetFaction);
         }
     }
 
-    private void setTeam(Faction faction, Team enemy, Team ally, Team truce, Team member, Team neutral, Team wilderness, Player target, Faction targetFaction)
-    {
-        // Wilderness
-        if (targetFaction == null || targetFaction.isNone())
-        {
-            wilderness.addEntry(target.getName());
-            return;
-        }
-
-        Rel relationTo = targetFaction.getRelationTo(faction);
-        switch (relationTo)
-        {
-            case TRUCE:
-                truce.addEntry(target.getName());
-                return;
-            case ALLY:
-                ally.addEntry(target.getName());
-                return;
-            case ENEMY:
-                enemy.addEntry(target.getName());
-                return;
-            case MEMBER:
-                member.addEntry(target.getName());
-                return;
-            case NEUTRAL:
-            default:
-                neutral.addEntry(target.getName());
-        }
-    }
-
-    private Team getTeam(Scoreboard scoreboard, String teamName, String string)
+    private Team getTeam(Scoreboard scoreboard, String teamName, ChatColor color)
     {
         // Args
         Team team = scoreboard.getTeam(teamName);
@@ -261,7 +264,7 @@ public class EngineScoreboard extends Engine
             team = scoreboard.registerNewTeam(teamName);
 
             // Apply
-            team.setPrefix(string);
+            team.setPrefix(color.toString());
         }
 
         // Return
