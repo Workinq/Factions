@@ -21,6 +21,7 @@ import com.massivecraft.factions.integration.mobextras.IntegrationMobExtras;
 import com.massivecraft.factions.integration.spigot.IntegrationSpigot;
 import com.massivecraft.factions.integration.worldguard.IntegrationWorldGuard;
 import com.massivecraft.factions.mixin.PowerMixin;
+import com.massivecraft.factions.placeholder.PlaceholderFactions;
 import com.massivecraft.factions.task.*;
 import com.massivecraft.massivecore.MassivePlugin;
 import com.massivecraft.massivecore.collections.MassiveList;
@@ -93,6 +94,9 @@ public class Factions extends MassivePlugin
 		this.activate(this.getClassesActiveIntegrations()); // Integrations
 		this.activate(this.getClassesActiveTasks()); // Tasks
 		this.activate(this.getClassesActiveChat()); // Chat
+
+		// Placeholders
+		if (this.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) new PlaceholderFactions().register();
 	}
 
 	@Override
