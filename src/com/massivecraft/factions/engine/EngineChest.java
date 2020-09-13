@@ -51,9 +51,7 @@ public class EngineChest extends Engine
 
         Faction faction = this.getFactionFromInventory(event.getInventory());
         if (faction == null) return;
-
-        Inventory inventory = event.getInventory();
-        faction.setInventory(inventory);
+        faction.saveInventory();
 
         HumanEntity player = event.getPlayer();
         ItemStack[] before = containers.get(player);
@@ -66,6 +64,7 @@ public class EngineChest extends Engine
         {
             faction.addChestAction(new ChestAction(player.getUniqueId().toString(), System.currentTimeMillis(), item));
         }
+
         containers.remove(player);
     }
 
@@ -77,14 +76,10 @@ public class EngineChest extends Engine
             entity.closeInventory();
         }
 
-        // Clone old inventory to a new one
-        Inventory oldInventory = event.getFaction().getInventory();
-        Inventory newInventory = Bukkit.createInventory(null, oldInventory.getSize(), Txt.parse("<gray>%s - Faction Chest", event.getNewName()));
-        newInventory.setContents(oldInventory.getContents());
-
-        // Save
-        event.getFaction().setInventory(newInventory);
-        oldInventory.clear();
+        Inventory old = event.getFaction().getInventory();
+        event.getFaction().setInventory(Bukkit.createInventory(null, old.getSize(), Txt.parse("<gray>%s - Faction Chest", event.getNewName())));
+        event.getFaction().getInventory().setContents(old.getContents());
+        old.clear();
     }
 
     private class ItemStackComparator implements Comparator<ItemStack>

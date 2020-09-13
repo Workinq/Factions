@@ -7,6 +7,7 @@ import com.massivecraft.factions.predicate.PredicateCommandSenderFaction;
 import com.massivecraft.factions.predicate.PredicateMPlayerRole;
 import com.massivecraft.factions.util.MiscUtil;
 import com.massivecraft.factions.util.RelationUtil;
+import com.massivecraft.factions.util.SerializationUtil;
 import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.collections.MassiveMap;
 import com.massivecraft.massivecore.collections.MassiveMapDef;
@@ -26,7 +27,6 @@ import com.massivecraft.massivecore.util.Txt;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -77,8 +77,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setFlagIds(that.flags);
 		this.setPermIds(that.perms);
 		this.setTnt(that.tnt);
-		this.setInventory(that.inventory);
-		// this.setInventorySerialized(that.inventorySerialized);
+		this.setInventorySerialized(that.inventorySerialized);
 		this.setChestActions(that.chestActions);
 		this.setWarpLocations(that.warpLocations);
 		this.setWarpPasswords(that.warpPasswords);
@@ -168,12 +167,12 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// When first creating a faction, the chest will be empty.
 	// Is transient as the Inventory object cannot be serialised.
 	// TODO: Maybe look into using MassiveCore's AdapterInventory class
-	private Inventory inventory = null;
+	private transient Inventory inventory = null;
 
 	// This is the serialized string for the inventories contents.
 	// This cannot corrupt in the slightest or the entire inventory will reset.
 	// Or worse, the server will spit errors non-stop.
-	// private String inventorySerialized = null;
+	private String inventorySerialized = null;
 
 	// This contains all the interactions that have been made with the faction chest.
 	// Whenever a player takes or adds an item to the chest, an action will be added.
@@ -605,13 +604,20 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: inventory
 	// -------------------------------------------- //
 
+	public void saveInventory()
+	{
+		if (inventory == null) return;
+		this.setInventorySerialized(SerializationUtil.toBase64(inventory));
+	}
+
 	public Inventory getInventory()
 	{
 		Inventory ret = inventory;
 
 		if (ret == null)
 		{
-			ret = Bukkit.createInventory(null, 27, Txt.parse("<gray>%s - Faction Chest", this.getName()));
+			String inventorySerialized = this.getInventorySerialized();
+			ret = SerializationUtil.fromBase64(inventorySerialized, Txt.parse("<gray>%s - Faction Chest", this.getName()));
 
 			// Set inventory.
 			this.inventory = ret;
@@ -630,6 +636,35 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 		// Apply
 		this.inventory = inventory;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: inventorySerialized
+	// -------------------------------------------- //
+
+	public String getInventorySerialized()
+	{
+		// Clean input
+		String ret = this.inventorySerialized;
+		if (ret == null) ret = "";
+
+		return ret;
+	}
+
+	public void setInventorySerialized(String inventorySerialized)
+	{
+		// Clean input
+		String target = inventorySerialized;
+		if (target == null || target.equals("")) target = null;
+
+		// Detect no change
+		if (MUtil.equals(this.inventorySerialized, target)) return;
+
+		// Apply
+		this.inventorySerialized = target;
 
 		// Mark as changed
 		this.changed();

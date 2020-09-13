@@ -59,16 +59,12 @@ public class FactionChestUpgrade extends AbstractUpgrade
       // Close
       for (HumanEntity entity : faction.getInventory().getViewers()) entity.closeInventory();
 
-      // Create new inventory
-      Inventory oldInventory = faction.getInventory();
-      Inventory newInventory = Bukkit.createInventory(null, size, Txt.parse("<gray>%s - Faction Chest", faction.getName()));
-
-      // Assign contents of old inventory
-      newInventory.setContents(oldInventory.getContents());
-
-      // Save
-      faction.setInventory(newInventory);
-      oldInventory.clear();
+      // Upgrade
+      Inventory old = faction.getInventory();
+      faction.setInventory(Bukkit.createInventory(null, size, Txt.parse("<gray>%s - Faction Chest", faction.getName())));
+      faction.getInventory().setContents(old.getContents());
+      faction.saveInventory();
+      old.clear();
    }
 
 }
