@@ -33,91 +33,6 @@ public class EngineChest extends Engine
     private static EngineChest i = new EngineChest();
     public static EngineChest get() { return i; }
 
-    public static short rawData(ItemStack item)
-    {
-        return item.getType() != null ? (item.getData() != null ? item.getDurability() : 0) : 0;
-    }
-
-    public ItemStack[] compareInventories(ItemStack[] firstItems, ItemStack[] secondItems)
-    {
-        ItemStackComparator comparator = new ItemStackComparator();
-        List<ItemStack> difference = new ArrayList<>();
-        int firstCounter = 0, secondCounter = 0;
-        while (firstCounter < firstItems.length || secondCounter < secondItems.length)
-        {
-            if (firstCounter >= firstItems.length)
-            {
-                difference.add(secondItems[secondCounter]);
-                secondCounter++;
-            }
-            else if (secondCounter >= secondItems.length)
-            {
-                firstItems[firstCounter].setAmount(firstItems[firstCounter].getAmount() * -1);
-                difference.add(firstItems[firstCounter]);
-                firstCounter++;
-            }
-            else
-            {
-                int comp = comparator.compare(firstItems[firstCounter], secondItems[secondCounter]);
-                if (comp < 0)
-                {
-                    firstItems[firstCounter].setAmount(firstItems[firstCounter].getAmount() * -1);
-                    difference.add(firstItems[firstCounter]);
-                    firstCounter++;
-                }
-                else if (comp > 0)
-                {
-                    difference.add(secondItems[secondCounter]);
-                    secondCounter++;
-                }
-                else
-                {
-                    int amount = secondItems[secondCounter].getAmount() - firstItems[firstCounter].getAmount();
-                    if (amount != 0)
-                    {
-                        firstItems[firstCounter].setAmount(amount);
-                        difference.add(firstItems[firstCounter]);
-                    }
-                    firstCounter++;
-                    secondCounter++;
-                }
-            }
-        }
-        return difference.toArray(new ItemStack[0]);
-    }
-
-    public ItemStack[] compressInventory(ItemStack[] items)
-    {
-        List<ItemStack> compressed = new ArrayList<>();
-        for (ItemStack item : items)
-        {
-            // Verify
-            if (item == null) continue;
-
-            // Args
-            int type = item.getTypeId();
-            short data = rawData(item);
-            boolean found = false;
-
-            for (ItemStack compressedItem : compressed)
-            {
-                if (type == compressedItem.getTypeId() && data == rawData(compressedItem))
-                {
-                    compressedItem.setAmount(compressedItem.getAmount() + item.getAmount());
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found)
-            {
-                compressed.add(new ItemStack(type, item.getAmount(), data));
-            }
-        }
-        compressed.sort(new ItemStackComparator());
-        return compressed.toArray(new ItemStack[0]);
-    }
-
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event)
     {
@@ -172,25 +87,106 @@ public class EngineChest extends Engine
         oldInventory.clear();
     }
 
-    public static class ItemStackComparator implements Comparator<ItemStack>
+    private class ItemStackComparator implements Comparator<ItemStack>
     {
         @Override
         public int compare(ItemStack first, ItemStack second)
         {
             int firstTypeId = first.getTypeId();
             int secondTypeId = second.getTypeId();
-            if (firstTypeId < secondTypeId)
-            {
-                return -1;
-            }
-            if (firstTypeId > secondTypeId)
-            {
-                return 1;
-            }
+
+            if (firstTypeId < secondTypeId) return -1;
+            if (firstTypeId > secondTypeId) return 1;
+
             short firstData = rawData(first);
             short secondData = rawData(second);
             return Short.compare(firstData, secondData);
         }
+    }
+
+    private short rawData(ItemStack item)
+    {
+        return item.getType() != null ? (item.getData() != null ? item.getDurability() : 0) : 0;
+    }
+
+    private ItemStack[] compareInventories(ItemStack[] firstItems, ItemStack[] secondItems)
+    {
+        ItemStackComparator comparator = new ItemStackComparator();
+        List<ItemStack> difference = new ArrayList<>();
+        int firstCounter = 0, secondCounter = 0;
+        while (firstCounter < firstItems.length || secondCounter < secondItems.length)
+        {
+            if (firstCounter >= firstItems.length)
+            {
+                difference.add(secondItems[secondCounter]);
+                secondCounter++;
+            }
+            else if (secondCounter >= secondItems.length)
+            {
+                firstItems[firstCounter].setAmount(firstItems[firstCounter].getAmount() * -1);
+                difference.add(firstItems[firstCounter]);
+                firstCounter++;
+            }
+            else
+            {
+                int comp = comparator.compare(firstItems[firstCounter], secondItems[secondCounter]);
+                if (comp < 0)
+                {
+                    firstItems[firstCounter].setAmount(firstItems[firstCounter].getAmount() * -1);
+                    difference.add(firstItems[firstCounter]);
+                    firstCounter++;
+                }
+                else if (comp > 0)
+                {
+                    difference.add(secondItems[secondCounter]);
+                    secondCounter++;
+                }
+                else
+                {
+                    int amount = secondItems[secondCounter].getAmount() - firstItems[firstCounter].getAmount();
+                    if (amount != 0)
+                    {
+                        firstItems[firstCounter].setAmount(amount);
+                        difference.add(firstItems[firstCounter]);
+                    }
+                    firstCounter++;
+                    secondCounter++;
+                }
+            }
+        }
+        return difference.toArray(new ItemStack[0]);
+    }
+
+    private ItemStack[] compressInventory(ItemStack[] items)
+    {
+        List<ItemStack> compressed = new ArrayList<>();
+        for (ItemStack item : items)
+        {
+            // Verify
+            if (item == null) continue;
+
+            // Args
+            int type = item.getTypeId();
+            short data = rawData(item);
+            boolean found = false;
+
+            for (ItemStack compressedItem : compressed)
+            {
+                if (type == compressedItem.getTypeId() && data == rawData(compressedItem))
+                {
+                    compressedItem.setAmount(compressedItem.getAmount() + item.getAmount());
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                compressed.add(new ItemStack(type, item.getAmount(), data));
+            }
+        }
+        compressed.sort(new ItemStackComparator());
+        return compressed.toArray(new ItemStack[0]);
     }
 
     private Faction getFactionFromInventory(Inventory inventory)
