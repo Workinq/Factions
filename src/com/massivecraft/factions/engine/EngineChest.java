@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
+@SuppressWarnings("deprecation")
 public class EngineChest extends Engine
 {
     // -------------------------------------------- //
@@ -90,10 +91,14 @@ public class EngineChest extends Engine
         List<ItemStack> compressed = new ArrayList<>();
         for (ItemStack item : items)
         {
+            // Verify
             if (item == null) continue;
+
+            // Args
             int type = item.getTypeId();
             short data = rawData(item);
             boolean found = false;
+
             for (ItemStack compressedItem : compressed)
             {
                 if (type == compressedItem.getTypeId() && data == rawData(compressedItem))
@@ -103,6 +108,7 @@ public class EngineChest extends Engine
                     break;
                 }
             }
+
             if (!found)
             {
                 compressed.add(new ItemStack(type, item.getAmount(), data));
@@ -131,6 +137,9 @@ public class EngineChest extends Engine
         Faction faction = this.getFactionFromInventory(event.getInventory());
         if (faction == null) return;
 
+        Inventory inventory = event.getInventory();
+        faction.setInventory(inventory);
+
         HumanEntity player = event.getPlayer();
         ItemStack[] before = containers.get(player);
 
@@ -152,10 +161,15 @@ public class EngineChest extends Engine
         {
             entity.closeInventory();
         }
-        Inventory old = event.getFaction().getInventory();
-        event.getFaction().setInventory(Bukkit.createInventory(null, old.getSize(), Txt.parse("<gray>%s - Faction Chest", event.getNewName())));
-        event.getFaction().getInventory().setContents(old.getContents());
-        old.clear();
+
+        // Clone old inventory to a new one
+        Inventory oldInventory = event.getFaction().getInventory();
+        Inventory newInventory = Bukkit.createInventory(null, oldInventory.getSize(), Txt.parse("<gray>%s - Faction Chest", event.getNewName()));
+        newInventory.setContents(oldInventory.getContents());
+
+        // Save
+        event.getFaction().setInventory(newInventory);
+        oldInventory.clear();
     }
 
     public static class ItemStackComparator implements Comparator<ItemStack>
