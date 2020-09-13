@@ -1,12 +1,13 @@
 package com.massivecraft.factions.engine;
 
 import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.object.ChestAction;
 import com.massivecraft.factions.event.EventFactionsNameChange;
-import com.massivecraft.factions.util.SerializationUtil;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -116,7 +117,7 @@ public class EngineChest extends Engine
     {
         if ( ! event.getInventory().getName().endsWith(" - Faction Chest")) return;
 
-        Faction faction = SerializationUtil.getFactionFromInventory(event.getInventory());
+        Faction faction = this.getFactionFromInventory(event.getInventory());
         if (faction == null) return;
 
         containers.put(event.getPlayer(), this.compressInventory(event.getInventory().getContents()));
@@ -127,10 +128,9 @@ public class EngineChest extends Engine
     {
         if ( ! event.getInventory().getName().endsWith(" - Faction Chest")) return;
 
-        Faction faction = SerializationUtil.getFactionFromInventory(event.getInventory());
+        Faction faction = this.getFactionFromInventory(event.getInventory());
         if (faction == null) return;
 
-        faction.saveInventory();
         HumanEntity player = event.getPlayer();
         ItemStack[] before = containers.get(player);
 
@@ -176,6 +176,18 @@ public class EngineChest extends Engine
             short firstData = rawData(first);
             short secondData = rawData(second);
             return Short.compare(firstData, secondData);
+        }
+    }
+
+    private Faction getFactionFromInventory(Inventory inventory)
+    {
+        try
+        {
+            return FactionColl.get().getByName(ChatColor.stripColor(inventory.getName()).split("-")[0].trim());
+        }
+        catch (Exception e)
+        {
+            return null;
         }
     }
 
