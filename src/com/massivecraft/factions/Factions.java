@@ -96,7 +96,13 @@ public class Factions extends MassivePlugin
 		this.activate(this.getClassesActiveChat()); // Chat
 
 		// Placeholders
-		if (this.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) new PlaceholderFactions().register();
+		if (MConf.get().useIntegratedPlaceholders)
+		{
+			if (this.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
+			{
+				new PlaceholderFactions().register();
+			}
+		}
 	}
 
 	@Override
