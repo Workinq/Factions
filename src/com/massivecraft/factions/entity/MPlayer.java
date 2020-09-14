@@ -1151,7 +1151,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	public void leave()
 	{
 		Faction myFaction = this.getFaction();
-
 		boolean permanent = myFaction.getFlag(MFlag.getFlagPermanent());
 
 		if (myFaction.getMPlayers().size() > 1)
@@ -1189,7 +1188,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 		this.setPowerBoost(0.0D);
 		this.resetFactionData();
-		if (this.isAlt()) this.setAlt(false);
 
 		if (myFaction.isNormal() && !permanent && myFaction.getMPlayers().isEmpty())
 		{
