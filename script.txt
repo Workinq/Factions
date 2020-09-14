@@ -50,6 +50,20 @@ exclude     // ESSENTIAL EXCLUSIONS
             com.massivecraft.factions.entity.object.* * and
             com.massivecraft.factions.entity.upgrade.* * and
 
+            // ENGINE EXCLUSIONS
+            com.massivecraft.factions.engine.* and
+            com.massivecraft.factions.engine.* * and
+            com.massivecraft.factions.engine.* *(*) and
+
+            // com.massivecraft.factions.engine.EnginePermBuild and
+            // com.massivecraft.factions.engine.EnginePermBuild isProtected(com.massivecraft.factions.engine.ProtectCase, boolean, com.massivecraft.factions.entity.MPlayer, com.massivecraft.massivecore.ps.PS, java.lang.Object) and
+            // com.massivecraft.factions.engine.EnginePermBuild protect(com.massivecraft.factions.engine.ProtectCase, boolean, java.lang.Object, com.massivecraft.massivecore.ps.PS, java.lang.Object, org.bukkit.event.Cancellable) and
+            // com.massivecraft.factions.engine.EnginePermBuild build(org.bukkit.entity.Entity, org.bukkit.block.Block, org.bukkit.event.Event) and
+            // com.massivecraft.factions.engine.EnginePermBuild useItem(org.bukkit.entity.Entity, org.bukkit.block.Block, org.bukkit.Material, org.bukkit.event.Cancellable) and
+            // com.massivecraft.factions.engine.EnginePermBuild useEntity(org.bukkit.entity.Entity, org.bukkit.entity.Entity, boolean, org.bukkit.event.Cancellable) and
+            // com.massivecraft.factions.engine.EnginePermBuild useBlock(org.bukkit.entity.Player, org.bukkit.block.Block, boolean, org.bukkit.event.Cancellable) and
+            // com.massivecraft.factions.engine.EnginePermBuild canPlayerBuildAt(java.lang.Object, com.massivecraft.massivecore.ps.PS, boolean) and
+
             // EVENT EXCLUSIONS
             com.massivecraft.factions.event.* and
             com.massivecraft.factions.event.* * and
@@ -116,10 +130,44 @@ exclude     // ESSENTIAL EXCLUSIONS
             // PACKAGE EXCLUSIONS
             com.massivecraft.factions. and              // MAIN DIRECTORY
             com.massivecraft.factions.entity. and       // ENTITY DIRECTORY
+            com.massivecraft.factions.engine. and        // ENGINE DIRECTORY
             com.massivecraft.factions.event. and        // EVENT DIRECTORY
             com.massivecraft.factions.comparator. and   // COMPARATOR DIRECTORY
             com.massivecraft.factions.predicate. and    // PREDICATE DIRECTORY
             com.massivecraft.factions.mixin.            // MIXIN DIRECTORY
+            ;
+
+unexclude   // ENGINE UNEXCLUSIONS
+            com.massivecraft.factions.engine.EngineChest and             // ENGINE CHEST
+            com.massivecraft.factions.engine.EngineChest * and           // ENGINE CHEST
+            com.massivecraft.factions.engine.EngineChest *(*) and        // ENGINE CHEST
+            com.massivecraft.factions.engine.EngineExtras and            // ENGINE EXTRAS
+            com.massivecraft.factions.engine.EngineExtras * and          // ENGINE EXTRAS
+            com.massivecraft.factions.engine.EngineExtras *(*) and       // ENGINE EXTRAS
+            com.massivecraft.factions.engine.EngineFactionChat and       // ENGINE FACTION CHAT
+            com.massivecraft.factions.engine.EngineFactionChat * and     // ENGINE FACTION CHAT
+            com.massivecraft.factions.engine.EngineFactionChat *(*) and  // ENGINE FACTION CHAT
+            com.massivecraft.factions.engine.EngineFly and               // ENGINE FLY
+            com.massivecraft.factions.engine.EngineFly * and             // ENGINE FLY
+            com.massivecraft.factions.engine.EngineFly *(*) and          // ENGINE FLY
+            com.massivecraft.factions.engine.EngineLogin and             // ENGINE LOGIN
+            com.massivecraft.factions.engine.EngineLogin * and           // ENGINE LOGIN
+            com.massivecraft.factions.engine.EngineLogin *(*) and        // ENGINE LOGIN
+            com.massivecraft.factions.engine.EngineMoney and             // ENGINE MONEY
+            com.massivecraft.factions.engine.EngineMoney * and           // ENGINE MONEY
+            com.massivecraft.factions.engine.EngineMoney *(*) and        // ENGINE MONEY
+            com.massivecraft.factions.engine.EngineSand and              // ENGINE SAND
+            com.massivecraft.factions.engine.EngineSand * and            // ENGINE SAND
+            com.massivecraft.factions.engine.EngineSand *(*) and         // ENGINE SAND
+            com.massivecraft.factions.engine.EngineScoreboard and        // ENGINE SCOREBOARD
+            com.massivecraft.factions.engine.EngineScoreboard * and      // ENGINE SCOREBOARD
+            com.massivecraft.factions.engine.EngineScoreboard *(*) and   // ENGINE SCOREBOARD
+            com.massivecraft.factions.engine.EngineSkull and             // ENGINE SKULL
+            com.massivecraft.factions.engine.EngineSkull * and           // ENGINE SKULL
+            com.massivecraft.factions.engine.EngineSkull *(*) and        // ENGINE SKULL
+            com.massivecraft.factions.engine.EngineTnt and               // ENGINE TNT
+            com.massivecraft.factions.engine.EngineTnt * and             // ENGINE TNT
+            com.massivecraft.factions.engine.EngineTnt *(*)              // ENGINE TNT
             ;
 
 obfuscateFlowExclude none;
