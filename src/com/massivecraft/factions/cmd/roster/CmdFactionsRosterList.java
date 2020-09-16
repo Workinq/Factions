@@ -59,14 +59,8 @@ public class CmdFactionsRosterList extends FactionsCommand
         // Pager Create
         final List<Map.Entry<String, Rel>> roster = new MassiveList<>(faction.getRoster().entrySet());
 
-        Collections.sort(roster, new Comparator<Map.Entry<String, Rel>>()
-        {
-            @Override
-            public int compare(Map.Entry<String, Rel> i1, Map.Entry<String, Rel> i2)
-            {
-                return ComparatorSmart.get().compare(i2.getValue().getValue(), i1.getValue().getValue());
-            }
-        });
+        // Sort
+        roster.sort((role1, role2) -> ComparatorSmart.get().compare(role2.getValue().getValue(), role1.getValue().getValue()));
 
         final Pager<Map.Entry<String, Rel>> pager = new Pager<>(this, "Faction Roster", page, roster, new Stringifier<Map.Entry<String, Rel>>()
         {
