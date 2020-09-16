@@ -17,6 +17,7 @@ import com.massivecraft.factions.integration.V18.IntegrationV18;
 import com.massivecraft.factions.integration.V19.IntegrationV19;
 import com.massivecraft.factions.integration.coreprotect.IntegrationCoreProtect;
 import com.massivecraft.factions.integration.holographicdisplays.IntegrationHolographicDisplays;
+import com.massivecraft.factions.integration.litebans.IntegrationLitebans;
 import com.massivecraft.factions.integration.mobextras.IntegrationMobExtras;
 import com.massivecraft.factions.integration.spigot.IntegrationSpigot;
 import com.massivecraft.factions.integration.worldguard.IntegrationWorldGuard;
@@ -170,6 +171,7 @@ public class Factions extends MassivePlugin
 		return new MassiveList<>(
 				IntegrationCoreProtect.class,
 				IntegrationHolographicDisplays.class,
+				IntegrationLitebans.class,
 				IntegrationMobExtras.class,
 				IntegrationSpigot.class,
 				IntegrationV18.class,
@@ -216,16 +218,16 @@ public class Factions extends MassivePlugin
 	public GsonBuilder getGsonBuilder()
 	{
 		return super.getGsonBuilder()
-		.registerTypeAdapter(TerritoryAccess.class, TerritoryAccessAdapter.get())
-		.registerTypeAdapter(Board.class, BoardAdapter.get())
-		.registerTypeAdapter(Board.MAP_TYPE, BoardMapAdapter.get())
-		.registerTypeAdapter(Rel.class, RelAdapter.get())
-		.registerTypeAdapter(Chat.class, ChatAdapter.get())
-		.addSerializationExclusionStrategy(new ExclusionStrategy()
-		{
-			@Override public boolean shouldSkipField(FieldAttributes field) { return field.getName().equals("b"); }
-			@Override public boolean shouldSkipClass(Class<?> clazz) { return false; }
-		})
+			.registerTypeAdapter(TerritoryAccess.class, TerritoryAccessAdapter.get())
+			.registerTypeAdapter(Board.class, BoardAdapter.get())
+			.registerTypeAdapter(Board.MAP_TYPE, BoardMapAdapter.get())
+			.registerTypeAdapter(Rel.class, RelAdapter.get())
+			.registerTypeAdapter(Chat.class, ChatAdapter.get())
+			.addSerializationExclusionStrategy(new ExclusionStrategy()
+			{
+				@Override public boolean shouldSkipField(FieldAttributes field) { return field.getName().equals("b"); }
+				@Override public boolean shouldSkipClass(Class<?> clazz) { return false; }
+			})
 		;
 	}
 
