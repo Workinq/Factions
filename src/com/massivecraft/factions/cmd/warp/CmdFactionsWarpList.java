@@ -2,7 +2,6 @@ package com.massivecraft.factions.cmd.warp;
 
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
-import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
@@ -34,9 +33,6 @@ public class CmdFactionsWarpList extends FactionsCommand
         // Parameters
         this.addParameter(Parameter.getPage());
         this.addParameter(TypeFaction.get(), "faction", "you");
-
-        // Requirements
-        this.addRequirements(ReqHasFaction.get());
     }
 
     // -------------------------------------------- //
@@ -66,14 +62,7 @@ public class CmdFactionsWarpList extends FactionsCommand
         Collections.reverse(warps);
 
         // Pager create
-        final Pager<Mson> pager = new Pager<>(this, "Faction Warps", page, warps, new Msonifier<Mson>()
-        {
-            @Override
-            public Mson toMson(Mson item, int index)
-            {
-                return warps.get(index);
-            }
-        });
+        final Pager<Mson> pager = new Pager<>(this, "Faction Warps", page, warps, (Msonifier<Mson>) (item, index) -> warps.get(index));
 
         // Pager message
         pager.message();
