@@ -26,8 +26,6 @@ public class EngineLitebans extends Engine
 
     private void registerLitebans()
     {
-        if (Bukkit.getPluginManager().getPlugin("LiteBans") == null) return;
-
         Events.get().register(new Events.Listener()
         {
             @Override
