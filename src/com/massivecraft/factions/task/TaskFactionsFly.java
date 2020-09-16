@@ -4,20 +4,27 @@ import com.massivecraft.factions.engine.EngineFly;
 import com.massivecraft.factions.entity.*;
 import com.massivecraft.massivecore.ModuloRepeatTask;
 import com.massivecraft.massivecore.ps.PS;
+import com.massivecraft.massivecore.util.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class TaskFactionsFly extends ModuloRepeatTask
 {
+    // -------------------------------------------- //
+    // INSTANCE
+    // -------------------------------------------- //
 
     private static TaskFactionsFly i = new TaskFactionsFly();
     public static TaskFactionsFly get() { return i; }
 
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
+
     @Override
     public long getDelayMillis()
     {
-        // 1 Second
-        return 1000L;
+        return TimeUnit.MILLIS_PER_SECOND;
     }
 
     @Override
@@ -56,7 +63,7 @@ public class TaskFactionsFly extends ModuloRepeatTask
             }
             else
             {
-                if (EngineFly.get().playersWithFlyDisabled.contains(player.getUniqueId().toString()) || player.getAllowFlight() || EngineFly.get().isEnemyNear(mplayer, player, hostFaction) || ( ! MPerm.getPermFly().has(mplayer, hostFaction, false) && ( ! hostFaction.isNone() || ! (player.hasPermission("factions.wildfly") || player.hasPermission("factions.fly.any"))))) continue;
+                if (EngineFly.get().playersWithFlyDisabled.contains(player.getUniqueId()) || player.getAllowFlight() || EngineFly.get().isEnemyNear(mplayer, player, hostFaction) || ( ! MPerm.getPermFly().has(mplayer, hostFaction, false) && ( ! hostFaction.isNone() || ! (player.hasPermission("factions.wildfly") || player.hasPermission("factions.fly.any"))))) continue;
                 EngineFly.get().enableFlight(player, null);
             }
         }

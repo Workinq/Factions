@@ -21,8 +21,16 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.util.Vector;
 
+import java.util.UUID;
+
 public class EngineFly extends Engine
 {
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
+
+    public MassiveSet<UUID> playersWithFlyDisabled = new MassiveSet<>();
+
     // -------------------------------------------- //
     // INSTANCE & CONSTRUCT
     // -------------------------------------------- //
@@ -30,18 +38,12 @@ public class EngineFly extends Engine
     private static EngineFly i = new EngineFly();
     public static EngineFly get() { return i; }
 
-    // -------------------------------------------- //
-    // FIELDS
-    // -------------------------------------------- //
-
-    public MassiveSet<String> playersWithFlyDisabled = new MassiveSet<>();
-
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerToggleFly(PlayerToggleFlightEvent event)
     {
         if ( ! MOption.get().isFlight() ) return;
         Player player = event.getPlayer();
-        if (playersWithFlyDisabled.contains(player.getUniqueId().toString())) return;
+        if (playersWithFlyDisabled.contains(player.getUniqueId())) return;
         if (! event.isFlying() || MUtil.isntPlayer(player) || this.hasFlyBypass(player)) return;
 
         MPlayer mplayer = MPlayer.get(player);
@@ -90,7 +92,8 @@ public class EngineFly extends Engine
         }
     }
 
-    public void chunkChangeFlight(MPlayer mplayer, Player player, PS chunkFrom, PS chunkTo) {
+    public void chunkChangeFlight(MPlayer mplayer, Player player, PS chunkTo)
+    {
         if (MUtil.isntPlayer(player) || this.hasFlyBypass(player)) return;
 
         Faction factionTo = BoardColl.get().getFactionAt(chunkTo);
@@ -175,22 +178,22 @@ public class EngineFly extends Engine
 
     public boolean isEnemyNear(MPlayer mplayer, Player player, Faction hostFaction)
     {
-        for (Player p : Bukkit.getServer().getOnlinePlayers())
+        for (Player target : Bukkit.getServer().getOnlinePlayers())
         {
-            if (p.getWorld() != player.getWorld()) continue;
+            if (target.getWorld() != player.getWorld()) continue;
             Location playerLocation = player.getLocation();
-            Location pLocation = p.getLocation();
+            Location pLocation = target.getLocation();
             double distance = Math.pow(playerLocation.getX() - pLocation.getX(), 2.0) + Math.pow(playerLocation.getZ() - pLocation.getZ(), 2.0);
 
             if (distance > MConf.get().flyXZCheck * MConf.get().flyXZCheck) continue;
             if (Math.abs(playerLocation.getY() - pLocation.getY()) > MConf.get().flyYCheck) continue;
-            if (p == player || this.hasFlyBypass(p) || !player.canSee(p)) continue;
-            if (p.isDead()) continue;
+            if (target == player || this.hasFlyBypass(target) || !player.canSee(target)) continue;
+            if (target.isDead()) continue;
 
-            MPlayer pMplayer = MPlayer.get(p);
-            if (pMplayer == null || pMplayer.getFaction().getId().equals(mplayer.getFaction().getId())) continue;
-            if (pMplayer.isStealth()) continue;
-            if (pMplayer.getRelationTo(hostFaction) == Rel.ENEMY || pMplayer.getRelationTo(mplayer) == Rel.ENEMY)
+            MPlayer mtarget = MPlayer.get(target);
+            if (mtarget == null || mtarget.getFaction().getId().equals(mplayer.getFaction().getId())) continue;
+            if (mtarget.isStealth()) continue;
+            if (mtarget.getRelationTo(hostFaction) == Rel.ENEMY || mtarget.getRelationTo(mplayer) == Rel.ENEMY)
             {
                 return true;
             }
