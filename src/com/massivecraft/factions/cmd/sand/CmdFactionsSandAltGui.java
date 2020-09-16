@@ -6,6 +6,7 @@ import com.massivecraft.factions.action.sandalt.ActionSandaltSpawn;
 import com.massivecraft.factions.action.sandalt.ActionSandaltUpdate;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqHasFaction;
+import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.entity.object.SandAlt;
 import com.massivecraft.factions.util.InventoryUtil;
@@ -35,9 +36,11 @@ public class CmdFactionsSandAltGui extends FactionsCommand
         // Desc
         this.setDescPermission("factions.sandalt.gui");
 
+        // Parameters
+        this.addParameter(TypeFaction.get(), "faction", "you");
+
         // Requirements
         this.addRequirements(RequirementIsPlayer.get());
-        this.addRequirements(ReqHasFaction.get());
     }
 
     // -------------------------------------------- //
@@ -47,11 +50,14 @@ public class CmdFactionsSandAltGui extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
+        // Args
+        Faction faction = this.readArg(msenderFaction);
+
         // MPerm
-        if ( ! MPerm.getPermSandalt().has(msender, msenderFaction, true)) return;
+        if ( ! MPerm.getPermSandalt().has(msender, faction, true)) return;
 
         // Open
-        me.openInventory(this.getSandAltGui(me, msender, msenderFaction));
+        me.openInventory(this.getSandAltGui(me, msender, faction));
     }
 
     public Inventory getSandAltGui(Player player, MPlayer mplayer, Faction faction)
