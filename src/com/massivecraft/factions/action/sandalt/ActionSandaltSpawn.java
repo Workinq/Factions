@@ -1,4 +1,4 @@
-package com.massivecraft.factions.action;
+package com.massivecraft.factions.action.sandalt;
 
 import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.entity.BoardColl;
@@ -22,7 +22,7 @@ import org.bukkit.util.Vector;
 
 import java.util.UUID;
 
-public class ActionSpawnSandAlt extends ChestActionAbstract
+public class ActionSandaltSpawn extends ChestActionAbstract
 {
     // -------------------------------------------- //
     // FIELDS
@@ -37,7 +37,7 @@ public class ActionSpawnSandAlt extends ChestActionAbstract
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public ActionSpawnSandAlt(Faction faction, Player player, Location location, int maxAlts)
+    public ActionSandaltSpawn(Faction faction, Player player, Location location, int maxAlts)
     {
         this.faction = faction;
         this.player = player;

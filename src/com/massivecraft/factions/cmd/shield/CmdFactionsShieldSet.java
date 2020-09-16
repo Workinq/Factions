@@ -1,6 +1,6 @@
 package com.massivecraft.factions.cmd.shield;
 
-import com.massivecraft.factions.action.ActionClickShield;
+import com.massivecraft.factions.action.shield.ActionShieldClick;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
@@ -88,7 +88,7 @@ public class CmdFactionsShieldSet extends FactionsCommand
             else
             {
                 chestGui.getInventory().setItem(i, new ItemBuilder(Material.STAINED_GLASS_PANE).name(" ").durability(14).addLore("").addLore(Txt.parse("<g>Click to change your shield hours to")).addLore(fromTo).addLore("").addLore(Txt.parse("<n>Current Time: <k>%s", now)));
-                chestGui.setAction(i, new ActionClickShield(calendar.get(Calendar.HOUR_OF_DAY), faction, msender, from, to));
+                chestGui.setAction(i, new ActionShieldClick(calendar.get(Calendar.HOUR_OF_DAY), faction, msender, from, to));
             }
 
             // Increment

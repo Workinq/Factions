@@ -1,41 +1,33 @@
-package com.massivecraft.factions.action;
+package com.massivecraft.factions.action.shield;
 
-import com.massivecraft.factions.engine.EngineSand;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
-import com.massivecraft.factions.entity.object.SandAlt;
-import com.massivecraft.factions.util.InventoryUtil;
-import com.massivecraft.factions.util.ItemBuilder;
 import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
-import com.massivecraft.massivecore.chestgui.ChestGui;
-import com.massivecraft.massivecore.util.MUtil;
-import com.massivecraft.massivecore.util.Txt;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 
-public class ActionEditSandAlt extends ChestActionAbstract
+public class ActionShieldConfirm extends ChestActionAbstract
 {
     // -------------------------------------------- //
     // FIELDS
     // -------------------------------------------- //
 
-    private final SandAlt sandAlt;
+    private final int from;
     private final Faction faction;
     private final MPlayer mplayer;
+    private final String fromText, toText;
 
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public ActionEditSandAlt(SandAlt sandAlt, Faction faction, MPlayer mplayer)
+    public ActionShieldConfirm(int from, Faction faction, MPlayer mplayer, String fromText, String toText)
     {
-        this.sandAlt = sandAlt;
+        this.from = from;
         this.faction = faction;
         this.mplayer = mplayer;
+        this.fromText = fromText;
+        this.toText = toText;
     }
 
     // -------------------------------------------- //
@@ -45,7 +37,11 @@ public class ActionEditSandAlt extends ChestActionAbstract
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)
     {
-        player.openInventory(EngineSand.get().getEditGui(sandAlt, faction, mplayer, true));
+        // Apply
+        faction.setShieldedHour(from);
+
+        // Inform
+        faction.msg("%s <i>set the faction shield from <h>%s <i>to <h>%s<i>.", mplayer.describeTo(faction, true), fromText, toText);
         return true;
     }
 

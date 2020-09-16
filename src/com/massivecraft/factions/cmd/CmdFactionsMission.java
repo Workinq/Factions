@@ -1,7 +1,7 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.action.ActionStartMission;
-import com.massivecraft.factions.action.ActionViewMissions;
+import com.massivecraft.factions.action.mission.ActionMissionStart;
+import com.massivecraft.factions.action.mission.ActionMissionView;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
@@ -81,7 +81,7 @@ public class CmdFactionsMission extends FactionsCommand
             {
                 lore.add(Txt.parse("<n>Click to start a new mission"));
                 chestGui.getInventory().setItem(MConf.get().missionItemSlot, new ItemBuilder(MConf.get().missionItemType).name(Txt.parse(MConf.get().missionItemName)).data(MConf.get().missionItemData));
-                chestGui.setAction(MConf.get().missionItemSlot, new ActionStartMission(faction));
+                chestGui.setAction(MConf.get().missionItemSlot, new ActionMissionStart(faction));
             }
         }
         else
@@ -99,7 +99,7 @@ public class CmdFactionsMission extends FactionsCommand
         chestGui.getInventory().setItem(11, new ItemBuilder(Material.BOOK).name(Txt.parse("<k><bold>All Missions"))
                 .addLore(Txt.parse("<n>Click here to see a list of all faction missions"))
                 .addLore(Txt.parse("<n>along with their requirements and rewards")));
-        chestGui.setAction(11, new ActionViewMissions());
+        chestGui.setAction(11, new ActionMissionView());
         chestGui.getInventory().setItem(15, new ItemBuilder(Material.PAPER).name(Txt.parse("<k><bold>Information"))
                 .addLore(Txt.parse("<n>Faction missions are tasks randomly assigned which"))
                 .addLore(Txt.parse("<n>a faction must complete to be rewarded with credits."))

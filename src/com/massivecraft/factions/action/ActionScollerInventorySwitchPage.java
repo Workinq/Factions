@@ -5,7 +5,7 @@ import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class ActionSwitchPage extends ChestActionAbstract
+public class ActionScollerInventorySwitchPage extends ChestActionAbstract
 {
     // -------------------------------------------- //
     // FIELDS
@@ -17,7 +17,7 @@ public class ActionSwitchPage extends ChestActionAbstract
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public ActionSwitchPage(ScrollerInventory scrollerInventory)
+    public ActionScollerInventorySwitchPage(ScrollerInventory scrollerInventory)
     {
         this.scrollerInventory = scrollerInventory;
     }

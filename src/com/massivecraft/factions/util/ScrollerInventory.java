@@ -1,6 +1,6 @@
 package com.massivecraft.factions.util;
 
-import com.massivecraft.factions.action.ActionSwitchPage;
+import com.massivecraft.factions.action.ActionScollerInventorySwitchPage;
 import com.massivecraft.massivecore.chestgui.ChestGui;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Bukkit;
@@ -55,11 +55,11 @@ public abstract class ScrollerInventory
 
         // Next
         inventory.setItem(51, nextPageButton);
-        chestGui.setAction(51, new ActionSwitchPage(this));
+        chestGui.setAction(51, new ActionScollerInventorySwitchPage(this));
 
         // Previous
         inventory.setItem(47, previousPageButton);
-        chestGui.setAction(47, new ActionSwitchPage(this));
+        chestGui.setAction(47, new ActionScollerInventorySwitchPage(this));
 
         // Add
         pages.add(chestGui);

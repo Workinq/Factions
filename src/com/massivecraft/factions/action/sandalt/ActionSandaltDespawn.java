@@ -1,4 +1,4 @@
-package com.massivecraft.factions.action;
+package com.massivecraft.factions.action.sandalt;
 
 import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.entity.Faction;
@@ -8,7 +8,7 @@ import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class ActionDespawnSandAlt extends ChestActionAbstract
+public class ActionSandaltDespawn extends ChestActionAbstract
 {
     // -------------------------------------------- //
     // FIELDS
@@ -23,7 +23,7 @@ public class ActionDespawnSandAlt extends ChestActionAbstract
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public ActionDespawnSandAlt(Faction faction, MPlayer mplayer, SandAlt sandAlt, boolean redirect)
+    public ActionSandaltDespawn(Faction faction, MPlayer mplayer, SandAlt sandAlt, boolean redirect)
     {
         this.faction = faction;
         this.mplayer = mplayer;

@@ -1,7 +1,7 @@
 package com.massivecraft.factions.engine;
 
-import com.massivecraft.factions.action.ActionDespawnSandAlt;
-import com.massivecraft.factions.action.ActionPrintSandAlt;
+import com.massivecraft.factions.action.sandalt.ActionSandaltDespawn;
+import com.massivecraft.factions.action.sandalt.ActionSandaltPrint;
 import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.entity.object.SandAlt;
 import com.massivecraft.factions.event.EventFactionsChunksChange;
@@ -124,9 +124,9 @@ public class EngineSand extends Engine
         {
             chestGui.getInventory().setItem(12, new ItemBuilder(Material.INK_SACK).name(Txt.parse("<b><bold>Stop Placing")).durability(1).setLore(Txt.parse(MUtil.list("<n>Click here to <b>stop <n>your alt from", "<n>printing sand in a " + radius + "x" + radius + "x" + radius + " radius."))));
         }
-        chestGui.setAction(12, new ActionPrintSandAlt(sandAlt, ! sandAlt.isPaused()));
+        chestGui.setAction(12, new ActionSandaltPrint(sandAlt, ! sandAlt.isPaused()));
         chestGui.getInventory().setItem(14, new ItemBuilder(Material.BARRIER).name(Txt.parse("<red><bold>Despawn")).setLore(Txt.parse(MUtil.list("<n>Click here to despawn this sand alt"))));
-        chestGui.setAction(14, new ActionDespawnSandAlt(faction, mplayer, sandAlt, redirect));
+        chestGui.setAction(14, new ActionSandaltDespawn(faction, mplayer, sandAlt, redirect));
 
         // Fill
         InventoryUtil.fillInventory(chestGui.getInventory());

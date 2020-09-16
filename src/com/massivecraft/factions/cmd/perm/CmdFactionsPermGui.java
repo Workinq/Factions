@@ -1,8 +1,8 @@
 package com.massivecraft.factions.cmd.perm;
 
 import com.massivecraft.factions.Rel;
-import com.massivecraft.factions.action.ActionOpenRelations;
-import com.massivecraft.factions.action.ActionRelationModify;
+import com.massivecraft.factions.action.relation.ActionRelationOpen;
+import com.massivecraft.factions.action.relation.ActionRelationModify;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.entity.*;
@@ -75,7 +75,7 @@ public class CmdFactionsPermGui extends FactionsCommand
             item.setItemMeta(meta);
             chestGui.getInventory().setItem(slot, item);
 
-            chestGui.setAction(slot, new ActionOpenRelations(permission.getMPerm(), msender));
+            chestGui.setAction(slot, new ActionRelationOpen(permission.getMPerm(), msender));
             slot++;
         }
 

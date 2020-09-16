@@ -1,4 +1,4 @@
-package com.massivecraft.factions.action;
+package com.massivecraft.factions.action.mission;
 
 import com.massivecraft.factions.entity.MMission;
 import com.massivecraft.factions.entity.mission.AbstractMission;
@@ -17,7 +17,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionViewMissions extends ChestActionAbstract
+public class ActionMissionView extends ChestActionAbstract
 {
     // -------------------------------------------- //
     // OVERRIDE

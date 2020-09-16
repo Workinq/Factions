@@ -1,4 +1,4 @@
-package com.massivecraft.factions.action;
+package com.massivecraft.factions.action.relation;
 
 import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.cmd.CmdFactions;

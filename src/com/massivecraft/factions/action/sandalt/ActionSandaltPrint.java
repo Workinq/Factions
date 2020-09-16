@@ -1,29 +1,27 @@
-package com.massivecraft.factions.action;
+package com.massivecraft.factions.action.sandalt;
 
-import com.massivecraft.factions.cmd.CmdFactions;
-import com.massivecraft.factions.entity.MPerm;
-import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.entity.object.SandAlt;
 import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class ActionOpenRelations extends ChestActionAbstract
+public class ActionSandaltPrint extends ChestActionAbstract
 {
     // -------------------------------------------- //
     // FIELDS
     // -------------------------------------------- //
 
-    private final MPerm mPerm;
-    private final MPlayer mplayer;
+    private final SandAlt sandAlt;
+    private final boolean paused;
 
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public ActionOpenRelations(MPerm mPerm, MPlayer mplayer)
+    public ActionSandaltPrint(SandAlt sandAlt, boolean paused)
     {
-        this.mPerm = mPerm;
-        this.mplayer = mplayer;
+        this.sandAlt = sandAlt;
+        this.paused = paused;
     }
 
     // -------------------------------------------- //
@@ -33,8 +31,12 @@ public class ActionOpenRelations extends ChestActionAbstract
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)
     {
-        // Open Inventory
-        player.openInventory(CmdFactions.get().cmdFactionsPerm.cmdFactionsPermGui.getPermissionGui(mplayer, mPerm));
+        // Apply
+        sandAlt.setPaused(paused);
+
+        // Mark as changed
+        sandAlt.changed();
+
         return true;
     }
 

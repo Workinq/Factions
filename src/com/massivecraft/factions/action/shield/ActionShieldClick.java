@@ -1,4 +1,4 @@
-package com.massivecraft.factions.action;
+package com.massivecraft.factions.action.shield;
 
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
-public class ActionClickShield extends ChestActionAbstract
+public class ActionShieldClick extends ChestActionAbstract
 {
     // -------------------------------------------- //
     // FIELDS
@@ -29,7 +29,7 @@ public class ActionClickShield extends ChestActionAbstract
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public ActionClickShield(int from, Faction faction, MPlayer mplayer, String fromText, String toText)
+    public ActionShieldClick(int from, Faction faction, MPlayer mplayer, String fromText, String toText)
     {
         this.from = from;
         this.faction = faction;
@@ -57,7 +57,7 @@ public class ActionClickShield extends ChestActionAbstract
 
         // Items
         chestGui.getInventory().setItem(11, new ItemBuilder(Material.STAINED_GLASS_PANE).name(Txt.parse("<g>Confirm")).durability(13));
-        chestGui.setAction(11, new ActionConfirmShield(from, faction, mplayer, fromText, toText));
+        chestGui.setAction(11, new ActionShieldConfirm(from, faction, mplayer, fromText, toText));
         chestGui.getInventory().setItem(13, new ItemBuilder(Material.WATCH).name(" ").addLore(Txt.parse("<g>Click to change your shielded hours to")).addLore(Txt.parse("<k>%s <white>---> <k>%s <n>(<k>" + MConf.get().shieldHours + " hours total<n>)", fromText, toText)));
         chestGui.getInventory().setItem(15, new ItemBuilder(Material.STAINED_GLASS_PANE).name(Txt.parse("<b>Cancel")).durability(14));
         chestGui.setAction(15, event -> true);
