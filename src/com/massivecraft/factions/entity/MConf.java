@@ -139,7 +139,7 @@ public class MConf extends Entity<MConf>
 	public Rel defaultPlayerRole = Rel.RECRUIT;
 	
 	// What power should the player start with?
-	public double defaultPlayerPower = 0.0;
+	public double defaultPlayerPower = 100.0;
 	
 	// -------------------------------------------- //
 	// MOTD
@@ -161,17 +161,17 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 	
 	// What is the maximum player power?
-	public double powerMax = 10.0;
+	public double powerMax = 100.0;
 	
 	// What is the minimum player power?
 	// NOTE: Negative minimum values is possible.
 	public double powerMin = 0.0;
 	
 	// How much power should be regained per hour online on the server?
-	public double powerPerHour = 2.0;
+	public double powerPerHour = 20.0;
 	
 	// How much power should be lost on death?
-	public double powerPerDeath = -2.0;
+	public double powerPerDeath = -20.0;
 	
 	// Can players with negative power leave their faction?
 	// NOTE: This only makes sense to set to false if your "powerMin" setting is negative.
@@ -221,14 +221,14 @@ public class MConf extends Entity<MConf>
 
 	// Is there a maximum amount of members per faction?
 	// 0 means there is not. If you set it to 100 then there can at most be 100 members per faction.
-	public int factionMemberLimit = 0;
+	public int factionMemberLimit = 20;
 
 	// Is there a maximum amount of alts per faction?
 	// 0 means there is not. If you set it to 100 then there can at most be 100 alts per faction.
 	public int factionAltLimit = 0;
 	
 	// Is there a maximum faction power cap?
-	// 0 means there is not. Set it to a positive value in case you wan't to use this feature.
+	// 0 means there is not. Set it to a positive value in case you want to use this feature.
 	public double factionPowerMax = 0.0;
 
 	// Limit the length of faction names here.
@@ -334,13 +334,11 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 	
 	public boolean territoryInfoTitlesDefault = true;
-
 	public String territoryInfoTitlesMain = "{relcolor}{name}";
 	public String territoryInfoTitlesSub = "<i>{desc}";
 	public int territoryInfoTitlesTicksIn = 5;
 	public int territoryInfoTitlesTicksStay = 60;
 	public int territoryInfoTitleTicksOut = 5;
-
 	public String territoryInfoChat = "<i> ~ {relcolor}{name} <i>{desc}";
 	
 	// -------------------------------------------- //
@@ -452,9 +450,7 @@ public class MConf extends Entity<MConf>
 	
 	// Lists of commands to deny depending on your relation to a nearby enemy in the above distance.
 	public Map<Rel, List<String>> denyCommandsDistanceRelation = MUtil.map(
-		Rel.ENEMY, MUtil.list(
-			"home"
-		),
+		Rel.ENEMY, MUtil.list("home"),
 		Rel.NEUTRAL, new ArrayList<String>(),
 		Rel.TRUCE, new ArrayList<String>(),
 		Rel.ALLY, new ArrayList<String>(),
@@ -517,7 +513,7 @@ public class MConf extends Entity<MConf>
 	// ROSTER
 	// -------------------------------------------- //
 
-	public int rosterMemberLimit = 15;
+	public int rosterMemberLimit = 25;
 	public int rosterKickLimit = 5;
 
 	// -------------------------------------------- //
