@@ -5,6 +5,9 @@ import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.entity.MPlayerColl;
 import com.massivecraft.massivecore.Engine;
+import litebans.api.Entry;
+import litebans.api.Events;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,6 +21,7 @@ public class EnginePlayerData extends Engine
 	
 	private static EnginePlayerData i = new EnginePlayerData();
 	public static EnginePlayerData get() { return i; }
+	public EnginePlayerData() { this.registerLitebans(); }
 
 	// -------------------------------------------- //
 	// REMOVE PLAYER DATA WHEN BANNED
@@ -47,6 +51,36 @@ public class EnginePlayerData extends Engine
 
 		mplayer.leave();
 		mplayer.detach();
+	}
+
+	private void registerLitebans()
+	{
+		if (!Bukkit.getPluginManager().isPluginEnabled("LiteBans")) return;
+
+		Events.get().register(new Events.Listener()
+		{
+			@Override
+			public void entryAdded(Entry entry)
+			{
+				// If a player was banned from the server ...
+				Player player = Bukkit.getPlayer(entry.getUuid());
+
+				// ... and we remove player data when banned ...
+				if (!MConf.get().removePlayerWhenBanned) return;
+
+				// ... get rid of their stored info.
+				MPlayer mplayer = MPlayerColl.get().get(player, false);
+				if (mplayer == null) return;
+
+				if (mplayer.getRole() == Rel.LEADER)
+				{
+					mplayer.getFaction().promoteNewLeader();
+				}
+
+				mplayer.leave();
+				mplayer.detach();
+			}
+		});
 	}
 
 }

@@ -90,6 +90,11 @@
             <groupId>org.jdgames.mobextras</groupId>
             <artifactId>MobExtrasPlugin</artifactId>
         </dependency>
+        <!-- LiteBans -->
+        <dependency>
+            <groupId>com.gitlab.ruany</groupId>
+            <artifactId>LiteBansAPI</artifactId>
+        </dependency>
     </dependencies>
 
     <!-- Build -->
