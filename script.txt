@@ -76,6 +76,16 @@ exclude     // ESSENTIAL EXCLUSIONS
             com.massivecraft.factions.mixin.* * and
             com.massivecraft.factions.mixin.* *(*) and
 
+            // INTEGRATIONS
+            com.massivecraft.factions.integration.coreprotect.IntegrationCoreProtect and
+            com.massivecraft.factions.integration.holographicdisplays.IntegrationHolographicDisplays and
+            com.massivecraft.factions.integration.litebans.IntegrationLitebans and
+            com.massivecraft.factions.integration.mobextras.IntegrationMobExtras and
+            com.massivecraft.factions.integration.spigot.IntegrationSpigot and
+            com.massivecraft.factions.integration.V18.IntegrationV18 and
+            com.massivecraft.factions.integration.V19.IntegrationV19 and
+            com.massivecraft.factions.integration.worldguard.IntegrationWorldGuard and
+
             // INTERFACES
             com.massivecraft.factions.BoardInterface and                // BoardInterface
             com.massivecraft.factions.BoardInterface * and              // BoardInterface
