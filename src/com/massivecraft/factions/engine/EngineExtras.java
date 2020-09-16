@@ -22,10 +22,18 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import static com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
 
-public class EngineExtras extends Engine {
+public class EngineExtras extends Engine
+{
+    // -------------------------------------------- //
+    // INSTANCE & CONSTRUCT
+    // -------------------------------------------- //
 
     private static EngineExtras i = new EngineExtras();
     public static EngineExtras get() { return i; }
+
+    // -------------------------------------------- //
+    // HOME CHECK
+    // -------------------------------------------- //
 
     @EventHandler
     public void onCommandPreprocessEvent(PlayerCommandPreprocessEvent event)
@@ -68,6 +76,10 @@ public class EngineExtras extends Engine {
         }
     }
 
+    // -------------------------------------------- //
+    // CLAIM SQUARE
+    // -------------------------------------------- //
+
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
@@ -89,6 +101,10 @@ public class EngineExtras extends Engine {
         }
     }
 
+    // -------------------------------------------- //
+    // UNCLAIM ALL
+    // -------------------------------------------- //
+
     @EventHandler
     public void onUnclaimAll(PlayerCommandPreprocessEvent event)
     {
@@ -102,6 +118,10 @@ public class EngineExtras extends Engine {
             event.setMessage(args[0] + " unclaim all all " + event.getPlayer().getName());
         }
     }
+
+    // -------------------------------------------- //
+    // TNT FILL
+    // -------------------------------------------- //
 
     @EventHandler
     public void onTntFill(PlayerCommandPreprocessEvent event)
@@ -117,6 +137,10 @@ public class EngineExtras extends Engine {
         }
     }
 
+    // -------------------------------------------- //
+    // TNT UNFILL
+    // -------------------------------------------- //
+
     @EventHandler
     public void onTntUnfill(PlayerCommandPreprocessEvent event)
     {
@@ -131,6 +155,10 @@ public class EngineExtras extends Engine {
         }
     }
 
+    // -------------------------------------------- //
+    // ALT DAMAGE
+    // -------------------------------------------- //
+
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerDamage(EntityDamageByEntityEvent event)
     {
@@ -141,6 +169,10 @@ public class EngineExtras extends Engine {
 
         if (MPlayer.get(damager).isAlt()) event.setCancelled(true);
     }
+
+    // -------------------------------------------- //
+    // RESET FACTION DATA
+    // -------------------------------------------- //
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMembershipChange(EventFactionsMembershipChange event)
@@ -153,6 +185,10 @@ public class EngineExtras extends Engine {
             event.getMPlayer().setAlt(false);
         }
     }
+
+    // -------------------------------------------- //
+    // SPAWNERS & BASE REGION
+    // -------------------------------------------- //
 
     @EventHandler
     public void onPlaceSpawner(BlockPlaceEvent event)

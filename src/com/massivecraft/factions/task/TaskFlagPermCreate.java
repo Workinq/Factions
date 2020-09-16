@@ -19,7 +19,6 @@ public class TaskFlagPermCreate extends ModuloRepeatTask
 	
 	private static TaskFlagPermCreate i = new TaskFlagPermCreate();
 	public static TaskFlagPermCreate get() { return i; }
-	
 	public TaskFlagPermCreate()
 	{
 		super(MILLIS_INTERVAL);

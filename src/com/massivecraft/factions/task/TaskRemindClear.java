@@ -1,14 +1,19 @@
 package com.massivecraft.factions.task;
 
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.massivecore.ModuloRepeatTask;
 
 public class TaskRemindClear extends ModuloRepeatTask
 {
+    // -------------------------------------------- //
+    // INSTANCE
+    // -------------------------------------------- //
 
     private static TaskRemindClear i = new TaskRemindClear();
     public static TaskRemindClear get() { return i; }
+
+    // -------------------------------------------- //
+    // OVERRIDE
+    // -------------------------------------------- //
 
     @Override
     public long getDelayMillis()
@@ -20,13 +25,6 @@ public class TaskRemindClear extends ModuloRepeatTask
     @Override
     public void invoke(long now)
     {
-        for (Faction faction : FactionColl.get().getAll())
-        {
-//            if (faction.getNotificationTimeMinutes() == 0) continue;
-//            if (faction.getLastCheckedMillis() + faction.getNotificationTimeMinutes() * 60000 >= System.currentTimeMillis()) continue;
-
-            // faction.msg("");
-        }
     }
 
 }

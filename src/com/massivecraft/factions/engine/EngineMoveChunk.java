@@ -49,7 +49,7 @@ public class EngineMoveChunk extends Engine
 
 		if (MOption.get().isFlight())
 		{
-			EngineFly.get().chunkChangeFlight(mplayer, player, chunkFrom, chunkTo);
+			EngineFly.get().chunkChangeFlight(mplayer, player, chunkTo);
 		}
 	}
 
