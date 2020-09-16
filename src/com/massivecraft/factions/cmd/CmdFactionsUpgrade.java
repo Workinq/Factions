@@ -1,7 +1,6 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.action.ActionUpgrade;
-import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
@@ -39,7 +38,6 @@ public class CmdFactionsUpgrade extends FactionsCommand
 
         // Requirements
         this.addRequirements(RequirementIsPlayer.get());
-        this.addRequirements(ReqHasFaction.get());
     }
 
     // -------------------------------------------- //
