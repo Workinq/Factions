@@ -25,6 +25,7 @@ exclude     // ESSENTIAL EXCLUSIONS
             com.massivecraft.factions.entity.migrator.* get(*) and
             com.massivecraft.factions.integration.coreprotect.* get(*) and
             com.massivecraft.factions.integration.holographicdisplays.* get(*) and
+            com.massivecraft.factions.integration.litebans.* get(*) and
             com.massivecraft.factions.integration.mobextras.* get(*) and
             com.massivecraft.factions.integration.spigot.* get(*) and
             com.massivecraft.factions.integration.V18.* get(*) and
@@ -129,36 +130,36 @@ exclude     // ESSENTIAL EXCLUSIONS
             ;
 
 unexclude   // ENGINE UNEXCLUSIONS
-            com.massivecraft.factions.engine.EngineChest and             // ENGINE CHEST
-            com.massivecraft.factions.engine.EngineChest * and           // ENGINE CHEST
-            com.massivecraft.factions.engine.EngineChest *(*) and        // ENGINE CHEST
-            com.massivecraft.factions.engine.EngineExtras and            // ENGINE EXTRAS
-            com.massivecraft.factions.engine.EngineExtras * and          // ENGINE EXTRAS
-            com.massivecraft.factions.engine.EngineExtras *(*) and       // ENGINE EXTRAS
-            com.massivecraft.factions.engine.EngineFactionChat and       // ENGINE FACTION CHAT
-            com.massivecraft.factions.engine.EngineFactionChat * and     // ENGINE FACTION CHAT
-            com.massivecraft.factions.engine.EngineFactionChat *(*) and  // ENGINE FACTION CHAT
-            com.massivecraft.factions.engine.EngineFly and               // ENGINE FLY
-            com.massivecraft.factions.engine.EngineFly * and             // ENGINE FLY
-            com.massivecraft.factions.engine.EngineFly *(*) and          // ENGINE FLY
-            com.massivecraft.factions.engine.EngineLogin and             // ENGINE LOGIN
-            com.massivecraft.factions.engine.EngineLogin * and           // ENGINE LOGIN
-            com.massivecraft.factions.engine.EngineLogin *(*) and        // ENGINE LOGIN
-            com.massivecraft.factions.engine.EngineMoney and             // ENGINE MONEY
-            com.massivecraft.factions.engine.EngineMoney * and           // ENGINE MONEY
-            com.massivecraft.factions.engine.EngineMoney *(*) and        // ENGINE MONEY
-            com.massivecraft.factions.engine.EngineSand and              // ENGINE SAND
-            com.massivecraft.factions.engine.EngineSand * and            // ENGINE SAND
-            com.massivecraft.factions.engine.EngineSand *(*) and         // ENGINE SAND
-            com.massivecraft.factions.engine.EngineScoreboard and        // ENGINE SCOREBOARD
-            com.massivecraft.factions.engine.EngineScoreboard * and      // ENGINE SCOREBOARD
-            com.massivecraft.factions.engine.EngineScoreboard *(*) and   // ENGINE SCOREBOARD
-            com.massivecraft.factions.engine.EngineSkull and             // ENGINE SKULL
-            com.massivecraft.factions.engine.EngineSkull * and           // ENGINE SKULL
-            com.massivecraft.factions.engine.EngineSkull *(*) and        // ENGINE SKULL
-            com.massivecraft.factions.engine.EngineTnt and               // ENGINE TNT
-            com.massivecraft.factions.engine.EngineTnt * and             // ENGINE TNT
-            com.massivecraft.factions.engine.EngineTnt *(*)              // ENGINE TNT
+            com.massivecraft.factions.engine.EngineChest and                     // ENGINE CHEST
+            com.massivecraft.factions.engine.EngineChest * and                   // ENGINE CHEST
+            com.massivecraft.factions.engine.EngineChest !static *(*) and        // ENGINE CHEST
+            com.massivecraft.factions.engine.EngineExtras and                    // ENGINE EXTRAS
+            com.massivecraft.factions.engine.EngineExtras * and                  // ENGINE EXTRAS
+            com.massivecraft.factions.engine.EngineExtras !static *(*) and       // ENGINE EXTRAS
+            com.massivecraft.factions.engine.EngineFactionChat and               // ENGINE FACTION CHAT
+            com.massivecraft.factions.engine.EngineFactionChat * and             // ENGINE FACTION CHAT
+            com.massivecraft.factions.engine.EngineFactionChat !static *(*) and  // ENGINE FACTION CHAT
+            com.massivecraft.factions.engine.EngineFly and                       // ENGINE FLY
+            com.massivecraft.factions.engine.EngineFly * and                     // ENGINE FLY
+            com.massivecraft.factions.engine.EngineFly !static *(*) and          // ENGINE FLY
+            com.massivecraft.factions.engine.EngineLogin and                     // ENGINE LOGIN
+            com.massivecraft.factions.engine.EngineLogin * and                   // ENGINE LOGIN
+            com.massivecraft.factions.engine.EngineLogin !static *(*) and        // ENGINE LOGIN
+            com.massivecraft.factions.engine.EngineMoney and                     // ENGINE MONEY
+            com.massivecraft.factions.engine.EngineMoney * and                   // ENGINE MONEY
+            com.massivecraft.factions.engine.EngineMoney !static *(*) and        // ENGINE MONEY
+            com.massivecraft.factions.engine.EngineSand and                      // ENGINE SAND
+            com.massivecraft.factions.engine.EngineSand * and                    // ENGINE SAND
+            com.massivecraft.factions.engine.EngineSand !static *(*) and         // ENGINE SAND
+            com.massivecraft.factions.engine.EngineScoreboard and                // ENGINE SCOREBOARD
+            com.massivecraft.factions.engine.EngineScoreboard * and              // ENGINE SCOREBOARD
+            com.massivecraft.factions.engine.EngineScoreboard !static *(*) and   // ENGINE SCOREBOARD
+            com.massivecraft.factions.engine.EngineSkull and                     // ENGINE SKULL
+            com.massivecraft.factions.engine.EngineSkull * and                   // ENGINE SKULL
+            com.massivecraft.factions.engine.EngineSkull !static *(*) and        // ENGINE SKULL
+            com.massivecraft.factions.engine.EngineTnt and                       // ENGINE TNT
+            com.massivecraft.factions.engine.EngineTnt * and                     // ENGINE TNT
+            com.massivecraft.factions.engine.EngineTnt !static *(*)              // ENGINE TNT
             ;
 
 obfuscateFlowExclude none;
