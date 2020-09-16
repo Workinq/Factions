@@ -37,6 +37,9 @@ public class EngineLitebans extends Engine
                 // ... and we remove player data when banned ...
                 if (!MConf.get().removePlayerWhenBanned) return;
 
+                // ... and we remove player data when PERMANENTLY banned ...
+                if (MConf.get().onlyRemovePlayersWhenPermanentlyBanned && !entry.isPermanent()) return;
+
                 // ... get rid of their stored info.
                 MPlayer mplayer = MPlayerColl.get().get(player, false);
                 if (mplayer == null) return;

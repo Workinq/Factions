@@ -106,6 +106,7 @@ public class MConf extends Entity<MConf>
 	
 	// Should players be kicked from their faction and their data erased when banned?
 	public boolean removePlayerWhenBanned = true;
+	public boolean onlyRemovePlayersWhenPermanentlyBanned = true;
 	
 	// After how many milliseconds should players be automatically kicked from their faction?
 	
