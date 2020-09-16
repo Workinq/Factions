@@ -8,6 +8,7 @@ import com.massivecraft.factions.entity.object.FactionStrike;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.command.Parameter;
+import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.comparator.ComparatorSmart;
 import com.massivecraft.massivecore.mixin.MixinDisplayName;
 import com.massivecraft.massivecore.pager.Pager;
@@ -16,8 +17,6 @@ import com.massivecraft.massivecore.util.TimeDiffUtil;
 import com.massivecraft.massivecore.util.TimeUnit;
 import com.massivecraft.massivecore.util.Txt;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -38,6 +37,9 @@ public class CmdFactionsStrikeList extends FactionsCommand
         // Parameters
         this.addParameter(Parameter.getPage());
         this.addParameter(TypeFaction.get(), "faction", "you");
+
+        // Requirements
+        this.addRequirements(RequirementHasPerm.get(Perm.STRIKE_LIST));
     }
 
     // -------------------------------------------- //
@@ -58,14 +60,7 @@ public class CmdFactionsStrikeList extends FactionsCommand
         final List<FactionStrike> strikes = new MassiveList<>(faction.getStrikes());
 
         // Sort
-        Collections.sort(strikes, new Comparator<FactionStrike>()
-        {
-            @Override
-            public int compare(FactionStrike s1, FactionStrike s2)
-            {
-                return ComparatorSmart.get().compare(s2.getCreationMillis(), s1.getCreationMillis());
-            }
-        });
+        strikes.sort((strike1, strike2) -> ComparatorSmart.get().compare(strike2.getCreationMillis(), strike1.getCreationMillis()));
 
         final long now = System.currentTimeMillis();
 

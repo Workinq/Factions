@@ -1,6 +1,8 @@
 package com.massivecraft.factions.cmd.strike;
 
+import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
+import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 
 public class CmdFactionsStrike extends FactionsCommand
 {
@@ -23,6 +25,9 @@ public class CmdFactionsStrike extends FactionsCommand
 
         // Desc
         this.setDescPermission("factions.strike");
+
+        // Requirements
+        this.addRequirements(RequirementHasPerm.get(Perm.STRIKE));
     }
 
 }
