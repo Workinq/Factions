@@ -1,6 +1,5 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
@@ -31,7 +30,6 @@ public class CmdFactionsInvsee extends FactionsCommand
         this.addParameter(TypeMPlayer.get(), "player");
 
         // Requirements
-        this.addRequirements(ReqHasFaction.get());
         this.addRequirements(RequirementIsPlayer.get());
     }
 
@@ -48,20 +46,17 @@ public class CmdFactionsInvsee extends FactionsCommand
 
         if (mplayer == msender)
         {
-            msg("<b>You cannot perform /f invsee on yourself.");
-            return;
+            throw new MassiveException().setMsg("<b>You cannot perform /f invsee on yourself.");
         }
 
-        if ( mplayer.getPlayer() == null || ! mplayer.isOnline() )
+        if (mplayer.getPlayer() == null || ! mplayer.isOnline())
         {
-            msg("<b>You can only use /f invsee on online players.");
-            return;
+            throw new MassiveException().setMsg("<b>You can only use /f invsee on online players.");
         }
 
-        if ( ! msender.isOverriding() && mplayer.getFaction() != msenderFaction )
+        if (mplayer.getFaction() != msenderFaction &&  ! msender.isOverriding())
         {
-            msg("<b>You can only use /f invsee on players in your faction.");
-            return;
+            throw new MassiveException().setMsg("<b>You can only use /f invsee on players in your faction.");
         }
 
         // Apply
