@@ -3,6 +3,7 @@ package com.massivecraft.factions.cmd.ban;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.cmd.FactionsCommand;
+import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPerm;
@@ -36,6 +37,9 @@ public class CmdFactionsUnban extends FactionsCommand
 
         // Parameters
         this.addParameter(TypeSet.get(TypeMPlayer.get()), "players/all", true);
+
+        // Requirements
+        this.addRequirements(ReqHasFaction.get());
     }
 
     // -------------------------------------------- //

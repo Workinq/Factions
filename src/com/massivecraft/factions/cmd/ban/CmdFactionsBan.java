@@ -3,6 +3,7 @@ package com.massivecraft.factions.cmd.ban;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.cmd.FactionsCommand;
+import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPerm;
@@ -35,6 +36,9 @@ public class CmdFactionsBan extends FactionsCommand
 
 		// Parameters
 		this.addParameter(TypeSet.get(TypeMPlayer.get()), "players", true);
+
+		// Requirements
+		this.addRequirements(ReqHasFaction.get());
 	}
 
 	// -------------------------------------------- //
@@ -52,8 +56,8 @@ public class CmdFactionsBan extends FactionsCommand
 
 		for (MPlayer mplayer : mplayers)
 		{
-			// Already invited?
-			boolean isBanned = msenderFaction.isInvited(mplayer);
+			// Already banned?
+			boolean isBanned = msenderFaction.isBanned(mplayer);
 
 			if ( ! isBanned )
 			{
