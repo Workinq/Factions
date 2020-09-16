@@ -49,16 +49,14 @@ public class CmdFactionsTntDeposit extends FactionsCommand
         Inventory inventory = me.getInventory();
         if ( ! inventory.contains(Material.TNT))
         {
-            msg("<b>You don't have any TNT in your inventory to deposit.");
-            return;
+            throw new MassiveException().setMsg("<b>You don't have any TNT in your inventory to deposit.");
         }
 
         int amount = this.readArg();
 
         if (msenderFaction.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) == 0)
         {
-            msg("<b>You can't store any TNT as you haven't upgraded your faction bank yet.");
-            return;
+            throw new MassiveException().setMsg("<b>You can't store any TNT as you haven't upgraded your faction bank yet.");
         }
 
         int maximumTnt = Integer.parseInt(MUpgrade.get().getUpgradeByName(MUpgrade.get().tntUpgrade.getUpgradeName()).getCurrentDescription()[msenderFaction.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) - 1].split(" ")[0].replaceAll(",", ""));
@@ -72,10 +70,12 @@ public class CmdFactionsTntDeposit extends FactionsCommand
 
         if (tntInInventory >= amount)
         {
-            msg("%s<i> deposited <a>%,d <i>tnt to %s<i>.", msender.describeTo(msender, true), amount, msenderFaction.describeTo(msender));
             inventory.removeItem(new ItemStack(Material.TNT, amount));
             msenderFaction.setTnt(factionTnt + amount);
             me.updateInventory();
+
+            // Inform
+            msg("%s<i> deposited <a>%,d <i>tnt to %s<i>.", msender.describeTo(msender, true), amount, msenderFaction.describeTo(msender));
 
             // Log
             if (MConf.get().logTntTransactions)
@@ -85,7 +85,7 @@ public class CmdFactionsTntDeposit extends FactionsCommand
         }
         else
         {
-            msg("<b>You do not have %,d tnt in your inventory to deposit.", amount);
+            throw new MassiveException().setMsg("<b>You do not have %,d tnt in your inventory to deposit.", amount);
         }
     }
 

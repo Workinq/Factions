@@ -45,8 +45,7 @@ public class CmdFactionsTntUnfill extends FactionsCommand
     {
         if (msenderFaction.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) <= 0)
         {
-            msender.msg("<b>You can't use /f tnt fill as you haven't unlocked the TNT upgrade.");
-            return;
+            throw new MassiveException().setMsg("<b>You can't use /f tnt fill as you haven't unlocked the TNT upgrade.");
         }
 
         // Args
@@ -55,8 +54,7 @@ public class CmdFactionsTntUnfill extends FactionsCommand
 
         if (radius > MConf.get().maximumFillRadius)
         {
-            msg("<b>The maximum tnt unfill radius is %,d", MConf.get().maximumFillRadius);
-            return;
+            throw new MassiveException().setMsg("<b>The maximum tnt unfill radius is %,d", MConf.get().maximumFillRadius);
         }
 
         if ( ! MPerm.getPermTnt().has(msender, msenderFaction, true)) return;
@@ -84,8 +82,7 @@ public class CmdFactionsTntUnfill extends FactionsCommand
 
         if (dispensers.isEmpty())
         {
-            msg("<b>There are no dispensers nearby to be unfilled.");
-            return;
+            throw new MassiveException().setMsg("<b>There are no dispensers nearby to be unfilled.");
         }
 
         maximumTnt = Integer.parseInt(MUpgrade.get().getUpgradeByName(MUpgrade.get().tntUpgrade.getUpgradeName()).getCurrentDescription()[msenderFaction.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) - 1].split(" ")[0].replaceAll(",", ""));
@@ -137,9 +134,9 @@ public class CmdFactionsTntUnfill extends FactionsCommand
         // Inform
         if (tntToMove <= 0)
         {
-            msender.msg("<b>No dispensers nearby could be unfilled.");
-            return;
+            throw new MassiveException().setMsg("<b>No dispensers nearby could be unfilled.");
         }
+
         msg("%s<i> unfilled <h>%,d <i>dispensers totalling to <h>%,d <i>tnt.", msender.describeTo(msender, true), dispensersChanged, tntToMove);
     }
 

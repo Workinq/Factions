@@ -48,8 +48,7 @@ public class CmdFactionsTntFill extends FactionsCommand
     {
         if (msenderFaction.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) <= 0)
         {
-            msender.msg("<b>You can't use /f tnt fill as you haven't unlocked the TNT upgrade.");
-            return;
+            throw new MassiveException().setMsg("<b>You can't use /f tnt fill as you haven't unlocked the TNT upgrade.");
         }
 
         // Args
@@ -61,8 +60,7 @@ public class CmdFactionsTntFill extends FactionsCommand
 
         if (radius > MConf.get().maximumFillRadius)
         {
-            msg("<b>The maximum tnt fill radius is %,d", MConf.get().maximumFillRadius);
-            return;
+            throw new MassiveException().setMsg("<b>The maximum tnt fill radius is %,d", MConf.get().maximumFillRadius);
         }
 
         if ( ! MPerm.getPermTnt().has(msender, msenderFaction, true)) return;
@@ -70,14 +68,12 @@ public class CmdFactionsTntFill extends FactionsCommand
         int balance = msenderFaction.getTnt();
         if (tntPer > 576)
         {
-            msg("<b>The maximum TNT per dispenser is <h>576<b>.");
-            return;
+            throw new MassiveException().setMsg("<b>The maximum TNT per dispenser is <h>576<b>.");
         }
 
         if (balance <= 0)
         {
-            msg("<b>Your faction doesn't have any tnt stored.");
-            return;
+            throw new MassiveException().setMsg("<b>Your faction doesn't have any tnt stored.");
         }
 
         Block block = me.getWorld().getBlockAt(me.getLocation());
@@ -102,8 +98,7 @@ public class CmdFactionsTntFill extends FactionsCommand
 
         if (dispensers.isEmpty())
         {
-            msg("<b>There are no dispensers nearby to be filled.");
-            return;
+            throw new MassiveException().setMsg("<b>There are no dispensers nearby to be filled.");
         }
 
         tntUsed = 0;

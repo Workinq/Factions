@@ -48,28 +48,25 @@ public class CmdFactionsTntWithdraw extends FactionsCommand
             otherInInventory = InventoryUtil.getOtherIn(me.getInventory());
         }
 
+        // Args
         int spaceLeft = 2304 - (tntInInventory + otherInInventory);
         int amount = this.readArg();
-
-
         int factionTnt = msenderFaction.getTnt();
 
+        // Verify
         if (factionTnt <= 0)
         {
-            msender.msg("<b>Your faction doesn't have any tnt to withdraw.");
-            return;
+            throw new MassiveException().setMsg("<b>Your faction doesn't have any tnt to withdraw.");
         }
 
         if (amount > factionTnt)
         {
-            msender.msg("<b>Your faction doesn't have enough to withdraw %,d tnt.", amount);
-            return;
+            throw new MassiveException().setMsg("<b>Your faction doesn't have enough to withdraw %,d tnt.", amount);
         }
 
         if (amount > spaceLeft)
         {
-            msender.msg("<b>You do not have enough room in your inventory to withdraw %,d tnt.", amount);
-            return;
+            throw new MassiveException().setMsg("<b>You do not have enough room in your inventory to withdraw %,d tnt.", amount);
         }
 
         msenderFaction.setTnt(factionTnt - amount);
