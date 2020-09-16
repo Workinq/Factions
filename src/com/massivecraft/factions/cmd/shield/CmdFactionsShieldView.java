@@ -35,30 +35,29 @@ public class CmdFactionsShieldView extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
+        // Args
         Faction faction = this.readArg(msenderFaction);
 
         if (faction != msenderFaction && ! Perm.SHIELD_VIEW_ANY.has(sender, true)) return;
 
         if ( ! faction.hasShield() )
         {
-            msg("%s <i>does not have a shield set.", faction.describeTo(msender, true));
+            throw new MassiveException().setMsg("%s <i>does not have a shield set.", faction.describeTo(msender, true));
         }
-        else
-        {
-            // Command
-            final CmdFactionsShieldSet cmdFactionsShieldSet = CmdFactions.get().cmdFactionsShield.cmdFactionsShieldSet;
 
-            // Args
-            Calendar calendar = cmdFactionsShieldSet.getFreshCalendar();
-            calendar.set(Calendar.HOUR_OF_DAY, faction.getShieldedHour());
-            String from = cmdFactionsShieldSet.getTime(calendar);
-            Calendar clone = (Calendar) calendar.clone();
-            clone.add(Calendar.HOUR_OF_DAY, MConf.get().shieldHours);
-            String to = cmdFactionsShieldSet.getTime(clone);
+        // Command
+        final CmdFactionsShieldSet cmdFactionsShieldSet = CmdFactions.get().cmdFactionsShield.cmdFactionsShieldSet;
 
-            // Inform
-            msg("%s's <i>shield is active from <h>%s <i>to <h>%s<i>.", faction.describeTo(msender, true), from, to);
-        }
+        // Args
+        Calendar calendar = cmdFactionsShieldSet.getFreshCalendar();
+        calendar.set(Calendar.HOUR_OF_DAY, faction.getShieldedHour());
+        String from = cmdFactionsShieldSet.getTime(calendar);
+        Calendar clone = (Calendar) calendar.clone();
+        clone.add(Calendar.HOUR_OF_DAY, MConf.get().shieldHours);
+        String to = cmdFactionsShieldSet.getTime(clone);
+
+        // Inform
+        msg("%s's <i>shield is active from <h>%s <i>to <h>%s<i>.", faction.describeTo(msender, true), from, to);
     }
 
 }
