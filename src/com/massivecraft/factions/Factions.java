@@ -84,6 +84,7 @@ public class Factions extends MassivePlugin
 		// Register Faction accountId Extractor
 		// TODO: Perhaps this should be placed in the econ integration somewhere?
 		MUtil.registerExtractor(String.class, "accountId", ExtractorFactionAccountId.get());
+		MUtil.registerExtractor(String.class, "accountName", ExtractorFactionAccountName.get());
 
 		MigratorUtil.addJsonRepresentation(Board.class, Board.MAP_TYPE);
 
