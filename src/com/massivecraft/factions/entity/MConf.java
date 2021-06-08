@@ -54,7 +54,7 @@ public class MConf extends Entity<MConf>
 		
 		return this;
 	}
-	
+
 	// -------------------------------------------- //
 	// VERSION
 	// -------------------------------------------- //
@@ -802,11 +802,5 @@ public class MConf extends Entity<MConf>
 	public String alarmSound = "NOTE_BASS";
 	public float alarmVolume = 1.0f;
 	public float alarmPitch = 1.0f;
-
-	// -------------------------------------------- //
-	// PLACEHOLDERS
-	// -------------------------------------------- //
-
-	public boolean useIntegratedPlaceholders = false;
 
 }
