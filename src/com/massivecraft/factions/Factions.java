@@ -58,8 +58,6 @@ import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.command.type.RegistryType;
 import com.massivecraft.massivecore.store.migrator.MigratorUtil;
 import com.massivecraft.massivecore.util.MUtil;
-import com.massivecraft.massivecore.xlib.gson.ExclusionStrategy;
-import com.massivecraft.massivecore.xlib.gson.FieldAttributes;
 import com.massivecraft.massivecore.xlib.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -156,7 +154,7 @@ public class Factions extends MassivePlugin
 	@Override
 	public List<Class<?>> getClassesActiveEngines()
 	{
-		List<Class<?>> ret = new MassiveList<>(EngineCanCombatHappen.class, EngineChat.class, EngineChest.class, EngineChunkChange.class, EngineCleanInactivity.class, EngineDenyCommands.class, EngineExploit.class, EngineExtras.class, EngineFactionChat.class, EngineFlagEndergrief.class, EngineFlagExplosion.class, EngineFlagFireSpread.class, EngineFlagSpawn.class, EngineFlagZombiegrief.class, EngineFly.class, EngineLastActivity.class, EngineLogin.class, EngineMoney.class, EngineMotd.class, EngineMoveChunk.class, EnginePermBuild.class, EnginePlayerData.class, EnginePower.class, EngineSand.class, EngineScoreboard.class, EngineSeeChunk.class, EngineShow.class, EngineSkull.class, EngineTeleportHomeOnDeath.class, EngineTerritoryShield.class, EngineTnt.class, EngineVisualizations.class, EngineEcon.class);
+		List<Class<?>> ret = super.getClassesActiveEngines();
 
 		ret.remove(EngineEcon.class);
 		ret.add(EngineEcon.class);
