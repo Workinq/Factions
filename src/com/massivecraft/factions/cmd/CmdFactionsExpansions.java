@@ -11,15 +11,6 @@ public class CmdFactionsExpansions extends FactionsCommand
 	// OVERRIDE
 	// -------------------------------------------- //
 
-	public CmdFactionsExpansions()
-	{
-		// Aliases
-		this.setAliases("expansions");
-
-		// Desc
-		this.setDescPermission("factions.expansions");
-	}
-
 	@Override
 	public void perform()
 	{

@@ -22,12 +22,6 @@ public class CmdFactionsDrain extends FactionsCommand
 
     public CmdFactionsDrain()
     {
-        // Aliases
-        this.setAliases("drain");
-
-        // Desc
-        this.setDescPermission("factions.drain");
-
         // Parameters
         this.addParameter(TypeSet.get(TypeMPlayer.get()), "players/all", true);
 

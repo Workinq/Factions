@@ -14,20 +14,6 @@ public class CmdFactionsRoster extends FactionsCommand
     public CmdFactionsRosterAdd cmdFactionsRosterAdd = new CmdFactionsRosterAdd();
     public CmdFactionsRosterSetrank cmdFactionsRosterSetrank = new CmdFactionsRosterSetrank();
     public CmdFactionsRosterList cmdFactionsRosterList = new CmdFactionsRosterList();
-    public CmdFactionsRosterView cmdFactionsRosterView = new CmdFactionsRosterView();
-
-    // -------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------- //
-
-    public CmdFactionsRoster()
-    {
-        // Aliases
-        this.setAliases("roster");
-
-        // Desc
-        this.setDescPermission("factions.roster");
-    }
 
     // -------------------------------------------- //
     // OVERRIDE
@@ -36,7 +22,7 @@ public class CmdFactionsRoster extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        cmdFactionsRosterView.execute(sender, new ArrayList<>());
+        cmdFactionsRosterList.execute(sender, new ArrayList<>());
     }
 
 }

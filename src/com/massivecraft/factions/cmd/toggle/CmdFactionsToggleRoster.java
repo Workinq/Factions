@@ -19,17 +19,8 @@ public class CmdFactionsToggleRoster extends FactionsCommand
 
     public CmdFactionsToggleRoster()
     {
-        // Aliases
-        this.addAliases("roster");
-
-        // Desc
-        this.setDescPermission("factions.toggle.roster");
-
         // Parameters
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");
-
-        // Requirements
-        this.addRequirements(RequirementHasPerm.get(Perm.TOGGLE_ROSTER));
     }
 
     // -------------------------------------------- //

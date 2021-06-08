@@ -21,10 +21,7 @@ public class CmdFactionsChest extends FactionsCommand
     public CmdFactionsChest()
     {
         // Aliases
-        this.setAliases("chest", "pv");
-
-        // Desc
-        this.setDescPermission("factions.chest");
+        this.addAliases("pv");
     }
 
     // -------------------------------------------- //

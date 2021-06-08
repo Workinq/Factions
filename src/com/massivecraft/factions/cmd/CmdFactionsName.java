@@ -20,12 +20,6 @@ public class CmdFactionsName extends FactionsCommand
 	
 	public CmdFactionsName()
 	{
-		// Aliases
-		this.setAliases("name");
-
-		// Desc
-		this.setDescPermission("factions.name");
-
 		// Parameters
 		this.addParameter(TypeFactionNameLenient.get(), "new name");
 		this.addParameter(TypeFaction.get(), "faction", "you");

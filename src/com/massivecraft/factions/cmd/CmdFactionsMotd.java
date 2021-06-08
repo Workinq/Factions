@@ -18,12 +18,6 @@ public class CmdFactionsMotd extends FactionsCommand
 	
 	public CmdFactionsMotd()
 	{
-		// Aliases
-		this.setAliases("motd");
-
-		// Desc
-		this.setDescPermission("factions.motd");
-
 		// Parameters
 		this.addParameter(TypeNullable.get(TypeString.get()), "new", "read", true);
 	}
@@ -44,12 +38,10 @@ public class CmdFactionsMotd extends FactionsCommand
 		
 		// MPerm
 		if (!MPerm.getPermMotd().has(msender, msenderFaction, true)) return;
-		
+
 		// Args
 		String target = this.readArg();
-
-		target = target.trim();
-		target = Txt.parse(target);
+		if (target != null) target = Txt.parse(target.trim());
 
 		// Get Old
 		String old = msenderFaction.getMotd();

@@ -20,12 +20,6 @@ public class CmdFactionsInvsee extends FactionsCommand
 
     public CmdFactionsInvsee()
     {
-        // Aliases
-        this.setAliases("invsee");
-
-        // Desc
-        this.setDescPermission("factions.invsee");
-
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player");
 

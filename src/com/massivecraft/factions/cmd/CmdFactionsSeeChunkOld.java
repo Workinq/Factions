@@ -18,10 +18,7 @@ public class CmdFactionsSeeChunkOld extends FactionsCommand
 	public CmdFactionsSeeChunkOld()
 	{
 		// Aliases
-		this.setAliases("seeChunkOld", "sco");
-
-		// Desc
-		this.setDescPermission("factions.seechunkold");
+		this.addAliases("sco");
 
 		// Requirements
 		this.addRequirements(RequirementIsPlayer.get());

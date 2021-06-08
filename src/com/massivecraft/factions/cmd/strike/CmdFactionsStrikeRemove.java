@@ -19,12 +19,6 @@ public class CmdFactionsStrikeRemove extends FactionsCommand
 
     public CmdFactionsStrikeRemove()
     {
-        // Aliases
-        this.addAliases("remove");
-
-        // Desc
-        this.setDescPermission("factions.strike.remove");
-
         // Parameters
         this.addParameter(TypeFaction.get(), "faction");
         this.addParameter(TypeString.get(), "strike");

@@ -10,12 +10,6 @@ public class CmdFactionsLeave extends FactionsCommand
 	
 	public CmdFactionsLeave()
 	{
-		// Aliases
-		this.setAliases("leave");
-
-		// Desc
-		this.setDescPermission("factions.leave");
-
 		// Requirements
 		this.addRequirements(ReqHasFaction.get());
 	}

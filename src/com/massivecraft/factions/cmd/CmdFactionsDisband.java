@@ -20,12 +20,6 @@ public class CmdFactionsDisband extends FactionsCommand
 	
 	public CmdFactionsDisband()
 	{
-		// Aliases
-		this.setAliases("disband");
-
-		// Desc
-		this.setDescPermission("factions.disband");
-
 		// Parameters
 		this.addParameter(TypeFaction.get(), "faction", "you");
 	}

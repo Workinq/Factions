@@ -1,6 +1,5 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.Factions;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.type.primitive.TypeBooleanYes;
 import com.massivecraft.massivecore.util.IdUtil;
@@ -15,10 +14,7 @@ public class CmdFactionsLogin extends FactionsCommand
     public CmdFactionsLogin()
     {
         // Aliases
-        this.setAliases("login", "logins");
-
-        // Desc
-        this.setDescPermission("factions.login");
+        this.addAliases("logins");
 
         // Parameters
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");

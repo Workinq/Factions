@@ -28,12 +28,6 @@ public class CmdFactionsMuteList extends FactionsCommand
 
     public CmdFactionsMuteList()
     {
-        // Aliases
-        this.setAliases("mutelist", "mutes");
-
-        // Desc
-        this.setDescPermission("factions.mutelist");
-
         // Parameters
         this.addParameter(Parameter.getPage());
         this.addParameter(TypeFaction.get(), "faction", "you");

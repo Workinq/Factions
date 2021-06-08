@@ -12,17 +12,4 @@ public class CmdFactionsFlag extends FactionsCommand
 	public CmdFactionsFlagShow cmdFactionsFlagShow = new CmdFactionsFlagShow();
 	public CmdFactionsFlagSet cmdFactionsFlagSet = new CmdFactionsFlagSet();
 
-	// -------------------------------------------- //
-	// CONSTRUCT
-	// -------------------------------------------- //
-
-	public CmdFactionsFlag()
-	{
-		// Aliases
-		this.setAliases("flag");
-
-		// Desc
-		this.setDescPermission("factions.flag");
-	}
-
 }

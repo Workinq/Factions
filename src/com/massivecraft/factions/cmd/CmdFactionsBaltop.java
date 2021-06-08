@@ -24,12 +24,6 @@ public class CmdFactionsBaltop extends FactionsCommand
 
     public CmdFactionsBaltop()
     {
-        // Aliases
-        this.setAliases("baltop");
-
-        // Desc
-        this.setDescPermission("factions.baltop");
-
         // Parameters
         this.addParameter(Parameter.getPage());
         this.addParameter(TypeFaction.get(), "faction", "you");

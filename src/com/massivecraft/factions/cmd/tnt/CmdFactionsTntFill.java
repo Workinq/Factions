@@ -25,12 +25,6 @@ public class CmdFactionsTntFill extends FactionsCommand
 
     public CmdFactionsTntFill()
     {
-        // Aliases
-        this.addAliases("fill");
-
-        // Desc
-        this.setDescPermission("factions.tnt.fill");
-
         // Parameters
         this.addParameter(TypeInteger.get(), "amount", "576");
         this.addParameter(TypeInteger.get(), "radius", "20");

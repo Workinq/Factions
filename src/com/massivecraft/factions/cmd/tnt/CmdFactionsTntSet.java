@@ -16,12 +16,6 @@ public class CmdFactionsTntSet extends FactionsCommand
 
     public CmdFactionsTntSet()
     {
-        // Aliases
-        this.addAliases("set");
-
-        // Desc
-        this.setDescPermission("factions.tnt.set");
-
         // Parameters
         this.addParameter(TypeInteger.get(), "amount");
         this.addParameter(TypeFaction.get(), "faction", "you");

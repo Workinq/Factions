@@ -20,12 +20,6 @@ public class CmdFactionsTitle extends FactionsCommand
 	
 	public CmdFactionsTitle()
 	{
-		// Aliases
-		this.setAliases("title");
-
-		// Desc
-		this.setDescPermission("factions.title");
-
 		// Parameters
 		this.addParameter(TypeMPlayer.get(), "player");
 		this.addParameter(TypeString.get(), "title", "", true);

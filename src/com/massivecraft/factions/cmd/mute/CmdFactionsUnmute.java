@@ -21,12 +21,6 @@ public class CmdFactionsUnmute extends FactionsCommand
 
     public CmdFactionsUnmute()
     {
-        // Aliases
-        this.setAliases("unmute");
-
-        // Desc
-        this.setDescPermission("factions.unmute");
-
         // Parameters
         this.addParameter(TypeSet.get(TypeMPlayer.get()), "players", true);
 
@@ -47,11 +41,8 @@ public class CmdFactionsUnmute extends FactionsCommand
         Collection<MPlayer> mplayers = this.readArg();
         for (MPlayer mplayer : mplayers)
         {
-            if (mplayer == msender)
-            {
-                msg("<b>You cannot unmute yourself.");
-                continue;
-            }
+            // Same person as the sender?
+            if (mplayer == msender) continue;
 
             if (mplayer.getFaction() != msenderFaction)
             {

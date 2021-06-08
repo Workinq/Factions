@@ -15,12 +15,6 @@ public class CmdFactionsChestOpen extends FactionsCommand
 
     public CmdFactionsChestOpen()
     {
-        // Aliases
-        this.addAliases("open");
-
-        // Desc
-        this.setDescPermission("factions.chest.open");
-
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
 

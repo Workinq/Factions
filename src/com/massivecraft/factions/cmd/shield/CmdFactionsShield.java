@@ -17,19 +17,6 @@ public class CmdFactionsShield extends FactionsCommand
     public CmdFactionsShieldClear cmdFactionsShieldClear = new CmdFactionsShieldClear();
 
     // -------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------- //
-
-    public CmdFactionsShield()
-    {
-        // Aliases
-        this.setAliases("shield", "forcefield");
-
-        // Desc
-        this.setDescPermission("factions.shield");
-    }
-
-    // -------------------------------------------- //
     // OVERRIDE
     // -------------------------------------------- //
 

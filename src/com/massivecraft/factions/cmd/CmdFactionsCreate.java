@@ -25,12 +25,6 @@ public class CmdFactionsCreate extends FactionsCommand
 	
 	public CmdFactionsCreate()
 	{
-		// Aliases
-		this.setAliases("create", "new");
-
-		// Desc
-		this.setDescPermission("factions.create");
-		
 		// Parameters
 		this.addParameter(TypeFactionNameStrict.get(), "name");
 		

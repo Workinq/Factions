@@ -29,9 +29,6 @@ public class CmdFactionsMoneyTransferFf extends FactionsCommand
 		// Aliases
 		this.addAliases("ff");
 
-		// Desc
-		this.setDescPermission("factions.money.f2f");
-
 		// Parameters
 		this.addParameter(TypeDouble.get(), "amount");
 		this.addParameter(TypeFaction.get(), "faction");

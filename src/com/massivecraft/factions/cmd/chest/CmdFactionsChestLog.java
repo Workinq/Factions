@@ -27,12 +27,6 @@ public class CmdFactionsChestLog extends FactionsCommand
 
     public CmdFactionsChestLog()
     {
-        // Aliases
-        this.addAliases("log");
-
-        // Desc
-        this.setDescPermission("factions.chest.log");
-
         // Parameters
         this.addParameter(Parameter.getPage());
         this.addParameter(TypeFaction.get(), "faction", "you");

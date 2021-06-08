@@ -20,12 +20,6 @@ public class CmdFactionsStrike extends FactionsCommand
 
     public CmdFactionsStrike()
     {
-        // Aliases
-        this.setAliases("strike");
-
-        // Desc
-        this.setDescPermission("factions.strike");
-
         // Requirements
         this.addRequirements(RequirementHasPerm.get(Perm.STRIKE));
     }

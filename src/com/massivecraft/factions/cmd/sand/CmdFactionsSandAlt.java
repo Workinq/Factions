@@ -15,19 +15,6 @@ public class CmdFactionsSandAlt extends FactionsCommand
     public CmdFactionsSandAltKillAll cmdFactionsSandAltKillAll = new CmdFactionsSandAltKillAll();
 
     // -------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------- //
-
-    public CmdFactionsSandAlt()
-    {
-        // Aliases
-        this.setAliases("sandAlt", "sandBot");
-
-        // Desc
-        this.setDescPermission("factions.sandalt");
-    }
-
-    // -------------------------------------------- //
     // OVERRIDE
     // -------------------------------------------- //
 

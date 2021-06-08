@@ -18,12 +18,6 @@ public class CmdFactionsUnfocus extends FactionsCommand
 
     public CmdFactionsUnfocus()
     {
-        // Aliases
-        this.setAliases("unfocus");
-
-        // Desc
-        this.setDescPermission("factions.unfocus");
-
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player", "focused");
 

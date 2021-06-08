@@ -14,12 +14,6 @@ public class CmdFactionsMap extends FactionsCommand
 	
 	public CmdFactionsMap()
 	{
-		// Aliases
-		this.setAliases("map");
-
-		// Desc
-		this.setDescPermission("factions.map");
-
 		// Parameters
 		this.addParameter(TypeBooleanYes.get(), "on/off", "once");
 

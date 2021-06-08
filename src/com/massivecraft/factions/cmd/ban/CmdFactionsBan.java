@@ -28,12 +28,6 @@ public class CmdFactionsBan extends FactionsCommand
 
 	public CmdFactionsBan()
 	{
-		// Aliases
-		this.setAliases("ban");
-
-		// Desc
-		this.setDescPermission("factions.ban");
-
 		// Parameters
 		this.addParameter(TypeSet.get(TypeMPlayer.get()), "players", true);
 
@@ -56,6 +50,9 @@ public class CmdFactionsBan extends FactionsCommand
 
 		for (MPlayer mplayer : mplayers)
 		{
+			// Same person as the sender?
+			if (mplayer == msender) continue;
+
 			// Already banned?
 			boolean isBanned = msenderFaction.isBanned(mplayer);
 

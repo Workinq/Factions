@@ -13,17 +13,4 @@ public class CmdFactionsRelation extends FactionsCommand
 	public CmdFactionsRelationWishes cmdFactionsRelationWishes = new CmdFactionsRelationWishes();
 	public CmdFactionsRelationCheck cmdFactionsRelationCheck = new CmdFactionsRelationCheck();
 
-	// -------------------------------------------- //
-	// CONSTRUCT
-	// -------------------------------------------- //
-
-	public CmdFactionsRelation()
-	{
-		// Aliases
-		this.setAliases("relation");
-
-		// Desc
-		this.setDescPermission("factions.relation");
-	}
-
 }

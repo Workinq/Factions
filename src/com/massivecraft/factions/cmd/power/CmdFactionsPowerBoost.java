@@ -17,12 +17,6 @@ public class CmdFactionsPowerBoost extends FactionsCommand
 	
 	public CmdFactionsPowerBoost()
 	{
-		// Aliases
-		this.setAliases("powerBoost");
-
-		// Desc
-		this.setDescPermission("factions.powerboost");
-
 		// Child
 		this.addChild(this.cmdFactionsPowerBoostPlayer);
 		this.addChild(this.cmdFactionsPowerBoostFaction);

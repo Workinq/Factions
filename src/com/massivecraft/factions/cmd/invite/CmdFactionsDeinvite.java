@@ -28,12 +28,6 @@ public class CmdFactionsDeinvite extends FactionsCommand
 
     public CmdFactionsDeinvite()
     {
-        // Aliases
-        this.setAliases("deinvite");
-
-        // Desc
-        this.setDescPermission("factions.deinvite");
-
         // Parameters
         this.addParameter(TypeSet.get(TypeMPlayer.get()), "players/all", true);
 

@@ -23,12 +23,6 @@ public class CmdFactionsTntUnfill extends FactionsCommand
 
     public CmdFactionsTntUnfill()
     {
-        // Aliases
-        this.addAliases("unfill");
-
-        // Desc
-        this.setDescPermission("factions.tnt.unfill");
-
         // Parameters
         this.addParameter(TypeInteger.get(), "radius", "20");
 

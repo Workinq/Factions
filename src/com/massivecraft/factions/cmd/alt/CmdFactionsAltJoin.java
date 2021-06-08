@@ -24,12 +24,6 @@ public class CmdFactionsAltJoin extends FactionsCommand
 
     public CmdFactionsAltJoin()
     {
-        // Aliases
-        this.addAliases("join");
-
-        // Desc
-        this.setDescPermission("factions.alt.join");
-
         // Parameters
         this.addParameter(TypeFaction.get(), "faction");
         this.addParameter(TypeMPlayer.get(), "player", "you");

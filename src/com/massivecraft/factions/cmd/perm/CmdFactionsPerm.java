@@ -17,19 +17,6 @@ public class CmdFactionsPerm extends FactionsCommand
 	public CmdFactionsPermGui cmdFactionsPermGui = new CmdFactionsPermGui();
 
 	// -------------------------------------------- //
-	// CONSTRUCT
-	// -------------------------------------------- //
-
-	public CmdFactionsPerm()
-	{
-		// Aliases
-		this.setAliases("perm");
-
-		// Desc
-		this.setDescPermission("factions.perm");
-	}
-
-	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
 

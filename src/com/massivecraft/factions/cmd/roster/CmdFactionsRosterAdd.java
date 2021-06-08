@@ -20,12 +20,6 @@ public class CmdFactionsRosterAdd extends FactionsCommand
 
     public CmdFactionsRosterAdd()
     {
-        // Aliases
-        this.addAliases("add");
-
-        // Desc
-        this.setDescPermission("factions.roster.add");
-
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player");
         this.addParameter(TypeRel.get(), "role", "recruit");

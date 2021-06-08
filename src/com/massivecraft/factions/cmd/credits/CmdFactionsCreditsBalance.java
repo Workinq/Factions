@@ -15,12 +15,6 @@ public class CmdFactionsCreditsBalance extends FactionsCommand
 	
 	public CmdFactionsCreditsBalance()
 	{
-		// Aliases
-		this.addAliases("balance");
-
-		// Desc
-		this.setDescPermission("factions.credits.balance");
-
 		// Parameters
 		this.addParameter(TypeFaction.get(), "faction", "you");
 	}

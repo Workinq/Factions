@@ -22,12 +22,6 @@ public class CmdFactionsFlagList extends FactionsCommand
 	
 	public CmdFactionsFlagList()
 	{
-		// Aliases
-		this.addAliases("list");
-
-		// Desc
-		this.setDescPermission("factions.flag.list");
-
 		// Parameters
 		this.addParameter(Parameter.getPage());
 	}

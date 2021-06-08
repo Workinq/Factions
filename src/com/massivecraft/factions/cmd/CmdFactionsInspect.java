@@ -15,12 +15,6 @@ public class CmdFactionsInspect extends FactionsCommand
 
     public CmdFactionsInspect()
     {
-        // Aliases
-        this.setAliases("inspect");
-
-        // Desc
-        this.setDescPermission("factions.inspect");
-
         // Parameters
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");
 

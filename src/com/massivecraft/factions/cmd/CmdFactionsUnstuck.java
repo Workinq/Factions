@@ -27,12 +27,6 @@ public class CmdFactionsUnstuck extends FactionsCommand
 	
 	public CmdFactionsUnstuck()
 	{
-		// Aliases
-		this.setAliases("unstuck");
-
-		// Desc
-		this.setDescPermission("factions.unstuck");
-
 		// Requirements
 		this.addRequirements(RequirementIsPlayer.get());
 	}

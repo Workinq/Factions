@@ -13,14 +13,8 @@ public class CmdFactionsPaypalSet extends FactionsCommand
 
     public CmdFactionsPaypalSet()
     {
-        // Aliases
-        this.addAliases("set");
-
-        // Desc
-        this.setDescPermission("factions.paypal.set");
-
         // Parameters
-        this.addParameter(TypeString.get(), "paypal");
+        this.addParameter(TypeString.get(), "email");
     }
 
     // -------------------------------------------- //

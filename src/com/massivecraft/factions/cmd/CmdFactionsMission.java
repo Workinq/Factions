@@ -30,12 +30,6 @@ public class CmdFactionsMission extends FactionsCommand
 
     public CmdFactionsMission()
     {
-        // Aliases
-        this.setAliases("mission");
-
-        // Desc
-        this.setDescPermission("factions.mission");
-
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
 

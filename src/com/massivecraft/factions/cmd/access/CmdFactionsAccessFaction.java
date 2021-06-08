@@ -15,12 +15,6 @@ public class CmdFactionsAccessFaction extends CmdFactionsAccessAbstract
 	
 	public CmdFactionsAccessFaction()
 	{
-		// Aliases
-		this.addAliases("faction");
-
-		// Desc
-		this.setDescPermission("factions.access.faction");
-
 		// Parameters
 		this.addParameter(TypeFaction.get(), "faction");
 		this.addParameter(TypeBooleanYes.get(), "yes/no", "toggle");

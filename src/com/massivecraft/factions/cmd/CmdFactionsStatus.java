@@ -27,12 +27,6 @@ public class CmdFactionsStatus extends FactionsCommand
 	
 	public CmdFactionsStatus()
 	{
-		// Aliases
-		this.setAliases("status");
-
-		// Desc
-		this.setDescPermission("factions.status");
-
 		// Parameters
 		this.addParameter(Parameter.getPage());
 		this.addParameter(TypeFaction.get(), "faction", "you");

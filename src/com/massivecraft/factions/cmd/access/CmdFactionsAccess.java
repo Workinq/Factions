@@ -20,12 +20,6 @@ public class CmdFactionsAccess extends FactionsCommand
 	
 	public CmdFactionsAccess()
 	{
-		// Aliases
-		this.setAliases("access");
-
-		// Desc
-		this.setDescPermission("factions.access");
-
 		// Requirements
 		this.addRequirements(RequirementIsPlayer.get());
 	}

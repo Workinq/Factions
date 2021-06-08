@@ -11,17 +11,4 @@ public class CmdFactionsDiscord extends FactionsCommand
     public CmdFactionsDiscordSet cmdFactionsDiscordSet = new CmdFactionsDiscordSet();
     public CmdFactionsDiscordCheck cmdFactionsDiscordCheck = new CmdFactionsDiscordCheck();
 
-    // -------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------- //
-
-    public CmdFactionsDiscord()
-    {
-        // Aliases
-        this.setAliases("discord");
-
-        // Desc
-        this.setDescPermission("factions.discord");
-    }
-
 }

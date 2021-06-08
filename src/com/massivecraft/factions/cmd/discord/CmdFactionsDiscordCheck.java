@@ -15,12 +15,6 @@ public class CmdFactionsDiscordCheck extends FactionsCommand
 
     public CmdFactionsDiscordCheck()
     {
-        // Aliases
-        this.addAliases("check");
-
-        // Desc
-        this.setDescPermission("factions.discord.check");
-
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
     }

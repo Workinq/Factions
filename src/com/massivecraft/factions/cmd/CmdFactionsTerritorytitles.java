@@ -16,10 +16,7 @@ public class CmdFactionsTerritorytitles extends FactionsCommand
 	public CmdFactionsTerritorytitles()
 	{
 		// Aliases
-		this.setAliases("territoryTitles", "tt");
-
-		// Desc
-		this.setDescPermission("factions.territorytitles");
+		this.addAliases("tt");
 
 		// Parameters
 		this.addParameter(TypeBooleanOn.get(), "on|off", "toggle");

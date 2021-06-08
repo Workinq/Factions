@@ -19,17 +19,8 @@ public class CmdFactionsToggleShield extends FactionsCommand
 
 	public CmdFactionsToggleShield()
 	{
-		// Aliases
-		this.addAliases("shield");
-
-		// Desc
-		this.setDescPermission("factions.toggle.shield");
-
 		// Parameters
 		this.addParameter(!MOption.get().isShield(), TypeBooleanYes.get(), "yes/no");
-
-		// Requirements
-		this.addRequirements(RequirementHasPerm.get(Perm.TOGGLE_SHIELD));
 	}
 
 	// -------------------------------------------- //

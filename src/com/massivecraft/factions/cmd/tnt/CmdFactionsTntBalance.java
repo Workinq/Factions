@@ -15,12 +15,6 @@ public class CmdFactionsTntBalance extends FactionsCommand
 
     public CmdFactionsTntBalance()
     {
-        // Aliases
-        this.addAliases("balance");
-
-        // Desc
-        this.setDescPermission("factions.tnt.balance");
-
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
     }

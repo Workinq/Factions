@@ -22,19 +22,6 @@ public class CmdFactionsUnclaim extends FactionsCommand
 	public CmdFactionsSetAll cmdFactionsUnclaimAll = new CmdFactionsSetAll(false);
 
 	// -------------------------------------------- //
-	// CONSTRUCT
-	// -------------------------------------------- //
-
-	public CmdFactionsUnclaim()
-	{
-		// Aliases
-		this.setAliases("unclaim");
-
-		// Desc
-		this.setDescPermission("factions.unclaim");
-	}
-
-	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
 

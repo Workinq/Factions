@@ -13,12 +13,6 @@ public class CmdFactionsLocation extends FactionsCommand
 
     public CmdFactionsLocation()
     {
-        // Aliases
-        this.setAliases("location");
-
-        // Desc
-        this.setDescPermission("factions.location");
-
         // Requirements
         this.addRequirements(ReqHasFaction.get());
     }

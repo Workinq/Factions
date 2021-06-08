@@ -21,12 +21,6 @@ public class CmdFactionsPlayer extends FactionsCommand
 	
 	public CmdFactionsPlayer()
 	{
-		// Aliases
-		this.setAliases("player");
-
-		// Desc
-		this.setDescPermission("factions.player");
-
 		// Parameters
 		this.addParameter(TypeMPlayer.get(), "player", "you");
 	}

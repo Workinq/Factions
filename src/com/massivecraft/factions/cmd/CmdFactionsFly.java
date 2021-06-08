@@ -14,12 +14,6 @@ public class CmdFactionsFly extends FactionsCommand
 
     public CmdFactionsFly()
     {
-        // Aliases
-        this.setAliases("fly");
-
-        // Desc
-        this.setDescPermission("factions.fly");
-
         // Parameters
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");
 

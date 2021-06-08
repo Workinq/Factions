@@ -15,12 +15,6 @@ public class CmdFactionsPaypalCheck extends FactionsCommand
 
     public CmdFactionsPaypalCheck()
     {
-        // Aliases
-        this.addAliases("check");
-
-        // Desc
-        this.setDescPermission("factions.paypal.check");
-
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
     }

@@ -22,12 +22,6 @@ public class CmdFactionsMute extends FactionsCommand
 
     public CmdFactionsMute()
     {
-        // Aliases
-        this.setAliases("mute");
-
-        // Desc
-        this.setDescPermission("factions.mute");
-
         // Parameters
         this.addParameter(TypeSet.get(TypeMPlayer.get()), "players", true);
 
@@ -49,11 +43,8 @@ public class CmdFactionsMute extends FactionsCommand
 
         for (MPlayer mplayer : mplayers)
         {
-            if (mplayer == msender)
-            {
-                msg("<b>You cannot mute yourself.");
-                continue;
-            }
+            // Same person as the sender?
+            if (mplayer == msender) continue;
 
             if (mplayer.getFaction() != msenderFaction)
             {

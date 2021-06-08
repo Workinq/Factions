@@ -22,19 +22,6 @@ public class CmdFactionsClaim extends FactionsCommand
 	public CmdFactionsSetAll cmdFactionsClaimAll = new CmdFactionsSetAll(true);
 
 	// -------------------------------------------- //
-	// CONSTRUCT
-	// -------------------------------------------- //
-
-	public CmdFactionsClaim()
-	{
-		// Aliases
-		this.setAliases("claim");
-
-		// Desc
-		this.setDescPermission("factions.claim");
-	}
-
-	// -------------------------------------------- //
 	// OVERRIDE
 	// -------------------------------------------- //
 

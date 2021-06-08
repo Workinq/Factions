@@ -11,17 +11,4 @@ public class CmdFactionsPaypal extends FactionsCommand
     public CmdFactionsPaypalSet cmdFactionsPaypalSet = new CmdFactionsPaypalSet();
     public CmdFactionsPaypalCheck cmdFactionsPaypalCheck = new CmdFactionsPaypalCheck();
 
-    // -------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------- //
-
-    public CmdFactionsPaypal()
-    {
-        // Aliases
-        this.setAliases("paypal");
-
-        // Desc
-        this.setDescPermission("factions.paypal");
-    }
-
 }

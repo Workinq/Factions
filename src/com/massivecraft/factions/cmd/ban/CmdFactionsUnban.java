@@ -29,12 +29,6 @@ public class CmdFactionsUnban extends FactionsCommand
 
     public CmdFactionsUnban()
     {
-        // Aliases
-        this.setAliases("unban");
-
-        // Desc
-        this.setDescPermission("factions.unban");
-
         // Parameters
         this.addParameter(TypeSet.get(TypeMPlayer.get()), "players/all", true);
 
@@ -78,6 +72,9 @@ public class CmdFactionsUnban extends FactionsCommand
 
         for (MPlayer mplayer : mplayers)
         {
+            // Same person as the sender?
+            if (mplayer == msender) continue;
+
             // Already banned?
             boolean isBanned = msenderFaction.isBanned(mplayer);
 

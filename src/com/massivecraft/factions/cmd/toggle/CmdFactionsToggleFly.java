@@ -19,17 +19,8 @@ public class CmdFactionsToggleFly extends FactionsCommand
 
     public CmdFactionsToggleFly()
     {
-        // Aliases
-        this.addAliases("fly", "flight");
-
-        // Desc
-        this.setDescPermission("factions.toggle.fly");
-
         // Parameters
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");
-
-        // Requirements
-        this.addRequirements(RequirementHasPerm.get(Perm.TOGGLE_FLY));
     }
 
     // -------------------------------------------- //

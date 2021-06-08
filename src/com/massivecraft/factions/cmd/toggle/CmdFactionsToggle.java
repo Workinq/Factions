@@ -15,20 +15,4 @@ public class CmdFactionsToggle extends FactionsCommand
     public CmdFactionsToggleShield cmdFactionsToggleShield = new CmdFactionsToggleShield();
     public CmdFactionsToggleRoster cmdFactionsToggleRoster = new CmdFactionsToggleRoster();
 
-    // -------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------- //
-
-    public CmdFactionsToggle()
-    {
-        // Aliases
-        this.setAliases("toggle");
-
-        // Desc
-        this.setDescPermission("factions.toggle");
-
-        // Requirements
-        this.addRequirements(RequirementHasPerm.get(Perm.TOGGLE));
-    }
-
 }

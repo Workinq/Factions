@@ -23,12 +23,6 @@ public class CmdFactionsList extends FactionsCommand
 
 	public CmdFactionsList()
 	{
-		// Aliases
-		this.setAliases("list");
-
-		// Desc
-		this.setDescPermission("factions.list");
-
 		// Parameters
 		this.addParameter(Parameter.getPage());
 	}

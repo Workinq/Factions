@@ -12,12 +12,6 @@ public class CmdFactionsStealth extends FactionsCommand
 
     public CmdFactionsStealth()
     {
-        // Aliases
-        this.setAliases("stealth");
-
-        // Desc
-        this.setDescPermission("factions.stealth");
-
         // Parameters
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");
     }

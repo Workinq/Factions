@@ -29,12 +29,6 @@ public class CmdFactionsShieldSet extends FactionsCommand
 
     public CmdFactionsShieldSet()
     {
-        // Aliases
-        this.addAliases("set");
-
-        // Desc
-        this.setDescPermission("factions.shield.set");
-
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
 
