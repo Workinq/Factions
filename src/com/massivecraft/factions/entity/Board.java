@@ -369,5 +369,5 @@ public class Board extends Entity<Board> implements BoardInterface
 		}
 		return false;
 	}
-	
+
 }

@@ -18,7 +18,9 @@ import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, Named
 {
@@ -32,7 +34,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient String ID_BUTTON = "button";
 	public final static transient String ID_LEVER = "lever";
 	public final static transient String ID_CONTAINER = "container";
-	
 	public final static transient String ID_NAME = "name";
 	public final static transient String ID_DESC = "desc";
 	public final static transient String ID_MOTD = "motd";
@@ -78,8 +79,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient String ID_FLY = "fly";
 	public final static transient String ID_ALARM = "alarm";
 	public final static transient String ID_CLEAR = "clear";
-//	public final static transient String ID_BANNER = "banner";
-//	public final static transient String ID_ASSIST = "assist";
 
 	public final static transient int PRIORITY_BUILD = 1000;
 	public final static transient int PRIORITY_PAINBUILD = 2000;
@@ -87,7 +86,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_BUTTON = 4000;
 	public final static transient int PRIORITY_LEVER = 5000;
 	public final static transient int PRIORITY_CONTAINER = 6000;
-	
 	public final static transient int PRIORITY_NAME = 7000;
 	public final static transient int PRIORITY_DESC = 8000;
 	public final static transient int PRIORITY_MOTD = 9000;
@@ -133,8 +131,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_MUTE = 49000;
 	public final static transient int PRIORITY_ALARM = 50000;
 	public final static transient int PRIORITY_CLEAR = 51000;
-	// public final static transient int PRIORITY_BANNER = 47000;
-	// public final static transient int PRIORITY_ASSIST = 48000;
 
 	// -------------------------------------------- //
 	// META: CORE
@@ -211,8 +207,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		getPermFly();
 		getPermAlarm();
 		getPermClear();
-//		getPermBanner();
-//		getPermAssist();
 	}
 
 	public static MPerm getPermBuild() { return getCreative(PRIORITY_BUILD, ID_BUILD, ID_BUILD, "edit the terrain", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER), true, true, true); }
@@ -267,8 +261,6 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public static MPerm getPermFly() { return getCreative(PRIORITY_FLY, ID_FLY, ID_FLY, "toggle faction fly", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER, Rel.RECRUIT), false, true, true); }
 	public static MPerm getPermAlarm() { return getCreative(PRIORITY_ALARM, ID_ALARM, ID_ALARM, "toggle faction alarm", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermClear() { return getCreative(PRIORITY_CLEAR, ID_CLEAR, ID_CLEAR, "mark walls as cleared", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
-//	public static MPerm getPermBanner() { return getCreative(PRIORITY_BANNER, ID_BANNER, ID_BANNER, "manage faction banner", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
-//	public static MPerm getPermAssist() { return getCreative(PRIORITY_ASSIST, ID_ASSIST, ID_ASSIST, "teleport to faction banner", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER), false, true, true); }
 
 	public static MPerm getCreative(int priority, String id, String name, String desc, Set<Rel> standard, boolean territory, boolean editable, boolean visible)
 	{
@@ -559,5 +551,5 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		
 		return ret.toString();
 	}
-	
+
 }

@@ -1632,9 +1632,9 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return mutedMembers.stream().anyMatch(factionMute -> factionMute.getMutedId().equals(playerId));
 	}
 
-	public boolean isMuted(MPlayer mPlayer)
+	public boolean isMuted(MPlayer mplayer)
 	{
-		return this.isMuted(mPlayer.getId());
+		return this.isMuted(mplayer.getId());
 	}
 
 	public boolean unmute(String playerId)

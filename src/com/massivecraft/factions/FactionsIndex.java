@@ -78,17 +78,19 @@ public class FactionsIndex
 	public synchronized void updateAll()
 	{
 		if (!MPlayerColl.get().isActive()) throw new IllegalStateException("The MPlayerColl is not yet fully activated.");
-		
-		for (MPlayer mplayer : MPlayerColl.get().getAll())
-		{
-			this.update(mplayer);
-		}
+		MPlayerColl.get().getAll().forEach(this::update);
 	}
 	
 	public synchronized void update(MPlayer mplayer)
 	{
 		if (mplayer == null) throw new NullPointerException("mplayer");
 		if (!FactionColl.get().isActive()) throw new IllegalStateException("The FactionColl is not yet fully activated.");
+
+		// TODO: This is not optimal but here we remove a player from the index when
+		// the mplayer object is detached. Optimally it should be removed
+		// automatically because it is stored as a weak reference.
+		// But sometimes that doesn't happen so we do this instead.
+		// Is there a memory leak somewhere?
 		if (!mplayer.attached())
 		{
 			Faction factionIndexed = this.mplayer2faction.remove(mplayer);
@@ -125,11 +127,7 @@ public class FactionsIndex
 	public synchronized void update(Faction faction)
 	{
 		if (faction == null) throw new NullPointerException("faction");
-		
-		for (MPlayer mplayer : this.getMPlayers(faction))
-		{
-			this.update(mplayer);
-		}
+		this.getMPlayers(faction).forEach(this::update);
 	}
 	
 	// -------------------------------------------- //

@@ -1,7 +1,6 @@
 package com.massivecraft.factions.util;
 
 import com.massivecraft.factions.RelationParticipator;
-import com.massivecraft.factions.TerritoryAccess;
 import com.massivecraft.factions.entity.Board;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
@@ -249,5 +248,5 @@ public class AsciiMap
 		// Return
 		return Mson.implode(ret, SPACE);
 	}
-	
+
 }

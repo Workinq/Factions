@@ -202,7 +202,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	private Boolean alt = null;
 
 	// Stores if a player was flying, idfk.
-	private Boolean wasFlying = null;
+	private Boolean cancelFallDamage = null;
 
 	// This determines if the player should receive login notifications from their faction members.
 	// By default they will receive notifications but they can be toggled using /f login.
@@ -524,25 +524,25 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// FIELD: wasFlying
 	// -------------------------------------------- //
 
-	public boolean wasFlying()
+	public boolean hasCancelledFallDamage()
 	{
-		if (this.wasFlying == null) return false;
-		if (!this.wasFlying) return false;
+		if (this.cancelFallDamage == null) return false;
+		if (!this.cancelFallDamage) return false;
 
 		return true;
 	}
 
-	public void setWasFlying(Boolean wasFlying)
+	public void setCancelFallDamage(Boolean cancelFallDamage)
 	{
 		// Clean input
-		Boolean target = wasFlying;
+		Boolean target = cancelFallDamage;
 		if (MUtil.equals(target, false)) target = null;
 
 		// Detect Nochange
-		if (MUtil.equals(this.wasFlying, target)) return;
+		if (MUtil.equals(this.cancelFallDamage, target)) return;
 
 		// Apply
-		this.wasFlying = target;
+		this.cancelFallDamage = target;
 
 		// Mark as changed
 		this.changed();
