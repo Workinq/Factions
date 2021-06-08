@@ -4,6 +4,7 @@ import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
+import com.massivecraft.factions.entity.MFlag;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.event.*;
 import com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
@@ -43,7 +44,10 @@ public class EngineEcon extends Engine
 		MPlayer mplayer = event.getMPlayer();
 		Faction oldFaction = mplayer.getFaction();
 		if (oldFaction.getMPlayers().size() > 1) return;
-		
+
+		// ... and the faction is not permanent
+		if (oldFaction.getFlag(MFlag.getFlagPermanent())) return;
+
 		// ... then transfer all money to the player. 
 		double money = Money.get(oldFaction);
 		if (money == 0) return;

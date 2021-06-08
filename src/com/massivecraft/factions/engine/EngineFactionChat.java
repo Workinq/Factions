@@ -6,7 +6,6 @@ import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
-import com.massivecraft.factions.entity.MPlayerColl;
 import com.massivecraft.massivecore.Engine;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -32,72 +31,67 @@ public class EngineFactionChat extends Engine
     {
         // Args
         String msg = event.getMessage();
-        MPlayer me = MPlayer.get(event.getPlayer());
-        Chat chat = me.getChat();
-        Faction myFaction = me.getFaction();
+        MPlayer mplayer = MPlayer.get(event.getPlayer());
+        Faction faction = mplayer.getFaction();
+        Chat chat = mplayer.getChat();
 
         // Verify
-        if (myFaction.isNone() && chat != Chat.PUBLIC) me.setChat(Chat.PUBLIC);
+        if (faction.isNone() && chat != Chat.PUBLIC) mplayer.setChat(Chat.PUBLIC);
 
         // Inform
         String message;
         switch (chat)
         {
             case FACTION:
-                if (myFaction.isMuted(me.getId()))
+                if (faction.isMuted(mplayer.getId()))
                 {
-                    me.msg("<b>You are currently muted in the faction");
+                    mplayer.msg("<b>You are currently muted in the faction");
                     event.setCancelled(true);
                     return;
                 }
-                message = String.format(MConf.get().chatFormat, me.describeTo(myFaction), msg);
-                for (Player player : Bukkit.getOnlinePlayers())
+                message = String.format(MConf.get().chatFormat, mplayer.describeTo(faction), msg);
+                for (Player target : Bukkit.getOnlinePlayers())
                 {
-                    MPlayer mplayer = MPlayer.get(player);
-                    if (mplayer.isSpying())
+                    MPlayer mtarget = MPlayer.get(target);
+                    if (mtarget.isSpying())
                     {
-                        mplayer.msg(MConf.get().spyChatFormat, me.describeTo(mplayer, true), Chat.FACTION.getName(), msg);
+                        mtarget.msg(MConf.get().spyChatFormat, mplayer.describeTo(mtarget, true), Chat.FACTION.getName(), msg);
                     }
-                    if (mplayer.getFaction() != myFaction) continue;
-                    if (mplayer.isIgnoring(me)) continue; // Sad times :(
-                    mplayer.msg(message);
+                    if (mtarget.getFaction() != faction) continue;
+                    if (mtarget.isIgnoring(mplayer)) continue; // Sad times :(
+                    mtarget.msg(message);
                 }
-                Factions.get().log(" [Faction Chat] " + me.getName() + " sent a message: " + msg);
+                Factions.get().log(" [Faction Chat] " + mplayer.getName() + " sent a message: " + msg);
                 event.setCancelled(true);
                 break;
             case ALLY:
-                message = String.format(MConf.get().chatFormat, Rel.ALLY.getColor() + me.getNameAndFactionName(), msg);
-                for (MPlayer mPlayer : MPlayerColl.get().getAllOnline())
+                message = String.format(MConf.get().chatFormat, Rel.ALLY.getColor() + mplayer.getNameAndFactionName(), msg);
+                for (Player target : Bukkit.getOnlinePlayers())
                 {
-                    if (mPlayer.isSpying())
+                    MPlayer mtarget = MPlayer.get(target);
+                    if (mtarget.isSpying())
                     {
-                        mPlayer.msg(MConf.get().spyChatFormat, me.describeTo(mPlayer, true), Chat.ALLY.getName(), msg);
+                        mtarget.msg(MConf.get().spyChatFormat, mplayer.describeTo(mtarget, true), Chat.ALLY.getName(), msg);
                     }
-                    if (mPlayer.getFaction() != myFaction && mPlayer.getFaction().getRelationTo(myFaction) != Rel.ALLY) continue;
-                    mPlayer.msg(message);
+                    if (mtarget.getFaction() != faction && mtarget.getFaction().getRelationTo(faction) != Rel.ALLY) continue;
+                    mtarget.msg(message);
                 }
-                Factions.get().log(" [Ally Chat] " + me.getName() + " sent a message: " + msg);
+                Factions.get().log(" [Ally Chat] " + mplayer.getName() + " sent a message: " + msg);
                 event.setCancelled(true);
                 break;
             case TRUCE:
-                if (myFaction.isMuted(me.getId()))
+                message = String.format(MConf.get().chatFormat, Rel.TRUCE.getColor() + mplayer.getNameAndFactionName(), msg);
+                for (Player target : Bukkit.getOnlinePlayers())
                 {
-                    me.msg("You are currently muted in the faction");
-                    event.setCancelled(true);
-                    return;
-                }
-                message = String.format(MConf.get().chatFormat, Rel.TRUCE.getColor() + me.getNameAndFactionName(), msg);
-                for (Player player : Bukkit.getOnlinePlayers())
-                {
-                    MPlayer mplayer = MPlayer.get(player);
-                    if (mplayer.isSpying())
+                    MPlayer mtarget = MPlayer.get(target);
+                    if (mtarget.isSpying())
                     {
-                        mplayer.msg(MConf.get().spyChatFormat, me.describeTo(mplayer, true), Chat.TRUCE.getName(), msg);
+                        mtarget.msg(MConf.get().spyChatFormat, mplayer.describeTo(mtarget, true), Chat.TRUCE.getName(), msg);
                     }
-                    if (mplayer.getFaction() != myFaction && mplayer.getFaction().getRelationTo(myFaction) != Rel.TRUCE) continue;
-                    mplayer.msg(message);
+                    if (mtarget.getFaction() != faction && mtarget.getFaction().getRelationTo(faction) != Rel.TRUCE) continue;
+                    mtarget.msg(message);
                 }
-                Factions.get().log(" [Truce Chat] " + me.getName() + " sent a message: " + msg);
+                Factions.get().log(" [Truce Chat] " + mplayer.getName() + " sent a message: " + msg);
                 event.setCancelled(true);
                 break;
             case PUBLIC:

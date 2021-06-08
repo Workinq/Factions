@@ -107,6 +107,9 @@ public class EngineShow extends Engine
 
 				// Get the time window for the faction's shield
 				Calendar calendar = CmdFactions.get().cmdFactionsShield.cmdFactionsShieldSet.getFreshCalendar();
+				// ... set the calendar's time to the faction's shielded time ...
+				calendar.add(Calendar.HOUR_OF_DAY, faction.getShieldedHour());
+				// ... then make all the nice text and that.
 				String from = CmdFactions.get().cmdFactionsShield.cmdFactionsShieldSet.getTime(calendar);
 				Calendar clone = (Calendar) calendar.clone();
 				clone.add(Calendar.HOUR_OF_DAY, MConf.get().shieldHours);

@@ -30,6 +30,7 @@ public class EngineLastActivity extends Engine
 		if (MUtil.isntSender(sender)) return;
 
 		MPlayer mplayer = MPlayer.get(sender);
+		mplayer.setAutoClaimFaction(null);
 		mplayer.setLastActivityMillis();
 	}
 

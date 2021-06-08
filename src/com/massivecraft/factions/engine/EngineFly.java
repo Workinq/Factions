@@ -61,7 +61,7 @@ public class EngineFly extends Engine
             return;
         }
 
-        mplayer.setWasFlying(true);
+        mplayer.setCancelFallDamage(true);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
@@ -136,9 +136,9 @@ public class EngineFly extends Engine
         if (MUtil.isntPlayer(player) || event.getCause() != EntityDamageEvent.DamageCause.FALL) return;
 
         MPlayer mplayer = MPlayer.get(player);
-        if (mplayer.wasFlying())
+        if (mplayer.hasCancelledFallDamage())
         {
-            mplayer.setWasFlying(false);
+            mplayer.setCancelFallDamage(false);
             event.setCancelled(true);
         }
     }
@@ -153,7 +153,7 @@ public class EngineFly extends Engine
             player.setFlying(false);
             player.setVelocity(new Vector(0, 0, 0));
             player.setFallDistance(0.0f);
-            mplayer.setWasFlying(true);
+            mplayer.setCancelFallDamage(true);
             if (message != null)
             {
                 MixinMessage.get().msgOne(player, message);
