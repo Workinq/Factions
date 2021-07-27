@@ -25,10 +25,7 @@ public class CmdFactionsStrikeAdd extends FactionsCommand
         // Parameters
         this.addParameter(TypeFaction.get(), "faction");
         this.addParameter(TypeInteger.get(), "points");
-        this.addParameter(TypeList.get(TypeString.get()), "reason", true);
-
-        // Requirements
-        this.addRequirements(RequirementHasPerm.get(Perm.STRIKE_ADD));
+        this.addParameter(TypeString.get(), "reason", true);
     }
 
     // -------------------------------------------- //
@@ -41,17 +38,10 @@ public class CmdFactionsStrikeAdd extends FactionsCommand
         // Args
         Faction faction = this.readArg();
         int points = this.readArg();
-        List<String> reason = this.readArg();
-
-        StringBuilder builder = new StringBuilder();
-        for (String string : reason)
-        {
-            builder.append(string).append(" ");
-        }
-        String reasonString = builder.toString().trim();
+        String reason = this.readArg();
 
         // Event
-        EventFactionsStrikeAdd event = new EventFactionsStrikeAdd(sender, faction, new FactionStrike(System.currentTimeMillis(), points, reasonString, me.getUniqueId().toString()));
+        EventFactionsStrikeAdd event = new EventFactionsStrikeAdd(sender, faction, new FactionStrike(System.currentTimeMillis(), points, reason, me.getUniqueId().toString()));
         event.run();
         if (event.isCancelled()) return;
 
@@ -59,8 +49,8 @@ public class CmdFactionsStrikeAdd extends FactionsCommand
         faction.addStrike(event.getNewStrike());
 
         // Inform
-        faction.msg("%s <i>was striked <h>%s <i>points for <h>%s<i>.", faction.describeTo(faction), String.valueOf(points), reasonString);
-        msg("<i>You striked %s <i>with the reason <h>%s<i>.", faction.describeTo(msender), reasonString);
+        faction.msg("%s <i>was striked <h>%s <i>points for <h>%s<i>.", faction.describeTo(faction), String.valueOf(points), reason);
+        msg("<i>You striked %s <i>with the reason <h>%s<i>.", faction.describeTo(msender), reason);
     }
 
 }

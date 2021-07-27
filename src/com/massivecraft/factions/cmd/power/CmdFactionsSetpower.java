@@ -21,9 +21,6 @@ public class CmdFactionsSetpower extends FactionsCommand
 		// Parameters
 		this.addParameter(TypeMPlayer.get(), "player");
 		this.addParameter(TypeDouble.get(), "power");
-		
-		// Requirements
-		this.addRequirements(RequirementHasPerm.get(Perm.SETPOWER));
 	}
 	
 	// -------------------------------------------- //

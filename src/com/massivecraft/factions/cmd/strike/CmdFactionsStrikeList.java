@@ -31,9 +31,6 @@ public class CmdFactionsStrikeList extends FactionsCommand
         // Parameters
         this.addParameter(Parameter.getPage());
         this.addParameter(TypeFaction.get(), "faction", "you");
-
-        // Requirements
-        this.addRequirements(RequirementHasPerm.get(Perm.STRIKE_LIST));
     }
 
     // -------------------------------------------- //

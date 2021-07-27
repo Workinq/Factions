@@ -35,7 +35,6 @@ public class CmdFactionsMoneyTransferFf extends FactionsCommand
 		this.addParameter(TypeFaction.get(), "faction");
 
 		// Requirements
-		this.addRequirements(RequirementHasPerm.get(Perm.MONEY_F2F));
 		this.addRequirements(ReqBankCommandsEnabled.get());
 	}
 

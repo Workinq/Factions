@@ -14,14 +14,4 @@ public class CmdFactionsStrike extends FactionsCommand
     public CmdFactionsStrikeRemove cmdFactionsStrikeRemove = new CmdFactionsStrikeRemove();
     public CmdFactionsStrikeList cmdFactionsStrikeList = new CmdFactionsStrikeList();
 
-    // -------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------- //
-
-    public CmdFactionsStrike()
-    {
-        // Requirements
-        this.addRequirements(RequirementHasPerm.get(Perm.STRIKE));
-    }
-
 }

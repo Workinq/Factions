@@ -22,9 +22,6 @@ public class CmdFactionsAccessClear extends CmdFactionsAccessAbstract
     {
         // Parameters
         this.addParameter(Acc.ALL, new TypeEnum<>(Acc.class), "access");
-
-        // Requirements
-        this.addRequirements(RequirementHasPerm.get(Perm.ACCESS_CLEAR));
     }
 
     // -------------------------------------------- //

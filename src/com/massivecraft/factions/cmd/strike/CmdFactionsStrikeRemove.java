@@ -23,9 +23,6 @@ public class CmdFactionsStrikeRemove extends FactionsCommand
         this.addParameter(TypeFaction.get(), "faction");
         this.addParameter(TypeString.get(), "strike");
         this.addParameter(TypeBooleanTrue.get(), "silent", "false");
-
-        // Requirements
-        this.addRequirements(RequirementHasPerm.get(Perm.STRIKE_REMOVE));
     }
 
     // -------------------------------------------- //

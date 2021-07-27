@@ -1,6 +1,12 @@
 package com.massivecraft.factions.entity;
 
-import com.massivecraft.factions.*;
+import com.massivecraft.factions.Chat;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.FactionsIndex;
+import com.massivecraft.factions.FactionsParticipator;
+import com.massivecraft.factions.Perm;
+import com.massivecraft.factions.Rel;
+import com.massivecraft.factions.RelationParticipator;
 import com.massivecraft.factions.event.EventFactionsChunkChangeType;
 import com.massivecraft.factions.event.EventFactionsChunksChange;
 import com.massivecraft.factions.event.EventFactionsDisband;
@@ -34,9 +40,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// -------------------------------------------- //
 	// META
 	// -------------------------------------------- //
-	
+
 	public static final transient String NOTITLE = Txt.parse("<em><silver>no title set");
-	
+
 	// -------------------------------------------- //
 	// META
 	// -------------------------------------------- //
@@ -69,7 +75,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		this.setAlt(that.alt);
 		this.setLogins(that.logins);
 		this.setAlertNotifications(that.alertNotifications);
-		this.setSkullTexture(that.skullTexture);
 		return this;
 	}
 
@@ -92,7 +97,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		if (this.isStealth()) return false;
 		if (this.isSpying()) return false;
 		if (this.isAlt()) return false;
-		if (this.hasSkullTexture()) return false;
 
 		return true;
 	}
@@ -112,7 +116,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	{
 		FactionsIndex.get().update(this);
 	}
-	
+
 	@Override
 	public void preClean()
 	{
@@ -120,7 +124,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		{
 			this.getFaction().promoteNewLeader();
 		}
-		
+
 		this.leave();
 	}
 
@@ -216,10 +220,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// Null means false
 	private Boolean alertNotifications = Boolean.TRUE;
 
-	// Stores the player's skull texture
-	// Null means the player hasn't joined before
-	private String skullTexture = null;
-
 	// Has this player requested an auto-updating ascii art map?
 	// Null means false
 	private Boolean mapAutoUpdating = null;
@@ -238,7 +238,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// NOTE: This field will not be saved to the database ever.
 	private transient WeakReference<Faction> autoClaimFaction = new WeakReference<>(null);
 
-	
+
 	public Faction getAutoClaimFaction()
 	{
 		if (this.isFactionOrphan()) return null;
@@ -273,7 +273,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// -------------------------------------------- //
 	// FIELD: lastActivityMillis
 	// -------------------------------------------- //
-	
+
 	public long getLastActivityMillis()
 	{
 		return this.lastActivityMillis;
@@ -295,24 +295,24 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	{
 		this.setLastActivityMillis(System.currentTimeMillis());
 	}
-	
+
 	@Override
 	public boolean shouldBeCleaned(long now)
 	{
 		return this.shouldBeCleaned(now, this.lastActivityMillis);
 	}
-	
+
 	// -------------------------------------------- //
 	// FIELD: factionId
 	// -------------------------------------------- //
 
-	
+
 	private Faction getFactionInternal()
 	{
 		String effectiveFactionId = this.convertGet(this.factionId, MConf.get().defaultPlayerFactionId);
 		return Faction.get(effectiveFactionId);
 	}
-	
+
 	public boolean isFactionOrphan()
 	{
 		return this.getFactionInternal() == null;
@@ -324,22 +324,22 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return this.getFaction().getId();
 	}
 
-	
+
 	public Faction getFaction() // This method never returns null
 	{
 		Faction ret;
-		
+
 		ret = this.getFactionInternal();
-		
+
 		// Adopt orphans
 		if (ret == null)
 		{
 			ret = FactionColl.get().getNone();
 		}
-		
+
 		return ret;
 	}
-	
+
 	public boolean hasFaction()
 	{
 		return !this.getFaction().isNone();
@@ -380,7 +380,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	public Rel getRole()
 	{
 		if (this.isFactionOrphan()) return Rel.RECRUIT;
-		
+
 		if (this.role == null) return MConf.get().defaultPlayerRole;
 		return this.role;
 	}
@@ -405,7 +405,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// -------------------------------------------- //
 	// TODO: Improve upon the has and get stuff.
 	// TODO: Has should depend on get. Visualisation should be done elsewhere.
-	
+
 	public boolean hasTitle()
 	{
 		return !this.isFactionOrphan() && this.title != null;
@@ -414,9 +414,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	public String getTitle()
 	{
 		if (this.isFactionOrphan()) return NOTITLE;
-		
+
 		if (this.hasTitle()) return this.title;
-		
+
 		return NOTITLE;
 	}
 
@@ -606,7 +606,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// FIELD: lastInspected
 	// -------------------------------------------- //
 
-	
+
 	public String getLastInspected()
 	{
 		String target = this.lastInspected;
@@ -766,36 +766,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 		// Apply
 		this.alertNotifications = target;
-
-		// Mark as changed
-		this.changed();
-	}
-
-	// -------------------------------------------- //
-	// FIELD: skullTexture
-	// -------------------------------------------- //
-
-	public boolean hasSkullTexture()
-	{
-		return this.skullTexture != null;
-	}
-
-	public String getSkullTexture()
-	{
-		if (this.hasSkullTexture()) return this.skullTexture;
-		return null;
-	}
-
-	public void setSkullTexture(String skullTexture)
-	{
-		// Clean input
-		String target = Faction.clean(skullTexture);
-
-		// Detect Nochange
-		if (MUtil.equals(this.skullTexture, target)) return;
-
-		// Apply
-		this.skullTexture = target;
 
 		// Mark as changed
 		this.changed();
@@ -1019,7 +989,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// -------------------------------------------- //
 	// TITLE, NAME, FACTION NAME AND CHAT
 	// -------------------------------------------- //
-	
+
 	public String getFactionName()
 	{
 		Faction faction = this.getFaction();
@@ -1044,13 +1014,13 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		return ret;
 	}
 
-	
+
 	public String getNameAndFactionName()
 	{
 		return this.getNameAndSomething("", this.getFactionName());
 	}
 
-	
+
 	public String getNameAndTitle(String color)
 	{
 		if (this.hasTitle())
@@ -1066,13 +1036,13 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// Colored concatenations:
 	// These are used in information messages
 
-	
+
 	public String getNameAndTitle(Faction faction)
 	{
 		return this.getNameAndTitle(this.getColorTo(faction).toString());
 	}
 
-	
+
 	public String getNameAndTitle(MPlayer mplayer)
 	{
 		return this.getNameAndTitle(this.getColorTo(mplayer).toString());
@@ -1143,7 +1113,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 		if (ps == null) return false;
 		return BoardColl.get().getFactionAt(ps).getRelationTo(this) == Rel.ENEMY;
 	}
-	
+
 	// -------------------------------------------- //
 	// ACTIONS
 	// -------------------------------------------- //
@@ -1285,7 +1255,7 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// -------------------------------------------- //
 	// UTIL
 	// -------------------------------------------- //
-	
+
 	public static Set<MPlayer> getClaimInformees(MPlayer msender, Faction... factions)
 	{
 		Set<MPlayer> ret = new HashSet<>();
