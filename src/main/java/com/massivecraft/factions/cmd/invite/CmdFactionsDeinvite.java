@@ -49,15 +49,9 @@ public class CmdFactionsDeinvite extends FactionsCommand
         // Args
         if ("all".equalsIgnoreCase(this.argAt(0)))
         {
-            Set<String> ids = msenderFaction.getInvitations().keySet();
+            Set<String> ids = new HashSet<>(msenderFaction.getInvitations().keySet());
 
-            // Doesn't show up if list is empty. Test at home if it worked.
-            if (ids == null)
-            {
-                throw new MassiveException().addMsg("<b>No one is invited to your faction.");
-            }
-
-            // Remove all invites that aren't alts.
+            // Remove all invites that are alts.
             ids.removeIf(id -> msenderFaction.getInvitations().get(id).isAlt());
 
             // Check if there are no invites.
@@ -139,7 +133,7 @@ public class CmdFactionsDeinvite extends FactionsCommand
                 );
 
                 // Inform
-                msg("%s <i>is not invited to %s<i>.", mplayer.describeTo(msender, true), msenderFaction.describeTo(mplayer));
+                msg("%s <i>is not invited to %s<i>.", mplayer.describeTo(msender, true), msenderFaction.describeTo(msender));
                 message(invite);
             }
         }
