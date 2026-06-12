@@ -89,7 +89,7 @@ public class CmdFactionsPermGui extends FactionsCommand
         int slot = 0;
         for (Rel rel : Rel.values())
         {
-            boolean status = faction.isPermitted(mperm.getName(), rel);
+            boolean status = faction.isPermitted(mperm, rel);
             ItemStack item = new ItemStack(status ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE);
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName((status ? ChatColor.GREEN : ChatColor.RED) + rel.getName());
