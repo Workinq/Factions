@@ -36,7 +36,7 @@ public class CmdFactionsPaypalCheck extends FactionsCommand
         String paypal = faction.getPaypal();
 
         // Inform
-        if (paypal.equals(""))
+        if (paypal.equals("none"))
         {
             msg("%s <i>doesn't have a paypal set.", faction.describeTo(msender, true));
             return;
