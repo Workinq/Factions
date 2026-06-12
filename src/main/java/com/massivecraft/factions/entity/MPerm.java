@@ -196,6 +196,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		getPermPaypal();
 		getPermAlt();
 		getPermCredits();
+		getPermBaseregion();
 		getPermShield();
 		getPermExplosives();
 		getPermSpawners();
