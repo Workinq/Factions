@@ -66,7 +66,7 @@ public class MMission extends Entity<MMission>
 
         // Args
         Integer missionComplete = faction.getMissionGoal();
-        if ((double) (missionComplete + amount) >= mission.getRequirement() - (double) amount)
+        if ((double) (missionComplete + amount) >= mission.getRequirement())
         {
             Integer credits = mission.getReward();
             faction.addCredits(credits);
