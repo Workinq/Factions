@@ -36,7 +36,7 @@ public class CmdFactionsDiscordCheck extends FactionsCommand
         String discord = faction.getDiscord();
 
         // Inform
-        if (discord.equals(""))
+        if (discord.equals("none"))
         {
             msender.msg("%s <i>doesn't have a discord set.", faction.describeTo(msender, true));
             return;
