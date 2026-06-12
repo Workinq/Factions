@@ -55,7 +55,7 @@ public class CmdFactionsStrikeList extends FactionsCommand
 
         final long now = System.currentTimeMillis();
 
-        final Pager<FactionStrike> pager = new Pager<>(this, "Invited Players List", page, strikes, new Stringifier<FactionStrike>()
+        final Pager<FactionStrike> pager = new Pager<>(this, "Strike List", page, strikes, new Stringifier<FactionStrike>()
         {
             @Override
             public String toString(FactionStrike factionStrike, int index)
@@ -78,7 +78,7 @@ public class CmdFactionsStrikeList extends FactionsCommand
 
         // Pager Message
         pager.message();
-        msg("%s <i>has a total of <h>%d <i>point" + (faction.getStrikes().size() > 1 ? "s" : "") + ".", faction.describeTo(msender), faction.getStrikePoints());
+        msg("%s <i>has a total of <h>%d <i>point" + (faction.getStrikePoints() != 1 ? "s" : "") + ".", faction.describeTo(msender), faction.getStrikePoints());
     }
 
 }
