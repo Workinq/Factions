@@ -310,7 +310,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public boolean isFull()
 	{
-		return this.getMPlayers().size() == MConf.get().factionMemberLimit;
+		return this.getMPlayers().size() >= MConf.get().factionMemberLimit;
 	}
 
 	// -------------------------------------------- //
@@ -2302,11 +2302,19 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 		MPlayer oldLeader = this.getLeader();
 
-		// get list of officers, or list of normal members if there are no officers
+		// promote the highest-ranking remaining member: coleaders, then officers, then members, then recruits
 		List<MPlayer> replacements = this.getMPlayersWhereRole(Rel.COLEADER);
 		if (replacements == null || replacements.isEmpty())
 		{
+			replacements = this.getMPlayersWhereRole(Rel.OFFICER);
+		}
+		if (replacements == null || replacements.isEmpty())
+		{
 			replacements = this.getMPlayersWhereRole(Rel.MEMBER);
+		}
+		if (replacements == null || replacements.isEmpty())
+		{
+			replacements = this.getMPlayersWhereRole(Rel.RECRUIT);
 		}
 
 		if (replacements == null || replacements.isEmpty())
