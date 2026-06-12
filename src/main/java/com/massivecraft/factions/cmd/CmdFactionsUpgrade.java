@@ -103,7 +103,7 @@ public class CmdFactionsUpgrade extends FactionsCommand
             }
 
             // Assign
-            chestGui.getInventory().setItem(slot, new ItemBuilder(upgrade.getUpgradeItem()).amount(1).name(Txt.parse("<k>" + upgrade.getUpgradeName())).setLore(lore));
+            chestGui.getInventory().setItem(slot, new ItemBuilder(upgrade.getUpgradeItem()).amount(1).name(Txt.parse("<k>" + upgrade.getUpgradeName())).withLore(lore));
             chestGui.setAction(slot, new ActionUpgrade(msender, faction, upgradePrice, upgrade.getUpgradeName(), upgradeLevel));
             slot++;
         }

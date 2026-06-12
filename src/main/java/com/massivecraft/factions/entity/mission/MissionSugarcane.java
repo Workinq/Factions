@@ -57,13 +57,13 @@ public class MissionSugarcane extends AbstractMission
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onBlockBreak(BlockBreakEvent event)
    {
-      if (event.getBlock() == null || event.getBlock().getType() != Material.SUGAR_CANE_BLOCK) return;
+      if (event.getBlock() == null || event.getBlock().getType() != Material.SUGAR_CANE) return;
 
       int sugarcaneAmount = 0;
       for (int i = event.getBlock().getY(); i < 256; i++)
       {
          Block block = new Location(event.getBlock().getWorld(), event.getBlock().getX(), i, event.getBlock().getZ()).getBlock();
-         if (block.getType() != Material.SUGAR_CANE_BLOCK) break;
+         if (block.getType() != Material.SUGAR_CANE) break;
 
          sugarcaneAmount++;
       }

@@ -1214,12 +1214,11 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public ItemStack getBanner()
 	{
 		// Args
-		ItemStack banner = new ItemStack(Material.BANNER);
-		BannerMeta meta = (BannerMeta) banner.getItemMeta();
 		DyeColor baseColor = DyeColor.valueOf(this.banner.get(0));
+		ItemStack banner = new ItemStack(Material.valueOf(baseColor.name() + "_BANNER"));
+		BannerMeta meta = (BannerMeta) banner.getItemMeta();
 
-		// Pattern & Color
-		meta.setBaseColor(baseColor);
+		// Pattern
 		for (int i = 1; i < this.banner.size(); i++)
 		{
 			String[] temp = (this.banner).get(i).split(" ");

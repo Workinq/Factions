@@ -201,7 +201,7 @@ public class MConf extends Entity<MConf>
 
 	public String missionGuiName = "<gray>Faction Missions";
 	public int missionGuiSize = 27;
-	public Material missionItemType = Material.WATCH;
+	public Material missionItemType = Material.CLOCK;
 	public String missionItemName = "<k><bold>Start Mission";
 	public byte missionItemData = 0;
 	public int missionItemSlot = 13;
@@ -769,7 +769,7 @@ public class MConf extends Entity<MConf>
 	// -------------------------------------------- //
 
 	public Map<EntityType, List<Integer>> moneyChances = MUtil.map(
-			EntityType.PIG_ZOMBIE, MUtil.list(20, 30)
+			EntityType.ZOMBIFIED_PIGLIN, MUtil.list(20, 30)
 	);
 
 	public boolean autoSellMobs = false;
@@ -778,7 +778,7 @@ public class MConf extends Entity<MConf>
 	// ITEMS
 	// -------------------------------------------- //
 
-	public Material fillerItemMaterial = Material.STAINED_GLASS_PANE;
+	public Material fillerItemMaterial = Material.LIGHT_GRAY_STAINED_GLASS_PANE;
 	public String fillerItemName = " ";
 	public byte fillerItemData = 8;
 

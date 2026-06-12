@@ -40,7 +40,7 @@ public class ItemBuilder extends ItemStack
         return this;
     }
 
-    public ItemBuilder setLore(List<String> text)
+    public ItemBuilder withLore(List<String> text)
     {
         ItemMeta meta = this.getItemMeta();
         List<String> lore = meta.getLore();
@@ -85,7 +85,7 @@ public class ItemBuilder extends ItemStack
     public ItemBuilder unbreakable(boolean unbreakable)
     {
         ItemMeta meta = this.getItemMeta();
-        meta.spigot().setUnbreakable(unbreakable);
+        meta.setUnbreakable(unbreakable);
         this.setItemMeta(meta);
         return this;
     }

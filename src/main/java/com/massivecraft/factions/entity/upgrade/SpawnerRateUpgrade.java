@@ -4,11 +4,9 @@ import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MUpgrade;
 import com.massivecraft.massivecore.ps.PS;
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
-import net.minecraft.server.v1_8_R3.TileEntityMobSpawner;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
-import org.bukkit.craftbukkit.v1_8_R3.block.CraftCreatureSpawner;
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
 
@@ -62,7 +60,7 @@ public class SpawnerRateUpgrade extends AbstractUpgrade
       Faction factionAt = BoardColl.get().getFactionAt(PS.valueOf(event.getLocation()));
 
       if (factionAt == null) return;
-      if (event.getSpawner().getType() != Material.MOB_SPAWNER) return;
+      if (event.getSpawner().getType() != Material.SPAWNER) return;
 
       BlockState state = event.getSpawner().getBlock().getState();
 
@@ -100,21 +98,16 @@ public class SpawnerRateUpgrade extends AbstractUpgrade
 
    private void setSpawner(BlockState state, int min, int max)
    {
-      TileEntityMobSpawner tile = ((CraftCreatureSpawner) state).getTileEntity();
-      NBTTagCompound spawnerTag = new NBTTagCompound();
-      tile.b(spawnerTag);
-      spawnerTag.setShort("MinSpawnDelay", (short) min);
-      spawnerTag.setShort("MaxSpawnDelay", (short) max);
-      tile.a(spawnerTag);
-      state.update();
+      CreatureSpawner spawner = (CreatureSpawner) state;
+      spawner.setMinSpawnDelay(min);
+      spawner.setMaxSpawnDelay(max);
+      spawner.update();
    }
 
    private boolean isDefaultSpawnerSettings(BlockState state)
    {
-      TileEntityMobSpawner tile = ((CraftCreatureSpawner) state).getTileEntity();
-      NBTTagCompound spawnerTag = new NBTTagCompound();
-      tile.b(spawnerTag);
-      return spawnerTag.getShort("MinSpawnDelay") == 225 && spawnerTag.getShort("MaxSpawnDelay") == 625;
+      CreatureSpawner spawner = (CreatureSpawner) state;
+      return spawner.getMinSpawnDelay() == 225 && spawner.getMaxSpawnDelay() == 625;
    }
 
 }

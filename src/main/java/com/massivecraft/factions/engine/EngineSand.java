@@ -76,9 +76,8 @@ public class EngineSand extends Engine
                 // Verify
                 if (chunk.equals(location))
                 {
-                    // Apply
-                    event.setCancelled(true);
-                    event.getChunk().load();
+                    // Apply - keep the chunk loaded so sand alts keep working (ChunkUnloadEvent is no longer cancellable)
+                    event.getChunk().setForceLoaded(true);
                 }
             }
         }
@@ -118,14 +117,14 @@ public class EngineSand extends Engine
         // Stop/Start placing
         if (sandAlt.isPaused())
         {
-            chestGui.getInventory().setItem(12, new ItemBuilder(Material.INK_SACK).name(Txt.parse("<g><bold>Start Placing")).durability(10).setLore(Txt.parse(MUtil.list("<n>Click here to <g>start <n>your alt from", "<n>printing sand in a " + radius + "x" + radius + "x" + radius + " radius."))));
+            chestGui.getInventory().setItem(12, new ItemBuilder(Material.LIME_DYE).name(Txt.parse("<g><bold>Start Placing")).withLore(Txt.parse(MUtil.list("<n>Click here to <g>start <n>your alt from", "<n>printing sand in a " + radius + "x" + radius + "x" + radius + " radius."))));
         }
         else
         {
-            chestGui.getInventory().setItem(12, new ItemBuilder(Material.INK_SACK).name(Txt.parse("<b><bold>Stop Placing")).durability(1).setLore(Txt.parse(MUtil.list("<n>Click here to <b>stop <n>your alt from", "<n>printing sand in a " + radius + "x" + radius + "x" + radius + " radius."))));
+            chestGui.getInventory().setItem(12, new ItemBuilder(Material.RED_DYE).name(Txt.parse("<b><bold>Stop Placing")).withLore(Txt.parse(MUtil.list("<n>Click here to <b>stop <n>your alt from", "<n>printing sand in a " + radius + "x" + radius + "x" + radius + " radius."))));
         }
         chestGui.setAction(12, new ActionSandaltPrint(sandAlt, ! sandAlt.isPaused()));
-        chestGui.getInventory().setItem(14, new ItemBuilder(Material.BARRIER).name(Txt.parse("<red><bold>Despawn")).setLore(Txt.parse(MUtil.list("<n>Click here to despawn this sand alt"))));
+        chestGui.getInventory().setItem(14, new ItemBuilder(Material.BARRIER).name(Txt.parse("<red><bold>Despawn")).withLore(Txt.parse(MUtil.list("<n>Click here to despawn this sand alt"))));
         chestGui.setAction(14, new ActionSandaltDespawn(faction, mplayer, sandAlt, redirect));
 
         // Fill

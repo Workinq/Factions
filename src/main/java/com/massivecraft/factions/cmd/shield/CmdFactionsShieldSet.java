@@ -77,11 +77,11 @@ public class CmdFactionsShieldSet extends FactionsCommand
 
             if (faction.isShieldedAtHour(calendar.get(Calendar.HOUR_OF_DAY)))
             {
-                chestGui.getInventory().setItem(i, new ItemBuilder(Material.STAINED_GLASS_PANE).name(" ").durability(13).addLore("").addLore(Txt.parse("<g>Your shielded hours are currently")).addLore(fromTo).addLore("").addLore(Txt.parse("<n>Current Time: <k>%s", now)));
+                chestGui.getInventory().setItem(i, new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE).name(" ").addLore("").addLore(Txt.parse("<g>Your shielded hours are currently")).addLore(fromTo).addLore("").addLore(Txt.parse("<n>Current Time: <k>%s", now)));
             }
             else
             {
-                chestGui.getInventory().setItem(i, new ItemBuilder(Material.STAINED_GLASS_PANE).name(" ").durability(14).addLore("").addLore(Txt.parse("<g>Click to change your shield hours to")).addLore(fromTo).addLore("").addLore(Txt.parse("<n>Current Time: <k>%s", now)));
+                chestGui.getInventory().setItem(i, new ItemBuilder(Material.RED_STAINED_GLASS_PANE).name(" ").addLore("").addLore(Txt.parse("<g>Click to change your shield hours to")).addLore(fromTo).addLore("").addLore(Txt.parse("<n>Current Time: <k>%s", now)));
                 chestGui.setAction(i, new ActionShieldClick(calendar.get(Calendar.HOUR_OF_DAY), faction, msender, from, to));
             }
 
@@ -96,7 +96,7 @@ public class CmdFactionsShieldSet extends FactionsCommand
         }
 
         // Information
-        chestGui.getInventory().setItem(40, new ItemBuilder(Material.PAPER).name(Txt.parse("<k>Shield Information")).setLore(Txt.parse(MUtil.list("", "<white>Whilst a shield is active, tnt won't", "<white>explode within the faction's base region", "", "<b>Abuse of this mechanic in any way will be", "<b>punished severely"))));
+        chestGui.getInventory().setItem(40, new ItemBuilder(Material.PAPER).name(Txt.parse("<k>Shield Information")).withLore(Txt.parse(MUtil.list("", "<white>Whilst a shield is active, tnt won't", "<white>explode within the faction's base region", "", "<b>Abuse of this mechanic in any way will be", "<b>punished severely"))));
 
         // Fill
         InventoryUtil.fillInventory(chestGui.getInventory());

@@ -90,7 +90,7 @@ public class CmdFactionsPermGui extends FactionsCommand
         for (Rel rel : Rel.values())
         {
             boolean status = faction.isPermitted(mperm.getName(), rel);
-            ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE);
+            ItemStack item = new ItemStack(status ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE);
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName((status ? ChatColor.GREEN : ChatColor.RED) + rel.getName());
             if (rel == Rel.LEADER)
@@ -109,7 +109,6 @@ public class CmdFactionsPermGui extends FactionsCommand
                 }
             }
             item.setItemMeta(meta);
-            item.setDurability((short) (status ? 5 : 14));
             chestGui.getInventory().setItem(slot, item);
             if (rel != Rel.LEADER) chestGui.setAction(slot, new ActionRelationModify(mplayer, !status, mperm, rel));
             slot++;

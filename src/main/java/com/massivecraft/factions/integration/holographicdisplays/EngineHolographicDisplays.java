@@ -62,7 +62,6 @@ public class EngineHolographicDisplays extends Engine
                     try
                     {
                         Faction faction = topFactions.get(finalIndex);
-
                         if (faction == null) return "ERR";
 
                         return Txt.parse(

@@ -69,7 +69,7 @@ public class CmdFactionsMission extends FactionsCommand
                 lore.add(Txt.parse("<b>Cannot start mission for:"));
                 lore.add("");
                 lore.add(Txt.parse("<n>%s", TimeUtil.formatTime((TimeUnit.MILLIS_PER_HOUR * MConf.get().missionDeadlineHours) - (System.currentTimeMillis() - faction.getMissionStart()), true)));
-                chestGui.getInventory().setItem(MConf.get().missionItemSlot, new ItemBuilder(MConf.get().missionItemType).name(Txt.parse(MConf.get().missionItemName)).data(MConf.get().missionItemData).setLore(lore));
+                chestGui.getInventory().setItem(MConf.get().missionItemSlot, new ItemBuilder(MConf.get().missionItemType).name(Txt.parse(MConf.get().missionItemName)).data(MConf.get().missionItemData).withLore(lore));
             }
             else
             {
@@ -88,7 +88,7 @@ public class CmdFactionsMission extends FactionsCommand
                         .replace("%reward%", String.valueOf(activeMission.getReward()))
                         .replace("%time%", TimeUtil.formatTime((TimeUnit.MILLIS_PER_HOUR * MConf.get().missionDeadlineHours) - (System.currentTimeMillis() - faction.getMissionStart()), false))));
             }
-            chestGui.getInventory().setItem(MConf.get().missionItemSlot, new ItemBuilder(activeMission.getItemMaterial()).durability(activeMission.getItemData()).amount(1).name(Txt.parse("<k>" + activeMission.getItemName())).setLore(lore));
+            chestGui.getInventory().setItem(MConf.get().missionItemSlot, new ItemBuilder(activeMission.getItemMaterial()).durability(activeMission.getItemData()).amount(1).name(Txt.parse("<k>" + activeMission.getItemName())).withLore(lore));
         }
         chestGui.getInventory().setItem(11, new ItemBuilder(Material.BOOK).name(Txt.parse("<k><bold>All Missions"))
                 .addLore(Txt.parse("<n>Click here to see a list of all faction missions"))

@@ -11,8 +11,8 @@ import com.massivecraft.massivecore.ps.PS;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Owner;
-import net.citizensnpcs.npc.skin.SkinnableEntity;
 import net.citizensnpcs.trait.Gravity;
+import net.citizensnpcs.trait.SkinTrait;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
@@ -110,27 +110,23 @@ public class ActionSandaltSpawn extends ChestActionAbstract
         npc.setProtected(true);
         npc.data().setPersistent("removefromplayerlist", false);
         npc.setProtected(true);
-        npc.data().setPersistent(NPC.PLAYER_SKIN_UUID_METADATA, MConf.get().altSkin);
 
-        // Traits - Gravity
-        Gravity gravity = CitizensAPI.getTraitFactory().getTrait("gravity");
-        gravity.gravitate(true);
+        // Skin
+        SkinTrait trait = CitizensAPI.getTraitFactory().getTrait(SkinTrait.class);
+        trait.setSkinName(MConf.get().altSkin, true);
+
+        // Gravity
+        Gravity gravity = CitizensAPI.getTraitFactory().getTrait(Gravity.class);
+        gravity.setHasGravity(true);
         npc.addTrait(gravity);
 
-        // Traits - Owner
-        Owner owner = CitizensAPI.getTraitFactory().getTrait("owner");
+        // Owner
+        Owner owner = CitizensAPI.getTraitFactory().getTrait(Owner.class);
         owner.setOwner(player.getName(), player.getUniqueId());
         npc.addTrait(owner);
 
         // Spawn
         npc.spawn(location);
-
-        // Skin
-        if (npc.isSpawned())
-        {
-            SkinnableEntity skinnable = npc.getEntity() instanceof SkinnableEntity ? (SkinnableEntity) npc.getEntity() : null;
-            if (skinnable != null) skinnable.setSkinName(MConf.get().altSkin);
-        }
 
         // Velocity
         npc.getEntity().setVelocity(npc.getEntity().getVelocity().add(new Vector(0.0, 0.42, 0.0)));

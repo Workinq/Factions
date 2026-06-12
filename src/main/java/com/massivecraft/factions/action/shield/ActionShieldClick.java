@@ -56,10 +56,10 @@ public class ActionShieldClick extends ChestActionAbstract
         ChestGui chestGui = InventoryUtil.getChestGui(inventory);
 
         // Items
-        chestGui.getInventory().setItem(11, new ItemBuilder(Material.STAINED_GLASS_PANE).name(Txt.parse("<g>Confirm")).durability(13));
+        chestGui.getInventory().setItem(11, new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE).name(Txt.parse("<g>Confirm")));
         chestGui.setAction(11, new ActionShieldConfirm(from, faction, mplayer, fromText, toText));
-        chestGui.getInventory().setItem(13, new ItemBuilder(Material.WATCH).name(" ").addLore(Txt.parse("<g>Click to change your shielded hours to")).addLore(Txt.parse("<k>%s <white>---> <k>%s <n>(<k>" + MConf.get().shieldHours + " hours total<n>)", fromText, toText)));
-        chestGui.getInventory().setItem(15, new ItemBuilder(Material.STAINED_GLASS_PANE).name(Txt.parse("<b>Cancel")).durability(14));
+        chestGui.getInventory().setItem(13, new ItemBuilder(Material.CLOCK).name(" ").addLore(Txt.parse("<g>Click to change your shielded hours to")).addLore(Txt.parse("<k>%s <white>---> <k>%s <n>(<k>" + MConf.get().shieldHours + " hours total<n>)", fromText, toText)));
+        chestGui.getInventory().setItem(15, new ItemBuilder(Material.RED_STAINED_GLASS_PANE).name(Txt.parse("<b>Cancel")));
         chestGui.setAction(15, event -> true);
 
         // Fill

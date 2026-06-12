@@ -193,7 +193,7 @@ public class EngineExtras extends Engine
     @EventHandler
     public void onPlaceSpawner(BlockPlaceEvent event)
     {
-        if (event.getBlockPlaced().getType() != Material.MOB_SPAWNER) return;
+        if (event.getBlockPlaced().getType() != Material.SPAWNER) return;
 
         MPlayer mplayer = MPlayer.get(event.getPlayer());
         if (mplayer.isOverriding()) return;

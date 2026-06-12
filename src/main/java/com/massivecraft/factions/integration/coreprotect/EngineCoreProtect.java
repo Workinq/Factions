@@ -10,9 +10,10 @@ import com.massivecraft.massivecore.pager.Msonifier;
 import com.massivecraft.massivecore.pager.Pager;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.util.Txt;
-import net.coreprotect.database.Database;
-import net.coreprotect.database.Lookup;
-import net.coreprotect.model.Config;
+import net.coreprotect.CoreProtect;
+import net.coreprotect.CoreProtectAPI;
+import net.coreprotect.config.ConfigHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,9 +24,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -37,7 +35,7 @@ public class EngineCoreProtect extends Engine
     // FIELDS
     // -------------------------------------------- //
 
-    public final Set<Material> INTERACT_BLOCKS = EnumSet.of(Material.SPRUCE_DOOR, Material.BIRCH_DOOR, Material.JUNGLE_DOOR, Material.ACACIA_DOOR, Material.DARK_OAK_DOOR, Material.SPRUCE_FENCE_GATE, Material.BIRCH_FENCE_GATE, Material.JUNGLE_FENCE_GATE, Material.DARK_OAK_FENCE_GATE, Material.ACACIA_FENCE_GATE, Material.DISPENSER, Material.NOTE_BLOCK, Material.CHEST, Material.FURNACE, Material.BURNING_FURNACE, Material.WOODEN_DOOR, Material.LEVER, Material.STONE_BUTTON, Material.DIODE_BLOCK_OFF, Material.DIODE_BLOCK_ON, Material.TRAP_DOOR, Material.FENCE_GATE, Material.BREWING_STAND, Material.WOOD_BUTTON, Material.ANVIL, Material.TRAPPED_CHEST, Material.REDSTONE_COMPARATOR_OFF, Material.REDSTONE_COMPARATOR_ON, Material.HOPPER, Material.DROPPER);
+    public final Set<Material> INTERACT_BLOCKS = EnumSet.of(Material.SPRUCE_DOOR, Material.BIRCH_DOOR, Material.JUNGLE_DOOR, Material.ACACIA_DOOR, Material.DARK_OAK_DOOR, Material.SPRUCE_FENCE_GATE, Material.BIRCH_FENCE_GATE, Material.JUNGLE_FENCE_GATE, Material.DARK_OAK_FENCE_GATE, Material.ACACIA_FENCE_GATE, Material.DISPENSER, Material.NOTE_BLOCK, Material.CHEST, Material.FURNACE, Material.OAK_DOOR, Material.LEVER, Material.STONE_BUTTON, Material.REPEATER, Material.OAK_TRAPDOOR, Material.OAK_FENCE_GATE, Material.BREWING_STAND, Material.OAK_BUTTON, Material.ANVIL, Material.TRAPPED_CHEST, Material.COMPARATOR, Material.HOPPER, Material.DROPPER);
 
     // -------------------------------------------- //
     // INSTANCE & CONSTRUCT
@@ -109,83 +107,64 @@ public class EngineCoreProtect extends Engine
             return;
         }
 
-        Connection connection = Database.getConnection(false);
-        if (connection == null)
+        // Look up the full history for this block via the official CoreProtect API.
+        CoreProtectAPI api = this.getApi();
+        List<String[]> lookup = api.blockLookup(block, 0);
+        if (lookup == null || lookup.isEmpty())
         {
-            mplayer.msg("<b>You cannot inspect blocks at the moment, please try again in a few seconds.");
+            mplayer.msg("<b>No data was found for that block.");
             return;
         }
 
-        try (Statement statement = connection.createStatement())
+        long nowSeconds = System.currentTimeMillis() / 1000L;
+        List<Mson> inspectData = new ArrayList<>();
+        List<String> rawData = new ArrayList<>();
+        for (String[] value : lookup)
         {
-            boolean chest;
-            String data;
-            if (INTERACT_BLOCKS.contains(block.getType()))
-            {
-                data = Lookup.chest_transactions(statement, block.getLocation(), mplayer.getName(), 1, MConf.get().inspectResultLimit);
-                chest = true;
-            }
-            else
-            {
-                data = Lookup.block_lookup(statement, block, mplayer.getPlayer().getName(), 0, 1, MConf.get().inspectResultLimit);
-                chest = false;
-            }
+            CoreProtectAPI.ParseResult result = api.parseResult(value);
 
-            if ( ! data.contains("\n") )
-            {
-                mplayer.msg("<b>No data was found for that block.");
-                return;
-            }
+            String player = result.getPlayer();
+            String action = result.getActionString();
+            Material type = result.getType();
+            String material = type != null ? type.name().toLowerCase().replace('_', ' ') : "?";
+            String time = formatAgo(Math.max(0L, nowSeconds - result.getTimestamp()));
 
-            mplayer.setLastInspected(data);
-            List<Mson> inspectData = new ArrayList<>();
-            String[] blockData = data.split("\n");
-            for (String blockDatum : blockData)
-            {
-                String info = ChatColor.stripColor(blockDatum);
-
-                if (info.contains("older data by typing") || info.contains("-----") || info.contains("CoreProtect")) continue;
-
-                // Format: TIME - ACTION (e.g. 0.01/h ago - Player placed cobblestone.)
-                String[] dataSplit = info.split("-");
-                String time = dataSplit[0];
-                String actionString = dataSplit[1].replace(".", "");
-                String[] actionSplit = actionString.split(" ");
-                String player = ChatColor.stripColor(actionSplit[1]);
-                String action = ChatColor.stripColor(actionSplit[2]);
-                String material;
-
-                if (chest)
-                {
-                    material = ChatColor.stripColor(actionSplit[3] + " " + actionSplit[4]);
-                }
-                else
-                {
-                    material = ChatColor.stripColor(actionSplit[3]);
-                }
-
-                info = Txt.parse("<a>%s <i>%s <a>%s <n>%s", player, action, material, time);
-                inspectData.add(Mson.mson(info));
-            }
-
-            // Pager
-            final Pager<Mson> pager = new Pager<>(CmdFactions.get().cmdFactionsLastInspected, "Inspect Log", 1, inspectData, (Msonifier<Mson>) (item, index) -> inspectData.get(index));
-            pager.setSender(mplayer.getSender());
-
-            // Send pager
-            pager.message();
+            rawData.add(ChatColor.stripColor(Txt.parse("%s %s %s %s", player, action, material, time)));
+            inspectData.add(Mson.mson(Txt.parse("<a>%s <i>%s <a>%s <n>%s", player, action, material, time)));
         }
-        catch (SQLException e)
-        {
-            mplayer.msg("<b>You cannot inspect blocks at the moment, please try again in a few seconds.");
-        }
+
+        mplayer.setLastInspected(String.join("\n", rawData));
+
+        // Pager
+        Pager<Mson> pager = new Pager<>(CmdFactions.get().cmdFactionsLastInspected, "Inspect Log", 1, inspectData, (Msonifier<Mson>) (item, index) -> inspectData.get(index));
+        pager.setSender(mplayer.getSender());
+
+        // Send pager
+        pager.message();
     }
 
     private boolean canInspect()
     {
-        if (Config.converter_running) return false;
-        if (Config.purge_running) return false;
-        return Database.getConnection(false) != null;
+        if (ConfigHandler.converterRunning) return false;
+        if (ConfigHandler.purgeRunning) return false;
+        return this.getApi() != null;
+    }
+
+    private CoreProtectAPI getApi()
+    {
+        if ( ! (Bukkit.getPluginManager().getPlugin("CoreProtect") instanceof CoreProtect coreProtect)) return null;
+        CoreProtectAPI api = coreProtect.getAPI();
+        return (api != null && api.isEnabled()) ? api : null;
+    }
+
+    private static String formatAgo(long seconds)
+    {
+        if (seconds < 60L) return seconds + "s ago";
+        long minutes = seconds / 60L;
+        if (minutes < 60L) return minutes + "m ago";
+        long hours = minutes / 60L;
+        if (hours < 24L) return hours + "h ago";
+        return (hours / 24L) + "d ago";
     }
 
 }

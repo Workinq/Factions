@@ -74,13 +74,13 @@ public class CmdFactionsSandAltGui extends FactionsCommand
         int[] altSlots = new int[]{12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 30, 31, 32, 33, 34, 39, 40, 41, 42, 43};
 
         // Items
-        chestGui.getInventory().setItem(10, new ItemBuilder(Material.SKULL_ITEM).name(Txt.parse("<k><bold>Spawn Alt")).durability(3).setLore(Txt.parse(MUtil.list("<n>Click here to spawn a sand alt at", "<n>where you are currently standing", "", "<n>It will cost your faction bank" , Txt.parse("<k>$%.1f <n>per sand placed", MConf.get().sandCost), "", Txt.parse("<n>Faction Limit: <k>%d", maxAlts), "<n>Upgrade limit in <k>/f upgrade"))));
+        chestGui.getInventory().setItem(10, new ItemBuilder(Material.PLAYER_HEAD).name(Txt.parse("<k><bold>Spawn Alt")).withLore(Txt.parse(MUtil.list("<n>Click here to spawn a sand alt at", "<n>where you are currently standing", "", "<n>It will cost your faction bank" , Txt.parse("<k>$%.1f <n>per sand placed", MConf.get().sandCost), "", Txt.parse("<n>Faction Limit: <k>%d", maxAlts), "<n>Upgrade limit in <k>/f upgrade"))));
         chestGui.setAction(10, new ActionSandaltSpawn(faction, player, player.getLocation(), maxAlts));
-        chestGui.getInventory().setItem(19, new ItemBuilder(Material.INK_SACK).name(Txt.parse("<g><bold>Start All")).setLore(Txt.parse(MUtil.list("<n>Click here to make all your active", "<n>sand alts start printing sand"))).durability(10));
+        chestGui.getInventory().setItem(19, new ItemBuilder(Material.LIME_DYE).name(Txt.parse("<g><bold>Start All")).withLore(Txt.parse(MUtil.list("<n>Click here to make all your active", "<n>sand alts start printing sand"))));
         chestGui.setAction(19, new ActionSandaltUpdate(faction, mplayer, false));
-        chestGui.getInventory().setItem(28, new ItemBuilder(Material.INK_SACK).name(Txt.parse("<b><bold>Stop All")).setLore(Txt.parse(MUtil.list("<n>Click here to make all your active", "<n>sand alts stop printing sand"))).durability(1));
+        chestGui.getInventory().setItem(28, new ItemBuilder(Material.RED_DYE).name(Txt.parse("<b><bold>Stop All")).withLore(Txt.parse(MUtil.list("<n>Click here to make all your active", "<n>sand alts stop printing sand"))));
         chestGui.setAction(28, new ActionSandaltUpdate(faction, mplayer, true));
-        chestGui.getInventory().setItem(37, new ItemBuilder(Material.BARRIER).name(Txt.parse("<red><bold>Despawn All")).setLore(Txt.parse(MUtil.list("<n>Click here to despawn all of", "<n>your active sand alts"))));
+        chestGui.getInventory().setItem(37, new ItemBuilder(Material.BARRIER).name(Txt.parse("<red><bold>Despawn All")).withLore(Txt.parse(MUtil.list("<n>Click here to despawn all of", "<n>your active sand alts"))));
         chestGui.setAction(37, new ActionSandaltDespawn(faction, mplayer, null, false));
 
         // Sand Alts
@@ -94,7 +94,7 @@ public class CmdFactionsSandAltGui extends FactionsCommand
                 Location location = sandAlt.getLocation();
 
                 // Inventory
-                chestGui.getInventory().setItem(altSlots[slot], new ItemBuilder(Material.SKULL_ITEM).name(Txt.parse("<k><bold>SAND ALT")).durability(3).setLore(Txt.parse(MUtil.list("<n>Click to manage the sand alt at", Txt.parse("<i>x: <h>%,d <i>y: <h>%,d <i>z: <h>%,d <i>world: <h>%s", location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getWorld().getName())))));
+                chestGui.getInventory().setItem(altSlots[slot], new ItemBuilder(Material.PLAYER_HEAD).name(Txt.parse("<k><bold>SAND ALT")).withLore(Txt.parse(MUtil.list("<n>Click to manage the sand alt at", Txt.parse("<i>x: <h>%,d <i>y: <h>%,d <i>z: <h>%,d <i>world: <h>%s", location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getWorld().getName())))));
                 chestGui.setAction(altSlots[slot], new ActionSandaltEdit(sandAlt, faction, mplayer));
 
                 // Increment

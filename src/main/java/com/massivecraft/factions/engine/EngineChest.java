@@ -8,6 +8,7 @@ import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -36,9 +37,9 @@ public class EngineChest extends Engine
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event)
     {
-        if ( ! event.getInventory().getName().endsWith(" - Faction Chest")) return;
+        if ( ! event.getView().getTitle().endsWith(" - Faction Chest")) return;
 
-        Faction faction = this.getFactionFromInventory(event.getInventory());
+        Faction faction = this.getFactionFromTitle(event.getView().getTitle());
         if (faction == null) return;
 
         containers.put(event.getPlayer(), this.compressInventory(event.getInventory().getContents()));
@@ -47,9 +48,9 @@ public class EngineChest extends Engine
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event)
     {
-        if ( ! event.getInventory().getName().endsWith(" - Faction Chest")) return;
+        if ( ! event.getView().getTitle().endsWith(" - Faction Chest")) return;
 
-        Faction faction = this.getFactionFromInventory(event.getInventory());
+        Faction faction = this.getFactionFromTitle(event.getView().getTitle());
         if (faction == null) return;
         faction.saveInventory();
 
@@ -87,8 +88,8 @@ public class EngineChest extends Engine
         @Override
         public int compare(ItemStack first, ItemStack second)
         {
-            int firstTypeId = first.getTypeId();
-            int secondTypeId = second.getTypeId();
+            int firstTypeId = first.getType().ordinal();
+            int secondTypeId = second.getType().ordinal();
 
             if (firstTypeId < secondTypeId) return -1;
             if (firstTypeId > secondTypeId) return 1;
@@ -161,13 +162,13 @@ public class EngineChest extends Engine
             if (item == null) continue;
 
             // Args
-            int type = item.getTypeId();
+            Material type = item.getType();
             short data = rawData(item);
             boolean found = false;
 
             for (ItemStack compressedItem : compressed)
             {
-                if (type == compressedItem.getTypeId() && data == rawData(compressedItem))
+                if (type == compressedItem.getType() && data == rawData(compressedItem))
                 {
                     compressedItem.setAmount(compressedItem.getAmount() + item.getAmount());
                     found = true;
@@ -181,11 +182,11 @@ public class EngineChest extends Engine
         return compressed.toArray(new ItemStack[0]);
     }
 
-    private Faction getFactionFromInventory(Inventory inventory)
+    private Faction getFactionFromTitle(String title)
     {
         try
         {
-            return FactionColl.get().getByName(ChatColor.stripColor(inventory.getName()).split("-")[0].trim());
+            return FactionColl.get().getByName(ChatColor.stripColor(title).split("-")[0].trim());
         }
         catch (Exception e)
         {

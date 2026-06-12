@@ -4,11 +4,11 @@ import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.event.EventMassiveCorePlayerLeave;
-import com.massivecraft.massivecore.particleeffect.ParticleEffect;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.PeriodUtil;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -98,7 +98,7 @@ public class EngineSeeChunk extends Engine
 			List<Location> locations = getLocations(player, steps, step);
 			for (Location location : locations)
 			{
-				ParticleEffect.EXPLOSION_NORMAL.display(location, offsetX, offsetY, offsetZ, speed, amount, player);
+				location.getWorld().spawnParticle(Particle.EXPLOSION, location, amount, offsetX, offsetY, offsetZ, speed);
 			}
 		}
 	}
