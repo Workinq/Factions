@@ -49,17 +49,17 @@ public class CmdFactionsUnban extends FactionsCommand
         // Args
         if ("all".equalsIgnoreCase(this.argAt(0)))
         {
-            Set<String> ids = msenderFaction.getInvitations().keySet();
+            var bans = msenderFaction.getBannedMembers();
             // Doesn't show up if list is empty. Test at home if it worked.
-            if (ids == null || ids.isEmpty())
+            if (bans == null || bans.isEmpty())
             {
                 throw new MassiveException().addMsg("<b>No one is banned from your faction.");
             }
             all = true;
 
-            for (String id : ids)
+            for (var ban : bans)
             {
-                mplayers.add(MPlayer.get(id));
+                mplayers.add(MPlayer.get(ban.getBannedId()));
             }
         }
         else
