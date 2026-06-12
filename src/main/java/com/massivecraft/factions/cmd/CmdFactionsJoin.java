@@ -157,7 +157,7 @@ public class CmdFactionsJoin extends FactionsCommand
 		}*/
 
 		// Event
-		EventFactionsMembershipChange membershipChangeEvent = new EventFactionsMembershipChange(sender, msender, faction, MembershipChangeReason.JOIN);
+		EventFactionsMembershipChange membershipChangeEvent = new EventFactionsMembershipChange(sender, mplayer, faction, MembershipChangeReason.JOIN);
 		membershipChangeEvent.run();
 		if (membershipChangeEvent.isCancelled()) return;
 
