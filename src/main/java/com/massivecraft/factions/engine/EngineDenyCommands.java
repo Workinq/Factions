@@ -74,7 +74,7 @@ public class EngineDenyCommands extends Engine
 				if (othermplayer == mplayer) continue;
 				
 				double distance = player.getLocation().distance(otherplayer.getLocation());
-				if (MConf.get().denyCommandsDistance > distance) continue;
+				if (distance > MConf.get().denyCommandsDistance) continue;
 				
 				Rel playerRel = mplayer.getRelationTo(othermplayer);
 				if ( ! MConf.get().denyCommandsDistanceRelation.containsKey(playerRel)) continue;
