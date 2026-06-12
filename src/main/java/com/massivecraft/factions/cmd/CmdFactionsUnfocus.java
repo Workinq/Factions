@@ -46,7 +46,7 @@ public class CmdFactionsUnfocus extends FactionsCommand
         }
         else
         {
-            msg("%s <b>does not currently have a player focused.", this.msenderFaction.describeTo(mplayer, true));
+            msg("%s <b>is not currently focused by your faction.", mplayer.describeTo(msenderFaction, true));
         }
         for (Player player : msenderFaction.getOnlinePlayers())
         {
