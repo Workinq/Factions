@@ -25,6 +25,7 @@ public class MOption extends Entity<MOption>
         this.setGrace(that.grace);
         this.setFlight(that.flight);
         this.setShield(that.shield);
+        this.setRoster(that.roster);
         return this;
     }
 
