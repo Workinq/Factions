@@ -32,7 +32,7 @@ public class InventoryUtil {
         for (ItemStack item : inventory.getContents())
         {
             if (item == null || item.getType() == Material.TNT) continue;
-            if (item.hasItemMeta() || item.getItemMeta().hasDisplayName() || item.getItemMeta().hasLore()) totalNotTnt += 64;
+            totalNotTnt += 64;
         }
         return totalNotTnt;
     }
