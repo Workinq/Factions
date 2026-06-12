@@ -28,28 +28,28 @@ public class CmdFactionsFly extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        boolean value = this.readArg( ! EngineFly.get().playersWithFlyDisabled.contains(me.getUniqueId()) );
+        boolean value = this.readArg( EngineFly.get().playersWithFlyDisabled.contains(me.getUniqueId()) );
 
         if (value)
         {
-            if (EngineFly.get().playersWithFlyDisabled.contains(me.getUniqueId()))
+            if ( ! EngineFly.get().playersWithFlyDisabled.contains(me.getUniqueId()) )
             {
-                msg("<b>You already have faction flight disabled.");
+                msg("<b>You already have faction flight enabled.");
             }
             else
             {
-                msg("<i>%s %s <i>faction flight.", msender.describeTo(msender, true), Txt.parse("<b>DISABLED"));
-                EngineFly.get().playersWithFlyDisabled.add(me.getUniqueId());
+                msg("<i>%s %s <i>faction flight.", msender.describeTo(msender, true), Txt.parse("<g>ENABLED"));
+                EngineFly.get().playersWithFlyDisabled.remove(me.getUniqueId());
             }
         }
-        else if ( ! EngineFly.get().playersWithFlyDisabled.contains(me.getUniqueId()) )
+        else if (EngineFly.get().playersWithFlyDisabled.contains(me.getUniqueId()))
         {
             msg("<b>You already have faction flight disabled.");
         }
         else
         {
-            msg("<i>%s %s <i>faction flight.", msender.describeTo(msender, true), Txt.parse("<g>ENABLED"));
-            EngineFly.get().playersWithFlyDisabled.remove(me.getUniqueId());
+            msg("<i>%s %s <i>faction flight.", msender.describeTo(msender, true), Txt.parse("<b>DISABLED"));
+            EngineFly.get().playersWithFlyDisabled.add(me.getUniqueId());
         }
     }
 
