@@ -30,6 +30,7 @@ public class CmdFactionsDelwarp extends FactionsCommand
     {
         // Args
         String warp = this.readArg();
+        warp = warp.toLowerCase();
         Faction faction = this.readArg(msenderFaction);
 
         // Verify
