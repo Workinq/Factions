@@ -55,12 +55,10 @@ public class CmdFactionsSetAt extends CmdFactionsSetXSimple
         // Args
         int chunkX = this.readArg(me.getLocation().getChunk().getX());
         int chunkZ = this.readArg(me.getLocation().getChunk().getZ());
-        int abX = Math.abs(chunkX);
-        int abZ = Math.abs(chunkZ);
-        int acAbX = Math.abs(me.getLocation().getChunk().getX());
-        int acAbZ = Math.abs(me.getLocation().getChunk().getZ());
-        int difX = Math.abs(acAbX - abX);
-        int difZ = Math.abs(acAbZ - abZ);
+        int acX = me.getLocation().getChunk().getX();
+        int acZ = me.getLocation().getChunk().getZ();
+        int difX = Math.abs(acX - chunkX);
+        int difZ = Math.abs(acZ - chunkZ);
         World world = this.readArg(me.getLocation().getWorld());
         boolean sendMap = this.readArg(false);
 
