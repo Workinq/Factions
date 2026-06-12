@@ -2,103 +2,188 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Parent -->
-    <parent>
-        <groupId>com.massivecraft.massivesuper</groupId>
-        <artifactId>MassiveSuper</artifactId>
-        <version>2.14.1-SNAPSHOT</version>
-        <relativePath>../MassiveSuper</relativePath>
-    </parent>
-
     <!-- Basics -->
     <groupId>com.massivecraft.factions</groupId>
     <artifactId>Factions</artifactId>
+    <version>MC-1.20.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <!-- Info -->
-    <name>${project.artifactId}</name>
-    <description>${massiveColorInfo}${project.name} allows the players to team up and claim land as their own and start
-        wars with other factions. This way we hope to inspire politics, intrigue, and team spirit.
-        ${massiveDescriptionSuffix}
-    </description>
-    <url>${massiveBaseUrl}/factions</url>
+    <name>Factions</name>
+    <description>Factions allows the players to team up and claim land as their own and start wars with other factions. This way we hope to inspire politics, intrigue, and team spirit.</description>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <lombok.version>1.18.46</lombok.version>
+    </properties>
+
+    <repositories>
+        <!-- Paper -->
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <!-- MassiveCore -->
+        <repository>
+            <id>massivecraft</id>
+            <url>https://maven.massivecraft.team/repository/massivecraft-dependencies/</url>
+        </repository>
+        <!-- WorldEdit -->
+        <repository>
+            <id>enginehub</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+        <!-- WorldGuard -->
+        <repository>
+            <id>sk89q-repo</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+        <!-- Vault -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <!-- CoreProtect -->
+        <repository>
+            <id>playpro-repo</id>
+            <url>https://maven.playpro.com</url>
+        </repository>
+        <!-- Essentials -->
+        <repository>
+            <id>essentialsx</id>
+            <url>https://repo.essentialsx.net/</url>
+        </repository>
+        <!-- Citizens -->
+        <repository>
+            <id>citizens-repo</id>
+            <url>https://maven.citizensnpcs.co</url>
+        </repository>
+        <!-- PlaceholderAPI -->
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.helpch.at/releases/</url>
+        </repository>
+        <!-- LiteBans -->
+        <repository>
+            <id>z-jitpack</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- FAWE -->
+            <dependency>
+                <groupId>com.intellectualsites.bom</groupId>
+                <artifactId>bom-newest</artifactId>
+                <version>1.56</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <!-- Dependencies -->
     <dependencies>
-        <!-- Spigot -->
-        <!--<dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-        </dependency>-->
         <!-- Paper API -->
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
+            <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
+            <version>1.21.11-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
-        <!-- NMS -->
+        <!-- Paper NMS -->
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
+            <groupId>ca.bkaw</groupId>
+            <artifactId>paper-nms</artifactId>
+            <version>1.21.11-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <!-- MassiveCore -->
         <dependency>
             <groupId>com.massivecraft.massivecore</groupId>
             <artifactId>MassiveCore</artifactId>
+            <version>MC-1.20.4-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
-        <!-- WorldEdit -->
+        <!-- FastAsyncWorldEdit -->
         <dependency>
-            <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-bukkit</artifactId>
+            <groupId>com.fastasyncworldedit</groupId>
+            <artifactId>FastAsyncWorldEdit-Core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- FastAsyncWorldEdit Bukkit -->
+        <dependency>
+            <groupId>com.fastasyncworldedit</groupId>
+            <artifactId>FastAsyncWorldEdit-Bukkit</artifactId>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>FastAsyncWorldEdit-Core</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- WorldGuard -->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>worldguard-legacy</artifactId>
+            <artifactId>worldguard-bukkit</artifactId>
+            <version>7.0.9-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Vault -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
         </dependency>
         <!-- CoreProtect -->
         <dependency>
             <groupId>net.coreprotect</groupId>
             <artifactId>coreprotect</artifactId>
-        </dependency>
-        <!-- Essentials -->
-        <dependency>
-            <groupId>net.ess3</groupId>
-            <artifactId>EssentialsX</artifactId>
+            <version>23.2</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Citizens -->
         <dependency>
             <groupId>net.citizensnpcs</groupId>
-            <artifactId>citizens</artifactId>
+            <artifactId>citizensapi</artifactId>
+            <version>2.0.42-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <!-- PlaceholderAPI -->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-        </dependency>
-        <!-- HolographicDisplays -->
-        <dependency>
-            <groupId>com.gmail.filoghost.holographicdisplays</groupId>
-            <artifactId>holographicdisplays-api</artifactId>
-        </dependency>
-        <!-- MobExtras -->
-        <dependency>
-            <groupId>org.jdgames.mobextras</groupId>
-            <artifactId>MobExtrasPlugin</artifactId>
+            <version>2.12.2</version>
+            <scope>provided</scope>
         </dependency>
         <!-- LiteBans -->
         <dependency>
             <groupId>com.gitlab.ruany</groupId>
             <artifactId>LiteBansAPI</artifactId>
+            <version>0.6.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
+    <pluginRepositories>
+        <!-- Paper NMS Plugin -->
+        <pluginRepository>
+            <id>bytecode.space</id>
+            <url>https://repo.bytecode.space/repository/maven-public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <!-- Build -->
     <build>
+        <!-- Allow for easier building -->
+        <defaultGoal>clean package</defaultGoal>
+        <finalName>${project.name}-${project.version}</finalName>
+
         <!-- Resources -->
         <resources>
             <!-- Standard -->
@@ -115,13 +200,44 @@
                 <filtering>false</filtering>
             </resource>
         </resources>
+
+        <!-- Build Plugins -->
         <plugins>
+            <!-- Compile -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.15.0</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <parameters>true</parameters>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <!-- Paper NMS Maven Plugin -->
+            <plugin>
+                <groupId>ca.bkaw</groupId>
+                <artifactId>paper-nms-maven-plugin</artifactId>
+                <version>1.4.10</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <paperweight-mappings-namespace>mojang</paperweight-mappings-namespace>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
