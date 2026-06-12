@@ -38,7 +38,7 @@ public class ComparatorMPlayerInactivity extends ComparatorAbstract<MPlayer> imp
 		long r1 = m1.getLastActivityMillis();
 		long r2 = m2.getLastActivityMillis();
 		
-		return (int) (r1 - r2);
+		return Long.compare(r1, r2);
 	}
 	
 }
