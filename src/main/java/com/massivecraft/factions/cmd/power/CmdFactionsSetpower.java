@@ -51,7 +51,10 @@ public class CmdFactionsSetpower extends FactionsCommand
 		EventFactionsPowerChange event = new EventFactionsPowerChange(sender, mplayer, PowerChangeReason.COMMAND, newPower);
 		event.run();
 		if (event.isCancelled()) return;
-		
+
+		// Use the (possibly listener-modified) value from the event
+		newPower = event.getNewPower();
+
 		// Inform
 		msg("<i>You changed %s's <i>power from <h>%.2f <i>to <h>%.2f<i>.", mplayer.describeTo(msender),  oldPower, newPower);
 		if (msender != mplayer)
