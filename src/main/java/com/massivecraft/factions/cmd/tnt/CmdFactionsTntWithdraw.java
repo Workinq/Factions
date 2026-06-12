@@ -48,6 +48,11 @@ public class CmdFactionsTntWithdraw extends FactionsCommand
         int factionTnt = msenderFaction.getTnt();
 
         // Verify
+        if (amount <= 0)
+        {
+            throw new MassiveException().setMsg("<b>You must withdraw a positive amount of tnt.");
+        }
+
         if (factionTnt <= 0)
         {
             throw new MassiveException().setMsg("<b>Your faction doesn't have any tnt to withdraw.");
