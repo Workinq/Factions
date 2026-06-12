@@ -276,7 +276,7 @@ public class CmdFactionsRank extends FactionsCommand
 		}
 		
 		// Event
-		EventFactionsMembershipChange membershipChangeEvent = new EventFactionsMembershipChange(sender, msender, endFaction, MembershipChangeReason.RANK);
+		EventFactionsMembershipChange membershipChangeEvent = new EventFactionsMembershipChange(sender, target, endFaction, MembershipChangeReason.RANK);
 		membershipChangeEvent.run();
 		if (membershipChangeEvent.isCancelled()) throw new MassiveException();
 		
@@ -396,7 +396,7 @@ public class CmdFactionsRank extends FactionsCommand
 		{
 			String targetName = target.describeTo(recipient, true);
 			String wasWere = (recipient == target) ? "were" : "was";
-			recipient.msg("%s<i> %s %s from %s to <h>%s <i>in %s<i>.", targetName, wasWere, change, oldRankName, rankName, targetFaction.describeTo(msender));
+			recipient.msg("%s<i> %s %s from %s to <h>%s <i>in %s<i>.", targetName, wasWere, change, oldRankName, rankName, targetFaction.describeTo(recipient));
 		}
 	}
 	
