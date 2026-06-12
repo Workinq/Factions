@@ -119,7 +119,7 @@ public class EngineFlagExplosion extends Engine
 
 			if (allowed == null)
 			{
-				allowed = faction.isExplosionsAllowed() || ! faction.isShieldedAt(hour);
+				allowed = faction.isExplosionsAllowed() && ! faction.isShieldedAt(hour);
 				faction2allowed.put(faction, allowed);
 			}
 
