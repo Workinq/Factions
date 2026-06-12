@@ -43,7 +43,7 @@ public class CmdFactionsAccessClear extends CmdFactionsAccessAbstract
                 if ( ! Perm.ACCESS_FACTION.has(sender, true)) return;
 
                 // Clear factions' access to chunk
-                ta = TerritoryAccess.valueOf(hostFaction.getId(), false, Collections.<String>emptySet(), ta.getPlayerIds());
+                ta = TerritoryAccess.valueOf(hostFaction.getId(), ta.isHostFactionAllowed(), Collections.<String>emptySet(), ta.getPlayerIds());
 
                 break;
 
