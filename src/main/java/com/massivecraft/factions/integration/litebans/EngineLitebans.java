@@ -7,8 +7,6 @@ import com.massivecraft.factions.entity.MPlayerColl;
 import com.massivecraft.massivecore.Engine;
 import litebans.api.Entry;
 import litebans.api.Events;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 public class EngineLitebans extends Engine
 {
@@ -31,17 +29,18 @@ public class EngineLitebans extends Engine
             @Override
             public void entryAdded(Entry entry)
             {
-                // If a player was banned from the server ...
-                Player player = Bukkit.getPlayer(entry.getUuid());
-
                 // ... and we remove player data when banned ...
                 if (!MConf.get().removePlayerWhenBanned) return;
 
                 // ... and we remove player data when PERMANENTLY banned ...
                 if (MConf.get().onlyRemovePlayersWhenPermanentlyBanned && !entry.isPermanent()) return;
 
+                // If a player (not an IP-only ban) was banned from the server ...
+                String uuid = entry.getUuid();
+                if (uuid == null) return;
+
                 // ... get rid of their stored info.
-                MPlayer mplayer = MPlayerColl.get().get(player, false);
+                MPlayer mplayer = MPlayerColl.get().get(uuid, false);
                 if (mplayer == null) return;
 
                 if (mplayer.getRole() == Rel.LEADER)
