@@ -105,7 +105,7 @@ public class EngineSpigot extends Engine
 		for (Block block : blocks)
 		{
 			// Is the retracted block air/water/lava? Don't worry about it
-			if (block.isEmpty() || block.isLiquid()) return;
+			if (block.isEmpty() || block.isLiquid()) continue;
 			
 			// Members of a faction might not have build rights in their own territory, but pistons should still work regardless
 			Faction targetFaction = BoardColl.get().getFactionAt(PS.valueOf(block));
