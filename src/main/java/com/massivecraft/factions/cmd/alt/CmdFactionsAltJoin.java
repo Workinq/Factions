@@ -67,7 +67,7 @@ public class CmdFactionsAltJoin extends FactionsCommand
 
         if (MConf.get().factionAltLimit > 0 && faction.getMPlayersWhereAlt(true).size() >= MConf.get().factionAltLimit)
         {
-            msg(" <b>!<white> The faction %s is at the limit of %d alts, so %s cannot currently join.", faction.getName(msender), MConf.get().factionMemberLimit, mplayer.describeTo(msender, false));
+            msg(" <b>!<white> The faction %s is at the limit of %d alts, so %s cannot currently join.", faction.getName(msender), MConf.get().factionAltLimit, mplayer.describeTo(msender, false));
             return;
         }
 
@@ -91,9 +91,9 @@ public class CmdFactionsAltJoin extends FactionsCommand
             return;
         }
 
-        if (faction.isBanned(msender))
+        if (faction.isBanned(mplayer))
         {
-            msg("<b>You've been banned from joining %s<b>.", faction.describeTo(msender));
+            msg("%s <b>cannot join a faction when banned from it.", mplayer.describeTo(msender, true));
             return;
         }
 
