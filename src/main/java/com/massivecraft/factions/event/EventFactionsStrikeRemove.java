@@ -24,7 +24,7 @@ public class EventFactionsStrikeRemove extends EventFactionsAbstractSender
 
     private FactionStrike newStrike;
     public FactionStrike getNewStrike() { return this.newStrike; }
-    public void setNewWarp(FactionStrike newStrike) { this.newStrike = newStrike; }
+    public void setNewStrike(FactionStrike newStrike) { this.newStrike = newStrike; }
 
     // -------------------------------------------- //
     // CONSTRUCT
