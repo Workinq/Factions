@@ -48,6 +48,11 @@ public class CmdFactionsTntDeposit extends FactionsCommand
 
         int amount = this.readArg();
 
+        if (amount <= 0)
+        {
+            throw new MassiveException().setMsg("<b>You must deposit a positive amount of tnt.");
+        }
+
         if (msenderFaction.getLevel(MUpgrade.get().tntUpgrade.getUpgradeName()) == 0)
         {
             throw new MassiveException().setMsg("<b>You can't store any TNT as you haven't upgraded your faction bank yet.");
