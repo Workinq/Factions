@@ -65,14 +65,13 @@ public class EngineTnt extends Engine
         tntEvent.run();
         if (tntEvent.isCancelled()) return;
 
-        int newTnt = Math.min(at.getTnt() + tntEvent.getTnt(), maximumTnt);
+        int rawTnt = at.getTnt() + tntEvent.getTnt();
+        int newTnt = Math.min(rawTnt, maximumTnt);
 
         // Calculate excess TNT
-        int excessTnt;
-
-        if (newTnt > maximumTnt)
+        if (rawTnt > maximumTnt)
         {
-            excessTnt = newTnt - maximumTnt;
+            int excessTnt = rawTnt - maximumTnt;
 
             // Deposit
             Money.spawn(at, null, excessTnt * MConf.get().tntSellPrice);
