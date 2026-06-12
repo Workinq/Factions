@@ -77,7 +77,7 @@ public class ChatFormatter
 				}
 			}
 			
-			matcher.appendReplacement(ret, replacement);
+			matcher.appendReplacement(ret, Matcher.quoteReplacement(replacement));
 		}
 		
 		// Append the rest
