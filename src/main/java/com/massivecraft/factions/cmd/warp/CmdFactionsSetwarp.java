@@ -51,7 +51,7 @@ public class CmdFactionsSetwarp extends FactionsCommand
             throw new MassiveException().setMsg("<b>You can not set any more faction warps as you've reached the limit.");
         }
 
-        if (msenderFaction.warpExists(warp))
+        if (msenderFaction.warpExists(warp.toLowerCase()))
         {
             throw new MassiveException().setMsg("<b>A faction warp already exists with this name.");
         }
@@ -69,7 +69,7 @@ public class CmdFactionsSetwarp extends FactionsCommand
         msenderFaction.addWarp(warp, location, password);
 
         // Inform
-        msenderFaction.msg("%s<i> created a new faction warp called <h>%s<i>.", msender.describeTo(msender, true), warp);
+        msenderFaction.msg("%s<i> created a new faction warp called <h>%s<i>.", msender.describeTo(msenderFaction, true), warp);
     }
 
 }
