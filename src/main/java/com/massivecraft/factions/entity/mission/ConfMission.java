@@ -1,9 +1,8 @@
 package com.massivecraft.factions.entity.mission;
 
-import com.massivecraft.massivecore.store.EntityInternal;
 import org.bukkit.Material;
 
-public class ConfMission extends EntityInternal<ConfMission>
+public class ConfMission
 {
 
    private final String name;
