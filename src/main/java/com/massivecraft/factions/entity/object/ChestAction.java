@@ -1,9 +1,8 @@
 package com.massivecraft.factions.entity.object;
 
-import com.massivecraft.massivecore.store.EntityInternal;
 import org.bukkit.inventory.ItemStack;
 
-public class ChestAction extends EntityInternal<ChestAction>
+public class ChestAction
 {
     // -------------------------------------------- //
     // FIELDS
