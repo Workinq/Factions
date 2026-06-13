@@ -13,16 +13,6 @@ public class MMissionColl extends Coll<MMission>
     public static MMissionColl get() { return i; }
 
     // -------------------------------------------- //
-    // STACK TRACEABILITY
-    // -------------------------------------------- //
-
-    @Override
-    public void onTick()
-    {
-        super.onTick();
-    }
-
-    // -------------------------------------------- //
     // OVERRIDE
     // -------------------------------------------- //
 

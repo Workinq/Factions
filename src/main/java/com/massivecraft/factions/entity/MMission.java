@@ -80,15 +80,4 @@ public class MMission extends Entity<MMission>
         }
     }
 
-    // -------------------------------------------- //
-    // OVERRIDE
-    // -------------------------------------------- //
-
-    @Override
-    public MMission load(MMission that)
-    {
-        super.load(that);
-        return this;
-    }
-
 }
