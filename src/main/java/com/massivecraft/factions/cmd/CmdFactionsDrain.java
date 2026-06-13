@@ -2,7 +2,6 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeMPlayer;
-import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.MassiveException;
@@ -58,8 +57,8 @@ public class CmdFactionsDrain extends FactionsCommand
                 throw new MassiveException().addMsg("<b>You don't have any offline members in your faction.");
             }
 
-            // Remove players with high enough rank.
-            offlineMembers.removeIf(mplayer -> mplayer.getRole().isAtMost(MConf.get().drainRank));
+            // Keep only members ranked below the sender, as only they can be drained.
+            offlineMembers.removeIf(mplayer -> ! msender.getRole().isMoreThan(mplayer.getRole()));
 
             all = true;
 
@@ -78,12 +77,6 @@ public class CmdFactionsDrain extends FactionsCommand
             if (mplayer.isOnline())
             {
                 msg("%s <b>can't drain %s's <b>balance because they're online.", msender.describeTo(msender, true), mplayer.describeTo(msender));
-                continue;
-            }
-
-            if (mplayer.getRole().isLessThan(MConf.get().drainRank))
-            {
-                msg("%s <b>can't drain %s's <b>balance because their rank isn't below <h>%s<b>.", msender.describeTo(msender, true), mplayer.describeTo(msender), MConf.get().drainRank.getName());
                 continue;
             }
 
