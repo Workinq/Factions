@@ -99,7 +99,16 @@ public class MConf extends Entity<MConf>
 	public double taskEconLandRewardMinutes = 20;
 	public double taskRemindBaseRegionMinutes = 5;
 	public double taskRingFactionAlarmMinutes = 0.25;
-	
+
+	// -------------------------------------------- //
+	// BASE REGION
+	// -------------------------------------------- //
+
+	// The radius in chunks around a faction's core chunk that forms its base region.
+	// The base region is the claimed chunks within this radius and is recomputed when claims change.
+	// A radius of 24 yields up to a 49x49 chunk area, roughly 50x50.
+	public int baseRegionRadius = 24;
+
 	// -------------------------------------------- //
 	// REMOVE DATA
 	// -------------------------------------------- //
