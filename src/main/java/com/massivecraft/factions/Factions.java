@@ -15,7 +15,6 @@ import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MConfColl;
 import com.massivecraft.factions.entity.MFlagColl;
 import com.massivecraft.factions.entity.MMissionColl;
-import com.massivecraft.factions.entity.MOptionColl;
 import com.massivecraft.factions.entity.MPermColl;
 import com.massivecraft.factions.entity.MPlayerColl;
 import com.massivecraft.factions.entity.MUpgradeColl;
@@ -113,7 +112,6 @@ public class Factions extends MassivePlugin
 				FactionColl.class,
 				MPlayerColl.class,
 				BoardColl.class,
-				MOptionColl.class,
 				MUpgradeColl.class,
 				MMissionColl.class
 		);

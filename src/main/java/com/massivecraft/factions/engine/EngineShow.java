@@ -102,7 +102,7 @@ public class EngineShow extends Engine
 
 			if (faction.hasShield())
 			{
-				boolean active = faction.isShieldedAt(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) && MOption.get().isShield();
+				boolean active = faction.isShieldedAt(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) && MConf.get().shield;
 				Mson shieldMson = Mson.mson(Txt.parse(active ? "<g><bold>ACTIVE" : "<b><bold>INACTIVE"));
 
 				// Get the time window for the faction's shield

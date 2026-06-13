@@ -3,7 +3,7 @@ package com.massivecraft.factions.cmd.toggle;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
-import com.massivecraft.factions.entity.MOption;
+import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.event.EventFactionsToggleShield;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
@@ -20,7 +20,7 @@ public class CmdFactionsToggleShield extends FactionsCommand
 	public CmdFactionsToggleShield()
 	{
 		// Parameters
-		this.addParameter(!MOption.get().isShield(), TypeBooleanYes.get(), "yes/no");
+		this.addParameter(!MConf.get().shield, TypeBooleanYes.get(), "yes/no");
 	}
 
 	// -------------------------------------------- //
@@ -31,7 +31,7 @@ public class CmdFactionsToggleShield extends FactionsCommand
 	public void perform() throws MassiveException
 	{
 		// Args
-		boolean target = this.readArg( ! MOption.get().isShield() );
+		boolean target = this.readArg( ! MConf.get().shield );
 
 		// Event
 		EventFactionsToggleShield event = new EventFactionsToggleShield(sender, target);
@@ -40,10 +40,10 @@ public class CmdFactionsToggleShield extends FactionsCommand
 		target = event.isActive();
 
 		// Apply
-		MOption.get().setShield(target);
+		MConf.get().shield = target; MConf.get().changed();
 
 		// Inform
-		String desc = Txt.parse(MOption.get().isShield() ? "<g>ENABLED" : "<b>DISABLED");
+		String desc = Txt.parse(MConf.get().shield ? "<g>ENABLED" : "<b>DISABLED");
 
 		String messageYou = Txt.parse("<i>%s %s <i>faction shields.", msender.describeTo(msender, true), desc);
 		String messageLog = Txt.parse("<i>%s %s <i>faction shields.", msender.getDisplayName(IdUtil.getConsole()), desc);

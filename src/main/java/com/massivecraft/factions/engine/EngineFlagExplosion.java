@@ -2,7 +2,7 @@ package com.massivecraft.factions.engine;
 
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MOption;
+import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.util.EnumerationUtil;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.ps.PS;
@@ -97,7 +97,7 @@ public class EngineFlagExplosion extends Engine
 		int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
 		// Check if the faction is shielded.
-		if (faction.isShieldedAt(hour) && MOption.get().isShield())
+		if (faction.isShieldedAt(hour) && MConf.get().shield)
 		{
 			PS at = PS.valueOf(location.getChunk());
 			if (faction.hasBaseRegion() && faction.getBaseRegion().contains(at))

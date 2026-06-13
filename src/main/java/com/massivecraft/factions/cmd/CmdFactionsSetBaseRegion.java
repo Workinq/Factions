@@ -3,7 +3,7 @@ package com.massivecraft.factions.cmd;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MOption;
+import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
@@ -33,7 +33,7 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
     {
         Faction faction = this.readArg(msenderFaction);
 
-        if ( ! MOption.get().isGrace() && faction.hasBaseRegion() && ! msender.isOverriding() ) {
+        if ( ! MConf.get().grace && faction.hasBaseRegion() && ! msender.isOverriding() ) {
             msg("<b>You can't set your base region as grace has been disabled.");
             return;
         }

@@ -47,7 +47,7 @@ public class EngineMoveChunk extends Engine
 		sendChunkInfo(mplayer, player, chunkFrom, chunkTo);
 		tryAutoClaim(mplayer, chunkTo);
 
-		if (MOption.get().isFlight())
+		if (MConf.get().flight)
 		{
 			EngineFly.get().chunkChangeFlight(mplayer, player, chunkTo);
 		}

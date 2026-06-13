@@ -30,7 +30,7 @@ public class TaskFactionsFly extends ModuloRepeatTask
     @Override
     public void invoke(long now)
     {
-        if ( ! MOption.get().isFlight() ) return;
+        if ( ! MConf.get().flight ) return;
         for (Player player : Bukkit.getServer().getOnlinePlayers())
         {
             MPlayer mplayer = MPlayer.get(player);

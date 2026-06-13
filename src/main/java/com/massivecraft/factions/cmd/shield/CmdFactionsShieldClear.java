@@ -4,7 +4,7 @@ import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MOption;
+import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.type.primitive.TypeBooleanYes;
@@ -32,7 +32,7 @@ public class CmdFactionsShieldClear extends FactionsCommand
         Faction faction = this.readArg(msenderFaction);
         boolean silent = this.readArg(true);
 
-        if ( ! MOption.get().isGrace() && faction.hasShield() && ! msender.isOverriding() )
+        if ( ! MConf.get().grace && faction.hasShield() && ! msender.isOverriding() )
         {
             throw new MassiveException().setMsg("<b>You can't clear %s's shield as grace has been disabled.", faction.describeTo(msender));
         }

@@ -41,7 +41,7 @@ public class EngineFly extends Engine
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerToggleFly(PlayerToggleFlightEvent event)
     {
-        if ( ! MOption.get().isFlight() ) return;
+        if ( ! MConf.get().flight ) return;
         Player player = event.getPlayer();
         if (playersWithFlyDisabled.contains(player.getUniqueId())) return;
         if (! event.isFlying() || MUtil.isntPlayer(player) || this.hasFlyBypass(player)) return;
@@ -67,7 +67,7 @@ public class EngineFly extends Engine
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerTeleport(PlayerTeleportEvent event)
     {
-        if ( ! MOption.get().isFlight() ) return;
+        if ( ! MConf.get().flight ) return;
 
         Player player = event.getPlayer();
         if (MUtil.isntPlayer(player) || this.hasFlyBypass(player)) return;
@@ -115,7 +115,7 @@ public class EngineFly extends Engine
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerPearl(PlayerInteractEvent event)
     {
-        if (!MOption.get().isFlight() || !MConf.get().usePearlsFlying || event.getAction() != Action.RIGHT_CLICK_AIR) return;
+        if (!MConf.get().flight || !MConf.get().usePearlsFlying || event.getAction() != Action.RIGHT_CLICK_AIR) return;
 
         Player player = event.getPlayer();
         if (MUtil.isntPlayer(player)) return;
@@ -130,7 +130,7 @@ public class EngineFly extends Engine
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void negateNextFall(EntityDamageEvent event)
     {
-        if (!MOption.get().isFlight() || !(event.getEntity() instanceof Player)) return;
+        if (!MConf.get().flight || !(event.getEntity() instanceof Player)) return;
 
         Player player = (Player) event.getEntity();
         if (MUtil.isntPlayer(player) || event.getCause() != EntityDamageEvent.DamageCause.FALL) return;

@@ -110,6 +110,16 @@ public class MConf extends Entity<MConf>
 	public int baseRegionRadius = 24;
 
 	// -------------------------------------------- //
+	// SERVER TOGGLES
+	// -------------------------------------------- //
+
+	// Toggled via /f grace, /f fly, /f shield and /f roster.
+	public boolean grace = true;
+	public boolean flight = true;
+	public boolean shield = true;
+	public boolean roster = true;
+
+	// -------------------------------------------- //
 	// REMOVE DATA
 	// -------------------------------------------- //
 	

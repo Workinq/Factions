@@ -3,7 +3,7 @@ package com.massivecraft.factions.cmd.toggle;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
-import com.massivecraft.factions.entity.MOption;
+import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.event.EventFactionsToggleRoster;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
@@ -31,7 +31,7 @@ public class CmdFactionsToggleRoster extends FactionsCommand
     public void perform() throws MassiveException
     {
         // Args
-        boolean target = this.readArg( ! MOption.get().isRoster() );
+        boolean target = this.readArg( ! MConf.get().roster );
 
         // Event
         EventFactionsToggleRoster event = new EventFactionsToggleRoster(sender, target);
@@ -40,10 +40,10 @@ public class CmdFactionsToggleRoster extends FactionsCommand
         target = event.isActive();
 
         // Apply
-        MOption.get().setRoster(target);
+        MConf.get().roster = target; MConf.get().changed();
 
         // Inform
-        String desc = Txt.parse(MOption.get().isRoster() ? "<g>ENABLED" : "<b>DISABLED");
+        String desc = Txt.parse(MConf.get().roster ? "<g>ENABLED" : "<b>DISABLED");
 
         String messageYou = Txt.parse("<i>%s %s <i>faction rosters.", msender.describeTo(msender, true), desc);
         String messageLog = Txt.parse("<i>%s %s <i>faction rosters.", msender.getDisplayName(IdUtil.getConsole()), desc);

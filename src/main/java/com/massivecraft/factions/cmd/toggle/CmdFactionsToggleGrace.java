@@ -3,7 +3,7 @@ package com.massivecraft.factions.cmd.toggle;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.FactionsCommand;
-import com.massivecraft.factions.entity.MOption;
+import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.event.EventFactionsToggleGrace;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
@@ -31,7 +31,7 @@ public class CmdFactionsToggleGrace extends FactionsCommand
     public void perform() throws MassiveException
     {
         // Args
-        boolean target = this.readArg( ! MOption.get().isGrace() );
+        boolean target = this.readArg( ! MConf.get().grace );
 
         // Event
         EventFactionsToggleGrace event = new EventFactionsToggleGrace(sender, target);
@@ -40,10 +40,10 @@ public class CmdFactionsToggleGrace extends FactionsCommand
         target = event.isActive();
 
         // Apply
-        MOption.get().setGrace(target);
+        MConf.get().grace = target; MConf.get().changed();
 
         // Inform
-        String desc = Txt.parse(MOption.get().isGrace() ? "<g>ENABLED" : "<b>DISABLED");
+        String desc = Txt.parse(MConf.get().grace ? "<g>ENABLED" : "<b>DISABLED");
 
         String messageYou = Txt.parse("<i>%s %s <i>server grace period.", msender.describeTo(msender, true), desc);
         String messageLog = Txt.parse("<i>%s %s <i>server grace period.", msender.getDisplayName(IdUtil.getConsole()), desc);
