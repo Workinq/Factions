@@ -5,21 +5,38 @@ import com.massivecraft.massivecore.store.EntityInternal;
 public class FactionMute extends EntityInternal<FactionMute>
 {
     // -------------------------------------------- //
+    // OVERRIDE: ENTITY
+    // -------------------------------------------- //
+
+    @Override
+    public FactionMute load(FactionMute that)
+    {
+        this.muteId = that.muteId;
+        this.muterId = that.muterId;
+        this.creationMillis = that.creationMillis;
+        return this;
+    }
+
+    // -------------------------------------------- //
     // FIELDS
     // -------------------------------------------- //
 
-    private final String muteId;
+    private String muteId;
     public String getMutedId() { return muteId; }
 
-    private final String muterId;
+    private String muterId;
     public String getMuterId() { return muterId; }
 
-    private final long creationMillis;
+    private long creationMillis;
     public long getCreationMillis() { return creationMillis; }
 
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
+
+    public FactionMute()
+    {
+    }
 
     public FactionMute(String muterId, String mutedId, long creationMillis)
     {

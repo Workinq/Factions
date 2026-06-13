@@ -8,28 +8,47 @@ import java.util.UUID;
 public class FactionStrike extends EntityInternal<FactionStrike>
 {
     // -------------------------------------------- //
+    // OVERRIDE: ENTITY
+    // -------------------------------------------- //
+
+    @Override
+    public FactionStrike load(FactionStrike that)
+    {
+        this.id = that.id;
+        this.time = that.time;
+        this.points = that.points;
+        this.message = that.message;
+        this.issuedBy = that.issuedBy;
+        return this;
+    }
+
+    // -------------------------------------------- //
     // FIELDS
     // -------------------------------------------- //
 
-    private final String id;
+    private String id;
     public String getStrikeId() { return id; }
 
-    private final long time;
+    private long time;
     public long getCreationMillis() { return time; }
 
-    private final int points;
+    private int points;
     public int getPoints() { return points; }
 
-    private final String message;
+    private String message;
     public String getMessage() { return message; }
 
-    private final String issuedBy;
+    private String issuedBy;
     public String getIssuedBy() { return issuedBy; }
     public MPlayer getMPlayer() { return MPlayer.get(issuedBy); }
 
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
+
+    public FactionStrike()
+    {
+    }
 
     public FactionStrike(long time, int points, String message, String issuedBy)
     {

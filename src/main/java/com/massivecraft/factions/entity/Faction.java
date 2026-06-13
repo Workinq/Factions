@@ -37,6 +37,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
+import org.jspecify.annotations.NonNull;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -64,43 +65,14 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// -------------------------------------------- //
 
 	@Override
-	public Faction load(Faction that)
+	public Faction load(@NonNull Faction that)
 	{
-		this.setName(that.name);
-		this.setDescription(that.description);
-		this.setMotd(that.motd);
-		this.setCreatedAtMillis(that.createdAtMillis);
-		this.setHome(that.home);
-		this.setPowerBoost(that.powerBoost);
+		super.load(that);
 		this.invitations.load(that.invitations);
-		this.setRelationWishes(that.relationWishes);
-		this.setFlagIds(that.flags);
-		this.setPermIds(that.perms);
-		this.setTnt(that.tnt);
-		this.setInventorySerialized(that.inventorySerialized);
-		this.setChestActions(that.chestActions);
-		this.setWarpLocations(that.warpLocations);
-		this.setWarpPasswords(that.warpPasswords);
-		this.setPaypal(that.paypal);
-		this.setDiscord(that.discord);
-		this.setBannedMembers(that.bannedMembers);
-		this.setUpgrades(that.upgrades);
-		this.setMissionGoal(that.missionGoal);
-		this.setActiveMission(that.activeMission);
-		this.setMissionStart(that.missionStart);
-		this.setCredits(that.credits);
-		this.setStrikes(that.strikes);
-		this.setBaseRegion(that.baseRegion);
-		this.setCoreChunk(that.coreChunk);
-		this.setShieldedHour(that.shieldedHour);
-		this.setFocusedPlayer(that.focusedPlayer);
-		this.setBanner(that.banner);
-		this.setRoster(that.roster);
-		this.setRosterKickTimes(that.rosterKickTimes);
-		this.setSandAlts(that.sandAlts);
-		this.setBannedMembers(that.bannedMembers);
-		this.setMutedMembers(that.mutedMembers);
-		this.setAlarmEnabled(that.alarmEnabled);
+		this.strikes.load(that.strikes);
+		this.sandAlts.load(that.sandAlts);
+		this.bannedMembers.load(that.bannedMembers);
+		this.mutedMembers.load(that.mutedMembers);
 		return this;
 	}
 
@@ -122,7 +94,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// VERSION
 	// -------------------------------------------- //
 
-	public int version = 1;
+	public int version = 2;
 
 	// -------------------------------------------- //
 	// FIELDS: RAW
@@ -218,7 +190,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// This will store a list of strikes the faction has acquired.
 	// A strike can be given using /f strike <faction> <points> <reason>.
-	private MassiveSetDef<FactionStrike> strikes = new MassiveSetDef<>();
+	private final EntityInternalMap<FactionStrike> strikes = new EntityInternalMap<>(this, FactionStrike.class);
 
 	// The faction's base region will be stored here.
 	// It is recomputed as the claimed chunks within MConf.baseRegionRadius of the core chunk.
@@ -259,11 +231,11 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// This will store the faction's currently active sand alts.
 	// By default there will be none, obviously.
-	private MassiveSetDef<SandAlt> sandAlts = new MassiveSetDef<>();
+	private final EntityInternalMap<SandAlt> sandAlts = new EntityInternalMap<>(this, SandAlt.class);
 
 	// This will store a list of all the banned members.
 	// By default it's empty and members can be banned using /f ban <player>.
-	private MassiveSetDef<FactionBan> bannedMembers = new MassiveSetDef<>();
+	private final EntityInternalMap<FactionBan> bannedMembers = new EntityInternalMap<>(this, FactionBan.class);
 
 	// Can anyone join the Faction?
 	// If the faction is open they can.
@@ -273,7 +245,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// This will store a list of all the muted members.
 	// By default it's empty and members can be banned using /f mute <player>.
-	private MassiveSetDef<FactionMute> mutedMembers = new MassiveSetDef<>();
+	private final EntityInternalMap<FactionMute> mutedMembers = new EntityInternalMap<>(this, FactionMute.class);
 
 	// This is the ids of the invited players.
 	// They are actually "senderIds" since you can invite "@console" to your faction.
@@ -1041,55 +1013,34 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: strikes
 	// -------------------------------------------- //
 	
-	public MassiveSetDef<FactionStrike> getStrikes()
+	public Collection<FactionStrike> getStrikes()
 	{
-		return strikes;
+		return this.strikes.getAll();
 	}
 
 	public void addStrike(FactionStrike strike)
 	{
-		// Add
-		strikes.add(strike);
-
-		// Mark as changed
-		this.changed();
+		this.strikes.attach(strike, strike.getStrikeId());
 	}
 
 	public void deleteStrike(FactionStrike strike)
 	{
-		// Remove
-		strikes.remove(strike);
-
-		// Mark as changed
-		this.changed();
+		this.strikes.detachEntity(strike);
 	}
 	
 	public FactionStrike getStrikeFromId(String strikeId)
 	{
-		for (FactionStrike strike : this.strikes)
-		{
-			if (strike.getId().equals(strikeId)) return strike;
-		}
-		return null;
+		return this.strikes.get(strikeId);
 	}
 
 	public int getStrikePoints()
 	{
 		int total = 0;
-		for (FactionStrike strike : this.strikes)
+		for (FactionStrike strike : this.strikes.getAll())
 		{
 			total += strike.getPoints();
 		}
 		return total;
-	}
-
-	public void setStrikes(MassiveSetDef<FactionStrike> strikes)
-	{
-		// Apply
-		this.strikes = strikes;
-
-		// Mark as changed
-		this.changed();
 	}
 
 	// -------------------------------------------- //
@@ -1448,22 +1399,9 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: sandAlts
 	// -------------------------------------------- //
 
-	public void setSandAlts(MassiveSetDef<SandAlt> sandAlts)
-	{
-		// Apply
-		this.sandAlts = sandAlts;
-
-		// Mark as changed
-		this.changed();
-	}
-
 	public void addSandAlt(SandAlt sandAlt)
 	{
-		// Apply
-		sandAlts.add(sandAlt);
-
-		// Mark as changed
-		this.changed();
+		this.sandAlts.attach(sandAlt, sandAlt.getNpcId().toString());
 	}
 
 	public void despawnSandAlt(SandAlt sandAlt)
@@ -1478,16 +1416,12 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 			npc.destroy();
 		}
 
-		// Apply
-		sandAlts.remove(sandAlt);
-
-		// Mark as changed
-		this.changed();
+		this.sandAlts.detachEntity(sandAlt);
 	}
 
 	public SandAlt getSandAltAt(PS location)
 	{
-		for (SandAlt sandAlt : this.sandAlts)
+		for (SandAlt sandAlt : this.sandAlts.getAll())
 		{
 			if (sandAlt.getPs().equals(location)) return sandAlt;
 		}
@@ -1496,46 +1430,32 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public void startAllSandAlts()
 	{
-		for (SandAlt sandAlt : this.sandAlts)
+		for (SandAlt sandAlt : this.sandAlts.getAll())
 		{
-			if ( ! sandAlt.isPaused() ) continue;
 			sandAlt.setPaused(false);
-			sandAlt.changed();
 		}
-
-		// Mark as changed
-		this.changed();
 	}
 
 	public void stopAllSandAlts()
 	{
-		for (SandAlt sandAlt : this.sandAlts)
+		for (SandAlt sandAlt : this.sandAlts.getAll())
 		{
-			if (sandAlt.isPaused()) continue;
 			sandAlt.setPaused(true);
-			sandAlt.changed();
 		}
-
-		// Mark as changed
-		this.changed();
 	}
 
 	public void despawnAllSandAlts()
 	{
-		// Loop - Sand Alts
-		for (SandAlt sandAlt : new MassiveList<>(this.sandAlts))
+		for (SandAlt sandAlt : new MassiveList<>(this.sandAlts.getAll()))
 		{
 			this.despawnSandAlt(sandAlt);
 		}
-
-		// Mark as changed
-		this.changed();
 	}
 
 	public Set<SandAlt> getSandAltsInChunk(PS chunk)
 	{
 		Set<SandAlt> sandAlts = new MassiveSetDef<>();
-		for (SandAlt sandAlt : this.sandAlts)
+		for (SandAlt sandAlt : this.sandAlts.getAll())
 		{
 			if (sandAlt.getPs().getChunk(true).equals(chunk))
 			{
@@ -1545,9 +1465,9 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return sandAlts;
 	}
 	
-	public MassiveSetDef<SandAlt> getSandAlts()
+	public Collection<SandAlt> getSandAlts()
 	{
-		return sandAlts;
+		return this.sandAlts.getAll();
 	}
 
 	// -------------------------------------------- //
@@ -1614,21 +1534,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	// RAW
 
-	public MassiveSetDef<FactionBan> getBannedMembers() { return this.bannedMembers; }
-
-	public void setBannedMembers(MassiveSetDef<FactionBan> bannedMembers)
-	{
-		this.bannedMembers = bannedMembers;
-
-		// Mark as changed
-		this.changed();
-	}
+	public Collection<FactionBan> getBannedMembers() { return this.bannedMembers.getAll(); }
 
 	// FINER
 
 	public boolean isBanned(String playerId)
 	{
-		return bannedMembers.stream().anyMatch(factionBan -> factionBan.getBannedId().equals(playerId));
+		return this.bannedMembers.containsId(playerId);
 	}
 
 	public boolean isBanned(MPlayer mplayer)
@@ -1638,55 +1550,32 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public void unban(String playerId)
 	{
-		Optional<FactionBan> optional = bannedMembers.stream().filter(factionBan -> factionBan.getBannedId().equals(playerId)).findAny();
-		boolean result = optional.filter(factionBan -> bannedMembers.remove(factionBan)).isPresent();
-
-		if ( ! result ) return;
-
-		// Mark as changed
-		this.changed();
+		this.bannedMembers.detachId(playerId);
 	}
 	public void unban(MPlayer mplayer) { this.unban(mplayer.getId()); }
 	public void unban(FactionBan factionBan)
 	{
-		boolean result = bannedMembers.remove(factionBan);
-
-		if ( ! result ) return;
-
-		// Mark as changed
-		this.changed();
+		this.bannedMembers.detachId(factionBan.getBannedId());
 	}
 
 	public void ban(FactionBan factionBan)
 	{
-		this.unban(factionBan);
-		this.bannedMembers.add(factionBan);
-
-		// Mark as changed
-		this.changed();
+		this.unban(factionBan.getBannedId());
+		this.bannedMembers.attach(factionBan, factionBan.getBannedId());
 	}
 
 	// -------------------------------------------- //
 	// FIELD: mutedMembers
 	// -------------------------------------------- //
 
-	public void setMutedMembers(MassiveSetDef<FactionMute> mutedMembers)
+	public Collection<FactionMute> getMutedMembers()
 	{
-		// Apply
-		this.mutedMembers = mutedMembers;
-
-		// Mark as changed
-		this.changed();
-	}
-
-	public MassiveSetDef<FactionMute> getMutedMembers()
-	{
-		return this.mutedMembers;
+		return this.mutedMembers.getAll();
 	}
 
 	public boolean isMuted(String playerId)
 	{
-		return mutedMembers.stream().anyMatch(factionMute -> factionMute.getMutedId().equals(playerId));
+		return this.mutedMembers.containsId(playerId);
 	}
 
 	public boolean isMuted(MPlayer mplayer)
@@ -1696,14 +1585,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public boolean unmute(String playerId)
 	{
-		Optional<FactionMute> optional = mutedMembers.stream().filter(factionMute -> factionMute.getMutedId().equals(playerId)).findAny();
-		boolean result = optional.filter(factionMute -> mutedMembers.remove(factionMute)).isPresent();
-
-		if ( ! result ) return false;
-
-		// Mark as changed
-		this.changed();
-		return true;
+		return this.mutedMembers.detachId(playerId) != null;
 	}
 
 	public boolean unmute(MPlayer mplayer)
@@ -1713,28 +1595,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public boolean unmute(FactionMute factionMute)
 	{
-		boolean result = mutedMembers.remove(factionMute);
-
-		// Detect no change
-		if ( ! result ) return false;
-
-		// Mark as changed
-		this.changed();
-
-		// Return
-		return true;
+		return this.mutedMembers.detachId(factionMute.getMutedId()) != null;
 	}
 
 	public void mute(FactionMute factionMute)
 	{
-		// Unmute
-		this.unmute(factionMute);
-
-		// Mute
-		this.mutedMembers.add(factionMute);
-
-		// Mark as changed
-		this.changed();
+		this.unmute(factionMute.getMutedId());
+		this.mutedMembers.attach(factionMute, factionMute.getMutedId());
 	}
 
 	// -------------------------------------------- //
