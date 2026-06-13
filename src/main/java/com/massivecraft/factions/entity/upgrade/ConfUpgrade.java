@@ -1,9 +1,8 @@
 package com.massivecraft.factions.entity.upgrade;
 
-import com.massivecraft.massivecore.store.EntityInternal;
 import org.bukkit.Material;
 
-public class ConfUpgrade extends EntityInternal<ConfUpgrade>
+public class ConfUpgrade
 {
 
    private final int maxLevel;
