@@ -27,6 +27,7 @@ import com.massivecraft.massivecore.xlib.gson.annotations.SerializedName;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jspecify.annotations.NonNull;
 
 import java.lang.ref.WeakReference;
 import java.util.Collection;
@@ -57,25 +58,9 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	// -------------------------------------------- //
 
 	@Override
-	public MPlayer load(MPlayer that)
+	public MPlayer load(@NonNull MPlayer that)
 	{
-		this.setLastActivityMillis(that.lastActivityMillis);
-		this.setFactionId(that.factionId);
-		this.setRole(that.role);
-		this.setTitle(that.title);
-		this.setPowerBoost(that.powerBoost);
-		this.setPower(that.power);
-		this.setMapAutoUpdating(that.mapAutoUpdating);
-		this.setOverriding(that.overriding);
-		this.setTerritoryInfoTitles(that.territoryInfoTitles);
-		this.setStealth(that.stealth);
-		this.setSpying(that.spying);
-		this.setChat(that.chat);
-		this.setIgnoredPlayers(that.ignoredPlayers);
-		this.setAlt(that.alt);
-		this.setLogins(that.logins);
-		this.setAlertNotifications(that.alertNotifications);
-		return this;
+		return super.load(that);
 	}
 
 	// -------------------------------------------- //
