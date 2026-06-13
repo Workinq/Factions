@@ -13,16 +13,6 @@ public class MUpgradeColl extends Coll<MUpgrade>
     public static MUpgradeColl get() { return i; }
 
     // -------------------------------------------- //
-    // STACK TRACEABILITY
-    // -------------------------------------------- //
-
-    @Override
-    public void onTick()
-    {
-        super.onTick();
-    }
-
-    // -------------------------------------------- //
     // OVERRIDE
     // -------------------------------------------- //
 

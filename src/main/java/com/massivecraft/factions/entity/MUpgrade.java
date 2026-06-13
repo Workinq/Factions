@@ -64,15 +64,4 @@ public class MUpgrade extends Entity<MUpgrade>
         }
     }
 
-    // -------------------------------------------- //
-    // OVERRIDE
-    // -------------------------------------------- //
-
-    @Override
-    public MUpgrade load(MUpgrade that)
-    {
-        super.load(that);
-        return this;
-    }
-
 }
