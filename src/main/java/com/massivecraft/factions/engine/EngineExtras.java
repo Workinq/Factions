@@ -1,9 +1,11 @@
 package com.massivecraft.factions.engine;
 
 import com.massivecraft.factions.Chat;
+import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.event.EventFactionsChunksChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.ps.PS;
@@ -19,6 +21,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
 
@@ -225,25 +230,30 @@ public class EngineExtras extends Engine
         }
     }
 
-    /*@EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onLandChange(EventFactionsChunksChange event)
     {
-        Map<Faction, Set<PS>> oldFactionChunks = event.getOldFactionChunks();
+        // Collect the factions whose claims are changing: the new owner and all previous owners.
+        final Set<Faction> affected = new HashSet<>();
+        affected.add(event.getNewFaction());
+        affected.addAll(event.getOldFactionChunks().keySet());
 
-        for (Faction faction : oldFactionChunks.keySet())
+        // Defer to the next tick so the board reflects the applied claim/unclaim, then recompute base regions.
+        Bukkit.getScheduler().runTask(Factions.get(), () ->
         {
-            Set<PS> pss = oldFactionChunks.get(faction);
-
-            if ( ! faction.hasBaseRegion() ) continue;
-            if (pss.contains(faction.getCoreChunk()))
+            for (Faction faction : affected)
             {
-                faction.setCoreChunk(null);
-                faction.setBaseRegion(new MassiveSet<>());
+                if (faction == null || faction.isSystemFaction()) continue;
+                if (faction.getCoreChunk() == null) continue;
 
-                faction.msg("<b>Your faction base region has been unset as the core chunk was unclaimed.");
+                boolean unset = faction.recalculateBaseRegion();
+                if (unset)
+                {
+                    faction.msg("<b>Your faction base region has been unset as the core chunk was unclaimed.");
+                }
             }
-        }
-    }*/
+        });
+    }
 
     /*@EventHandler
     public void onEntityExplodeEvent(EntityExplodeEvent event)
