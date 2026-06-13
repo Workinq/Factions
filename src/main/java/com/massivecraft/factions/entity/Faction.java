@@ -91,6 +91,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.setCredits(that.credits);
 		this.setStrikes(that.strikes);
 		this.setBaseRegion(that.baseRegion);
+		this.setCoreChunk(that.coreChunk);
 		this.setShieldedHour(that.shieldedHour);
 		this.setFocusedPlayer(that.focusedPlayer);
 		this.setBanner(that.banner);
@@ -220,9 +221,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	private MassiveSetDef<FactionStrike> strikes = new MassiveSetDef<>();
 
 	// The faction's base region will be stored here.
-	// Using /f setbaseregion will run a loop to save chunks in a 60x60 radius from the sender.
+	// It is recomputed as the claimed chunks within MConf.baseRegionRadius of the core chunk.
 	// Empty most likely means the base region is empty.
 	private MassiveSetDef<PS> baseRegion = new MassiveSetDef<>();
+
+	// The core/anchor chunk of the base region, set via /f setbaseregion.
+	// Null means no base region is set.
+	private PS coreChunk = null;
 
 	// This will store the hour for which the faction is protected.
 	// Null means no hour has been set.
@@ -1108,6 +1113,59 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public boolean hasBaseRegion()
 	{
 		return this.baseRegion != null && ! this.baseRegion.isEmpty();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: coreChunk
+	// -------------------------------------------- //
+
+	public PS getCoreChunk()
+	{
+		return this.coreChunk;
+	}
+
+	public void setCoreChunk(PS coreChunk)
+	{
+		// Apply
+		this.coreChunk = coreChunk;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// Recompute the base region as the faction's claimed chunks within MConf.baseRegionRadius of the
+	// core chunk. If the core chunk is no longer claimed by this faction the core and region are cleared.
+	// Returns true if the region was cleared because the core chunk was lost.
+	public boolean recalculateBaseRegion()
+	{
+		PS core = this.getCoreChunk();
+		if (core == null)
+		{
+			this.setBaseRegion(new MassiveSetDef<>());
+			return false;
+		}
+
+		// If the core chunk is no longer ours, clear the core and the region.
+		if (BoardColl.get().getFactionAt(core) != this)
+		{
+			this.setCoreChunk(null);
+			this.setBaseRegion(new MassiveSetDef<>());
+			return true;
+		}
+
+		int radius = MConf.get().baseRegionRadius;
+		MassiveSetDef<PS> region = new MassiveSetDef<>();
+		for (int dx = -radius; dx <= radius; dx++)
+		{
+			for (int dz = -radius; dz <= radius; dz++)
+			{
+				PS candidate = core.withChunkX(core.getChunkX() + dx).withChunkZ(core.getChunkZ() + dz);
+				if (BoardColl.get().getFactionAt(candidate) != this) continue;
+				region.add(candidate);
+			}
+		}
+		this.setBaseRegion(region);
+		return false;
 	}
 
 	// -------------------------------------------- //
