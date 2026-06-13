@@ -6,7 +6,6 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MOption;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.massivecore.MassiveException;
-import com.massivecraft.massivecore.collections.MassiveSetDef;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.ps.PS;
 
@@ -48,45 +47,20 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
             return;
         }
 
-        // Args
-        MassiveSetDef<PS> chunks = this.getChunks();
+        // Set the core chunk and compute the base region from the surrounding claimed land.
+        faction.setCoreChunk(PS.valueOf(me.getLocation()).getChunk(true));
+        faction.recalculateBaseRegion();
 
         // Verify
-        if (chunks.isEmpty())
+        if ( ! faction.hasBaseRegion())
         {
-            msg("<b>You must have a 25x25 chunk claim to set your base region.");
+            faction.setCoreChunk(null);
+            msg("<b>You must be standing in your faction's claimed territory to set your base region.");
             return;
         }
 
-        // Apply
-        faction.setBaseRegion(chunks);
-
         // Inform
         msg("<g>Successfully set your base region.");
-    }
-
-    public MassiveSetDef<PS> getChunks()
-    {
-        // Common Startup
-        final PS chunk = PS.valueOf(me.getLocation()).getChunk(true);
-        final MassiveSetDef<PS> chunks = new MassiveSetDef<>();
-
-        chunks.add(chunk); // The center should come first for pretty messages
-
-        int radiusZero = 34; // 50x50 chunk radius
-
-        for (int dx = -radiusZero; dx <= radiusZero; dx++)
-        {
-            for (int dz = -radiusZero; dz <= radiusZero; dz++)
-            {
-                int x = chunk.getChunkX() + dx;
-                int z = chunk.getChunkZ() + dz;
-
-                chunks.add(chunk.withChunkX(x).withChunkZ(z));
-            }
-        }
-
-        return chunks;
     }
 
 }
