@@ -269,4 +269,15 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>kjr-releases</id>
+            <url>https://maven.kjr.sh/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>kjr-snapshots</id>
+            <url>https://maven.kjr.sh/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
