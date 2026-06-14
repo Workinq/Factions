@@ -286,7 +286,6 @@ public class EnginePermBuild extends Engine
 	// BUILD > FIRE
 	// -------------------------------------------- //
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void buildFire(PlayerInteractEvent event)
 	{
@@ -306,7 +305,7 @@ public class EnginePermBuild extends Engine
 		if (!Boolean.FALSE.equals(build(event.getPlayer(), potentialBlock, event))) return;
 		
 		// ... and compensate for client side prediction
-		event.getPlayer().sendBlockChange(potentialBlock.getLocation(), blockType, potentialBlock.getState().getRawData());
+		event.getPlayer().sendBlockChange(potentialBlock.getLocation(), potentialBlock.getBlockData());
 	}
 	
 	// -------------------------------------------- //
