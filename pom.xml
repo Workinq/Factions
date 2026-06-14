@@ -27,8 +27,8 @@
         </repository>
         <!-- MassiveCore -->
         <repository>
-            <id>massivecraft</id>
-            <url>https://maven.massivecraft.team/repository/massivecraft-dependencies/</url>
+            <id>kjr-repository-snapshots</id>
+            <url>https://maven.kjr.sh/snapshots</url>
         </repository>
         <!-- WorldEdit -->
         <repository>
