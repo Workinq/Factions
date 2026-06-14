@@ -30,6 +30,9 @@ buildNumber.properties
 #################### IDE ####################
 # IDE general ignores.
 
+### IntelliJ
+.idea/
+
 ### Eclipse
 # https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore
 
