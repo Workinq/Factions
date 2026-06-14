@@ -112,7 +112,7 @@ public class ActionSandaltSpawn extends ChestActionAbstract
         npc.setProtected(true);
 
         // Skin
-        SkinTrait trait = CitizensAPI.getTraitFactory().getTrait(SkinTrait.class);
+        SkinTrait trait = npc.getOrAddTrait(SkinTrait.class);
         trait.setSkinName(MConf.get().altSkin, true);
 
         // Gravity
@@ -129,7 +129,10 @@ public class ActionSandaltSpawn extends ChestActionAbstract
         npc.spawn(location);
 
         // Velocity
-        npc.getEntity().setVelocity(npc.getEntity().getVelocity().add(new Vector(0.0, 0.42, 0.0)));
+        if (npc.getEntity() != null)
+        {
+            npc.getEntity().setVelocity(npc.getEntity().getVelocity().add(new Vector(0.0, 0.42, 0.0)));
+        }
 
         // Return
         return npc.getUniqueId();
