@@ -15,10 +15,11 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-@SuppressWarnings("deprecation")
 public class EngineChest extends Engine
 {
     // -------------------------------------------- //
@@ -102,7 +103,8 @@ public class EngineChest extends Engine
 
     private short rawData(ItemStack item)
     {
-        return item.getType() != null ? (item.getData() != null ? item.getDurability() : 0) : 0;
+        ItemMeta meta = item.getItemMeta();
+        return (meta instanceof Damageable) ? (short) ((Damageable) meta).getDamage() : 0;
     }
 
     private ItemStack[] compareInventories(ItemStack[] firstItems, ItemStack[] secondItems)
@@ -176,7 +178,20 @@ public class EngineChest extends Engine
                 }
             }
 
-            if (!found) compressed.add(new ItemStack(type, item.getAmount(), data));
+            if (!found)
+            {
+                ItemStack created = new ItemStack(type, item.getAmount());
+                if (data != 0)
+                {
+                    ItemMeta meta = created.getItemMeta();
+                    if (meta instanceof Damageable)
+                    {
+                        ((Damageable) meta).setDamage(data);
+                        created.setItemMeta(meta);
+                    }
+                }
+                compressed.add(created);
+            }
         }
         compressed.sort(new ItemStackComparator());
         return compressed.toArray(new ItemStack[0]);

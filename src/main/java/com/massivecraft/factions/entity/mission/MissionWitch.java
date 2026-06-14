@@ -47,12 +47,6 @@ public class MissionWitch extends AbstractMission
         return MMission.get().witchMission.getItemMaterial();
     }
 
-    @Override
-    public Integer getItemData()
-    {
-        return MMission.get().witchMission.getItemData();
-    }
-
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMobKill(EntityDeathEvent event)
     {

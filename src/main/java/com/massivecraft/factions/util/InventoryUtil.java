@@ -44,7 +44,7 @@ public class InventoryUtil {
 
     public static void fillInventory(Inventory inventory, int[] slots)
     {
-        ItemStack filler = new ItemBuilder(MConf.get().fillerItemMaterial).name(Txt.parse(MConf.get().fillerItemName)).durability(MConf.get().fillerItemData);
+        ItemStack filler = new ItemBuilder(MConf.get().fillerItemMaterial).name(Txt.parse(MConf.get().fillerItemName));
         for (int i = 0; i < inventory.getSize(); i++)
         {
             final int slot = i;

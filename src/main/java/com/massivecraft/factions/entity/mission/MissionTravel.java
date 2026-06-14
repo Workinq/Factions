@@ -47,12 +47,6 @@ public class MissionTravel extends AbstractMission
       return MMission.get().travelMission.getItemMaterial();
    }
 
-   @Override
-   public Integer getItemData()
-   {
-      return MMission.get().travelMission.getItemData();
-   }
-
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onPlayerMove(PlayerMoveEvent event)
    {

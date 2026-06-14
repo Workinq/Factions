@@ -46,12 +46,6 @@ public class MissionEXP extends AbstractMission
       return MMission.get().expMission.getItemMaterial();
    }
 
-   @Override
-   public Integer getItemData()
-   {
-      return MMission.get().expMission.getItemData();
-   }
-
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void gainXp(PlayerExpChangeEvent event)
    {

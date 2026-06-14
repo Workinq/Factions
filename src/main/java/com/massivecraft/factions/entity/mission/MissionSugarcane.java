@@ -48,12 +48,6 @@ public class MissionSugarcane extends AbstractMission
       return MMission.get().sugarcaneMission.getItemMaterial();
    }
 
-   @Override
-   public Integer getItemData()
-   {
-      return MMission.get().sugarcaneMission.getItemData();
-   }
-
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onBlockBreak(BlockBreakEvent event)
    {

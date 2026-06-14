@@ -45,7 +45,7 @@ public class ActionMissionView extends ChestActionAbstract
             lore.add(Txt.parse("<n>Challenge: <k>%s", mission.getDescription()));
             lore.add("");
             lore.add(Txt.parse("<n>Reward: <k>%s", rewardFormat.format(mission.getReward()) + " Credits"));
-            chestGui.getInventory().setItem(slot, new ItemBuilder(mission.getItemMaterial()).name(Txt.parse("<k>" + mission.getItemName())).data(mission.getItemData()).withLore(lore).flag(ItemFlag.HIDE_ATTRIBUTES));
+            chestGui.getInventory().setItem(slot, new ItemBuilder(mission.getItemMaterial()).name(Txt.parse("<k>" + mission.getItemName())).withLore(lore).flag(ItemFlag.HIDE_ATTRIBUTES));
             slot++;
         }
 

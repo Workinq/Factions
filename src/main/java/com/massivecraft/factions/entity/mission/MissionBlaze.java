@@ -47,12 +47,6 @@ public class MissionBlaze extends AbstractMission
       return MMission.get().blazeMission.getItemMaterial();
    }
 
-   @Override
-   public Integer getItemData()
-   {
-      return MMission.get().blazeMission.getItemData();
-   }
-
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onMobKill(EntityDeathEvent event)
    {

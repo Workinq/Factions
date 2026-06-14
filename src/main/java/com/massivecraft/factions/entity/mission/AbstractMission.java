@@ -25,6 +25,4 @@ public abstract class AbstractMission implements Listener
 
    public abstract String getItemName();
 
-   public abstract Integer getItemData();
-
 }

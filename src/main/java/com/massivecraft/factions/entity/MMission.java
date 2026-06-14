@@ -25,12 +25,12 @@ public class MMission extends Entity<MMission>
     // FIELDS
     // -------------------------------------------- //
 
-    public ConfMission sugarcaneMission = new ConfMission("Sugarcane", "Harvest Sugarcane", "Harvest 25,000 Sugarcane", 25000.0D, 5000, Material.SUGAR_CANE, 0);
-    public ConfMission blazeMission = new ConfMission("Blaze", "Kill Blazes", "Kill 2,500 Blazes", 2500.0D, 5000, Material.BLAZE_ROD, 0);
-    public ConfMission trenchMission = new ConfMission("Trench", "Mine", "Mine 20,000 Blocks", 20000.0D, 5000, Material.DIAMOND_PICKAXE, 0);
-    public ConfMission expMission = new ConfMission("EXP", "Earn EXP", "Earn 100 EXP Levels", 29315.0D, 5000, Material.EXPERIENCE_BOTTLE, 0);
-    public ConfMission travelMission = new ConfMission("Travel", "Travel", "Take 60,000 Steps", 60000.0D, 5000, Material.DIAMOND_BOOTS, 0);
-    public ConfMission witchMission = new ConfMission("Witch", "Kill Witches", "Kill 500 Witches", 500.0D, 500, Material.POTION, 0);
+    public ConfMission sugarcaneMission = new ConfMission("Sugarcane", "Harvest Sugarcane", "Harvest 25,000 Sugarcane", 25000.0D, 5000, Material.SUGAR_CANE);
+    public ConfMission blazeMission = new ConfMission("Blaze", "Kill Blazes", "Kill 2,500 Blazes", 2500.0D, 5000, Material.BLAZE_ROD);
+    public ConfMission trenchMission = new ConfMission("Trench", "Mine", "Mine 20,000 Blocks", 20000.0D, 5000, Material.DIAMOND_PICKAXE);
+    public ConfMission expMission = new ConfMission("EXP", "Earn EXP", "Earn 100 EXP Levels", 29315.0D, 5000, Material.EXPERIENCE_BOTTLE);
+    public ConfMission travelMission = new ConfMission("Travel", "Travel", "Take 60,000 Steps", 60000.0D, 5000, Material.DIAMOND_BOOTS);
+    public ConfMission witchMission = new ConfMission("Witch", "Kill Witches", "Kill 500 Witches", 500.0D, 500, Material.POTION);
     public transient List<AbstractMission> missions = MUtil.list(new MissionBlaze(), new MissionSugarcane(), new MissionTrench(), new MissionEXP(), new MissionTravel(), new MissionWitch());
 
     // -------------------------------------------- //

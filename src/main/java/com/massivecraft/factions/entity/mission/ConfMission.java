@@ -11,9 +11,8 @@ public class ConfMission
    private final Integer creditsReward;
    private final String itemName;
    private final Material itemMaterial;
-   private final Integer itemData;
 
-   public ConfMission(String name, String itemName, String description, Double goal, Integer creditsReward, Material itemMaterial, Integer itemData)
+   public ConfMission(String name, String itemName, String description, Double goal, Integer creditsReward, Material itemMaterial)
    {
       this.name = name;
       this.itemName = itemName;
@@ -21,7 +20,6 @@ public class ConfMission
       this.goal = goal;
       this.creditsReward = creditsReward;
       this.itemMaterial = itemMaterial;
-      this.itemData = itemData;
    }
 
    public String getItemName()
@@ -47,11 +45,6 @@ public class ConfMission
    public Material getItemMaterial()
    {
       return this.itemMaterial;
-   }
-
-   public Integer getItemData()
-   {
-      return this.itemData;
    }
 
    public String getName()

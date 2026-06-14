@@ -46,12 +46,6 @@ public class MissionTrench extends AbstractMission
       return MMission.get().trenchMission.getItemMaterial();
    }
 
-   @Override
-   public Integer getItemData()
-   {
-      return MMission.get().trenchMission.getItemData();
-   }
-
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onBlockBreak(BlockBreakEvent event)
    {

@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,23 +89,11 @@ public class ItemBuilder extends ItemStack
         return this;
     }
 
-    public ItemBuilder durability(int durability)
-    {
-        this.setDurability((short) durability);
-        return this;
-    }
-
     public ItemStack flag(ItemFlag flag)
     {
         ItemMeta meta = this.getItemMeta();
         meta.addItemFlags(flag);
         this.setItemMeta(meta);
-        return this;
-    }
-
-    public ItemBuilder data(int data)
-    {
-        this.setData(new MaterialData(getType(), (byte) data));
         return this;
     }
 

@@ -222,7 +222,6 @@ public class MConf extends Entity<MConf>
 	public int missionGuiSize = 27;
 	public Material missionItemType = Material.CLOCK;
 	public String missionItemName = "<k><bold>Start Mission";
-	public byte missionItemData = 0;
 	public int missionItemSlot = 13;
 	public List<String> missionItemLore = MUtil.list(
 			"<n>Progress: <k>%progress%",
@@ -799,7 +798,6 @@ public class MConf extends Entity<MConf>
 
 	public Material fillerItemMaterial = Material.LIGHT_GRAY_STAINED_GLASS_PANE;
 	public String fillerItemName = " ";
-	public byte fillerItemData = 8;
 
 	// -------------------------------------------- //
 	// LOGINS
