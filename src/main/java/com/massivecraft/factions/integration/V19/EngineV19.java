@@ -5,6 +5,8 @@ import com.massivecraft.factions.engine.EngineCanCombatHappen;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.MassivePlugin;
 import com.massivecraft.massivecore.util.MUtil;
+import org.bukkit.damage.DamageSource;
+import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -41,7 +43,7 @@ public class EngineV19 extends Engine
 	public void canCombatDamageHappen(AreaEffectCloudApplyEvent event)
 	{
 		// If a harmful potion effect cloud is present ...
-		if ( ! MUtil.isHarmfulPotion(event.getEntity().getBasePotionData().getType().getEffectType())) return;
+		if ( ! MUtil.isHarmfulPotion(event.getEntity().getBasePotionType().getEffectType())) return;
 		
 		ProjectileSource projectileSource = event.getEntity().getSource();
 		if ( ! (projectileSource instanceof Entity)) return;
@@ -54,7 +56,13 @@ public class EngineV19 extends Engine
 		// ... then scan through affected entities to make sure they're all valid targets ...
 		for (LivingEntity affectedEntity : event.getAffectedEntities())
 		{
-			EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(thrower, affectedEntity, EntityDamageEvent.DamageCause.CUSTOM, 0D);
+			EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(
+				thrower,
+				affectedEntity,
+				EntityDamageEvent.DamageCause.CUSTOM,
+				DamageSource.builder(DamageType.GENERIC).withCausingEntity(thrower).withDirectEntity(thrower).build(),
+				0D
+			);
 			// Notification disabled due to the iterating nature of effect clouds.
 			if (EngineCanCombatHappen.get().canCombatDamageHappen(sub, false)) continue;
 			

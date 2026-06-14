@@ -10,6 +10,8 @@ import com.massivecraft.factions.event.EventFactionsPvpDisallowed;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.util.MUtil;
+import org.bukkit.damage.DamageSource;
+import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -52,7 +54,15 @@ public class EngineCanCombatHappen extends Engine
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void canCombatDamageHappen(EntityCombustByEntityEvent event)
 	{
-		EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(event.getCombuster(), event.getEntity(), EntityDamageEvent.DamageCause.FIRE, 0D);
+		Entity damager = event.getCombuster();
+		Entity damagee = event.getEntity();
+		EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(
+			damager,
+			damagee,
+			EntityDamageEvent.DamageCause.FIRE,
+			DamageSource.builder(DamageType.GENERIC).withCausingEntity(damager).withDirectEntity(damager).build(),
+			0D
+		);
 		if (this.canCombatDamageHappen(sub, false)) return;
 		event.setCancelled(true);
 	}
@@ -71,7 +81,13 @@ public class EngineCanCombatHappen extends Engine
 		// ... scan through affected entities to make sure they're all valid targets.
 		for (LivingEntity affectedEntity : event.getAffectedEntities())
 		{
-			EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(thrower, affectedEntity, EntityDamageEvent.DamageCause.CUSTOM, 0D);
+			EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(
+				thrower,
+				affectedEntity,
+				EntityDamageEvent.DamageCause.CUSTOM,
+				DamageSource.builder(DamageType.GENERIC).withCausingEntity(thrower).withDirectEntity(thrower).build(),
+				0D
+			);
 			if (this.canCombatDamageHappen(sub, true)) continue;
 			
 			// affected entity list doesn't accept modification (iter.remove() is a no-go), but this works
@@ -86,7 +102,14 @@ public class EngineCanCombatHappen extends Engine
 		Entity caught = event.getCaught();
 		if (MUtil.isntPlayer(caught)) return;
 
-		EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(event.getPlayer(), caught, EntityDamageEvent.DamageCause.CUSTOM, 0D);
+		Player player = event.getPlayer();
+		EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(
+			player,
+			caught,
+			EntityDamageEvent.DamageCause.CUSTOM,
+			DamageSource.builder(DamageType.GENERIC).withCausingEntity(player).withDirectEntity(player).build(),
+			0D
+		);
 		if (this.canCombatDamageHappen(sub, true)) return;
 		event.setCancelled(true);
 	}
