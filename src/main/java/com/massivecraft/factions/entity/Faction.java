@@ -31,6 +31,8 @@ import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.command.CommandSender;
@@ -1224,35 +1226,23 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public ItemStack getBanner()
 	{
 		// Args
-		DyeColor baseColor = DyeColor.valueOf(this.banner.get(0));
+		if (this.banner.isEmpty()) return new ItemStack(Material.WHITE_BANNER);
+
+		DyeColor baseColor = parseDyeColor(this.banner.get(0), DyeColor.WHITE);
 		ItemStack banner = new ItemStack(Material.valueOf(baseColor.name() + "_BANNER"));
 		BannerMeta meta = (BannerMeta) banner.getItemMeta();
 
 		// Pattern
 		for (int i = 1; i < this.banner.size(); i++)
 		{
-			String[] temp = (this.banner).get(i).split(" ");
-			String col = temp[0];
-			String pat = temp[1];
+			String[] temp = this.banner.get(i).split(" ");
+			if (temp.length < 2) continue;
 
-			DyeColor color = DyeColor.BLACK;
-			PatternType patterntype = PatternType.BASE;
-			for (DyeColor dyeColor : DyeColor.values())
-			{
-				if (col.equalsIgnoreCase(dyeColor.name()))
-				{
-					color = dyeColor;
-				}
-			}
-			for (PatternType patternType : PatternType.values())
-			{
-				if (pat.equalsIgnoreCase(patternType.toString()))
-				{
-					patterntype = patternType;
-				}
-			}
-			Pattern pattern = new Pattern(color, patterntype);
-			meta.addPattern(pattern);
+			DyeColor color = parseDyeColor(temp[0], DyeColor.BLACK);
+			PatternType patternType = matchPatternType(temp[1]);
+			if (patternType == null) continue;
+
+			meta.addPattern(new Pattern(color, patternType));
 		}
 
 		// Lore
@@ -1265,6 +1255,31 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 		// Return
 		return banner;
+	}
+
+	// 1.21: resolve persisted DyeColor name safely (no valueOf crash)
+	private static DyeColor parseDyeColor(String name, DyeColor def)
+	{
+		if (name == null) return def;
+		for (DyeColor color : DyeColor.values())
+		{
+			if (color.name().equalsIgnoreCase(name)) return color;
+		}
+		return def;
+	}
+
+	// 1.21: PatternType is registry-backed; resolve by key instead of toString()
+	private static PatternType matchPatternType(String token)
+	{
+		if (token == null || token.isEmpty()) return null;
+		try
+		{
+			return Registry.BANNER_PATTERN.get(NamespacedKey.minecraft(token.toLowerCase(Locale.ROOT)));
+		}
+		catch (IllegalArgumentException e)
+		{
+			return null;
+		}
 	}
 
 	public boolean hasBanner()

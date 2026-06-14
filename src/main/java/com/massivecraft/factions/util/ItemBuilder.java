@@ -1,5 +1,6 @@
 package com.massivecraft.factions.util;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -144,7 +145,7 @@ public class ItemBuilder extends ItemStack
     public ItemBuilder owner(String owner)
     {
         SkullMeta meta = (SkullMeta) this.getItemMeta();
-        meta.setOwner(owner);
+        meta.setOwnerProfile(Bukkit.createPlayerProfile(owner));
         this.setItemMeta(meta);
         return this;
     }

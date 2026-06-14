@@ -4,13 +4,10 @@ import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.entity.Board;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
-import com.massivecraft.massivecore.command.type.primitive.TypeStringConfirmation;
 import com.massivecraft.massivecore.mixin.MixinWorld;
 import com.massivecraft.massivecore.ps.PS;
-import com.massivecraft.massivecore.util.ConfirmationUtil;
 import com.massivecraft.massivecore.util.MUtil;
 
 import java.util.Collections;
@@ -42,9 +39,6 @@ public class CmdFactionsSetAll extends CmdFactionsSetXAll
 		// Requirements
 		Perm perm = claim ? Perm.CLAIM_ALL : Perm.UNCLAIM_ALL;
 		this.addRequirements(RequirementHasPerm.get(perm));
-
-		// Confirmation
-		this.addParameter(TypeStringConfirmation.get(), "confirmation", "");
 	}
 
 	// -------------------------------------------- //
@@ -54,19 +48,19 @@ public class CmdFactionsSetAll extends CmdFactionsSetXAll
 	@Override
 	public Set<PS> getChunks() throws MassiveException
 	{
-		// Confirmation
-		if (MConf.get().requireConfirmationForClaimUnclaimAll) ConfirmationUtil.tryConfirm(this);
-
 		// World
 		String word = (this.isClaim() ? "claim" : "unclaim");
 		
 		// Create Ret
-		Set<PS> chunks = null;
+		Set<PS> chunks;
 		
 		// Args
 		Faction oldFaction = this.getOldFaction();
-		
-		if (LIST_ALL.contains(this.argAt(0).toLowerCase()))
+
+		// Default the all|map argument to "all" when omitted.
+		String arg0 = this.argIsSet(0) ? this.argAt(0) : "all";
+
+		if (LIST_ALL.contains(arg0.toLowerCase()))
 		{
 			chunks = BoardColl.get().getChunks(oldFaction);
 			this.setFormatOne("<h>%s<i> %s <h>%d <i>chunk using " + word + " all.");
@@ -74,8 +68,8 @@ public class CmdFactionsSetAll extends CmdFactionsSetXAll
 		}
 		else
 		{
-			String worldId = null;
-			if (LIST_MAP.contains(this.argAt(0).toLowerCase()))
+			String worldId;
+			if (LIST_MAP.contains(arg0.toLowerCase()))
 			{
 				if (me != null)
 				{
@@ -89,8 +83,7 @@ public class CmdFactionsSetAll extends CmdFactionsSetXAll
 			}
 			else
 			{
-				worldId = this.argAt(0);
-				if (worldId == null) return null;
+				worldId = arg0;
 			}
 			Board board = BoardColl.get().get(worldId);
 			chunks = board.getChunks(oldFaction);

@@ -59,7 +59,7 @@ public class MConf extends Entity<MConf>
 	// VERSION
 	// -------------------------------------------- //
 	
-	public int version = 3;
+	public int version = 4;
 	
 	// -------------------------------------------- //
 	// COMMAND ALIASES
@@ -307,9 +307,6 @@ public class MConf extends Entity<MConf>
 
 	// The max amount of worlds in which a player can have claims in.
 	public int claimedWorldsMax = -1;
-
-	// Require a confirmation before /f claim all and /f unclaim all.
-	public boolean requireConfirmationForClaimUnclaimAll = true;
 
 	// The maximum distance to claim from using click to claim map.
 	public int maximumClaimDistance = 20;
@@ -701,7 +698,7 @@ public class MConf extends Entity<MConf>
 
 	// List of entities to add to faction money.
 	public BackstringSet<EntityType> entityTypesMoney = new BackstringSet<>(EntityType.class,
-			"PIG_ZOMBIE"
+			"ZOMBIFIED_PIGLIN", "PIG_ZOMBIE"
 	);
 
 	// List of entities to add to faction tnt.
@@ -826,7 +823,7 @@ public class MConf extends Entity<MConf>
 	// ALARM
 	// -------------------------------------------- //
 
-	public String alarmSound = "NOTE_BASS";
+	public String alarmSound = "block.note_block.bass";
 	public float alarmVolume = 1.0f;
 	public float alarmPitch = 1.0f;
 

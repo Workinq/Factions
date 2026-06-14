@@ -17,8 +17,8 @@ public abstract class CmdFactionsSetXAll extends CmdFactionsSetX
 		super(claim);
 		
 		// Parameters
-		this.addParameter(TypeString.get(), "all|map");
-		this.addParameter(TypeFaction.get(), "faction");
+		this.addParameter(TypeString.get(), "all|map", "all");
+		this.addParameter(TypeFaction.get(), "faction", "you");
 		if (claim)
 		{
 			this.addParameter(TypeFaction.get(), "newfaction");
@@ -32,7 +32,8 @@ public abstract class CmdFactionsSetXAll extends CmdFactionsSetX
 	
 	public Faction getOldFaction() throws MassiveException
 	{
-		return this.readArgAt(1);
+		// Default to the sender's own faction when omitted.
+		return this.readArgAt(1, msenderFaction);
 	}
 	
 }
