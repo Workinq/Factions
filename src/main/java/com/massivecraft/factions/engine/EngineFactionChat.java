@@ -36,7 +36,7 @@ public class EngineFactionChat extends Engine
         Chat chat = mplayer.getChat();
 
         // Verify
-        if (faction.isNone() && chat != Chat.PUBLIC) mplayer.setChat(Chat.PUBLIC);
+        if (faction.isNone() && chat != Chat.PUBLIC) Bukkit.getScheduler().runTask(Factions.get(), () -> mplayer.setChat(Chat.PUBLIC));
 
         // Inform
         String message;

@@ -16,6 +16,7 @@ import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -143,14 +144,13 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	
 	public static List<MPerm> getAll()
 	{
-		return getAll(false);
-	}
-	
-	public static List<MPerm> getAll(boolean isAsync)
-	{
-		setupStandardPerms();
-		new EventFactionsCreatePerms().run();
-		
+		// The create event is synchronous; off the main thread we only read the registered perms.
+		if (Bukkit.isPrimaryThread())
+		{
+			setupStandardPerms();
+			new EventFactionsCreatePerms().run();
+		}
+
 		return MPermColl.get().getAll(PredicateIsRegistered.get(), ComparatorSmart.get());
 	}
 	
