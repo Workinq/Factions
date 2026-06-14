@@ -3,6 +3,7 @@ package com.massivecraft.factions.util;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.massivecore.collections.BackstringSet;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.entity.EntityType;
 
 public class EnumerationUtil
@@ -34,21 +35,28 @@ public class EnumerationUtil
 	
 	public static final BackstringSet<Material> MATERIALS_EDIT_TOOL = new BackstringSet<>(Material.class,
 		"FIREBALL", // Minecraft 1.?
+		"FIRE_CHARGE", // Minecraft 1.13
 		"FLINT_AND_STEEL", // Minecraft 1.?
 		"BUCKET", // Minecraft 1.?
 		"WATER_BUCKET", // Minecraft 1.?
 		"LAVA_BUCKET", // Minecraft 1.?
+		"POWDER_SNOW_BUCKET", // Minecraft 1.17
+		"COD_BUCKET", // Minecraft 1.13
+		"SALMON_BUCKET", // Minecraft 1.13
+		"PUFFERFISH_BUCKET", // Minecraft 1.13
+		"TROPICAL_FISH_BUCKET", // Minecraft 1.13
+		"AXOLOTL_BUCKET", // Minecraft 1.17
+		"TADPOLE_BUCKET", // Minecraft 1.19
+		"GLOW_INK_SAC", // Minecraft 1.17
 		"ARMOR_STAND", // Minecraft 1.8
 		"END_CRYSTAL", // Minecraft 1.10
-		
+
 		// The duplication bug found in Spigot 1.8 protocol patch
 		// https://github.com/MassiveCraft/Factions/issues/693
 		"CHEST", // Minecraft 1.?
 		"SIGN_POST", // Minecraft 1.?
 		"TRAPPED_CHEST", // Minecraft 1.?
-		"SIGN", // Minecraft 1.?
-		"WOOD_DOOR", // Minecraft 1.?
-		"IRON_DOOR" // Minecraft 1.?
+		"SIGN" // Minecraft 1.?
 	);
 	
 	public static boolean isMaterialEditTool(Material material)
@@ -79,6 +87,10 @@ public class EnumerationUtil
 	
 	public static boolean isMaterialDoor(Material material)
 	{
+		if (material == null) return false;
+		if (Tag.DOORS.isTagged(material)) return true;
+		if (Tag.TRAPDOORS.isTagged(material)) return true;
+		if (Tag.FENCE_GATES.isTagged(material)) return true;
 		return MATERIALS_DOOR.contains(material) || MConf.get().materialsDoor.contains(material);
 	}
 	
@@ -99,8 +111,22 @@ public class EnumerationUtil
 		"TRAPPED_CHEST", // Minecraft 1.?
 		"HOPPER", // Minecraft 1.?
 		"DROPPER", // Minecraft 1.?
-		
+		"CHIPPED_ANVIL", // Minecraft 1.?
+		"DAMAGED_ANVIL", // Minecraft 1.?
+		"ENCHANTING_TABLE", // Minecraft 1.13
+
+		// Storage blocks added since the flattening.
+		"BARREL", // Minecraft 1.14
+		"BLAST_FURNACE", // Minecraft 1.14
+		"SMOKER", // Minecraft 1.14
+		"CAMPFIRE", // Minecraft 1.14
+		"SOUL_CAMPFIRE", // Minecraft 1.16
+		"CHISELED_BOOKSHELF", // Minecraft 1.20
+		"DECORATED_POT", // Minecraft 1.20
+		"CRAFTER", // Minecraft 1.21 (stores items)
+
 		// The various shulker boxes, they had to make each one a different material -.-
+		"SHULKER_BOX", // Minecraft 1.11
 		"BLACK_SHULKER_BOX", // Minecraft 1.11
 		"BLUE_SHULKER_BOX", // Minecraft 1.11
 		"BROWN_SHULKER_BOX", // Minecraft 1.11
@@ -176,7 +202,20 @@ public class EnumerationUtil
 	
 	public static final BackstringSet<EntityType> ENTITY_TYPES_CONTAINER = new BackstringSet<>(EntityType.class,
 		"MINECART_CHEST", // Minecraft 1.?
-		"MINECART_HOPPER" // Minecraft 1.?
+		"MINECART_HOPPER", // Minecraft 1.?
+		"CHEST_MINECART", // Minecraft 1.13
+		"HOPPER_MINECART", // Minecraft 1.13
+		"CHEST_BOAT", // Minecraft 1.19
+		"OAK_CHEST_BOAT", // Minecraft 1.21.2
+		"SPRUCE_CHEST_BOAT", // Minecraft 1.21.2
+		"BIRCH_CHEST_BOAT", // Minecraft 1.21.2
+		"JUNGLE_CHEST_BOAT", // Minecraft 1.21.2
+		"ACACIA_CHEST_BOAT", // Minecraft 1.21.2
+		"DARK_OAK_CHEST_BOAT", // Minecraft 1.21.2
+		"MANGROVE_CHEST_BOAT", // Minecraft 1.21.2
+		"CHERRY_CHEST_BOAT", // Minecraft 1.21.2
+		"PALE_OAK_CHEST_BOAT", // Minecraft 1.21.4
+		"BAMBOO_CHEST_RAFT" // Minecraft 1.21.2
 	);
 	
 	public static boolean isEntityTypeContainer(EntityType entityType)
@@ -217,7 +256,21 @@ public class EnumerationUtil
 		"WITHER_SKELETON", // Minecraft 1.11
 		"ZOMBIE", // Minecraft 1.?
 		"ZOMBIE_VILLAGER", // Minecraft 1.11
-		"ILLUSIONER" // Minecraft 1.12
+		"ILLUSIONER", // Minecraft 1.12
+		// Hostiles added since 1.13.
+		"DROWNED", // Minecraft 1.13
+		"PHANTOM", // Minecraft 1.13
+		"PILLAGER", // Minecraft 1.14
+		"RAVAGER", // Minecraft 1.14
+		"ZOMBIFIED_PIGLIN", // Minecraft 1.16
+		"PIGLIN", // Minecraft 1.16
+		"PIGLIN_BRUTE", // Minecraft 1.16.2
+		"HOGLIN", // Minecraft 1.16
+		"ZOGLIN", // Minecraft 1.16
+		"WARDEN", // Minecraft 1.19
+		"BREEZE", // Minecraft 1.21
+		"BOGGED", // Minecraft 1.21
+		"CREAKING" // Minecraft 1.21.4
 	);
 	
 	public static boolean isEntityTypeMonster(EntityType entityType)
@@ -246,7 +299,30 @@ public class EnumerationUtil
 		"SQUID", // Minecraft 1.?
 		"WOLF", // Minecraft 1.?
 		"ZOMBIE_HORSE", // Minecraft 1.11
-		"PARROT" // Minecraft 1.12
+		"PARROT", // Minecraft 1.12
+		// Passives added since 1.13.
+		"TURTLE", // Minecraft 1.13
+		"COD", // Minecraft 1.13
+		"SALMON", // Minecraft 1.13
+		"PUFFERFISH", // Minecraft 1.13
+		"TROPICAL_FISH", // Minecraft 1.13
+		"DOLPHIN", // Minecraft 1.13
+		"PANDA", // Minecraft 1.14
+		"FOX", // Minecraft 1.14
+		"BEE", // Minecraft 1.15
+		"CAT", // Minecraft 1.14
+		"TRADER_LLAMA", // Minecraft 1.14
+		"WANDERING_TRADER", // Minecraft 1.14
+		"STRIDER", // Minecraft 1.16
+		"AXOLOTL", // Minecraft 1.17
+		"GLOW_SQUID", // Minecraft 1.17
+		"GOAT", // Minecraft 1.17
+		"FROG", // Minecraft 1.19
+		"TADPOLE", // Minecraft 1.19
+		"ALLAY", // Minecraft 1.19
+		"CAMEL", // Minecraft 1.20
+		"SNIFFER", // Minecraft 1.20
+		"ARMADILLO" // Minecraft 1.21
 	);
 	
 	public static boolean isEntityTypeAnimal(EntityType entityType)

@@ -33,7 +33,14 @@ public class CmdFactionsDisband extends FactionsCommand
 	{
 		// Args
 		Faction faction = this.readArg(msenderFaction);
-		
+
+		// Can't disband the wilderness
+		if (faction.getId().equals(Factions.ID_NONE))
+		{
+			msg("<i>You cannot disband the wilderness.");
+			return;
+		}
+
 		// MPerm
 		if ( ! MPerm.getPermDisband().has(msender, faction, true)) return;
 

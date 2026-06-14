@@ -1,7 +1,10 @@
 package com.massivecraft.factions.cmd;
 
+import com.massivecraft.factions.Perm;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.Visibility;
+import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
+import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.command.requirement.RequirementTitlesAvailable;
 import com.massivecraft.massivecore.command.type.primitive.TypeBooleanOn;
 import com.massivecraft.massivecore.mixin.MixinTitle;
@@ -23,6 +26,8 @@ public class CmdFactionsTerritorytitles extends FactionsCommand
 
 		// Requirements
 		this.addRequirements(RequirementTitlesAvailable.get());
+		this.addRequirements(RequirementIsPlayer.get());
+		this.addRequirements(RequirementHasPerm.get(Perm.TERRITORYTITLES));
 	}
 
 	// -------------------------------------------- //

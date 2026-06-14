@@ -37,7 +37,9 @@ public class EngineFlagSpawn extends Engine
 		"NETHER_PORTAL",
 		"MOUNT",
 		"REINFORCEMENTS",
-		"VILLAGE_INVASION"
+		"VILLAGE_INVASION",
+		"RAID",
+		"PATROL"
 	);
 
 	// -------------------------------------------- //
@@ -64,6 +66,12 @@ public class EngineFlagSpawn extends Engine
 
 		// ... and if this type can't spawn in the faction ...
 		if (canSpawn(faction, type)) return;
+
+		// ... but allow raid/patrol mobs where the pillagerraids flag permits them ...
+		if ((event.getSpawnReason() == SpawnReason.RAID
+				|| event.getSpawnReason() == SpawnReason.PATROL
+				|| event.getSpawnReason() == SpawnReason.REINFORCEMENTS)
+			&& faction.getFlag(MFlag.getFlagPillagerRaids())) return;
 
 		// ... then cancel.
 		event.setCancelled(true);

@@ -79,7 +79,11 @@ public class CmdFactionsInvite extends FactionsCommand
 				isInvited = event.isNewInvited();
 
 				// Inform
-				mplayer.msg("%s<i> invited you to %s<i>.", msender.describeTo(mplayer, true), msenderFaction.describeTo(mplayer));
+				mplayer.message(Mson.mson(
+					Mson.parse("%s<i> invited you to %s<i>.", msender.describeTo(mplayer, true), msenderFaction.describeTo(mplayer)),
+					Mson.SPACE,
+					mson("[Accept]").color(ChatColor.AQUA).command(CmdFactions.get().cmdFactionsJoin, msenderFaction.getName())
+				));
 				msenderFaction.msg("%s<i> invited %s<i> to your faction.", msender.describeTo(msenderFaction, true), mplayer.describeTo(msenderFaction));
 
 				// Apply

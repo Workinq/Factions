@@ -26,18 +26,23 @@ public class Econ
 	// UTIL
 	// -------------------------------------------- //
 	
-	public static boolean payForAction(double cost, MPlayer usender, String actionDescription)
+	public static boolean payForAction(double cost, MPlayer usender, Faction targetFaction, String actionDescription)
 	{
 		if (!isEnabled()) return true;
 		if (cost == 0D) return true;
-		
+
 		if (usender.isOverriding()) return true;
-		
+
 		Faction usenderFaction = usender.getFaction();
-		
-		if (MConf.get().bankEnabled && MConf.get().bankFactionPaysCosts && usenderFaction.isNormal())
+
+		// The faction bank only pays for actions concerning the sender's own faction
+		boolean sameFaction = targetFaction != null && usenderFaction == targetFaction;
+
+		if (MConf.get().bankEnabled && MConf.get().bankFactionPaysCosts && usenderFaction.isNormal() && sameFaction)
 		{
-			return modifyMoney(usenderFaction, -cost, actionDescription);
+			// Fall back to the player if the bank can't cover it
+			if (modifyMoney(usenderFaction, -cost, actionDescription)) return true;
+			return modifyMoney(usender, -cost, actionDescription);
 		}
 		else
 		{

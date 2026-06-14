@@ -20,6 +20,7 @@ import org.bukkit.event.entity.EntityCombustByEntityEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 public class EngineCanCombatHappen extends Engine
@@ -48,7 +49,6 @@ public class EngineCanCombatHappen extends Engine
 	}
 
 	// mainly for flaming arrows; don't want allies or people in safe zones to be ignited even after damage event is cancelled
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void canCombatDamageHappen(EntityCombustByEntityEvent event)
 	{
@@ -57,7 +57,6 @@ public class EngineCanCombatHappen extends Engine
 		event.setCancelled(true);
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void canCombatDamageHappen(PotionSplashEvent event)
 	{
@@ -78,6 +77,18 @@ public class EngineCanCombatHappen extends Engine
 			// affected entity list doesn't accept modification (iter.remove() is a no-go), but this works
 			event.setIntensity(affectedEntity, 0.0);
 		}
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	public void canCombatDamageHappen(PlayerFishEvent event)
+	{
+		if (MUtil.isntPlayer(event.getPlayer())) return;
+		Entity caught = event.getCaught();
+		if (MUtil.isntPlayer(caught)) return;
+
+		EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(event.getPlayer(), caught, EntityDamageEvent.DamageCause.CUSTOM, 0D);
+		if (this.canCombatDamageHappen(sub, true)) return;
+		event.setCancelled(true);
 	}
 
 	// Utility method used in "canCombatDamageHappen" below.

@@ -23,6 +23,7 @@ public class MFlag extends Entity<MFlag> implements Prioritized, Registerable, N
 	public final static transient String ID_OPEN = "open";
 	public final static transient String ID_MONSTERS = "monsters";
 	public final static transient String ID_ANIMALS = "animals";
+	public final static transient String ID_PILLAGERRAIDS = "pillagerraids";
 	public final static transient String ID_POWERLOSS = "powerloss";
 	public final static transient String ID_POWERGAIN = "powergain";
 	public final static transient String ID_PVP = "pvp";
@@ -39,6 +40,7 @@ public class MFlag extends Entity<MFlag> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_OPEN = 1_000;
 	public final static transient int PRIORITY_MONSTERS = 2_000;
 	public final static transient int PRIORITY_ANIMALS = 3_000;
+	public final static transient int PRIORITY_PILLAGERRAIDS = 3_500;
 	public final static transient int PRIORITY_POWERLOSS = 4_000;
 	public final static transient int PRIORITY_POWERGAIN = 5_000;
 	public final static transient int PRIORITY_PVP = 6_000;
@@ -76,6 +78,7 @@ public class MFlag extends Entity<MFlag> implements Prioritized, Registerable, N
 		getFlagOpen();
 		getFlagMonsters();
 		getFlagAnimals();
+		getFlagPillagerRaids();
 		getFlagPowerloss();
 		getFlagPowergain();
 		getFlagPvp();
@@ -93,6 +96,7 @@ public class MFlag extends Entity<MFlag> implements Prioritized, Registerable, N
 	public static MFlag getFlagOpen() { return getCreative(PRIORITY_OPEN, ID_OPEN, ID_OPEN, "Can the faction be joined without an invite?", "Anyone can join. No invite required.", "An invite is required to join.", false, true, true); }
 	public static MFlag getFlagMonsters() { return getCreative(PRIORITY_MONSTERS, ID_MONSTERS, ID_MONSTERS, "Can monsters spawn in this territory?", "Monsters can spawn in this territory.", "Monsters can NOT spawn in this territory.", true, true, true); }
 	public static MFlag getFlagAnimals() { return getCreative(PRIORITY_ANIMALS, ID_ANIMALS, ID_ANIMALS, "Can animals spawn in this territory?", "Animals can spawn in this territory.", "Animals can NOT spawn in this territory.", true, true, true); }
+	public static MFlag getFlagPillagerRaids() { return getCreative(PRIORITY_PILLAGERRAIDS, ID_PILLAGERRAIDS, ID_PILLAGERRAIDS, "Can pillager raids occur in this territory?", "Pillager raids can occur in this territory.", "Pillager raids can NOT occur in this territory.", true, false, true); }
 	public static MFlag getFlagPowerloss() { return getCreative(PRIORITY_POWERLOSS, ID_POWERLOSS, ID_POWERLOSS, "Is power lost on death in this territory?", "Power is lost on death in this territory.", "Power is NOT lost on death in this territory.", true, false, true); }
 	public static MFlag getFlagPowergain() { return getCreative(PRIORITY_POWERGAIN, ID_POWERGAIN, ID_POWERGAIN, "Can power be gained in this territory?", "Power can be gained in this territory.", "Power is NOT gained in this territory.", true, false, true); }
 	public static MFlag getFlagPvp() { return getCreative(PRIORITY_PVP, ID_PVP, ID_PVP, "Can you PVP in territory?", "You can PVP in this territory.", "You can NOT PVP in this territory.", true, false, true); }

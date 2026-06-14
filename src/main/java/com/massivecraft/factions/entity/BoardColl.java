@@ -309,7 +309,7 @@ public class BoardColl extends Coll<Board> implements BoardInterface
 		// Fill
 		for (Board board : this.getAll())
 		{
-			if (board.hasClaimed(factionId)) ret.add(board.getId());
+			if (board.hasClaimed(factionId)) ret.add(board.getWorld());
 		}
 		
 		// Return

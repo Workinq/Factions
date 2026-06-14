@@ -1,8 +1,10 @@
 package com.massivecraft.factions.engine;
 
 import com.massivecraft.factions.AccessStatus;
+import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.TerritoryAccess;
 import com.massivecraft.factions.entity.*;
+import com.massivecraft.factions.event.EventFactionsTerritoryInfo;
 import com.massivecraft.factions.util.AsciiMap;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.mixin.MixinTitle;
@@ -81,15 +83,21 @@ public class EngineMoveChunk extends Engine
 		if (mplayer.isTerritoryInfoTitles())
 		{
 			String titleMain = parseTerritoryInfo(MConf.get().territoryInfoTitlesMain, mplayer, factionTo);
-			String titleSub = parseTerritoryInfo(MConf.get().territoryInfoTitlesSub, mplayer, factionTo);
+			String titleSub = parseTerritoryInfo(MConf.get().territoryInfoTitlesSub, mplayer, factionTo).replace('\n', ' ');
 			int ticksIn = MConf.get().territoryInfoTitlesTicksIn;
 			int ticksStay = MConf.get().territoryInfoTitlesTicksStay;
 			int ticksOut = MConf.get().territoryInfoTitleTicksOut;
+
+			EventFactionsTerritoryInfo event = new EventFactionsTerritoryInfo(mplayer, factionTo, titleMain, titleSub);
+			event.run();
+			titleMain = event.getTitleMain();
+			titleSub = event.getTitleSub();
+
 			MixinTitle.get().sendTitleMessage(player, ticksIn, ticksStay, ticksOut, titleMain, titleSub);
 		}
 		else
 		{
-			String message = parseTerritoryInfo(MConf.get().territoryInfoChat, mplayer, factionTo);
+			String message = parseTerritoryInfo(MConf.get().territoryInfoChat, mplayer, factionTo).replace('\n', ' ');
 			player.sendMessage(message);
 		}
 	}
@@ -131,6 +139,9 @@ public class EngineMoveChunk extends Engine
 		// If the player is auto claiming ...
 		Faction autoClaimFaction = mplayer.getAutoClaimFaction();
 		if (autoClaimFaction == null) return;
+
+		// ... and still has permission to claim ...
+		if (!Perm.CLAIM.has(mplayer.getPlayer(), true)) return;
 
 		// ... try claim.
 		mplayer.tryClaim(autoClaimFaction, Collections.singletonList(chunkTo));

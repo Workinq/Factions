@@ -79,8 +79,12 @@ public class CmdFactionsKick extends FactionsCommand
 		event.run();
 		if (event.isCancelled()) return;
 
-		// Inform
-		mplayerFaction.msg("%s<i> kicked %s<i> from the faction! :O", msender.describeTo(mplayerFaction, true), mplayer.describeTo(mplayerFaction, true));
+		// Inform the faction, excluding the kicked player
+		for (MPlayer recipient : mplayerFaction.getMPlayersWhereOnline(true))
+		{
+			if (recipient == mplayer) continue;
+			recipient.msg("%s<i> kicked %s<i> from the faction! :O", msender.describeTo(recipient, true), mplayer.describeTo(recipient, true));
+		}
 		mplayer.msg("%s<i> kicked you from %s<i>! :O", msender.describeTo(mplayer, true), mplayerFaction.describeTo(mplayer));
 		if (mplayerFaction != msenderFaction)
 		{

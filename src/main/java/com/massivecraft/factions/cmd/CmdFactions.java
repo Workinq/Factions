@@ -1,7 +1,6 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.cmd.access.CmdFactionsAccess;
 import com.massivecraft.factions.cmd.alt.CmdFactionsAlt;
 import com.massivecraft.factions.cmd.ban.CmdFactionsBan;
@@ -42,7 +41,6 @@ import com.massivecraft.factions.cmd.warp.CmdFactionsWarpList;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.massivecore.command.MassiveCommandDeprecated;
 import com.massivecraft.massivecore.command.MassiveCommandVersion;
-import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 
 import java.util.List;
 
@@ -86,6 +84,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsRankOld cmdFactionsRankOldModerator = new CmdFactionsRankOld("moderator");
 	public CmdFactionsRankOld cmdFactionsRankOldPromote = new CmdFactionsRankOld("promote");
 	public CmdFactionsRankOld cmdFactionsRankOldDemote = new CmdFactionsRankOld("demote");
+	public CmdFactionsRankViewAll cmdFactionsRankViewAll = new CmdFactionsRankViewAll();
 	public CmdFactionsMoney cmdFactionsMoney = new CmdFactionsMoney();
 	public CmdFactionsSeeChunk cmdFactionsSeeChunk = new CmdFactionsSeeChunk();
 	public CmdFactionsSeeChunkOld cmdFactionsSeeChunkOld = new CmdFactionsSeeChunkOld();

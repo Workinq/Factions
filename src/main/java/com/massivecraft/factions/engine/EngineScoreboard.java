@@ -63,10 +63,11 @@ public class EngineScoreboard extends Engine
     @EventHandler
     public void onFactionDisband(EventFactionsDisband event)
     {
-        if (event.getMPlayer().getPlayer() != null)
+        MPlayer mplayer = event.getMPlayer();
+        if (mplayer != null && mplayer.getPlayer() != null)
         {
             // Update
-            this.updateTab(event.getMPlayer().getPlayer());
+            this.updateTab(mplayer.getPlayer());
         }
 
         // Loop - Players

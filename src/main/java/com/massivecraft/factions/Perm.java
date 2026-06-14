@@ -68,6 +68,7 @@ public enum Perm implements Identified
 	RANK,
 	RANK_SHOW,
 	RANK_ACTION,
+	RANK_VIEWALL,
 	RELATION,
 	RELATION_SET,
 	RELATION_CHECK,

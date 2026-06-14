@@ -62,7 +62,7 @@ public class CmdFactionsRelationSet extends FactionsCommand
 		}
 		if (msenderFaction.getRelationWish(otherFaction) == newRelation)
 		{
-			throw new MassiveException().setMsg("<b>You already have that relation wish set with %s.", otherFaction.getName());
+			throw new MassiveException().setMsg("<b>You already have that relation wish set with %s<b>.", otherFaction.describeTo(msenderFaction, true));
 		}
 		
 		// Event

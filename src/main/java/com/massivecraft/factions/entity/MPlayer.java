@@ -1123,10 +1123,41 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 			}
 		}
 
-		// Event
-		EventFactionsMembershipChange membershipChangeEvent = new EventFactionsMembershipChange(this.getSender(), this, myFaction, MembershipChangeReason.LEAVE);
+		// Decide the disband before mutating the leaver's data, so a cancelled disband doesn't orphan an empty faction
+		if (myFaction.isNormal() && !permanent && myFaction.getMPlayers().size() <= 1)
+		{
+			EventFactionsDisband eventFactionsDisband = new EventFactionsDisband(this.getSender(), myFaction);
+			eventFactionsDisband.run();
+			if (eventFactionsDisband.isCancelled()) return;
+
+			this.leaveInner();
+			if (this.getFaction() == myFaction) return; // leaveInner's membership change was cancelled
+
+			// Remove this faction
+			this.msg("%s <i>was disbanded since you were the last player.", myFaction.describeTo(this, true));
+			if (MConf.get().logFactionDisband)
+			{
+				Factions.get().log("The faction " + myFaction.getName() + " (" + myFaction.getId() + ") was disbanded due to the last player (" + this.getName() + ") leaving.");
+			}
+			myFaction.detach();
+		}
+		else
+		{
+			this.leaveInner();
+		}
+	}
+
+	public void leaveInner()
+	{
+		Faction myFaction = this.getFaction();
+
+		// Leave moves the player to none, so the 3rd arg (faction moved to) is none.
+		EventFactionsMembershipChange membershipChangeEvent = new EventFactionsMembershipChange(this.getSender(), this, FactionColl.get().getNone(), MembershipChangeReason.LEAVE);
 		membershipChangeEvent.run();
 		if (membershipChangeEvent.isCancelled()) return;
+
+		this.setPowerBoost(0.0D);
+		this.resetFactionData();
 
 		if (myFaction.isNormal())
 		{
@@ -1138,25 +1169,6 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 			if (MConf.get().logFactionLeave)
 			{
 				Factions.get().log(this.getName() + " left the faction: " + myFaction.getName());
-			}
-		}
-
-		this.setPowerBoost(0.0D);
-		this.resetFactionData();
-
-		if (myFaction.isNormal() && !permanent && myFaction.getMPlayers().isEmpty())
-		{
-			EventFactionsDisband eventFactionsDisband = new EventFactionsDisband(this.getSender(), myFaction);
-			eventFactionsDisband.run();
-			if (!eventFactionsDisband.isCancelled())
-			{
-				// Remove this faction
-				this.msg("%s <i>was disbanded since you were the last player.", myFaction.describeTo(this, true));
-				if (MConf.get().logFactionDisband)
-				{
-					Factions.get().log("The faction " + myFaction.getName() + " (" + myFaction.getId() + ") was disbanded due to the last player (" + this.getName() + ") leaving.");
-				}
-				myFaction.detach();
 			}
 		}
 	}

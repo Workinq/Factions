@@ -4,7 +4,6 @@ import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.cmd.CmdFactions;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
-import com.massivecraft.factions.entity.MFlag;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.event.*;
 import com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
@@ -31,33 +30,9 @@ public class EngineEcon extends Engine
 	public static EngineEcon get() { return i; }
 
 	// -------------------------------------------- //
-	// TAKE ON LEAVE
-	// -------------------------------------------- //
-	
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void takeOnLeave(EventFactionsMembershipChange event)
-	{
-		// If a player is leaving the faction ...
-		if (event.getReason() != MembershipChangeReason.LEAVE) return;
-		
-		// ... and that player was the last one in the faction ...
-		MPlayer mplayer = event.getMPlayer();
-		Faction oldFaction = mplayer.getFaction();
-		if (oldFaction.getMPlayers().size() > 1) return;
-
-		// ... and the faction is not permanent
-		if (oldFaction.getFlag(MFlag.getFlagPermanent())) return;
-
-		// ... then transfer all money to the player. 
-		double money = Money.get(oldFaction);
-		if (money == 0) return;
-		Econ.transferMoney(mplayer, oldFaction, mplayer, money);
-	}
-	
-	// -------------------------------------------- //
 	// TAKE ON DISBAND
 	// -------------------------------------------- //
-	
+
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void takeOnDisband(EventFactionsDisband event)
 	{
@@ -88,21 +63,27 @@ public class EngineEcon extends Engine
 	// PAY FOR ACTION
 	// -------------------------------------------- //
 	
-	public static void payForAction(EventFactionsAbstractSender event, Double cost, String desc)
+	public static void payForAction(EventFactionsAbstractSender event, Double cost, Faction targetFaction, String desc)
 	{
 		// If there is an mplayer ...
 		MPlayer mplayer = event.getMPlayer();
 		if (mplayer == null) return;
-		
+
 		// ... and there is a cost ...
 		if (cost == null) return;
 		if (cost == 0) return;
-		
+
 		// ... that the sender can't afford ...
-		if (Econ.payForAction(cost, mplayer, desc)) return;
-		
+		if (Econ.payForAction(cost, mplayer, targetFaction, desc)) return;
+
 		// ... then cancel.
 		event.setCancelled(true);
+	}
+
+	private static Faction senderFaction(EventFactionsAbstractSender event)
+	{
+		MPlayer mplayer = event.getMPlayer();
+		return mplayer == null ? null : mplayer.getFaction();
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -127,7 +108,7 @@ public class EngineEcon extends Engine
 		}
 		
 		String desc = Txt.implodeCommaAnd(typeNames) + " this land";
-		payForAction(event, cost, desc);
+		payForAction(event, cost, event.getNewFaction(), desc);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -155,16 +136,16 @@ public class EngineEcon extends Engine
 		{
 			return;
 		}
-		
-		payForAction(event, cost, desc);
+
+		payForAction(event, cost, senderFaction(event), desc);
 	}
-	
+
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void payForCommand(EventFactionsRelationChange event)
 	{
 		Double cost = MConf.get().econRelCost.get(event.getNewRelation());
 		String desc = CmdFactions.get().cmdFactionsRelation.cmdFactionsRelationSet.getDesc();
-		payForAction(event, cost, desc);
+		payForAction(event, cost, event.getFaction(), desc);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -172,8 +153,8 @@ public class EngineEcon extends Engine
 	{
 		Double cost = MConf.get().econCostSethome;
 		String desc = CmdFactions.get().cmdFactionsSethome.getDesc();
-		
-		payForAction(event, cost, desc);
+
+		payForAction(event, cost, event.getFaction(), desc);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -182,7 +163,7 @@ public class EngineEcon extends Engine
 		Double cost = MConf.get().econCostSetwarp;
 		String desc = CmdFactions.get().cmdFactionsSetwarp.getDesc();
 
-		payForAction(event, cost, desc);
+		payForAction(event, cost, event.getFaction(), desc);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -190,8 +171,9 @@ public class EngineEcon extends Engine
 	{
 		Double cost = MConf.get().econCostCreate;
 		String desc = CmdFactions.get().cmdFactionsCreate.getDesc();
-		
-		payForAction(event, cost, desc);
+
+		// New faction doesn't exist yet; player pays.
+		payForAction(event, cost, null, desc);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -199,8 +181,8 @@ public class EngineEcon extends Engine
 	{
 		Double cost = MConf.get().econCostDescription;
 		String desc = CmdFactions.get().cmdFactionsDescription.getDesc();
-		
-		payForAction(event, cost, desc);
+
+		payForAction(event, cost, event.getFaction(), desc);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -208,8 +190,8 @@ public class EngineEcon extends Engine
 	{
 		Double cost = MConf.get().econCostName;
 		String desc = CmdFactions.get().cmdFactionsName.getDesc();
-		
-		payForAction(event, cost, desc);
+
+		payForAction(event, cost, event.getFaction(), desc);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -217,8 +199,8 @@ public class EngineEcon extends Engine
 	{
 		Double cost = MConf.get().econCostTitle;
 		String desc = CmdFactions.get().cmdFactionsTitle.getDesc();
-		
-		payForAction(event, cost, desc);
+
+		payForAction(event, cost, senderFaction(event), desc);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -226,8 +208,8 @@ public class EngineEcon extends Engine
 	{
 		Double cost = MConf.get().econCostFlag;
 		String desc = CmdFactions.get().cmdFactionsFlag.getDesc();
-		
-		payForAction(event, cost, desc);
+
+		payForAction(event, cost, event.getFaction(), desc);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -235,8 +217,8 @@ public class EngineEcon extends Engine
 	{
 		Double cost = event.isNewInvited() ? MConf.get().econCostInvite : MConf.get().econCostDeinvite;
 		String desc = "manage invites";
-		
-		payForAction(event, cost, desc);
+
+		payForAction(event, cost, event.getFaction(), desc);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -245,7 +227,7 @@ public class EngineEcon extends Engine
 		Double cost = event.isNewBanned() ? MConf.get().econCostBan : MConf.get().econCostUnban;
 		String desc = "manage bans";
 
-		payForAction(event, cost, desc);
+		payForAction(event, cost, event.getFaction(), desc);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -253,8 +235,9 @@ public class EngineEcon extends Engine
 	{
 		Double cost = MConf.get().econCostHome;
 		String desc = CmdFactions.get().cmdFactionsHome.getDesc();
-		
-		payForAction(event, cost, desc);
+
+		// Home teleport is personal; player pays.
+		payForAction(event, cost, null, desc);
 	}
 	
 

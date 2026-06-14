@@ -64,6 +64,11 @@ public class EngineHolographicDisplays extends Engine
                         Faction faction = topFactions.get(finalIndex);
                         if (faction == null) return "ERR";
 
+                        if (faction.isNone())
+                        {
+                            return Txt.parse("<i>Factionless<i> %d online", faction.getMPlayersWhereOnline(true).size());
+                        }
+
                         return Txt.parse(
                                 "%s<i> %d/%d online",
                                 faction.getName(),

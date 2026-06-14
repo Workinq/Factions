@@ -304,9 +304,12 @@ public class MConf extends Entity<MConf>
 	// Is there a maximum limit to chunks claimed?
 	// 0 means there isn't.
 	public int claimedLandsMax = 0;
-	
+
 	// The max amount of worlds in which a player can have claims in.
 	public int claimedWorldsMax = -1;
+
+	// Require a confirmation before /f claim all and /f unclaim all.
+	public boolean requireConfirmationForClaimUnclaimAll = true;
 
 	// The maximum distance to claim from using click to claim map.
 	public int maximumClaimDistance = 20;
@@ -392,6 +395,12 @@ public class MConf extends Entity<MConf>
 	// Protects the faction land from piston extending/retracting
 	// through the denying of MPerm build
 	public boolean handlePistonProtectionThroughDenyBuild = true;
+
+	// Protects faction land from bonemeal growth crossing the chunk border, through denying MPerm build.
+	public boolean handleBonemealProtectionThroughDenyBuild = true;
+
+	// Protects faction land from dispensers firing across the chunk border, through denying MPerm build.
+	public boolean handleDispenserProtectionThroughDenyBuild = true;
 	
 	// -------------------------------------------- //
 	// DENY COMMANDS
@@ -601,6 +610,7 @@ public class MConf extends Entity<MConf>
 	public boolean handleExploitEnderPearlClipping = true;
 	public boolean handleExploitTNTWaterlog = false;
 	public boolean handleNetherPortalTrap = true;
+	public boolean handleExploitEnderPearlWorldBorder = true;
 	
 	// -------------------------------------------- //
 	// SEE CHUNK

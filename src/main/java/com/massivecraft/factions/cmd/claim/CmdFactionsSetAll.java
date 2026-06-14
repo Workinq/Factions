@@ -4,10 +4,13 @@ import com.massivecraft.factions.Perm;
 import com.massivecraft.factions.entity.Board;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
+import com.massivecraft.massivecore.command.type.primitive.TypeStringConfirmation;
 import com.massivecraft.massivecore.mixin.MixinWorld;
 import com.massivecraft.massivecore.ps.PS;
+import com.massivecraft.massivecore.util.ConfirmationUtil;
 import com.massivecraft.massivecore.util.MUtil;
 
 import java.util.Collections;
@@ -39,6 +42,9 @@ public class CmdFactionsSetAll extends CmdFactionsSetXAll
 		// Requirements
 		Perm perm = claim ? Perm.CLAIM_ALL : Perm.UNCLAIM_ALL;
 		this.addRequirements(RequirementHasPerm.get(perm));
+
+		// Confirmation
+		this.addParameter(TypeStringConfirmation.get(), "confirmation", "");
 	}
 
 	// -------------------------------------------- //
@@ -48,6 +54,9 @@ public class CmdFactionsSetAll extends CmdFactionsSetXAll
 	@Override
 	public Set<PS> getChunks() throws MassiveException
 	{
+		// Confirmation
+		if (MConf.get().requireConfirmationForClaimUnclaimAll) ConfirmationUtil.tryConfirm(this);
+
 		// World
 		String word = (this.isClaim() ? "claim" : "unclaim");
 		

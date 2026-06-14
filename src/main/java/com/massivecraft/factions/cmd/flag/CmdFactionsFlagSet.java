@@ -46,19 +46,18 @@ public class CmdFactionsFlagSet extends FactionsCommand
 			return;
 		}
 		
+		// Detect no change
+		if (detectNoChange(flag, value, faction)) return;
+
 		// Event
 		EventFactionsFlagChange event = new EventFactionsFlagChange(sender, faction, flag, value);
 		event.run();
 		if (event.isCancelled()) return;
 		value = event.isNewValue();
-		
-		// No change 
-		if (faction.getFlag(flag) == value)
-		{
-			msg("%s <i>already has %s <i>set to %s<i>.", faction.describeTo(msender), flag.getStateDesc(value, false, true, true, false, true), flag.getStateDesc(value, true, true, false, false, false));
-			return;
-		}
-		
+
+		// Detect no change
+		if (detectNoChange(flag, value, faction)) return;
+
 		// Apply
 		faction.setFlag(flag, value);
 		
@@ -73,5 +72,15 @@ public class CmdFactionsFlagSet extends FactionsCommand
 		faction.msg("<h>%s <i>set a flag for <h>%s<i>.", msender.describeTo(faction, true), faction.describeTo(faction, true));
 		faction.sendMessage(stateInfo);
 	}
-	
+
+	private boolean detectNoChange(MFlag flag, boolean value, Faction faction)
+	{
+		if (faction.getFlag(flag) == value)
+		{
+			msg("%s <i>already has %s <i>set to %s<i>.", faction.describeTo(msender), flag.getStateDesc(value, false, true, true, false, true), flag.getStateDesc(value, true, true, false, false, false));
+			return true;
+		}
+		return false;
+	}
+
 }

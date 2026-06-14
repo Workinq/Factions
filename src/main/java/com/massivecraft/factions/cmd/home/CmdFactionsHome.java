@@ -130,7 +130,7 @@ public class CmdFactionsHome extends FactionsCommandHome
 				// box-shaped distance check
 				if (dx > max || dy > max || dz > max) continue;
 
-				msender.msg("<b>You cannot teleport to %s <b>while an enemy is within %f blocks of you.", homeDesc, MConf.get().homesTeleportAllowedEnemyDistance);
+				msender.msg("<b>You cannot teleport to %s <b>while an enemy is within %.1f blocks of you.", homeDesc, MConf.get().homesTeleportAllowedEnemyDistance);
 				return;
 			}
 		}

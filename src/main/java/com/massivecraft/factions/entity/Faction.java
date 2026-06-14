@@ -3,6 +3,7 @@ package com.massivecraft.factions.entity;
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.entity.mission.AbstractMission;
 import com.massivecraft.factions.entity.object.*;
+import com.massivecraft.factions.event.EventFactionsDisband;
 import com.massivecraft.factions.predicate.PredicateCommandSenderFaction;
 import com.massivecraft.factions.predicate.PredicateMPlayerRole;
 import com.massivecraft.factions.util.MiscUtil;
@@ -1719,7 +1720,8 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public void setRelationWish(String factionId, Rel rel)
 	{
-		Map<String, Rel> relationWishes = this.getRelationWishes();
+		// Copy the map so setRelationWishes() can detect the change
+		Map<String, Rel> relationWishes = new MassiveMapDef<>(this.getRelationWishes());
 		if (rel == null || rel == Rel.NEUTRAL)
 		{
 			relationWishes.remove(factionId);
@@ -2255,7 +2257,11 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 				return;
 			}
 
-			// no members left and faction isn't permanent, so disband it
+			// no members left and faction isn't permanent, so disband it.
+			EventFactionsDisband disbandEvent = new EventFactionsDisband(null, this);
+			disbandEvent.run();
+			if (disbandEvent.isCancelled()) return;
+
 			if (MConf.get().logFactionDisband)
 			{
 				Factions.get().log("The faction "+this.getName()+" ("+this.getId()+") has been disbanded since it has no members left.");
