@@ -1,6 +1,7 @@
 main: ${project.groupId}.${project.name}
 name: ${project.name}
 version: ${project.version}
+api-version: '1.21'
 website: ${project.url}
 description: ${project.description}
 authors: [Cayorion, Madus, Ulumulu1510, MarkehMe, Brettflan, Kieraaaan]
