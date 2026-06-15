@@ -21,7 +21,9 @@ public abstract class CmdFactionsSetXAll extends CmdFactionsSetX
 		this.addParameter(TypeFaction.get(), "faction", "you");
 		if (claim)
 		{
-			this.addParameter(TypeFaction.get(), "newfaction");
+			// Optional (required from console) so it can follow the optional all|map/faction args.
+			// Defaults to the sender's own faction via getNewFaction().
+			this.addParameter(TypeFaction.get(), true, "newfaction", "you");
 			this.setFactionArgIndex(2);
 		}
 	}
