@@ -4,6 +4,7 @@ import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPerm;
+import com.massivecraft.factions.entity.MUpgrade;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.command.type.primitive.TypeString;
@@ -56,9 +57,10 @@ public class CmdFactionsWarp extends FactionsCommand
         // Teleport
         PS location = faction.getWarpLocation(warp);
         DestinationSimple destination = new DestinationSimple(location, warp.toLowerCase());
+        int warmup = Math.max(0, MConf.get().warpWarmup - faction.getLevel(MUpgrade.get().warpWarmupUpgrade.getUpgradeName()) * 2);
         try
         {
-            MixinTeleport.get().teleport(me, destination, MConf.get().warpWarmup);
+            MixinTeleport.get().teleport(me, destination, warmup);
         }
         catch (TeleporterException e)
         {

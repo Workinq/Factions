@@ -6,7 +6,7 @@ import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPerm;
-import com.massivecraft.factions.entity.mission.AbstractMission;
+import com.massivecraft.factions.entity.mission.Mission;
 import com.massivecraft.factions.util.InventoryUtil;
 import com.massivecraft.factions.util.ItemBuilder;
 import com.massivecraft.factions.util.TimeUtil;
@@ -60,7 +60,7 @@ public class CmdFactionsMission extends FactionsCommand
         Inventory inventory = Bukkit.createInventory(null, MConf.get().missionGuiSize, Txt.parse(MConf.get().missionGuiName));
         ChestGui chestGui = InventoryUtil.getChestGui(inventory);
         List<String> lore = new ArrayList<>();
-        AbstractMission activeMission = faction.getActiveMission();
+        Mission activeMission = faction.getActiveMission();
 
         if (activeMission == null)
         {
@@ -88,7 +88,7 @@ public class CmdFactionsMission extends FactionsCommand
                         .replace("%reward%", String.valueOf(activeMission.getReward()))
                         .replace("%time%", TimeUtil.formatTime((TimeUnit.MILLIS_PER_HOUR * MConf.get().missionDeadlineHours) - (System.currentTimeMillis() - faction.getMissionStart()), false))));
             }
-            chestGui.getInventory().setItem(MConf.get().missionItemSlot, new ItemBuilder(activeMission.getItemMaterial()).amount(1).name(Txt.parse("<k>" + activeMission.getItemName())).withLore(lore));
+            chestGui.getInventory().setItem(MConf.get().missionItemSlot, new ItemBuilder(activeMission.getItemMaterial()).amount(1).name(Txt.parse(activeMission.getRarity().getColor() + activeMission.getItemName())).withLore(lore));
         }
         chestGui.getInventory().setItem(11, new ItemBuilder(Material.BOOK).name(Txt.parse("<k><bold>All Missions"))
                 .addLore(Txt.parse("<n>Click here to see a list of all faction missions"))

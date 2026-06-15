@@ -2,12 +2,10 @@ package com.massivecraft.factions.action.mission;
 
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MMission;
-import com.massivecraft.factions.entity.mission.AbstractMission;
+import com.massivecraft.factions.entity.mission.Mission;
 import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-
-import java.util.Random;
 
 public class ActionMissionStart extends ChestActionAbstract
 {
@@ -33,18 +31,21 @@ public class ActionMissionStart extends ChestActionAbstract
     @Override
     public boolean onClick(InventoryClickEvent event, Player player)
     {
-        // Args
-        AbstractMission mission = MMission.get().getMissions().get(new Random().nextInt(MMission.get().getMissions().size()));
+        // Guard - never re-roll over an active mission.
+        if (faction.getActiveMission() != null) return true;
 
-        // Apply
+        // Pre-calculate the winner ONCE (rarity-weighted). This is the only RNG.
+        Mission winner = MMission.get().selectWeighted();
+        if (winner == null) return true;
+
+        // Apply immediately so closing the GUI mid-roll cannot change the result.
         faction.setMissionStart(System.currentTimeMillis());
         faction.setMissionGoal(0);
-        faction.setActiveMission(mission.getMissionName());
+        faction.setActiveMission(winner.getMissionName());
 
-        // Inform
-        faction.msg("<g>The mission <i>%s <g>is now active. You have <i>1 day <g>to complete it.", mission.getMissionName());
+        // Reveal it with a cosmetic reel that simply lands on the already-decided winner.
+        new MissionReel(player, faction, winner).start();
 
-        // Return
         return true;
     }
 

@@ -1,7 +1,7 @@
 package com.massivecraft.factions.action.mission;
 
 import com.massivecraft.factions.entity.MMission;
-import com.massivecraft.factions.entity.mission.AbstractMission;
+import com.massivecraft.factions.entity.mission.Mission;
 import com.massivecraft.factions.util.InventoryUtil;
 import com.massivecraft.factions.util.ItemBuilder;
 import com.massivecraft.massivecore.chestgui.ChestActionAbstract;
@@ -33,19 +33,20 @@ public class ActionMissionView extends ChestActionAbstract
     private Inventory getMissionsGui()
     {
         // Args
-        Inventory inventory = Bukkit.createInventory(null, 27, Txt.parse("<gray>All Missions"));
+        Inventory inventory = Bukkit.createInventory(null, 54, Txt.parse("<gray>All Missions"));
         ChestGui chestGui = InventoryUtil.getChestGui(inventory);
         NumberFormat rewardFormat = NumberFormat.getInstance();
-        int slot = 10;
+        int slot = 0;
 
         // Loop
-        for (AbstractMission mission : MMission.get().getMissions())
+        for (Mission mission : MMission.get().getMissions())
         {
             List<String> lore = new ArrayList<>();
+            lore.add(Txt.parse("<n>Rarity: %s%s", mission.getRarity().getColor(), mission.getRarity().getDisplayName()));
             lore.add(Txt.parse("<n>Challenge: <k>%s", mission.getDescription()));
             lore.add("");
             lore.add(Txt.parse("<n>Reward: <k>%s", rewardFormat.format(mission.getReward()) + " Credits"));
-            chestGui.getInventory().setItem(slot, new ItemBuilder(mission.getItemMaterial()).name(Txt.parse("<k>" + mission.getItemName())).withLore(lore).flag(ItemFlag.HIDE_ATTRIBUTES));
+            chestGui.getInventory().setItem(slot, new ItemBuilder(mission.getItemMaterial()).name(Txt.parse(mission.getRarity().getColor() + mission.getItemName())).withLore(lore).flag(ItemFlag.HIDE_ATTRIBUTES));
             slot++;
         }
 

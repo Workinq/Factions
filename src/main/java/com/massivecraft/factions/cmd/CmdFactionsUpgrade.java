@@ -51,7 +51,7 @@ public class CmdFactionsUpgrade extends FactionsCommand
     private Inventory getFactionUpgrades(Faction faction)
     {
         // Args
-        Inventory inventory = Bukkit.createInventory(null, 9, Txt.parse("<gray>Faction Upgrades"));
+        Inventory inventory = Bukkit.createInventory(null, 27, Txt.parse("<gray>Faction Upgrades"));
         ChestGui chestGui = InventoryUtil.getChestGui(inventory);
         NumberFormat priceFormat = NumberFormat.getInstance(); priceFormat.setGroupingUsed(true);
         int slot = 0;
@@ -107,6 +107,9 @@ public class CmdFactionsUpgrade extends FactionsCommand
             chestGui.setAction(slot, new ActionUpgrade(msender, faction, upgradePrice, upgrade.getUpgradeName(), upgradeLevel));
             slot++;
         }
+
+        // Fill empty slots
+        InventoryUtil.fillInventory(chestGui.getInventory());
 
         // Return
         return chestGui.getInventory();

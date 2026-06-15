@@ -1,7 +1,7 @@
 package com.massivecraft.factions.entity;
 
 import com.massivecraft.factions.*;
-import com.massivecraft.factions.entity.mission.AbstractMission;
+import com.massivecraft.factions.entity.mission.Mission;
 import com.massivecraft.factions.entity.object.*;
 import com.massivecraft.factions.event.EventFactionsDisband;
 import com.massivecraft.factions.predicate.PredicateCommandSenderFaction;
@@ -148,6 +148,11 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This cannot corrupt in the slightest or the entire inventory will reset.
 	// Or worse, the server will spit errors non-stop.
 	private String inventorySerialized = null;
+
+	// The faction vault is a second storage container unlocked via the Faction Vault upgrade.
+	// It mirrors the faction chest: a transient Inventory plus its serialized contents.
+	private transient Inventory vault = null;
+	private String vaultSerialized = null;
 
 	// This contains all the interactions that have been made with the faction chest.
 	// Whenever a player takes or adds an item to the chest, an action will be added.
@@ -654,6 +659,72 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	}
 
 	// -------------------------------------------- //
+	// FIELD: vault
+	// -------------------------------------------- //
+
+	public void saveVault()
+	{
+		if (vault == null) return;
+		this.setVaultSerialized(SerializationUtil.toBase64(vault));
+	}
+
+	public Inventory getVault()
+	{
+		Inventory ret = vault;
+
+		if (ret == null)
+		{
+			String vaultSerialized = this.getVaultSerialized();
+			ret = SerializationUtil.fromBase64(vaultSerialized, Txt.parse("<gray>%s - Faction Vault", this.getName()));
+
+			// Set vault.
+			this.vault = ret;
+
+			// Mark as changed
+			this.changed();
+		}
+
+		return ret;
+	}
+
+	public void setVault(Inventory vault)
+	{
+		// Detect no change
+		if (MUtil.equals(this.vault, vault)) return;
+
+		// Apply
+		this.vault = vault;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	public String getVaultSerialized()
+	{
+		// Clean input
+		String ret = this.vaultSerialized;
+		if (ret == null) ret = "";
+
+		return ret;
+	}
+
+	public void setVaultSerialized(String vaultSerialized)
+	{
+		// Clean input
+		String target = vaultSerialized;
+		if (target == null || target.equals("")) target = null;
+
+		// Detect no change
+		if (MUtil.equals(this.vaultSerialized, target)) return;
+
+		// Apply
+		this.vaultSerialized = target;
+
+		// Mark as changed
+		this.changed();
+	}
+
+	// -------------------------------------------- //
 	// FIELD: chestActions
 	// -------------------------------------------- //
 
@@ -843,7 +914,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// FIELD: mission
 	// -------------------------------------------- //
 	
-	public AbstractMission getActiveMission()
+	public Mission getActiveMission()
 	{
 		return MMission.get().getMissionByName(activeMission);
 	}
