@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CmdFactionsWarpList extends FactionsCommand
+public class CmdFactionsWarplist extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsWarpList()
+    public CmdFactionsWarplist()
     {
         // Parameters
         this.addParameter(Parameter.getPage());

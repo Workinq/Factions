@@ -5,13 +5,13 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.massivecore.MassiveException;
 
-public class CmdFactionsSandAltKillAll extends FactionsCommand
+public class CmdFactionsSandaltKillall extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsSandAltKillAll()
+    public CmdFactionsSandaltKillall()
     {
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "all");

@@ -20,13 +20,13 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-public class CmdFactionsChunkAltGui extends FactionsCommand
+public class CmdFactionsChunkaltGui extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsChunkAltGui()
+    public CmdFactionsChunkaltGui()
     {
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");

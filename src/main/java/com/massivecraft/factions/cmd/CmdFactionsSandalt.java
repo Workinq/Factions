@@ -4,14 +4,14 @@ import com.massivecraft.massivecore.MassiveException;
 
 import java.util.ArrayList;
 
-public class CmdFactionsSandAlt extends FactionsCommand
+public class CmdFactionsSandalt extends FactionsCommand
 {
     // -------------------------------------------- //
     // FIELDS
     // -------------------------------------------- //
 
-    public CmdFactionsSandAltGui cmdFactionsSandAltGui = new CmdFactionsSandAltGui();
-    public CmdFactionsSandAltKillAll cmdFactionsSandAltKillAll = new CmdFactionsSandAltKillAll();
+    public CmdFactionsSandaltGui cmdFactionsSandAltGui = new CmdFactionsSandaltGui();
+    public CmdFactionsSandaltKillall cmdFactionsSandAltKillAll = new CmdFactionsSandaltKillall();
 
     // -------------------------------------------- //
     // OVERRIDE

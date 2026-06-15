@@ -4,14 +4,14 @@ import com.massivecraft.massivecore.MassiveException;
 
 import java.util.ArrayList;
 
-public class CmdFactionsChunkAlt extends FactionsCommand
+public class CmdFactionsChunkalt extends FactionsCommand
 {
     // -------------------------------------------- //
     // FIELDS
     // -------------------------------------------- //
 
-    public CmdFactionsChunkAltGui cmdFactionsChunkAltGui = new CmdFactionsChunkAltGui();
-    public CmdFactionsChunkAltKillAll cmdFactionsChunkAltKillAll = new CmdFactionsChunkAltKillAll();
+    public CmdFactionsChunkaltGui cmdFactionsChunkAltGui = new CmdFactionsChunkaltGui();
+    public CmdFactionsChunkaltKillall cmdFactionsChunkAltKillAll = new CmdFactionsChunkaltKillall();
 
     // -------------------------------------------- //
     // OVERRIDE

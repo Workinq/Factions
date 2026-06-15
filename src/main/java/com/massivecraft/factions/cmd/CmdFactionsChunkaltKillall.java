@@ -5,13 +5,13 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.massivecore.MassiveException;
 
-public class CmdFactionsChunkAltKillAll extends FactionsCommand
+public class CmdFactionsChunkaltKillall extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsChunkAltKillAll()
+    public CmdFactionsChunkaltKillall()
     {
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "all");
