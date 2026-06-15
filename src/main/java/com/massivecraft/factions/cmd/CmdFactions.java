@@ -127,6 +127,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsUnmute cmdFactionsUnmute = new CmdFactionsUnmute();
 	public CmdFactionsMuteList cmdFactionsMuteList = new CmdFactionsMuteList();
 	public CmdFactionsLocation cmdFactionsLocation = new CmdFactionsLocation();
+	public CmdFactionsCoords cmdFactionsCoords = new CmdFactionsCoords();
 	public CmdFactionsChat cmdFactionsChat = new CmdFactionsChat();
 	public CmdFactionsSpy cmdFactionsSpy = new CmdFactionsSpy();
 	public CmdFactionsInspect cmdFactionsInspect = new CmdFactionsInspect();

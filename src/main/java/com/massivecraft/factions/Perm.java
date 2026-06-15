@@ -129,6 +129,7 @@ public enum Perm implements Identified
 	BANLIST,
 	BANLIST_OTHER,
 	LOCATION,
+	COORDS,
 	CHAT,
 	SPY,
 	INSPECT,

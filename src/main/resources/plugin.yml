@@ -129,6 +129,7 @@ permissions:
   factions.banlist: {description: list faction bans, default: false}
   factions.banlist.other: {description: list banned players of another faction, default: false}
   factions.location: {description: ping your location, default: false}
+  factions.coords: {description: broadcast your coordinates to your faction, default: false}
   factions.chat: {description: manage your chat mode, default: false}
   factions.spy: {description: toggle chat spy, default: false}
   factions.inspect: {description: toggle inspect mode, default: false}
@@ -322,6 +323,7 @@ permissions:
       factions.banlist.other: true
       factions.unban: true
       factions.location: true
+      factions.coords: true
       factions.chat: true
       factions.spy: true
       factions.inspect: true
@@ -531,6 +533,7 @@ permissions:
       factions.unban: true
       factions.banlist: true
       factions.location: true
+      factions.coords: true
       factions.chat: true
       factions.inspect: true
       factions.lastinspected: true
