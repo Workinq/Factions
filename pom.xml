@@ -110,7 +110,7 @@
         <dependency>
             <groupId>com.massivecraft.massivecore</groupId>
             <artifactId>MassiveCore</artifactId>
-            <version>MC-1.20.4-SNAPSHOT</version>
+            <version>MC-1.21.10-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!-- FastAsyncWorldEdit -->
