@@ -43,18 +43,13 @@ public class CmdFactionsBaltop extends FactionsCommand
 
         // Pager Create
         final List<MPlayer> mplayers = new MassiveList<>(faction.getMPlayers());
-        mplayers.sort(new Comparator<MPlayer>()
-        {
-            @Override
-            public int compare(MPlayer p1, MPlayer p2)
-            {
-                double p1Balance = MoneyMixinVault.get().get(p1.getName());
-                double p2Balance = MoneyMixinVault.get().get(p2.getName());
-                return ComparatorSmart.get().compare(p2Balance, p1Balance);
-            }
+        mplayers.sort((p1, p2) -> {
+            double p1Balance = MoneyMixinVault.get().get(p1.getName());
+            double p2Balance = MoneyMixinVault.get().get(p2.getName());
+            return ComparatorSmart.get().compare(p2Balance, p1Balance);
         });
 
-        final Pager<MPlayer> pager = new Pager<>(this, "Faction Baltop", page, mplayers, (Stringifier<MPlayer>) (mplayer, index) -> Txt.parse("<n>%,d. %s <white>- <h>%s", index + 1, mplayer.describeTo(msender, true), MoneyMixinVault.get().format(MoneyMixinVault.get().get(mplayer.getName()), true)));
+        Pager<MPlayer> pager = new Pager<>(this, "Faction Baltop", page, mplayers, (Stringifier<MPlayer>) (mplayer, index) -> Txt.parse("<n>%,d. %s <white>- <h>%s", index + 1, mplayer.describeTo(msender, true), MoneyMixinVault.get().format(MoneyMixinVault.get().get(mplayer.getName()), true)));
 
         // Pager Message
         pager.message();
