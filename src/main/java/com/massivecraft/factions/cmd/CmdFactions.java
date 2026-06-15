@@ -27,6 +27,7 @@ import com.massivecraft.factions.cmd.perm.CmdFactionsPerm;
 import com.massivecraft.factions.cmd.power.CmdFactionsPowerBoost;
 import com.massivecraft.factions.cmd.power.CmdFactionsSetpower;
 import com.massivecraft.factions.cmd.rel.CmdFactionsRelation;
+import com.massivecraft.factions.cmd.chunk.CmdFactionsChunkAlt;
 import com.massivecraft.factions.cmd.rel.CmdFactionsRelationOld;
 import com.massivecraft.factions.cmd.roster.CmdFactionsRoster;
 import com.massivecraft.factions.cmd.sand.CmdFactionsSandAlt;
@@ -65,6 +66,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsLeave cmdFactionsLeave = new CmdFactionsLeave();
 	public CmdFactionsHome cmdFactionsHome = new CmdFactionsHome();
 	public CmdFactionsMap cmdFactionsMap = new CmdFactionsMap();
+	public CmdFactionsNear cmdFactionsNear = new CmdFactionsNear();
 	public CmdFactionsCreate cmdFactionsCreate = new CmdFactionsCreate();
 	public CmdFactionsName cmdFactionsName = new CmdFactionsName();
 	public CmdFactionsDescription cmdFactionsDescription = new CmdFactionsDescription();
@@ -149,6 +151,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsDrain cmdFactionsDrain = new CmdFactionsDrain();
 	public CmdFactionsDrainToggle cmdFactionsDrainToggle = new CmdFactionsDrainToggle();
 	public CmdFactionsSandAlt cmdFactionsSandAlt = new CmdFactionsSandAlt();
+	public CmdFactionsChunkAlt cmdFactionsChunkAlt = new CmdFactionsChunkAlt();
 	public CmdFactionsLogin cmdFactionsLogin = new CmdFactionsLogin();
 	public CmdFactionsFf cmdFactionsFf = new CmdFactionsFf();
 	public CmdFactionsToggle cmdFactionsToggle = new CmdFactionsToggle();

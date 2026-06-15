@@ -110,6 +110,14 @@ public class MConf extends Entity<MConf>
 	public int baseRegionRadius = 24;
 
 	// -------------------------------------------- //
+	// NEAR COMMAND
+	// -------------------------------------------- //
+
+	// The radius in blocks that /f near searches for online faction members.
+	// Only members in the same world and within this distance are listed.
+	public int nearRadius = 1000;
+
+	// -------------------------------------------- //
 	// SERVER TOGGLES
 	// -------------------------------------------- //
 
@@ -559,7 +567,17 @@ public class MConf extends Entity<MConf>
 	public Material sandSpawnMaterial = Material.LAPIS_BLOCK;
 	public int sandSpawnRadius = 6;
 	public long sandSpawnDelay = 500L;
-	
+
+	// -------------------------------------------- //
+	// CHUNK ALTS
+	// -------------------------------------------- //
+
+	public String chunkAltName = "&b&lCHUNK ALT";
+	public String chunkAltGuiName = "<gray>Faction Chunk Alts";
+	public int chunkAltGuiSize = 54;
+	public double chunkAltSpawnCost = 100000.0D;
+	public int chunkAltRadius = 0;
+
 	// -------------------------------------------- //
 	// COLORS
 	// -------------------------------------------- //
