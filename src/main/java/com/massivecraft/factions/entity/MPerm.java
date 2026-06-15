@@ -77,6 +77,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient String ID_ROSTER = "roster";
 	public final static transient String ID_DRAIN = "drain";
 	public final static transient String ID_SANDALT = "sandalt";
+	public final static transient String ID_CHUNKALT = "chunkalt";
 	public final static transient String ID_FLY = "fly";
 	public final static transient String ID_ALARM = "alarm";
 	public final static transient String ID_CLEAR = "clear";
@@ -132,6 +133,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_MUTE = 49000;
 	public final static transient int PRIORITY_ALARM = 50000;
 	public final static transient int PRIORITY_CLEAR = 51000;
+	public final static transient int PRIORITY_CHUNKALT = 52000;
 
 	// -------------------------------------------- //
 	// META: CORE
@@ -205,6 +207,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		getPermRoster();
 		getPermDrain();
 		getPermSandalt();
+		getPermChunkalt();
 		getPermFly();
 		getPermAlarm();
 		getPermClear();
@@ -259,6 +262,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public static MPerm getPermRoster() { return getCreative(PRIORITY_ROSTER, ID_ROSTER, ID_ROSTER, "manage the faction roster", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
 	public static MPerm getPermDrain() { return getCreative(PRIORITY_DRAIN, ID_DRAIN, ID_DRAIN, "drain members balances", MUtil.set(Rel.LEADER, Rel.COLEADER), false, true, true); }
 	public static MPerm getPermSandalt() { return getCreative(PRIORITY_SANDALT, ID_SANDALT, ID_SANDALT, "mange faction sandalts", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
+	public static MPerm getPermChunkalt() { return getCreative(PRIORITY_CHUNKALT, ID_CHUNKALT, ID_CHUNKALT, "manage faction chunk alts", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermFly() { return getCreative(PRIORITY_FLY, ID_FLY, ID_FLY, "toggle faction fly", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER, Rel.RECRUIT), false, true, true); }
 	public static MPerm getPermAlarm() { return getCreative(PRIORITY_ALARM, ID_ALARM, ID_ALARM, "toggle faction alarm", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermClear() { return getCreative(PRIORITY_CLEAR, ID_CLEAR, ID_CLEAR, "mark walls as cleared", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }

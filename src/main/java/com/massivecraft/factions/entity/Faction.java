@@ -6,6 +6,7 @@ import com.massivecraft.factions.entity.object.*;
 import com.massivecraft.factions.event.EventFactionsDisband;
 import com.massivecraft.factions.predicate.PredicateCommandSenderFaction;
 import com.massivecraft.factions.predicate.PredicateMPlayerRole;
+import com.massivecraft.factions.util.AltUtil;
 import com.massivecraft.factions.util.MiscUtil;
 import com.massivecraft.factions.util.RelationUtil;
 import com.massivecraft.factions.util.SerializationUtil;
@@ -25,9 +26,6 @@ import com.massivecraft.massivecore.store.SenderColl;
 import com.massivecraft.massivecore.util.IdUtil;
 import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.event.DespawnReason;
-import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -74,6 +72,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.invitations.load(that.invitations);
 		this.strikes.load(that.strikes);
 		this.sandAlts.load(that.sandAlts);
+		this.chunkAlts.load(that.chunkAlts);
 		this.bannedMembers.load(that.bannedMembers);
 		this.mutedMembers.load(that.mutedMembers);
 		return this;
@@ -235,6 +234,10 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// This will store the faction's currently active sand alts.
 	// By default there will be none, obviously.
 	private final EntityInternalMap<SandAlt> sandAlts = new EntityInternalMap<>(this, SandAlt.class);
+
+	// This will store the faction's currently active chunk alts.
+	// By default there will be none, obviously.
+	private final EntityInternalMap<ChunkAlt> chunkAlts = new EntityInternalMap<>(this, ChunkAlt.class);
 
 	// This will store a list of all the banned members.
 	// By default it's empty and members can be banned using /f ban <player>.
@@ -1412,6 +1415,37 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	}
 
 	// -------------------------------------------- //
+	// FIELD: alts (shared helpers)
+	// -------------------------------------------- //
+
+	private <T extends Alt<T>> T getAltAt(EntityInternalMap<T> map, PS location)
+	{
+		for (T alt : map.getAll())
+		{
+			if (alt.getPs().equals(location)) return alt;
+		}
+		return null;
+	}
+
+	private <T extends Alt<T>> Set<T> getAltsInChunk(EntityInternalMap<T> map, PS chunk)
+	{
+		Set<T> ret = new MassiveSetDef<>();
+		for (T alt : map.getAll())
+		{
+			if (alt.getPs().getChunk(true).equals(chunk)) ret.add(alt);
+		}
+		return ret;
+	}
+
+	private <T extends Alt<T>> void setPausedAll(EntityInternalMap<T> map, boolean paused)
+	{
+		for (T alt : map.getAll())
+		{
+			alt.setPaused(paused);
+		}
+	}
+
+	// -------------------------------------------- //
 	// FIELD: sandAlts
 	// -------------------------------------------- //
 
@@ -1422,42 +1456,24 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public void despawnSandAlt(SandAlt sandAlt)
 	{
-		// Args
-		NPC npc = CitizensAPI.getNPCRegistry().getByUniqueId(sandAlt.getNpcId());
-
-		// Destroy
-		if (npc != null)
-		{
-			npc.despawn(DespawnReason.PLUGIN);
-			npc.destroy();
-		}
-
+		AltUtil.despawnNpc(sandAlt.getNpcId());
 		this.sandAlts.detachEntity(sandAlt);
+		AltUtil.refreshSandAlt(sandAlt);
 	}
 
 	public SandAlt getSandAltAt(PS location)
 	{
-		for (SandAlt sandAlt : this.sandAlts.getAll())
-		{
-			if (sandAlt.getPs().equals(location)) return sandAlt;
-		}
-		return null;
+		return this.getAltAt(this.sandAlts, location);
 	}
 
 	public void startAllSandAlts()
 	{
-		for (SandAlt sandAlt : this.sandAlts.getAll())
-		{
-			sandAlt.setPaused(false);
-		}
+		this.setPausedAll(this.sandAlts, false);
 	}
 
 	public void stopAllSandAlts()
 	{
-		for (SandAlt sandAlt : this.sandAlts.getAll())
-		{
-			sandAlt.setPaused(true);
-		}
+		this.setPausedAll(this.sandAlts, true);
 	}
 
 	public void despawnAllSandAlts()
@@ -1470,20 +1486,70 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 
 	public Set<SandAlt> getSandAltsInChunk(PS chunk)
 	{
-		Set<SandAlt> sandAlts = new MassiveSetDef<>();
-		for (SandAlt sandAlt : this.sandAlts.getAll())
-		{
-			if (sandAlt.getPs().getChunk(true).equals(chunk))
-			{
-				sandAlts.add(sandAlt);
-			}
-		}
-		return sandAlts;
+		return this.getAltsInChunk(this.sandAlts, chunk);
 	}
-	
+
 	public Collection<SandAlt> getSandAlts()
 	{
 		return this.sandAlts.getAll();
+	}
+
+	// -------------------------------------------- //
+	// FIELD: chunkAlts
+	// -------------------------------------------- //
+
+	public void addChunkAlt(ChunkAlt chunkAlt)
+	{
+		this.chunkAlts.attach(chunkAlt, chunkAlt.getNpcId().toString());
+		AltUtil.setLoaded(chunkAlt, true);
+	}
+
+	public void despawnChunkAlt(ChunkAlt chunkAlt)
+	{
+		AltUtil.despawnNpc(chunkAlt.getNpcId());
+		this.chunkAlts.detachEntity(chunkAlt);
+		AltUtil.setLoaded(chunkAlt, false);
+	}
+
+	public ChunkAlt getChunkAltAt(PS location)
+	{
+		return this.getAltAt(this.chunkAlts, location);
+	}
+
+	public void startAllChunkAlts()
+	{
+		this.setPausedAll(this.chunkAlts, false);
+		for (ChunkAlt chunkAlt : this.chunkAlts.getAll())
+		{
+			AltUtil.setLoaded(chunkAlt, true);
+		}
+	}
+
+	public void stopAllChunkAlts()
+	{
+		this.setPausedAll(this.chunkAlts, true);
+		for (ChunkAlt chunkAlt : this.chunkAlts.getAll())
+		{
+			AltUtil.setLoaded(chunkAlt, false);
+		}
+	}
+
+	public void despawnAllChunkAlts()
+	{
+		for (ChunkAlt chunkAlt : new MassiveList<>(this.chunkAlts.getAll()))
+		{
+			this.despawnChunkAlt(chunkAlt);
+		}
+	}
+
+	public Set<ChunkAlt> getChunkAltsInChunk(PS chunk)
+	{
+		return this.getAltsInChunk(this.chunkAlts, chunk);
+	}
+
+	public Collection<ChunkAlt> getChunkAlts()
+	{
+		return this.chunkAlts.getAll();
 	}
 
 	// -------------------------------------------- //
@@ -2407,6 +2473,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	public Faction detach()
 	{
 		this.despawnAllSandAlts();
+		this.despawnAllChunkAlts();
 		return super.detach();
 	}
 

@@ -4,17 +4,17 @@ import org.bukkit.Location;
 
 import java.util.UUID;
 
-public class SandAlt extends Alt<SandAlt>
+public class ChunkAlt extends Alt<ChunkAlt>
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public SandAlt()
+    public ChunkAlt()
     {
     }
 
-    public SandAlt(UUID npcId, String factionId, Location location)
+    public ChunkAlt(UUID npcId, String factionId, Location location)
     {
         super(npcId, factionId, location);
     }
