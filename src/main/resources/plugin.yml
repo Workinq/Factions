@@ -200,6 +200,7 @@ permissions:
   factions.clear.any: {description: mark a faction's walls as cleared, default: false}
   factions.alertnotifications: {description: toggle raid alert notifications, default: false}
   factions.audit: {description: view your faction audit log, default: true}
+  factions.audit.list: {description: view your faction audit log in chat, default: true}
   factions.audit.gui: {description: view your faction audit log in a gui, default: true}
   factions.audit.admin: {description: view any faction's audit log, default: op}
 
@@ -399,6 +400,7 @@ permissions:
       factions.clear.any: true
       factions.alertnotifications: true
       factions.audit: true
+      factions.audit.list: true
       factions.audit.gui: true
       factions.audit.admin: true
 

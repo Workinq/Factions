@@ -205,6 +205,7 @@ public enum Perm implements Identified
 	CLEAR_ANY,
 	ALERTNOTIFICATIONS,
 	AUDIT,
+	AUDIT_LIST,
 	AUDIT_GUI,
 	AUDIT_ADMIN,
 
