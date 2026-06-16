@@ -100,6 +100,7 @@ public enum Perm implements Identified
 	CHEST,
 	CHEST_OPEN,
 	CHEST_LOG,
+	VAULT,
 	TNT,
 	TNT_BALANCE,
 	TNT_BALANCE_ANY,
