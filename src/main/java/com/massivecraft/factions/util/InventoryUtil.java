@@ -1,13 +1,8 @@
 package com.massivecraft.factions.util;
 
-import com.massivecraft.factions.entity.MConf;
-import com.massivecraft.massivecore.chestgui.ChestGui;
-import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.Arrays;
 
 public class InventoryUtil {
 
@@ -36,39 +31,5 @@ public class InventoryUtil {
         }
         return totalNotTnt;
     }
-
-    public static void fillInventory(Inventory inventory)
-    {
-        fillInventory(inventory, new int[]{});
-    }
-
-    public static void fillInventory(Inventory inventory, int[] slots)
-    {
-        ItemStack filler = new ItemBuilder(MConf.get().fillerItemMaterial).name(Txt.parse(MConf.get().fillerItemName));
-        for (int i = 0; i < inventory.getSize(); i++)
-        {
-            final int slot = i;
-            if (Arrays.stream(slots).anyMatch(num -> num == slot)) continue;
-            if (inventory.getItem(slot) != null) continue;
-            inventory.setItem(slot, filler);
-        }
-    }
-
-    public static ChestGui getChestGui(Inventory inventory, boolean autoClosing, boolean autoRemoving)
-    {
-        // Args
-        ChestGui chestGui = ChestGui.getCreative(inventory);
-
-        // Chest Setup
-        chestGui.setAutoclosing(autoClosing);
-        chestGui.setAutoremoving(autoRemoving);
-        chestGui.setSoundOpen(null);
-        chestGui.setSoundClose(null);
-
-        // Return
-        return chestGui;
-    }
-    public static ChestGui getChestGui(Inventory inventory, boolean autoClosing) { return getChestGui(inventory, autoClosing, true); }
-    public static ChestGui getChestGui(Inventory inventory) { return getChestGui(inventory, true); }
 
 }

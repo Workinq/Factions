@@ -1,27 +1,19 @@
 package com.massivecraft.factions.engine;
 
-import com.massivecraft.factions.action.sandalt.ActionSandaltDespawn;
-import com.massivecraft.factions.action.sandalt.ActionSandaltPrint;
 import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.entity.object.SandAlt;
 import com.massivecraft.factions.event.EventFactionsChunksChange;
-import com.massivecraft.factions.util.InventoryUtil;
-import com.massivecraft.factions.util.ItemBuilder;
+import com.massivecraft.factions.gui.SandAltEditMenu;
 import com.massivecraft.massivecore.Engine;
-import com.massivecraft.massivecore.chestgui.ChestGui;
 import com.massivecraft.massivecore.ps.PS;
-import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
 import net.citizensnpcs.api.event.NPCClickEvent;
 import net.citizensnpcs.api.event.NPCLeftClickEvent;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.inventory.Inventory;
 
 import java.util.Set;
 
@@ -104,34 +96,8 @@ public class EngineSand extends Engine
         // MPerm
         if ( ! MPerm.getPermSandalt().has(mplayer, faction, true)) return;
 
-        // Inventory
-        player.openInventory(this.getEditGui(sandAlt, faction, mplayer, false));
-    }
-
-    public Inventory getEditGui(SandAlt sandAlt, Faction faction, MPlayer mplayer, boolean redirect)
-    {
-        Inventory inventory = Bukkit.createInventory(null, 27, Txt.parse("<gray>Edit Sand Alt"));
-        ChestGui chestGui = InventoryUtil.getChestGui(inventory);
-        int radius = MConf.get().sandSpawnRadius;
-
-        // Stop/Start placing
-        if (sandAlt.isPaused())
-        {
-            chestGui.getInventory().setItem(12, new ItemBuilder(Material.LIME_DYE).name(Txt.parse("<g><bold>Start Placing")).withLore(Txt.parse(MUtil.list("<n>Click here to <g>start <n>your alt from", "<n>printing sand in a " + radius + "x" + radius + "x" + radius + " radius."))));
-        }
-        else
-        {
-            chestGui.getInventory().setItem(12, new ItemBuilder(Material.RED_DYE).name(Txt.parse("<b><bold>Stop Placing")).withLore(Txt.parse(MUtil.list("<n>Click here to <b>stop <n>your alt from", "<n>printing sand in a " + radius + "x" + radius + "x" + radius + " radius."))));
-        }
-        chestGui.setAction(12, new ActionSandaltPrint(sandAlt, ! sandAlt.isPaused()));
-        chestGui.getInventory().setItem(14, new ItemBuilder(Material.BARRIER).name(Txt.parse("<red><bold>Despawn")).withLore(Txt.parse(MUtil.list("<n>Click here to despawn this sand alt"))));
-        chestGui.setAction(14, new ActionSandaltDespawn(faction, mplayer, sandAlt, redirect));
-
-        // Fill
-        InventoryUtil.fillInventory(chestGui.getInventory());
-
-        // Return
-        return chestGui.getInventory();
+        // Open
+        new SandAltEditMenu(player, mplayer, faction, sandAlt).open();
     }
 
 }

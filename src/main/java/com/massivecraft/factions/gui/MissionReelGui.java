@@ -1,45 +1,37 @@
-package com.massivecraft.factions.action.mission;
+package com.massivecraft.factions.gui;
 
-import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MMission;
 import com.massivecraft.factions.entity.mission.Mission;
-import com.massivecraft.factions.util.InventoryUtil;
 import com.massivecraft.factions.util.ItemBuilder;
-import com.massivecraft.massivecore.chestgui.ChestGui;
+import com.massivecraft.massivecore.chestgui.Gui;
 import com.massivecraft.massivecore.util.Txt;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-// Cosmetic case-opening reel. The winner is already chosen and applied before this runs;
-// the animation only scrolls the mission icons and "lands" on that winner.
-public class MissionReel extends BukkitRunnable
+public class MissionReelGui extends Gui
 {
     // -------------------------------------------- //
     // CONFIG
     // -------------------------------------------- //
 
-    private static final int WINDOW = 7;          // visible reel slots (10..16)
-    private static final int CENTER_OFFSET = 3;   // center slot 13 = window index 3
-    private static final int TOTAL_ADVANCES = 30;  // how many scroll steps before landing
-    private static final int DECELERATE_LAST = 10; // start slowing down over the final N steps
+    private static final int WINDOW = 7;
+    private static final int CENTER_OFFSET = 3;
+    private static final int TOTAL_ADVANCES = 30;
+    private static final int DECELERATE_LAST = 10;
 
     // -------------------------------------------- //
     // FIELDS
     // -------------------------------------------- //
 
-    private final Player player;
     private final Faction faction;
     private final Mission winner;
 
@@ -47,21 +39,20 @@ public class MissionReel extends BukkitRunnable
     private final int size;
     private final int winnerIndex;
 
-    private Inventory inventory;
-
     private int offset = 0;
     private int ticks = 0;
     private int advances = 0;
     private int gap = 1;
     private int nextAdvanceAt = 0;
+    private boolean finished = false;
 
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public MissionReel(Player player, Faction faction, Mission winner)
+    public MissionReelGui(Player player, Faction faction, Mission winner)
     {
-        this.player = player;
+        super(player, 3, "<gray>Rolling Mission...");
         this.faction = faction;
         this.winner = winner;
         this.pool = MMission.get().getMissions();
@@ -76,35 +67,37 @@ public class MissionReel extends BukkitRunnable
     }
 
     // -------------------------------------------- //
-    // START
+    // OVERRIDE
     // -------------------------------------------- //
 
-    public void start()
+    @Override
+    protected void build()
     {
-        // Defer a tick so we can safely open a fresh inventory after the click event settles.
-        Bukkit.getScheduler().runTask(Factions.get(), () ->
+        set(4, new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).name(Txt.parse("<g><bold>v")));
+        set(22, new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).name(Txt.parse("<g><bold>^")));
+        fillBorder();
+        for (int i = 0; i < WINDOW; i++)
         {
-            Inventory inv = Bukkit.createInventory(null, 27, Txt.parse("<gray>Rolling Mission..."));
-            ChestGui chestGui = InventoryUtil.getChestGui(inv);
-            this.inventory = chestGui.getInventory();
+            set(10 + i, icon(pool.get((offset + i) % size), false));
+        }
+    }
 
-            this.decorate();
-            this.renderWindow();
-            this.player.openInventory(this.inventory);
-
-            this.runTaskTimer(Factions.get(), 2L, 1L);
-        });
+    @Override
+    protected void onOpen()
+    {
+        scheduleRepeating(this::tick, 1L);
     }
 
     // -------------------------------------------- //
     // ANIMATION
     // -------------------------------------------- //
 
-    @Override
-    public void run()
+    private void tick()
     {
-        // Stop if the player navigated away or logged off.
-        if ( ! player.isOnline() || ! inventory.getViewers().contains(player)) { this.cancel(); return; }
+        if ( ! getPlayer().isOnline() || ! this.isOpen()) return;
+        if (finished) return;
+
+        Player player = getPlayer();
 
         ticks++;
         if (ticks < nextAdvanceAt) return;
@@ -113,13 +106,13 @@ public class MissionReel extends BukkitRunnable
 
         if (advances >= TOTAL_ADVANCES)
         {
-            // Land: place the winner in the center slot.
+            // Land on the winner and leave it displayed until the player closes.
+            finished = true;
             offset = ((winnerIndex - CENTER_OFFSET) % size + size) % size;
             renderWindow();
             highlightWinner();
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
             faction.msg("<g>The mission <i>%s <g>is now active. You have <i>%d hours <g>to complete it.", winner.getMissionName(), MConf.get().missionDeadlineHours);
-            this.cancel();
             return;
         }
 
@@ -127,7 +120,6 @@ public class MissionReel extends BukkitRunnable
         renderWindow();
         player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f + Math.min(advances, 20) * 0.03f);
 
-        // Decelerate over the final stretch for a "settling" feel.
         if (advances > TOTAL_ADVANCES - DECELERATE_LAST) gap++;
         nextAdvanceAt = ticks + gap;
     }
@@ -136,25 +128,18 @@ public class MissionReel extends BukkitRunnable
     // RENDERING
     // -------------------------------------------- //
 
-    private void decorate()
-    {
-        inventory.setItem(4, new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).name(Txt.parse("<g><bold>v")));
-        inventory.setItem(22, new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).name(Txt.parse("<g><bold>^")));
-        InventoryUtil.fillInventory(inventory, new int[]{4, 22, 10, 11, 12, 13, 14, 15, 16});
-    }
-
     private void renderWindow()
     {
         for (int i = 0; i < WINDOW; i++)
         {
             Mission mission = pool.get((offset + i) % size);
-            inventory.setItem(10 + i, icon(mission, false));
+            setItem(10 + i, icon(mission, false));
         }
     }
 
     private void highlightWinner()
     {
-        inventory.setItem(10 + CENTER_OFFSET, icon(winner, true));
+        setItem(10 + CENTER_OFFSET, icon(winner, true));
     }
 
     private ItemStack icon(Mission mission, boolean landed)
@@ -169,9 +154,8 @@ public class MissionReel extends BukkitRunnable
             lore.add(Txt.parse("<g><bold>Mission started!"));
         }
         return new ItemBuilder(mission.getItemMaterial())
-                .name(Txt.parse(mission.getRarity().getColor() + mission.getMissionName()))
-                .withLore(lore)
-                .flag(ItemFlag.HIDE_ATTRIBUTES);
+            .name(Txt.parse(mission.getRarity().getColor() + mission.getMissionName()))
+            .withLore(lore)
+            .flag(ItemFlag.HIDE_ATTRIBUTES);
     }
-
 }

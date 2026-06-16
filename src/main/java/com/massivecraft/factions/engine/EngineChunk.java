@@ -1,28 +1,21 @@
 package com.massivecraft.factions.engine;
 
-import com.massivecraft.factions.action.chunkalt.ActionChunkaltDespawn;
-import com.massivecraft.factions.action.chunkalt.ActionChunkaltToggle;
 import com.massivecraft.factions.entity.*;
 import com.massivecraft.factions.entity.object.ChunkAlt;
 import com.massivecraft.factions.event.EventFactionsChunksChange;
+import com.massivecraft.factions.gui.ChunkAltEditMenu;
 import com.massivecraft.factions.util.AltUtil;
-import com.massivecraft.factions.util.InventoryUtil;
-import com.massivecraft.factions.util.ItemBuilder;
 import com.massivecraft.massivecore.Engine;
-import com.massivecraft.massivecore.chestgui.ChestGui;
 import com.massivecraft.massivecore.ps.PS;
-import com.massivecraft.massivecore.util.MUtil;
 import com.massivecraft.massivecore.util.Txt;
 import net.citizensnpcs.api.event.NPCClickEvent;
 import net.citizensnpcs.api.event.NPCLeftClickEvent;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.inventory.Inventory;
 
 import java.util.Set;
 
@@ -121,34 +114,8 @@ public class EngineChunk extends Engine
         // MPerm
         if ( ! MPerm.getPermChunkalt().has(mplayer, faction, true)) return;
 
-        // Inventory
-        player.openInventory(this.getEditGui(chunkAlt, faction, mplayer, false));
-    }
-
-    public Inventory getEditGui(ChunkAlt chunkAlt, Faction faction, MPlayer mplayer, boolean redirect)
-    {
-        Inventory inventory = Bukkit.createInventory(null, 27, Txt.parse("<gray>Edit Chunk Alt"));
-        ChestGui chestGui = InventoryUtil.getChestGui(inventory);
-        int span = MConf.get().chunkAltRadius * 2 + 1;
-
-        // Stop/Start loading
-        if (chunkAlt.isPaused())
-        {
-            chestGui.getInventory().setItem(12, new ItemBuilder(Material.LIME_DYE).name(Txt.parse("<g><bold>Start Loading")).withLore(Txt.parse(MUtil.list("<n>Click here to <g>start <n>keeping a", "<n>" + span + "x" + span + " chunk area loaded."))));
-        }
-        else
-        {
-            chestGui.getInventory().setItem(12, new ItemBuilder(Material.RED_DYE).name(Txt.parse("<b><bold>Stop Loading")).withLore(Txt.parse(MUtil.list("<n>Click here to <b>stop <n>keeping a", "<n>" + span + "x" + span + " chunk area loaded."))));
-        }
-        chestGui.setAction(12, new ActionChunkaltToggle(chunkAlt, ! chunkAlt.isPaused()));
-        chestGui.getInventory().setItem(14, new ItemBuilder(Material.BARRIER).name(Txt.parse("<red><bold>Despawn")).withLore(Txt.parse(MUtil.list("<n>Click here to despawn this chunk alt"))));
-        chestGui.setAction(14, new ActionChunkaltDespawn(faction, mplayer, chunkAlt, redirect));
-
-        // Fill
-        InventoryUtil.fillInventory(chestGui.getInventory());
-
-        // Return
-        return chestGui.getInventory();
+        // Open
+        new ChunkAltEditMenu(player, mplayer, faction, chunkAlt).open();
     }
 
 }
