@@ -24,7 +24,6 @@ public class CmdFactionsAuditList extends FactionsCommand
 {
 	public CmdFactionsAuditList()
 	{
-		this.addAliases("list");
 		this.addParameter(Parameter.getPage());
 		this.addParameter(TypeFaction.get(), "faction", "you");
 		this.addParameter(null, new TypeEnum<>(AuditCategory.class), "category", false);

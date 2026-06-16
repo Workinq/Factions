@@ -13,7 +13,6 @@ public class CmdFactionsAuditGui extends FactionsCommand
 {
 	public CmdFactionsAuditGui()
 	{
-		this.addAliases("gui");
 		this.addParameter(TypeFaction.get(), "faction", "you");
 		this.addRequirements(RequirementIsPlayer.get());
 		this.addRequirements(ReqHasFaction.get());
