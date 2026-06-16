@@ -6,6 +6,9 @@ import com.massivecraft.factions.cmd.type.TypeMPlayer;
 import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.entity.object.AuditAction;
+import com.massivecraft.factions.entity.object.AuditCategory;
+import com.massivecraft.factions.util.AuditUtil;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.type.container.TypeSet;
 import com.massivecraft.massivecore.util.IdUtil;
@@ -57,6 +60,8 @@ public class CmdFactionsUnmute extends FactionsCommand
 
             // Apply
             msenderFaction.unmute(mplayer);
+
+            AuditUtil.log(AuditCategory.MUTE, AuditAction.MUTE_REMOVE, sender, msenderFaction, mplayer.getId());
 
             // Inform
             msenderFaction.msg("%s<i> unmuted %s<i>", msender.describeTo(msenderFaction, true), mplayer.describeTo(msenderFaction));

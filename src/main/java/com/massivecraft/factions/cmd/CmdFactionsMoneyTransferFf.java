@@ -5,7 +5,10 @@ import com.massivecraft.factions.cmd.req.ReqBankCommandsEnabled;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MConf;
+import com.massivecraft.factions.entity.object.AuditAction;
+import com.massivecraft.factions.entity.object.AuditCategory;
 import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.util.AuditUtil;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.type.primitive.TypeDouble;
 import com.massivecraft.massivecore.money.Money;
@@ -46,7 +49,18 @@ public class CmdFactionsMoneyTransferFf extends FactionsCommand
 		Faction from = this.readArg();
 		Faction to = this.readArg();
 
+		if (amount <= 0) throw new MassiveException().addMsg("<b>The amount must be positive.");
+
 		boolean success = Econ.transferMoney(msender, from, to, amount);
+
+		if (success)
+		{
+			// Two entries so both factions see the transfer in their own log.
+			AuditUtil.log(AuditCategory.MONEY, AuditAction.TRANSFER_OUT, sender, from, to.getId(),
+				AuditUtil.details().put("amount", Money.format(amount)).map());
+			AuditUtil.log(AuditCategory.MONEY, AuditAction.TRANSFER_IN, sender, to, from.getId(),
+				AuditUtil.details().put("amount", Money.format(amount)).map());
+		}
 
 		if (success && MConf.get().logMoneyTransactions)
 		{

@@ -7,7 +7,10 @@ import com.massivecraft.factions.cmd.type.TypeFactionNameStrict;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MConf;
+import com.massivecraft.factions.entity.object.AuditAction;
+import com.massivecraft.factions.entity.object.AuditCategory;
 import com.massivecraft.factions.event.EventFactionsCreate;
+import com.massivecraft.factions.util.AuditUtil;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
 import com.massivecraft.massivecore.MassiveException;
@@ -54,6 +57,9 @@ public class CmdFactionsCreate extends FactionsCommand
 		// Apply
 		Faction faction = FactionColl.get().create(factionId);
 		faction.setName(newName);
+
+		// Audit (logged here, not via EventFactionsCreate, because the faction does not exist yet at event time)
+		AuditUtil.log(AuditCategory.LIFECYCLE, AuditAction.CREATE, sender, faction);
 
 		// Roster
 		faction.addToRoster(msender);

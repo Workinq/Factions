@@ -2,8 +2,11 @@ package com.massivecraft.factions.engine;
 
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
+import com.massivecraft.factions.entity.object.AuditAction;
+import com.massivecraft.factions.entity.object.AuditCategory;
 import com.massivecraft.factions.entity.object.ChestAction;
 import com.massivecraft.factions.event.EventFactionsNameChange;
+import com.massivecraft.factions.util.AuditUtil;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Bukkit;
@@ -65,6 +68,15 @@ public class EngineChest extends Engine
         for (ItemStack item : compareInventories)
         {
             faction.addChestAction(new ChestAction(player.getUniqueId().toString(), System.currentTimeMillis(), item));
+
+            // Mirror the transaction into the unified audit log (negative amount = taken out).
+            int amount = item.getAmount();
+            AuditUtil.log(AuditCategory.CHEST, amount < 0 ? AuditAction.CHEST_TAKE : AuditAction.CHEST_PUT,
+                player, faction, null,
+                AuditUtil.details()
+                    .put("item", Txt.getItemName(item))
+                    .put("amount", String.valueOf(Math.abs(amount)))
+                    .map());
         }
 
         containers.remove(player);

@@ -81,6 +81,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient String ID_FLY = "fly";
 	public final static transient String ID_ALARM = "alarm";
 	public final static transient String ID_CLEAR = "clear";
+	public final static transient String ID_AUDIT = "audit";
 
 	public final static transient int PRIORITY_BUILD = 1000;
 	public final static transient int PRIORITY_PAINBUILD = 2000;
@@ -134,6 +135,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public final static transient int PRIORITY_ALARM = 50000;
 	public final static transient int PRIORITY_CLEAR = 51000;
 	public final static transient int PRIORITY_CHUNKALT = 52000;
+	public final static transient int PRIORITY_AUDIT = 53000;
 
 	// -------------------------------------------- //
 	// META: CORE
@@ -211,6 +213,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 		getPermFly();
 		getPermAlarm();
 		getPermClear();
+		getPermAudit();
 	}
 
 	public static MPerm getPermBuild() { return getCreative(PRIORITY_BUILD, ID_BUILD, ID_BUILD, "edit the terrain", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER), true, true, true); }
@@ -266,6 +269,7 @@ public class MPerm extends Entity<MPerm> implements Prioritized, Registerable, N
 	public static MPerm getPermFly() { return getCreative(PRIORITY_FLY, ID_FLY, ID_FLY, "toggle faction fly", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER, Rel.MEMBER, Rel.RECRUIT), false, true, true); }
 	public static MPerm getPermAlarm() { return getCreative(PRIORITY_ALARM, ID_ALARM, ID_ALARM, "toggle faction alarm", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 	public static MPerm getPermClear() { return getCreative(PRIORITY_CLEAR, ID_CLEAR, ID_CLEAR, "mark walls as cleared", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
+	public static MPerm getPermAudit() { return getCreative(PRIORITY_AUDIT, ID_AUDIT, ID_AUDIT, "view the faction audit log", MUtil.set(Rel.LEADER, Rel.COLEADER, Rel.OFFICER), false, true, true); }
 
 	public static MPerm getCreative(int priority, String id, String name, String desc, Set<Rel> standard, boolean territory, boolean editable, boolean visible)
 	{

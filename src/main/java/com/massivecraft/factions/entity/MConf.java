@@ -3,6 +3,7 @@ package com.massivecraft.factions.entity;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.engine.EngineChat;
+import com.massivecraft.factions.entity.object.AuditCategory;
 import com.massivecraft.factions.event.EventFactionsChunkChangeType;
 import com.massivecraft.massivecore.collections.BackstringSet;
 import com.massivecraft.massivecore.collections.MassiveSet;
@@ -59,8 +60,35 @@ public class MConf extends Entity<MConf>
 	// VERSION
 	// -------------------------------------------- //
 	
-	public int version = 4;
-	
+	public int version = 5;
+
+	// -------------------------------------------- //
+	// AUDIT LOG
+	// -------------------------------------------- //
+
+	// Master switch. When false, AuditUtil.log is a no-op and pruning is skipped.
+	public boolean auditEnabled = true;
+
+	// Per-category enable toggles. An absent key defaults to enabled.
+	// CHEST and MONEY are listed explicitly because they are the highest-volume sources.
+	public Map<AuditCategory, Boolean> auditCategoryEnabled = MUtil.map(
+		AuditCategory.CHEST, true,
+		AuditCategory.MONEY, true
+	);
+
+	// Entries older than this are pruned. 0 disables age based pruning.
+	public int auditRetentionDays = 30;
+
+	// Max entries kept per faction (newest wins). 0 disables. The primary memory bound.
+	public int auditMaxEntriesPerFaction = 500;
+
+	// Absolute ceiling on total entries across all factions. 0 disables. A safety net.
+	public int auditGlobalMaxEntries = 50000;
+
+	// How often the prune sweep runs, in minutes. This is the sole enforcement point for the caps
+	// (logging itself does no per-write trimming), so keep it fairly frequent.
+	public double auditPruneIntervalMinutes = 10;
+
 	// -------------------------------------------- //
 	// COMMAND ALIASES
 	// -------------------------------------------- //

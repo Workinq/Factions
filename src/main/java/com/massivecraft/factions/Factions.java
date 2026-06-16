@@ -10,6 +10,7 @@ import com.massivecraft.factions.cmd.type.TypeFactionChunkChangeType;
 import com.massivecraft.factions.cmd.type.TypeRel;
 import com.massivecraft.factions.engine.EngineEcon;
 import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.AuditEntryColl;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MConfColl;
@@ -113,7 +114,8 @@ public class Factions extends MassivePlugin
 				MPlayerColl.class,
 				BoardColl.class,
 				MUpgradeColl.class,
-				MMissionColl.class
+				MMissionColl.class,
+				AuditEntryColl.class
 		);
 	}
 

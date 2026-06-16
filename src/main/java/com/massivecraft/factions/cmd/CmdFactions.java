@@ -103,6 +103,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsUpgrade cmdFactionsUpgrade = new CmdFactionsUpgrade();
 	public CmdFactionsCredits cmdFactionsCredits = new CmdFactionsCredits();
 	public CmdFactionsStrike cmdFactionsStrike = new CmdFactionsStrike();
+	public CmdFactionsAudit cmdFactionsAudit = new CmdFactionsAudit();
 	public CmdFactionsSetBaseRegion cmdFactionsSetBaseRegion = new CmdFactionsSetBaseRegion();
 	public CmdFactionsShield cmdFactionsShield = new CmdFactionsShield();
 	public CmdFactionsFocus cmdFactionsFocus = new CmdFactionsFocus();
