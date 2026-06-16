@@ -48,8 +48,7 @@ public class CmdFactionsSetbaseregion extends FactionsCommand
         if ( ! faction.hasBaseRegion())
         {
             faction.setCoreChunk(null);
-            msg("<b>You must be standing in your faction's claimed territory to set your base region.");
-            return;
+            throw new MassiveException().setMsg("<b>You must be standing in your faction's claimed territory to set your base region.");
         }
 
         // Inform
