@@ -6,11 +6,13 @@ import com.massivecraft.factions.adapter.ChatAdapter;
 import com.massivecraft.factions.adapter.RelAdapter;
 import com.massivecraft.factions.adapter.TerritoryAccessAdapter;
 import com.massivecraft.factions.chat.ChatActive;
+import com.massivecraft.factions.cmd.type.TypeAuditCategory;
 import com.massivecraft.factions.cmd.type.TypeFactionChunkChangeType;
 import com.massivecraft.factions.cmd.type.TypeRel;
 import com.massivecraft.factions.engine.EngineEcon;
 import com.massivecraft.factions.entity.Board;
 import com.massivecraft.factions.entity.AuditEntryColl;
+import com.massivecraft.factions.entity.object.AuditCategory;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MConfColl;
@@ -75,6 +77,7 @@ public class Factions extends MassivePlugin
 		// Register types
 		RegistryType.register(Rel.class, TypeRel.get());
 		RegistryType.register(EventFactionsChunkChangeType.class, TypeFactionChunkChangeType.get());
+		RegistryType.register(AuditCategory.class, TypeAuditCategory.get());
 
 		// Register Faction accountId Extractor
 		// TODO: Perhaps this should be placed in the econ integration somewhere?
