@@ -60,7 +60,7 @@ public class MConf extends Entity<MConf>
 	// VERSION
 	// -------------------------------------------- //
 	
-	public int version = 5;
+	public int version = 4;
 
 	// -------------------------------------------- //
 	// AUDIT LOG
