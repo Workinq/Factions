@@ -28,10 +28,10 @@ public class MMission extends Entity<MMission>
     // REWARDS BY RARITY
     // -------------------------------------------- //
 
-    private static final int REWARD_COMMON = 5000;
-    private static final int REWARD_UNCOMMON = 10000;
-    private static final int REWARD_RARE = 25000;
-    private static final int REWARD_LEGENDARY = 75000;
+    private static final transient int REWARD_COMMON = 5000;
+    private static final transient int REWARD_UNCOMMON = 10000;
+    private static final transient int REWARD_RARE = 25000;
+    private static final transient int REWARD_LEGENDARY = 75000;
 
     // -------------------------------------------- //
     // FIELDS
