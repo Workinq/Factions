@@ -35,11 +35,7 @@ public class CmdFactionsStrikeRemove extends FactionsCommand
         boolean silent = this.readArg(false);
 
         FactionStrike strike = faction.getStrikeFromId(strikeId);
-        if (strike == null)
-        {
-            msg("<b>There is no strike with the ID <h>%s<b>.", strikeId);
-            return;
-        }
+        if (strike == null) throw new MassiveException().setMsg("<b>There is no strike with the ID <h>%s<b>.", strikeId);
 
         // Event
         EventFactionsStrikeRemove event = new EventFactionsStrikeRemove(sender, faction, strike);

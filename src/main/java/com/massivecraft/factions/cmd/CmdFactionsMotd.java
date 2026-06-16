@@ -47,11 +47,7 @@ public class CmdFactionsMotd extends FactionsCommand
 		String old = msenderFaction.getMotd();
 		
 		// NoChange
-		if (MUtil.equals(old, target))
-		{
-			msg("<i>The motd for %s <i>is already: <h>%s", msenderFaction.describeTo(msender, true), msenderFaction.getMotdDesc());
-			return;
-		}
+		if (MUtil.equals(old, target)) throw new MassiveException().setMsg("<i>The motd for %s <i>is already: <h>%s", msenderFaction.describeTo(msender, true), msenderFaction.getMotdDesc());
 
 		// Event
 		EventFactionsMotdChange event = new EventFactionsMotdChange(sender, msenderFaction, target);

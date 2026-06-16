@@ -32,11 +32,7 @@ public class CmdFactionsUnsethome extends FactionsCommandHome
 		if ( ! MPerm.getPermSethome().has(msender, faction, true)) return;
 		
 		// NoChange
-		if ( ! faction.hasHome())
-		{
-			msender.msg("<i>%s <i>does already not have a home.", faction.describeTo(msender));
-			return;
-		}
+		if ( ! faction.hasHome()) throw new MassiveException().setMsg("<i>%s <i>does already not have a home.", faction.describeTo(msender));
 		
 		// Event
 		EventFactionsHomeChange event = new EventFactionsHomeChange(sender, faction, null);

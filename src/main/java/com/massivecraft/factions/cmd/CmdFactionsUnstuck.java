@@ -42,19 +42,11 @@ public class CmdFactionsUnstuck extends FactionsCommand
 		final PS center = PS.valueOf(me.getLocation().getChunk());
 		
 		// ... that isn't free ...
-		if (isFree(msender, center))
-		{
-			msg("<b>You don't seem to be stuck.");
-			return;
-		}
+		if (isFree(msender, center)) throw new MassiveException().setMsg("<b>You don't seem to be stuck.");
 		
 		// ... get the nearest free top location ...
 		Location location = getNearestFreeTopLocation(msender, center);
-		if (location == null)
-		{
-			msg("<b>No nearby chunk with %s<b> or build rights found.", FactionColl.get().getNone().describeTo(msender));
-			return;
-		}
+		if (location == null) throw new MassiveException().setMsg("<b>No nearby chunk with %s<b> or build rights found.", FactionColl.get().getNone().describeTo(msender));
 		
 		// ... and schedule a teleport.
 		Destination destination = new DestinationSimple(PS.valueOf(location));

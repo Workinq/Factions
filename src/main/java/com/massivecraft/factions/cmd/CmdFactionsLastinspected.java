@@ -13,13 +13,13 @@ import org.bukkit.ChatColor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CmdFactionsLastInspected extends FactionsCommand
+public class CmdFactionsLastinspected extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsLastInspected()
+    public CmdFactionsLastinspected()
     {
         // Aliases
         this.addAliases("li");

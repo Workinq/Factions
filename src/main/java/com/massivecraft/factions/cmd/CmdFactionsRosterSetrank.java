@@ -38,11 +38,7 @@ public class CmdFactionsRosterSetrank extends FactionsCommand
         // Verify
         if ( ! MPerm.getPermRoster().has(msender, faction, true)) return;
 
-        if ( ! faction.isInRoster(mplayer))
-        {
-            msg("%s <i>is not in the faction roster.", mplayer.describeTo(msender));
-            return;
-        }
+        if ( ! faction.isInRoster(mplayer)) throw new MassiveException().setMsg("%s <i>is not in the faction roster.", mplayer.describeTo(msender));
 
         if (rel.isMoreThan(msender.getRole()) && ! msender.isOverriding())
         {

@@ -38,11 +38,7 @@ public class CmdFactionsSetpower extends FactionsCommand
 		// Detect "no change"
 		double difference = Math.abs(newPower - oldPower);
 		double maxDifference = 0.1d;
-		if (difference < maxDifference)
-		{
-			msg("%s's <i>power is already <h>%.2f<i>.", mplayer.getDisplayName(msender), newPower);
-			return;
-		}
+		if (difference < maxDifference) throw new MassiveException().setMsg("%s's <i>power is already <h>%.2f<i>.", mplayer.getDisplayName(msender), newPower);
 
 		// Event
 		EventFactionsPowerChange event = new EventFactionsPowerChange(sender, mplayer, PowerChangeReason.COMMAND, newPower);

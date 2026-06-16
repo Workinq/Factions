@@ -33,11 +33,7 @@ public class CmdFactionsVault extends FactionsCommand
 
         if ( ! MPerm.getPermChest().has(msender, faction, true) ) return;
 
-        if (faction.getLevel(MUpgrade.get().vaultUpgrade.getUpgradeName()) == 0)
-        {
-            msender.msg("<b>Your faction must purchase the <h>Faction Vault <b>upgrade in <k>/f upgrade<b>.");
-            return;
-        }
+        if (faction.getLevel(MUpgrade.get().vaultUpgrade.getUpgradeName()) == 0) throw new MassiveException().setMsg("<b>Your faction must purchase the <h>Faction Vault <b>upgrade in <k>/f upgrade<b>.");
 
         me.openInventory(faction.getVault());
     }

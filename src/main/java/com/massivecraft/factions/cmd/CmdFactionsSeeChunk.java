@@ -37,11 +37,7 @@ public class CmdFactionsSeeChunk extends FactionsCommand
 		String targetDesc = Txt.parse(target ? "<g>ON": "<b>OFF");
 		
 		// NoChange
-		if (target == old)
-		{
-			msg("<i>See Chunk is already %s<i>.", targetDesc);
-			return;
-		}
+		if (target == old) throw new MassiveException().setMsg("<i>See Chunk is already %s<i>.", targetDesc);
 		
 		// Apply
 		msender.setSeeingChunk(target);

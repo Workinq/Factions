@@ -33,20 +33,12 @@ public class CmdFactionsSetbaseregion extends FactionsCommand
     {
         Faction faction = this.readArg(msenderFaction);
 
-        if ( ! MConf.get().grace && faction.hasBaseRegion() && ! msender.isOverriding() )
-        {
-            msg("<b>You can't set your base region as grace has been disabled.");
-            return;
-        }
+        if ( ! MConf.get().grace && faction.hasBaseRegion() && ! msender.isOverriding() ) throw new MassiveException().setMsg("<b>You can't set your base region as grace has been disabled.");
 
         if ( ! MPerm.getPermBaseregion().has(msender, faction, true) ) return;
 
         // Land check
-        if (BoardColl.get().getFactionAt(PS.valueOf(me)) != faction)
-        {
-            msg("<b>You can only set your base region in your own faction territory.");
-            return;
-        }
+        if (BoardColl.get().getFactionAt(PS.valueOf(me)) != faction) throw new MassiveException().setMsg("<b>You can only set your base region in your own faction territory.");
 
         // Set the core chunk and compute the base region from the surrounding claimed land.
         faction.setCoreChunk(PS.valueOf(me.getLocation()).getChunk(true));

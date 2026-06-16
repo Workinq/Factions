@@ -30,11 +30,7 @@ public class CmdFactionsUnignore extends FactionsCommand
         // Perms
         if ( ! Perm.UNIGNORE.has(sender, true)) return;
 
-        if (!msender.isIgnoring(mplayer))
-        {
-            msg("<b>You aren't ignoring %s<b>.", mplayer.describeTo(msender));
-            return;
-        }
+        if (!msender.isIgnoring(mplayer)) throw new MassiveException().setMsg("<b>You aren't ignoring %s<b>.", mplayer.describeTo(msender));
 
         // Apply
         msender.unignore(mplayer);

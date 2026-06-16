@@ -44,11 +44,7 @@ public class CmdFactionsHome extends FactionsCommandHome
 	@Override
 	public void perform() throws MassiveException
 	{
-		if ( ! MConf.get().homesTeleportCommandEnabled)
-		{
-			this.msg("<b>The ability to teleport to Faction homes is disabled on this server.");
-			return;
-		}
+		if ( ! MConf.get().homesTeleportCommandEnabled) throw new MassiveException().setMsg("<b>The ability to teleport to Faction homes is disabled on this server.");
 		
 		// Args
 		Faction faction = this.readArg(msenderFaction);
@@ -71,17 +67,9 @@ public class CmdFactionsHome extends FactionsCommandHome
 			return;
 		}
 		
-		if ( ! MConf.get().homesTeleportAllowedFromEnemyTerritory && msender.isInEnemyTerritory())
-		{
-			msender.msg("<b>You cannot teleport to %s <b>while in the territory of an enemy faction.", homeDesc);
-			return;
-		}
+		if ( ! MConf.get().homesTeleportAllowedFromEnemyTerritory && msender.isInEnemyTerritory()) throw new MassiveException().setMsg("<b>You cannot teleport to %s <b>while in the territory of an enemy faction.", homeDesc);
 		
-		if ( ! MConf.get().homesTeleportAllowedFromDifferentWorld && !me.getWorld().getName().equalsIgnoreCase(home.getWorld()))
-		{
-			msender.msg("<b>You cannot teleport to %s <b>while in a different world.", homeDesc);
-			return;
-		}
+		if ( ! MConf.get().homesTeleportAllowedFromDifferentWorld && !me.getWorld().getName().equalsIgnoreCase(home.getWorld())) throw new MassiveException().setMsg("<b>You cannot teleport to %s <b>while in a different world.", homeDesc);
 		
 		
 		Faction factionHere = BoardColl.get().getFactionAt(PS.valueOf(me.getLocation()));

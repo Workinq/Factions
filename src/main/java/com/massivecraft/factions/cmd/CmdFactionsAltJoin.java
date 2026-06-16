@@ -43,11 +43,7 @@ public class CmdFactionsAltJoin extends FactionsCommand
         boolean samePlayer = mplayer == msender;
 
         // Validate
-        if (!samePlayer  && ! Perm.JOIN_OTHERS.has(sender, false))
-        {
-            msg("<b>You do not have permission to move other players into a faction.");
-            return;
-        }
+        if (!samePlayer  && ! Perm.JOIN_OTHERS.has(sender, false)) throw new MassiveException().setMsg("<b>You do not have permission to move other players into a faction.");
 
         if (faction == mplayerFaction)
         {
@@ -63,11 +59,7 @@ public class CmdFactionsAltJoin extends FactionsCommand
             return;
         }
 
-        if (MConf.get().factionAltLimit > 0 && faction.getMPlayersWhereAlt(true).size() >= MConf.get().factionAltLimit)
-        {
-            msg(" <b>!<white> The faction %s is at the limit of %d alts, so %s cannot currently join.", faction.getName(msender), MConf.get().factionAltLimit, mplayer.describeTo(msender, false));
-            return;
-        }
+        if (MConf.get().factionAltLimit > 0 && faction.getMPlayersWhereAlt(true).size() >= MConf.get().factionAltLimit) throw new MassiveException().setMsg(" <b>!<white> The faction %s is at the limit of %d alts, so %s cannot currently join.", faction.getName(msender), MConf.get().factionAltLimit, mplayer.describeTo(msender, false));
 
         if (mplayerFaction.isNormal())
         {
@@ -83,23 +75,11 @@ public class CmdFactionsAltJoin extends FactionsCommand
             return;
         }
 
-        if (!MConf.get().canLeaveWithNegativePower && mplayer.getPower() < 0)
-        {
-            msg("<b>%s cannot join a faction with a negative power level.", mplayer.describeTo(msender, true));
-            return;
-        }
+        if (!MConf.get().canLeaveWithNegativePower && mplayer.getPower() < 0) throw new MassiveException().setMsg("<b>%s cannot join a faction with a negative power level.", mplayer.describeTo(msender, true));
 
-        if (faction.isBanned(mplayer))
-        {
-            msg("%s <b>cannot join a faction when banned from it.", mplayer.describeTo(msender, true));
-            return;
-        }
+        if (faction.isBanned(mplayer)) throw new MassiveException().setMsg("%s <b>cannot join a faction when banned from it.", mplayer.describeTo(msender, true));
 
-        if (faction.isInvited(mplayer) && ! faction.isInvitedAlt(mplayer) && ! faction.getFlag(MFlag.getFlagOpen()))
-        {
-            msg("<b>You can't join this faction as an alt, use /f join instead.");
-            return;
-        }
+        if (faction.isInvited(mplayer) && ! faction.isInvitedAlt(mplayer) && ! faction.getFlag(MFlag.getFlagOpen())) throw new MassiveException().setMsg("<b>You can't join this faction as an alt, use /f join instead.");
 
         if ( ! faction.isInvitedAlt(mplayer) && ! msender.isOverriding() && ! faction.getFlag(MFlag.getFlagOpen()) )
         {

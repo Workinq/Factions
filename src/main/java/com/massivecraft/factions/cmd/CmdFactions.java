@@ -76,10 +76,11 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsClean cmdFactionsClean = new CmdFactionsClean();
 	public CmdFactionsTnt cmdFactionsTnt = new CmdFactionsTnt();
 	public CmdFactionsChest cmdFactionsChest = new CmdFactionsChest();
+	public CmdFactionsVault cmdFactionsVault = new CmdFactionsVault();
 	public CmdFactionsStealth cmdFactionsStealth = new CmdFactionsStealth();
 	public CmdFactionsFly cmdFactionsFly = new CmdFactionsFly();
 	public CmdFactionsWarp cmdFactionsWarp = new CmdFactionsWarp();
-	public CmdFactionsWarpList cmdFactionsWarpList = new CmdFactionsWarpList();
+	public CmdFactionsWarplist cmdFactionsWarpList = new CmdFactionsWarplist();
 	public CmdFactionsSetwarp cmdFactionsSetwarp = new CmdFactionsSetwarp();
 	public CmdFactionsDelwarp cmdFactionsDelwarp = new CmdFactionsDelwarp();
 	public CmdFactionsDiscord cmdFactionsDiscord = new CmdFactionsDiscord();
@@ -95,7 +96,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsChat cmdFactionsChat = new CmdFactionsChat();
 	public CmdFactionsSpy cmdFactionsSpy = new CmdFactionsSpy();
 	public CmdFactionsInspect cmdFactionsInspect = new CmdFactionsInspect();
-	public CmdFactionsLastInspected cmdFactionsLastInspected = new CmdFactionsLastInspected();
+	public CmdFactionsLastinspected cmdFactionsLastInspected = new CmdFactionsLastinspected();
 	public CmdFactionsIgnore cmdFactionsIgnore = new CmdFactionsIgnore();
 	public CmdFactionsUnignore cmdFactionsUnignore = new CmdFactionsUnignore();
 	public CmdFactionsAlt cmdFactionsAlt = new CmdFactionsAlt();
@@ -104,7 +105,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsCredits cmdFactionsCredits = new CmdFactionsCredits();
 	public CmdFactionsStrike cmdFactionsStrike = new CmdFactionsStrike();
 	public CmdFactionsAudit cmdFactionsAudit = new CmdFactionsAudit();
-	public CmdFactionsSetBaseRegion cmdFactionsSetBaseRegion = new CmdFactionsSetBaseRegion();
+	public CmdFactionsSetbaseregion cmdFactionsSetBaseRegion = new CmdFactionsSetbaseregion();
 	public CmdFactionsShield cmdFactionsShield = new CmdFactionsShield();
 	public CmdFactionsFocus cmdFactionsFocus = new CmdFactionsFocus();
 	public CmdFactionsUnfocus cmdFactionsUnfocus = new CmdFactionsUnfocus();
@@ -113,8 +114,8 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsRoster cmdFactionsRoster = new CmdFactionsRoster();
 	public CmdFactionsDrain cmdFactionsDrain = new CmdFactionsDrain();
 	public CmdFactionsDrainToggle cmdFactionsDrainToggle = new CmdFactionsDrainToggle();
-	public CmdFactionsSandAlt cmdFactionsSandAlt = new CmdFactionsSandAlt();
-	public CmdFactionsChunkAlt cmdFactionsChunkAlt = new CmdFactionsChunkAlt();
+	public CmdFactionsSandalt cmdFactionsSandAlt = new CmdFactionsSandalt();
+	public CmdFactionsChunkalt cmdFactionsChunkAlt = new CmdFactionsChunkalt();
 	public CmdFactionsLogin cmdFactionsLogin = new CmdFactionsLogin();
 	public CmdFactionsFf cmdFactionsFf = new CmdFactionsFf();
 	public CmdFactionsToggle cmdFactionsToggle = new CmdFactionsToggle();

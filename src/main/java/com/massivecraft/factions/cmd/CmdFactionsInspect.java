@@ -29,11 +29,7 @@ public class CmdFactionsInspect extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        if ( ! IntegrationCoreProtect.get().isActive())
-        {
-            msg("<b>Inspecting faction land is currently disabled.");
-            return;
-        }
+        if ( ! IntegrationCoreProtect.get().isActive()) throw new MassiveException().setMsg("<b>Inspecting faction land is currently disabled.");
 
         if ( ! MPerm.getPermInspect().has(msender, msenderFaction, true)) return;
 
@@ -43,19 +39,11 @@ public class CmdFactionsInspect extends FactionsCommand
         // Check & Inform
         if (target)
         {
-            if (msender.isInspecting())
-            {
-                msg("<b>You already have faction inspect mode enabled.");
-                return;
-            }
+            if (msender.isInspecting()) throw new MassiveException().setMsg("<b>You already have faction inspect mode enabled.");
         }
         else
         {
-            if (!msender.isInspecting())
-            {
-                msg("<b>You already have inspect mode disabled.");
-                return;
-            }
+            if (!msender.isInspecting()) throw new MassiveException().setMsg("<b>You already have inspect mode disabled.");
         }
 
         // Apply

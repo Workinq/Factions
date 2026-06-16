@@ -27,17 +27,9 @@ public class CmdFactionsIgnore extends FactionsCommand
         // Args
         MPlayer mplayer = this.readArg();
 
-        if (mplayer.getFaction() != msenderFaction)
-        {
-            msg("%s <b>is not in your faction.", mplayer.describeTo(msender, true));
-            return;
-        }
+        if (mplayer.getFaction() != msenderFaction) throw new MassiveException().setMsg("%s <b>is not in your faction.", mplayer.describeTo(msender, true));
 
-        if (msender.isIgnoring(mplayer))
-        {
-            msg("<b>You are already ignoring %s<b>.", mplayer.describeTo(msender));
-            return;
-        }
+        if (msender.isIgnoring(mplayer)) throw new MassiveException().setMsg("<b>You are already ignoring %s<b>.", mplayer.describeTo(msender));
 
         // Apply
         msender.ignore(mplayer);

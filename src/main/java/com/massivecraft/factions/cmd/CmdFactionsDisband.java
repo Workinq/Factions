@@ -35,21 +35,13 @@ public class CmdFactionsDisband extends FactionsCommand
 		Faction faction = this.readArg(msenderFaction);
 
 		// Can't disband the wilderness
-		if (faction.getId().equals(Factions.ID_NONE))
-		{
-			msg("<i>You cannot disband the wilderness.");
-			return;
-		}
+		if (faction.getId().equals(Factions.ID_NONE)) throw new MassiveException().setMsg("<i>You cannot disband the wilderness.");
 
 		// MPerm
 		if ( ! MPerm.getPermDisband().has(msender, faction, true)) return;
 
 		// Verify
-		if (faction.getFlag(MFlag.getFlagPermanent()))
-		{
-			msg("<i>This faction is designated as permanent, so you cannot disband it.");
-			return;
-		}
+		if (faction.getFlag(MFlag.getFlagPermanent())) throw new MassiveException().setMsg("<i>This faction is designated as permanent, so you cannot disband it.");
 
 		// Event
 		EventFactionsDisband event = new EventFactionsDisband(me, faction);

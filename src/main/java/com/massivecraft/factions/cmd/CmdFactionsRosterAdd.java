@@ -39,18 +39,10 @@ public class CmdFactionsRosterAdd extends FactionsCommand
         // Verify
         if ( ! MPerm.getPermRoster().has(msender, faction, true)) return;
 
-        if (faction.isInRoster(mplayer))
-        {
-            msg("%s <i>is already in the faction roster.", mplayer.describeTo(msender));
-            return;
-        }
+        if (faction.isInRoster(mplayer)) throw new MassiveException().setMsg("%s <i>is already in the faction roster.", mplayer.describeTo(msender));
 
         // Size Check
-        if (faction.getRoster().size() + 1 > MConf.get().rosterMemberLimit)
-        {
-            msg("<b>You can't add anymore people to the roster as you've reached the limit of %,d", MConf.get().rosterMemberLimit);
-            return;
-        }
+        if (faction.getRoster().size() + 1 > MConf.get().rosterMemberLimit) throw new MassiveException().setMsg("<b>You can't add anymore people to the roster as you've reached the limit of %,d", MConf.get().rosterMemberLimit);
 
         // Apply
         faction.addToRoster(mplayer, rel);

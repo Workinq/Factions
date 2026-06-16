@@ -46,11 +46,7 @@ public class CmdFactionsPermSet extends FactionsCommand
 		if ( ! MPerm.getPermPerms().has(msender, faction, true)) return;
 		
 		// Is this perm editable?
-		if ( ! msender.isOverriding() && ! perm.isEditable())
-		{
-			msg("<b>The perm <h>%s <b>is not editable.", perm.getName());
-			return;
-		}
+		if ( ! msender.isOverriding() && ! perm.isEditable()) throw new MassiveException().setMsg("<b>The perm <h>%s <b>is not editable.", perm.getName());
 		
 		// Event
 		EventFactionsPermChange event = new EventFactionsPermChange(sender, faction, perm, rel, value);
@@ -59,11 +55,7 @@ public class CmdFactionsPermSet extends FactionsCommand
 		value = event.getNewValue();
 		
 		// No change
-		if (faction.getPermitted(perm).contains(rel) == value)
-		{
-			msg("%s <i>already has %s <i>set to %s <i>for %s<i>.", faction.describeTo(msender), perm.getDesc(true, false), Txt.parse(value ? "<g>YES" : "<b>NOO"), rel.getColor() + rel.getDescPlayerMany());
-			return;
-		}
+		if (faction.getPermitted(perm).contains(rel) == value) throw new MassiveException().setMsg("%s <i>already has %s <i>set to %s <i>for %s<i>.", faction.describeTo(msender), perm.getDesc(true, false), Txt.parse(value ? "<g>YES" : "<b>NOO"), rel.getColor() + rel.getDescPlayerMany());
 		
 		// Apply
 		faction.setRelationPermitted(perm, rel, value);

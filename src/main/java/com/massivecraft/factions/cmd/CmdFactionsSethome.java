@@ -39,11 +39,7 @@ public class CmdFactionsSethome extends FactionsCommandHome
 		if ( ! MPerm.getPermSethome().has(msender, faction, true)) return;
 		
 		// Verify
-		if (!msender.isOverriding() && !faction.isValidHome(newHome))
-		{
-			this.msg("<b>Your faction home can only be set inside your own claimed territory.");
-			return;
-		}
+		if (!msender.isOverriding() && !faction.isValidHome(newHome)) throw new MassiveException().setMsg("<b>Your faction home can only be set inside your own claimed territory.");
 		
 		// Event
 		EventFactionsHomeChange event = new EventFactionsHomeChange(sender, faction, newHome);

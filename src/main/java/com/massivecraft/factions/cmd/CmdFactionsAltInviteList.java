@@ -40,7 +40,6 @@ public class CmdFactionsAltInviteList extends FactionsCommand
     {
         // Args
         int page = this.readArg();
-
         Faction faction = this.readArg(msenderFaction);
 
         if ( faction != msenderFaction && ! Perm.ALT_INVITELIST_OTHERS.has(sender, true)) return;
@@ -49,19 +48,11 @@ public class CmdFactionsAltInviteList extends FactionsCommand
         if ( ! MPerm.getPermAlt().has(msender, msenderFaction, true)) return;
 
         // Pager Create
-        final List<Map.Entry<String, Invitation>> invitations = new MassiveList<>(faction.getInvitations().entrySet());
+        List<Map.Entry<String, Invitation>> invitations = new MassiveList<>(faction.getInvitations().entrySet());
 
         // Sort
         invitations.removeIf(entry -> !entry.getValue().isAlt());
-
-        Collections.sort(invitations, new Comparator<Map.Entry<String, Invitation>>()
-        {
-            @Override
-            public int compare(Map.Entry<String, Invitation> i1, Map.Entry<String, Invitation> i2)
-            {
-                return ComparatorSmart.get().compare(i2.getValue().getCreationMillis(), i1.getValue().getCreationMillis());
-            }
-        });
+        invitations.sort((i1, i2) -> ComparatorSmart.get().compare(i2.getValue().getCreationMillis(), i1.getValue().getCreationMillis()));
 
         final long now = System.currentTimeMillis();
 

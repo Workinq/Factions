@@ -51,11 +51,7 @@ public class CmdFactionsTerritorytitles extends FactionsCommand
 		String desc = Txt.parse(after ? "<g>ON" : "<b>OFF");
 		
 		// NoChange
-		if (after == before)
-		{
-			msg("<i>Territory titles is already %s<i>.", desc);
-			return;
-		}
+		if (after == before) throw new MassiveException().setMsg("<i>Territory titles is already %s<i>.", desc);
 		
 		// Apply
 		msender.setTerritoryInfoTitles(after);

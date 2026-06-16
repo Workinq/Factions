@@ -65,11 +65,7 @@ public class CmdFactionsNear extends FactionsCommand
 		}
 
 		// None
-		if (nearby.isEmpty())
-		{
-			msg("<i>No faction members are nearby.");
-			return;
-		}
+		if (nearby.isEmpty()) throw new MassiveException().setMsg("<i>No faction members are nearby.");
 
 		// Sort nearest first
 		List<MPlayer> sorted = new ArrayList<>(nearby.keySet());
