@@ -9,13 +9,13 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.ps.PS;
 
-public class CmdFactionsSetBaseRegion extends FactionsCommand
+public class CmdFactionsSetbaseregion extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsSetBaseRegion()
+    public CmdFactionsSetbaseregion()
     {
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
@@ -33,7 +33,8 @@ public class CmdFactionsSetBaseRegion extends FactionsCommand
     {
         Faction faction = this.readArg(msenderFaction);
 
-        if ( ! MConf.get().grace && faction.hasBaseRegion() && ! msender.isOverriding() ) {
+        if ( ! MConf.get().grace && faction.hasBaseRegion() && ! msender.isOverriding() )
+        {
             msg("<b>You can't set your base region as grace has been disabled.");
             return;
         }
