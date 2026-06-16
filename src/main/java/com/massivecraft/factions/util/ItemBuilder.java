@@ -3,6 +3,7 @@ package com.massivecraft.factions.util;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -146,6 +147,14 @@ public class ItemBuilder extends ItemStack
     {
         SkullMeta meta = (SkullMeta) this.getItemMeta();
         meta.setOwnerProfile(Bukkit.createPlayerProfile(owner));
+        this.setItemMeta(meta);
+        return this;
+    }
+
+    public ItemBuilder owner(OfflinePlayer owner)
+    {
+        SkullMeta meta = (SkullMeta) this.getItemMeta();
+        meta.setOwningPlayer(owner);
         this.setItemMeta(meta);
         return this;
     }
