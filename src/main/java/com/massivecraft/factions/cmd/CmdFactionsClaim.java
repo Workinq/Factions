@@ -16,6 +16,7 @@ public class CmdFactionsClaim extends FactionsCommand
 	public CmdFactionsSetFill cmdFactionsClaimFill = new CmdFactionsSetFill(true);
 	public CmdFactionsSetSquare cmdFactionsClaimSquare = new CmdFactionsSetSquare(true);
 	public CmdFactionsSetCircle cmdFactionsClaimCircle = new CmdFactionsSetCircle(true);
+	public CmdFactionsSetCorner cmdFactionsClaimCorner = new CmdFactionsSetCorner(true);
 	public CmdFactionsSetLine cmdFactionsSetLine = new CmdFactionsSetLine(true);
 	public CmdFactionsSetAll cmdFactionsClaimAll = new CmdFactionsSetAll(true);
 

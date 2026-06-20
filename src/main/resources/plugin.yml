@@ -26,6 +26,7 @@ permissions:
   factions.claim.square: {description: claim by square and radius, default: false}
   factions.claim.circle: {description: claim by circle and radius, default: false}
   factions.claim.line: {description: claim by line and radius, default: false}
+  factions.claim.corner: {description: claim a buffer at a world corner, default: false}
   factions.claim.all: {description: claim all faction land, default: false}
   factions.create: {description: create new faction, default: false}
   factions.description: {description: change faction description, default: false}
@@ -224,6 +225,7 @@ permissions:
       factions.claim.square: true
       factions.claim.circle: true
       factions.claim.line: true
+      factions.claim.corner: true
       factions.claim.all: true
       factions.create: true
       factions.demote: true
@@ -450,6 +452,7 @@ permissions:
       factions.claim.square: true
       factions.claim.circle: true
       factions.claim.line: true
+      factions.claim.corner: true
       factions.claim.all: true
       factions.create: true
       factions.demote: true

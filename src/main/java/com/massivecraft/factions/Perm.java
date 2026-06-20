@@ -25,6 +25,7 @@ public enum Perm implements Identified
 	CLAIM_CIRCLE,
 	CLAIM_ALL,
 	CLAIM_LINE,
+	CLAIM_CORNER,
 	CREATE,
 	DESCRIPTION,
 	DISBAND,
