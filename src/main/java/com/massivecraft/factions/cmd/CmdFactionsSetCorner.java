@@ -11,6 +11,7 @@ import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
 import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.WorldBorder;
 
 import java.util.Set;
@@ -47,14 +48,12 @@ public class CmdFactionsSetCorner extends CmdFactionsSetXSimple
 	public Set<PS> getChunks() throws MassiveException
 	{
 		PS playerChunk = PS.valueOf(me.getLocation()).getChunk(true);
-		WorldBorder border = me.getWorld().getWorldBorder();
-		Location center = border.getCenter();
-		double half = border.getSize() / 2.0D;
 
-		int minChunkX = ((int) Math.floor(center.getX() - half)) >> 4;
-		int maxChunkX = ((int) Math.ceil(center.getX() + half) - 1) >> 4;
-		int minChunkZ = ((int) Math.floor(center.getZ() - half)) >> 4;
-		int maxChunkZ = ((int) Math.ceil(center.getZ() + half) - 1) >> 4;
+		int[] bounds = getCornerChunkBounds(me.getWorld());
+		int minChunkX = bounds[0];
+		int maxChunkX = bounds[1];
+		int minChunkZ = bounds[2];
+		int maxChunkZ = bounds[3];
 
 		int px = playerChunk.getChunkX();
 		int pz = playerChunk.getChunkZ();
@@ -92,6 +91,24 @@ public class CmdFactionsSetCorner extends CmdFactionsSetXSimple
 		}
 
 		return chunks;
+	}
+
+	// -------------------------------------------- //
+	// UTIL
+	// -------------------------------------------- //
+
+	public static int[] getCornerChunkBounds(World world)
+	{
+		WorldBorder border = world.getWorldBorder();
+		Location center = border.getCenter();
+		double half = border.getSize() / 2.0D;
+
+		int minChunkX = ((int) Math.floor(center.getX() - half)) >> 4;
+		int maxChunkX = ((int) Math.ceil(center.getX() + half) - 1) >> 4;
+		int minChunkZ = ((int) Math.floor(center.getZ() - half)) >> 4;
+		int maxChunkZ = ((int) Math.ceil(center.getZ() + half) - 1) >> 4;
+
+		return new int[]{minChunkX, maxChunkX, minChunkZ, maxChunkZ};
 	}
 
 }

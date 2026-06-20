@@ -28,6 +28,7 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsLeave cmdFactionsLeave = new CmdFactionsLeave();
 	public CmdFactionsHome cmdFactionsHome = new CmdFactionsHome();
 	public CmdFactionsMap cmdFactionsMap = new CmdFactionsMap();
+	public CmdFactionsCorners cmdFactionsCorners = new CmdFactionsCorners();
 	public CmdFactionsNear cmdFactionsNear = new CmdFactionsNear();
 	public CmdFactionsCreate cmdFactionsCreate = new CmdFactionsCreate();
 	public CmdFactionsName cmdFactionsName = new CmdFactionsName();

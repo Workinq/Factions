@@ -48,6 +48,7 @@ permissions:
   factions.leave: {description: leave your faction, default: false}
   factions.list: {description: list all factions, default: false}
   factions.map: {description: show territory map, default: false}
+  factions.corners: {description: list claimed world corners, default: false}
   factions.near: {description: list nearby faction members, default: false}
   factions.money: {description: manage faction money, default: false}
   factions.money.balance: {description: show faction money, default: false}
@@ -250,6 +251,7 @@ permissions:
       factions.leave: true
       factions.list: true
       factions.map: true
+      factions.corners: true
       factions.near: true
       factions.money: true
       factions.money.balance: true
@@ -474,6 +476,7 @@ permissions:
       factions.leave: true
       factions.list: true
       factions.map: true
+      factions.corners: true
       factions.near: true
       factions.money: true
       factions.money.balance: true

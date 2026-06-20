@@ -46,6 +46,7 @@ public enum Perm implements Identified
 	LEAVE,
 	LIST,
 	MAP,
+	CORNERS,
 	NEAR,
 	MONEY,
 	MONEY_BALANCE,
