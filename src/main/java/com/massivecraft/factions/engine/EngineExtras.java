@@ -9,11 +9,8 @@ import com.massivecraft.factions.event.EventFactionsChunksChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.ps.PS;
-import net.ess3.api.IEssentials;
-import net.ess3.api.IUser;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,51 +32,6 @@ public class EngineExtras extends Engine
 
     private static EngineExtras i = new EngineExtras();
     public static EngineExtras get() { return i; }
-
-    // -------------------------------------------- //
-    // HOME CHECK
-    // -------------------------------------------- //
-
-    @EventHandler
-    public void onCommandPreprocessEvent(PlayerCommandPreprocessEvent event)
-    {
-        IEssentials essentials = (IEssentials) Bukkit.getServer().getPluginManager().getPlugin("Essentials");
-        String command = event.getMessage().toLowerCase();
-
-        if (command.startsWith("/home") || command.startsWith("/homes") || command.startsWith("/ehome") || command.startsWith("/ehomes") || command.startsWith("/essentials:home") || command.startsWith("/essentials:ehome") || command.startsWith("/essentials:ehomes"))
-        {
-            // Verify - Args Length
-            if (command.split(" ").length <= 1) return;
-
-            IUser user = essentials.getUser(event.getPlayer());
-            Location to = null;
-
-            try
-            {
-                to = user.getHome(command.split(" ")[1]);
-            }
-            catch (Exception ignored)
-            {
-            }
-
-            // Verify - Home
-            if (to == null) return;
-
-            // Args
-            Player player = event.getPlayer();
-            MPlayer mplayer = MPlayer.get(player);
-            Faction faction = BoardColl.get().getFactionAt(PS.valueOf(to));
-
-            // Verify - Wilderness or own faction
-            if (faction.isNone() || faction == mplayer.getFaction()) return;
-
-            // Cancel
-            event.setCancelled(true);
-
-            // Inform
-            mplayer.msg("<b>You can't teleport there as it's in forbidden territory.");
-        }
-    }
 
     // -------------------------------------------- //
     // CLAIM SQUARE
