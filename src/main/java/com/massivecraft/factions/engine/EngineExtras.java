@@ -255,32 +255,4 @@ public class EngineExtras extends Engine
         });
     }
 
-    /*@EventHandler
-    public void onEntityExplodeEvent(EntityExplodeEvent event)
-    {
-        if (event.getEntity() instanceof TNTPrimed)
-        {
-            PS explosionLocation = PS.valueOf(event.getLocation());
-            Faction factionBreached = BoardColl.get().getFactionAt(explosionLocation);
-            PS sourceLocation = PS.valueOf(((TNTPrimed) event.getEntity()).getSourceLoc());
-            Faction factionBreaching = BoardColl.get().getFactionAt(sourceLocation);
-            if (factionBreaching.isSystemFaction())
-            {
-                return;
-            }
-            if (factionBreached == factionBreaching)
-            {
-                return;
-            }
-            if (factionBreached.getFactionAttackingId() == null)
-            {
-                factionBreached.setFactionAttacking(factionBreaching.getId(), System.currentTimeMillis());
-            }
-            else if (factionBreached.getFactionAttackingId().equals(factionBreaching.getId()))
-            {
-                factionBreached.setFactionAttacking(factionBreaching.getId(), System.currentTimeMillis());
-            }
-        }
-    }*/
-
 }

@@ -128,6 +128,7 @@ public class MConf extends Entity<MConf>
 	public double taskRemindBaseRegionMinutes = 5;
 	public double taskRingFactionAlarmMinutes = 0.25;
 	public double taskRaidClaimExpireMinutes = 1;
+	public double taskRaidEndMinutes = 0.5;
 
 	// -------------------------------------------- //
 	// BASE REGION
@@ -146,6 +147,9 @@ public class MConf extends Entity<MConf>
 
 	@EditorType(TypeMillisDiff.class)
 	public long raidClaimExpiryMillis = 8 * TimeUnit.MILLIS_PER_HOUR;
+
+	@EditorType(TypeMillisDiff.class)
+	public long raidPeriodCooldownMillis = 10 * TimeUnit.MILLIS_PER_MINUTE;
 
 	// -------------------------------------------- //
 	// NEAR COMMAND
