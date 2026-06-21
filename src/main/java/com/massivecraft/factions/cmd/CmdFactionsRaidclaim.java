@@ -20,7 +20,6 @@ public class CmdFactionsRaidclaim extends FactionsCommand
 	public CmdFactionsSetCircle cmdFactionsRaidclaimCircle = new CmdFactionsSetCircle(true);
 	public CmdFactionsSetCorner cmdFactionsRaidclaimCorner = new CmdFactionsSetCorner(true);
 	public CmdFactionsSetLine cmdFactionsRaidclaimLine = new CmdFactionsSetLine(true);
-	public CmdFactionsRaidclaimRemove cmdFactionsRaidclaimRemove = new CmdFactionsRaidclaimRemove();
 
 	// -------------------------------------------- //
 	// CONSTRUCT

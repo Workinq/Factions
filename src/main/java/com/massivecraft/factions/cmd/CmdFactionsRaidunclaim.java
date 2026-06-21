@@ -11,17 +11,16 @@ import com.massivecraft.massivecore.ps.PS;
 
 import java.util.Collections;
 
-public class CmdFactionsRaidclaimRemove extends FactionsCommand
+public class 	CmdFactionsRaidunclaim extends FactionsCommand
 {
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 
-	public CmdFactionsRaidclaimRemove()
+	public CmdFactionsRaidunclaim()
 	{
-		this.addAliases("remove");
 		this.addRequirements(RequirementIsPlayer.get());
-		this.addRequirements(RequirementHasPerm.get(Perm.RAIDCLAIM_REMOVE));
+		this.addRequirements(RequirementHasPerm.get(Perm.RAIDUNCLAIM));
 	}
 
 	// -------------------------------------------- //
