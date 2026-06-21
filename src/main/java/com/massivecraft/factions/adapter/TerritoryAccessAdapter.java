@@ -1,5 +1,6 @@
 package com.massivecraft.factions.adapter;
 
+import com.massivecraft.factions.ClaimType;
 import com.massivecraft.factions.TerritoryAccess;
 import com.massivecraft.massivecore.xlib.gson.JsonDeserializationContext;
 import com.massivecraft.massivecore.xlib.gson.JsonDeserializer;
@@ -24,6 +25,8 @@ public class TerritoryAccessAdapter implements JsonDeserializer<TerritoryAccess>
 	public static final String HOST_FACTION_ALLOWED = "hostFactionAllowed";
 	public static final String FACTION_IDS = "factionIds";
 	public static final String PLAYER_IDS = "playerIds";
+	public static final String CLAIM_TYPE = "claimType";
+	public static final String EXPIRY_MILLIS = "expiryMillis";
 	
 	public static final Type SET_OF_STRING_TYPE = new TypeToken<Set<String>>(){}.getType();
 
@@ -76,7 +79,13 @@ public class TerritoryAccessAdapter implements JsonDeserializer<TerritoryAccess>
 		if (element == null) element = obj.get(PLAYER_IDS);
 		if (element != null) playerIds = context.deserialize(element, SET_OF_STRING_TYPE);
 		
-		return TerritoryAccess.valueOf(hostFactionId, hostFactionAllowed, factionIds, playerIds);
+		element = obj.get(CLAIM_TYPE);
+		ClaimType claimType = (element != null) ? ClaimType.valueOf(element.getAsString()) : ClaimType.NORMAL;
+
+		element = obj.get(EXPIRY_MILLIS);
+		Long expiryMillis = (element != null) ? element.getAsLong() : null;
+
+		return TerritoryAccess.valueOf(hostFactionId, hostFactionAllowed, factionIds, playerIds, claimType, expiryMillis);
 	}
 
 	@Override
@@ -108,6 +117,16 @@ public class TerritoryAccessAdapter implements JsonDeserializer<TerritoryAccess>
 		if (!src.getPlayerIds().isEmpty())
 		{
 			obj.add(PLAYER_IDS, context.serialize(src.getPlayerIds(), SET_OF_STRING_TYPE));
+		}
+
+		if (src.getClaimType() != ClaimType.NORMAL)
+		{
+			obj.addProperty(CLAIM_TYPE, src.getClaimType().name());
+		}
+
+		if (src.getExpiryMillis() != null)
+		{
+			obj.addProperty(EXPIRY_MILLIS, src.getExpiryMillis());
 		}
 
 		return obj;

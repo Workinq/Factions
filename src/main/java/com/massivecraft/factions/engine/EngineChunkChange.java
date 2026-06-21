@@ -1,5 +1,6 @@
 package com.massivecraft.factions.engine;
 
+import com.massivecraft.factions.ClaimType;
 import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
@@ -176,10 +177,13 @@ public class EngineChunkChange extends Engine
 				return;
 			}
 
-			// ... ensure claims are properly connected ...
+			// ... ensure claims are properly connected (raid claims are exempt) ...
 			if
 			(
-				// If claims must be connected ...
+				// If this is not a raid claim ...
+			event.getClaimType() != ClaimType.RAID
+				// ... and claims must be connected ...
+			&&
 			MConf.get().claimsMustBeConnected
 			// ... and this faction already has claimed something on this map (meaning it's not their first claim) ...
 			&&

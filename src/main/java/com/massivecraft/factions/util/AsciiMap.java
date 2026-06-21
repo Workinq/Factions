@@ -4,6 +4,7 @@ import com.massivecraft.factions.RelationParticipator;
 import com.massivecraft.factions.entity.Board;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.MConf;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.mson.Mson;
@@ -79,6 +80,8 @@ public class AsciiMap
 	private boolean overflown = false;
 	public boolean isOverflown() { return this.overflown; }
 	public void setOverflown(boolean overflown) { this.overflown = overflown; }
+
+	private boolean containsRaidClaim = false;
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
@@ -158,6 +161,11 @@ public class AsciiMap
 			Board board = BoardColl.get().get(chunk);
 			Faction hereFaction = board.getFactionAt(chunk);
 			Mson factionChar = isMiddle ? KEY_MIDDLE : this.getCharFaction(hereFaction);
+			if ( ! isMiddle && board.isRaidClaim(chunk))
+			{
+				factionChar = factionChar.color(MConf.get().colorRaidClaim);
+				this.containsRaidClaim = true;
+			}
 
 			if (isMiddle)
 			{
@@ -242,6 +250,8 @@ public class AsciiMap
 			ret.add(mson(factionChar, LEGEND_SEPARATOR, here.getName()).color(color));
 		}
 		
+		if (this.containsRaidClaim) ret.add(mson("Raid Claim").color(MConf.get().colorRaidClaim));
+
 		// Add overflown message if needed
 		if (this.isOverflown()) ret.add(OVERFLOW_MESSAGE);
 		

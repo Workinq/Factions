@@ -1,5 +1,6 @@
 package com.massivecraft.factions.event;
 
+import com.massivecraft.factions.ClaimType;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
@@ -46,13 +47,26 @@ public class EventFactionsChunksChange extends EventFactionsAbstractSender
 	
 	private final Map<EventFactionsChunkChangeType, Set<PS>> typeChunks;
 	public Map<EventFactionsChunkChangeType, Set<PS>> getTypeChunks() { return this.typeChunks; }
+
+	private final ClaimType claimType;
+	public ClaimType getClaimType() { return this.claimType; }
+	public boolean isRaidClaim() { return this.claimType == ClaimType.RAID; }
+
+	private final Long expiryMillis;
+	public Long getExpiryMillis() { return this.expiryMillis; }
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 	
 	public EventFactionsChunksChange(CommandSender sender, Set<PS> chunks, Faction newFaction) {
+		this(sender, chunks, newFaction, ClaimType.NORMAL, null);
+	}
+
+	public EventFactionsChunksChange(CommandSender sender, Set<PS> chunks, Faction newFaction, ClaimType claimType, Long expiryMillis) {
 		super(sender);
+		this.claimType = (claimType == null ? ClaimType.NORMAL : claimType);
+		this.expiryMillis = expiryMillis;
 		chunks = PS.getDistinctChunks(chunks);
 		this.chunks = Collections.unmodifiableSet(chunks);
 		this.newFaction = newFaction;

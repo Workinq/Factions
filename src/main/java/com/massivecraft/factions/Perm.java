@@ -210,6 +210,8 @@ public enum Perm implements Identified
 	AUDIT_LIST,
 	AUDIT_GUI,
 	AUDIT_ADMIN,
+	RAIDCLAIM,
+	RAIDCLAIM_REMOVE,
 
 	// END OF LIST
 	;

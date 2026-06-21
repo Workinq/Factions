@@ -1,6 +1,7 @@
 package com.massivecraft.factions.entity;
 
 import com.massivecraft.factions.Chat;
+import com.massivecraft.factions.ClaimType;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.FactionsIndex;
 import com.massivecraft.factions.FactionsParticipator;
@@ -1181,6 +1182,11 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 
 	public boolean tryClaim(Faction newFaction, Collection<PS> pss, String formatOne, String formatMany)
 	{
+		return this.tryClaim(newFaction, pss, formatOne, formatMany, ClaimType.NORMAL, null);
+	}
+
+	public boolean tryClaim(Faction newFaction, Collection<PS> pss, String formatOne, String formatMany, ClaimType claimType, Long expiryMillis)
+	{
 		// Args
 		if (formatOne == null) formatOne = "<h>%s<i> %s <h>%d <i>chunk %s<i>.";
 		if (formatMany == null) formatMany = "<h>%s<i> %s <h>%d <i>chunks near %s<i>.";
@@ -1216,14 +1222,21 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 			msg("<g>Do you know how to code? Please send us a pull request <3, sorry.");
 			return false;
 		}
-		EventFactionsChunksChange event = new EventFactionsChunksChange(sender, chunks, newFaction);
+		EventFactionsChunksChange event = new EventFactionsChunksChange(sender, chunks, newFaction, claimType, expiryMillis);
 		event.run();
 		if (event.isCancelled()) return false;
 
 		// Apply
 		for (PS chunk : chunks)
 		{
-			BoardColl.get().setFactionAt(chunk, newFaction);
+			if (claimType == ClaimType.RAID)
+			{
+				BoardColl.get().setRaidClaimAt(chunk, newFaction, expiryMillis);
+			}
+			else
+			{
+				BoardColl.get().setFactionAt(chunk, newFaction);
+			}
 		}
 
 		// Inform

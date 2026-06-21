@@ -41,6 +41,7 @@ public class Board extends Entity<Board> implements BoardInterface
 	public Board load(Board that)
 	{
 		this.map = that.map;
+		this.rebuildRaidClaims();
 		
 		return this;
 	}
@@ -63,6 +64,8 @@ public class Board extends Entity<Board> implements BoardInterface
 	public Map<PS, TerritoryAccess> map;
 	public Map<PS, TerritoryAccess> getMap() { return Collections.unmodifiableMap(this.map); }
 	public Map<PS, TerritoryAccess> getMapRaw() { return this.map; }
+
+	private transient Map<PS, Long> raidClaims = new ConcurrentHashMap<>();
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
@@ -112,10 +115,19 @@ public class Board extends Entity<Board> implements BoardInterface
 		if (territoryAccess == null || (territoryAccess.getHostFactionId().equals(Factions.ID_NONE) && territoryAccess.isDefault()))
 		{	
 			this.map.remove(ps);
+			this.raidClaims.remove(ps);
 		}
 		else
 		{
 			this.map.put(ps, territoryAccess);
+			if (territoryAccess.isRaidClaim())
+			{
+				this.raidClaims.put(ps, territoryAccess.getExpiryMillis());
+			}
+			else
+			{
+				this.raidClaims.remove(ps);
+			}
 		}
 		
 		this.changed();
@@ -152,6 +164,41 @@ public class Board extends Entity<Board> implements BoardInterface
 			
 			PS ps = entry.getKey();
 			this.removeAt(ps);
+		}
+	}
+
+	// RAID CLAIMS
+
+	public boolean isRaidClaim(PS ps)
+	{
+		return this.raidClaims.containsKey(ps.getChunkCoords(true));
+	}
+
+	public Long getRaidClaimExpiry(PS ps)
+	{
+		return this.raidClaims.get(ps.getChunkCoords(true));
+	}
+
+	public Map<PS, Long> getRaidClaims()
+	{
+		Map<PS, Long> ret = new MassiveMap<>();
+		for (Entry<PS, Long> entry : this.raidClaims.entrySet())
+		{
+			ret.put(entry.getKey().withWorld(this.getId()), entry.getValue());
+		}
+		return ret;
+	}
+
+	private void rebuildRaidClaims()
+	{
+		if (this.raidClaims == null) this.raidClaims = new ConcurrentHashMap<>();
+		else this.raidClaims.clear();
+
+		for (Entry<PS, TerritoryAccess> entry : this.map.entrySet())
+		{
+			TerritoryAccess ta = entry.getValue();
+			if ( ! ta.isRaidClaim()) continue;
+			this.raidClaims.put(entry.getKey(), ta.getExpiryMillis());
 		}
 	}
 

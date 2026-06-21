@@ -1,6 +1,7 @@
 package com.massivecraft.factions.entity;
 
 import com.massivecraft.factions.BoardInterface;
+import com.massivecraft.factions.ClaimType;
 import com.massivecraft.factions.TerritoryAccess;
 import com.massivecraft.massivecore.collections.MassiveMap;
 import com.massivecraft.massivecore.collections.MassiveSet;
@@ -115,6 +116,39 @@ public class BoardColl extends Coll<Board> implements BoardInterface
 		}
 	}
 	
+	// RAID CLAIMS
+
+	public void setRaidClaimAt(PS ps, Faction faction, long expiryMillis)
+	{
+		this.setTerritoryAccessAt(ps, TerritoryAccess.valueOf(faction.getId(), null, null, null, ClaimType.RAID, expiryMillis));
+	}
+
+	public boolean isRaidClaim(PS ps)
+	{
+		if (ps == null) return false;
+		Board board = this.get(ps.getWorld());
+		if (board == null) return false;
+		return board.isRaidClaim(ps);
+	}
+
+	public Long getRaidClaimExpiry(PS ps)
+	{
+		if (ps == null) return null;
+		Board board = this.get(ps.getWorld());
+		if (board == null) return null;
+		return board.getRaidClaimExpiry(ps);
+	}
+
+	public Map<PS, Long> getRaidClaims()
+	{
+		Map<PS, Long> ret = new MassiveMap<>();
+		for (Board board : this.getAll())
+		{
+			ret.putAll(board.getRaidClaims());
+		}
+		return ret;
+	}
+
 	// CHUNKS
 	
 	@Override
