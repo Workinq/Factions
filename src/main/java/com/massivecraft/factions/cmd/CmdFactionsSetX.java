@@ -58,18 +58,28 @@ public abstract class CmdFactionsSetX extends FactionsCommand
 		final Faction newFaction = this.getNewFaction();
 		Set<PS> chunks = this.getChunks();
 
+		ClaimType claimType = this.getClaimType();
 		Long expiryMillis = null;
-		if (this.getClaimType() == ClaimType.RAID)
+		if (claimType == ClaimType.RAID)
 		{
 			if (chunks == null) return;
 			if ( ! MConf.get().raidClaimsEnabled) throw new MassiveException().setMsg("<b>Raid claims are disabled.");
-			chunks = this.filterWilderness(chunks);
-			if (chunks.isEmpty()) throw new MassiveException().setMsg("<b>Raid claims can only be placed on wilderness.");
-			expiryMillis = System.currentTimeMillis() + MConf.get().raidClaimExpiryMillis;
+			if (this.isClaim())
+			{
+				chunks = this.filterWilderness(chunks);
+				if (chunks.isEmpty()) throw new MassiveException().setMsg("<b>Raid claims can only be placed on wilderness.");
+				expiryMillis = System.currentTimeMillis() + MConf.get().raidClaimExpiryMillis;
+			}
+			else
+			{
+				chunks = this.filterRaidClaims(chunks);
+				if (chunks.isEmpty()) throw new MassiveException().setMsg("<b>You have no raid claims here to remove.");
+				claimType = ClaimType.NORMAL;
+			}
 		}
 		
 		// Apply / Inform
-		msender.tryClaim(newFaction, chunks, this.getFormatOne(), this.getFormatMany(), this.getClaimType(), expiryMillis);
+		msender.tryClaim(newFaction, chunks, this.getFormatOne(), this.getFormatMany(), claimType, expiryMillis);
 	}
 
 	private Set<PS> filterWilderness(Set<PS> chunks)
@@ -78,6 +88,18 @@ public abstract class CmdFactionsSetX extends FactionsCommand
 		for (PS chunk : chunks)
 		{
 			if ( ! BoardColl.get().getFactionAt(chunk).isNone()) continue;
+			ret.add(chunk);
+		}
+		return ret;
+	}
+
+	private Set<PS> filterRaidClaims(Set<PS> chunks)
+	{
+		Set<PS> ret = new MassiveSet<>();
+		for (PS chunk : chunks)
+		{
+			if ( ! BoardColl.get().isRaidClaim(chunk)) continue;
+			if (BoardColl.get().getFactionAt(chunk) != msenderFaction && ! msender.isOverriding()) continue;
 			ret.add(chunk);
 		}
 		return ret;

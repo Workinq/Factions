@@ -1,26 +1,44 @@
 package com.massivecraft.factions.cmd;
 
+import com.massivecraft.factions.ClaimType;
 import com.massivecraft.factions.Perm;
-import com.massivecraft.factions.entity.BoardColl;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
-import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
-import com.massivecraft.massivecore.ps.PS;
 
-import java.util.Collections;
+import java.util.ArrayList;
 
-public class 	CmdFactionsRaidunclaim extends FactionsCommand
+public class CmdFactionsRaidunclaim extends FactionsCommand
 {
+	// -------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------- //
+
+	public CmdFactionsSetOne cmdFactionsRaidunclaimOne = new CmdFactionsSetOne(false);
+	public CmdFactionsSetAt cmdFactionsRaidunclaimAt = new CmdFactionsSetAt(false);
+	public CmdFactionsSetFill cmdFactionsRaidunclaimFill = new CmdFactionsSetFill(false);
+	public CmdFactionsSetSquare cmdFactionsRaidunclaimSquare = new CmdFactionsSetSquare(false);
+	public CmdFactionsSetCircle cmdFactionsRaidunclaimCircle = new CmdFactionsSetCircle(false);
+	public CmdFactionsSetLine cmdFactionsRaidunclaimLine = new CmdFactionsSetLine(false);
+
 	// -------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------- //
 
 	public CmdFactionsRaidunclaim()
 	{
-		this.addRequirements(RequirementIsPlayer.get());
-		this.addRequirements(RequirementHasPerm.get(Perm.RAIDUNCLAIM));
+		CmdFactionsSetX[] variants = {
+			this.cmdFactionsRaidunclaimOne,
+			this.cmdFactionsRaidunclaimAt,
+			this.cmdFactionsRaidunclaimFill,
+			this.cmdFactionsRaidunclaimSquare,
+			this.cmdFactionsRaidunclaimCircle,
+			this.cmdFactionsRaidunclaimLine,
+		};
+		for (CmdFactionsSetX variant : variants)
+		{
+			variant.setClaimType(ClaimType.RAID);
+			variant.addRequirements(RequirementHasPerm.get(Perm.RAIDUNCLAIM));
+		}
 	}
 
 	// -------------------------------------------- //
@@ -30,14 +48,7 @@ public class 	CmdFactionsRaidunclaim extends FactionsCommand
 	@Override
 	public void perform() throws MassiveException
 	{
-		PS chunk = PS.valueOf(me.getLocation()).getChunk(true);
-		if ( ! BoardColl.get().isRaidClaim(chunk)) throw new MassiveException().setMsg("<b>You are not standing on a raid claim.");
-
-		Faction faction = BoardColl.get().getFactionAt(chunk);
-		if (faction != msenderFaction && ! msender.isOverriding()) throw new MassiveException().setMsg("<b>This raid claim does not belong to your faction.");
-
-		msender.tryClaim(FactionColl.get().getNone(), Collections.singleton(chunk), null, null);
-		msg("<g>Raid claim removed.");
+		this.cmdFactionsRaidunclaimOne.execute(sender, new ArrayList<>());
 	}
 
 }
