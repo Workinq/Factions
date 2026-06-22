@@ -60,6 +60,9 @@ public class CmdFactionsDrain extends FactionsCommand
             // Keep only members ranked below the sender, as only they can be drained.
             offlineMembers.removeIf(mplayer -> ! msender.getRole().isMoreThan(mplayer.getRole()));
 
+            // Keep only members who have opted in to having their balance drained.
+            offlineMembers.removeIf(mplayer -> ! mplayer.isDrainToggled());
+
             all = true;
 
             mplayers.addAll(offlineMembers);
@@ -83,6 +86,12 @@ public class CmdFactionsDrain extends FactionsCommand
             if (msender.getRole().isAtMost(mplayer.getRole()))
             {
                 msg("%s <b>can't drain %s's <b>balance because their rank is equal to or higher than yours.", msender.describeTo(msender, true), mplayer.describeTo(msender));
+                continue;
+            }
+
+            if ( ! mplayer.isDrainToggled())
+            {
+                msg("%s <b>can't drain %s's <b>balance because they have opted out of being drained.", msender.describeTo(msender, true), mplayer.describeTo(msender));
                 continue;
             }
 
