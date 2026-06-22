@@ -11,6 +11,7 @@ public class CmdFactionsRoster extends FactionsCommand
     // -------------------------------------------- //
 
     public CmdFactionsRosterAdd cmdFactionsRosterAdd = new CmdFactionsRosterAdd();
+    public CmdFactionsRosterRemove cmdFactionsRosterRemove = new CmdFactionsRosterRemove();
     public CmdFactionsRosterSetrank cmdFactionsRosterSetrank = new CmdFactionsRosterSetrank();
     public CmdFactionsRosterList cmdFactionsRosterList = new CmdFactionsRosterList();
 
