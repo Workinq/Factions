@@ -61,7 +61,7 @@ public class CmdFactionsMute extends FactionsCommand
             }
 
             msenderFaction.msg("%s<i> muted %s<i>", msender.describeTo(msenderFaction, true), mplayer.describeTo(msenderFaction));
-            FactionMute factionMute = new FactionMute(mplayer.getId(),msender.getId(),System.currentTimeMillis());
+            FactionMute factionMute = new FactionMute(msender.getId(), mplayer.getId(), System.currentTimeMillis());
             msenderFaction.mute(factionMute);
 
             AuditUtil.log(AuditCategory.MUTE, AuditAction.MUTE_ADD, sender, msenderFaction, mplayer.getId());

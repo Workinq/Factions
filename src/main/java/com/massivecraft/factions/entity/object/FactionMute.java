@@ -40,8 +40,8 @@ public class FactionMute extends EntityInternal<FactionMute>
 
     public FactionMute(String muterId, String mutedId, long creationMillis)
     {
-        this.muteId = muterId;
-        this.muterId = mutedId;
+        this.muteId = mutedId;
+        this.muterId = muterId;
         this.creationMillis = creationMillis;
     }
 

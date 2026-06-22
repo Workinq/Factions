@@ -36,6 +36,12 @@ public class CmdFactionsFf extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
+        if (msenderFaction.isMuted(msender))
+        {
+            msender.msg("<b>You are currently muted in the faction");
+            return;
+        }
+
         // Args
         List<String> messages = this.readArg();
         StringBuilder builder = new StringBuilder();
