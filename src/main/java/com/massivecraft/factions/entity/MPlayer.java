@@ -989,6 +989,15 @@ public class MPlayer extends SenderEntity<MPlayer> implements FactionsParticipat
 	{
 		String ret = "";
 		ret += color;
+		if (this.isAlt())
+		{
+			String altPrefix = MConf.get().altPrefix;
+			if (altPrefix != null && ! altPrefix.isEmpty())
+			{
+				ret += Txt.parse(altPrefix);
+				ret += color;
+			}
+		}
 		ret += this.getRole().getPrefix();
 		if (something != null && something.length() > 0)
 		{

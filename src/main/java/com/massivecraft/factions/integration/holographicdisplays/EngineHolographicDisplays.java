@@ -69,11 +69,14 @@ public class EngineHolographicDisplays extends Engine
                             return Txt.parse("<i>Factionless<i> %d online", faction.getMPlayersWhereOnline(true).size());
                         }
 
+                        int onlineCount = (int) faction.getMPlayersWhereOnline(true).stream().filter(mplayer -> mplayer.isntAlt()).count();
+                        int memberCount = faction.getMPlayersWhereAlt(false).size();
+
                         return Txt.parse(
                                 "%s<i> %d/%d online",
                                 faction.getName(),
-                                faction.getMPlayersWhereOnline(true).size(),
-                                faction.getMPlayers().size()
+                                onlineCount,
+                                memberCount
                         );
                     }
                     catch (IndexOutOfBoundsException e)

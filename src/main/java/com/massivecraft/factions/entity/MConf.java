@@ -663,6 +663,9 @@ public class MConf extends Entity<MConf>
 	public String prefixMember = "+";
 	public String prefixRecruit = "-";
 
+	// Prefix prepended to alt members' names wherever players are listed. Set blank to disable.
+	public String altPrefix = "<silver>[ALT] ";
+
 	// -------------------------------------------- //
 	// EXPLOITS
 	// -------------------------------------------- //
