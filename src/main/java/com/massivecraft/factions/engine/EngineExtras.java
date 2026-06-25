@@ -19,6 +19,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -109,6 +110,23 @@ public class EngineExtras extends Engine
             if (args.length != 2) return;
 
             event.setMessage(args[0] + " tnt unfill 20");
+        }
+    }
+
+    // -------------------------------------------- //
+    // CHEST SEE
+    // -------------------------------------------- //
+
+    @EventHandler
+    public void onChestSee(PlayerCommandPreprocessEvent event)
+    {
+        String message = event.getMessage();
+        if (StringUtils.startsWithIgnoreCase(message, "/f chestsee") || StringUtils.startsWithIgnoreCase(message, "/f vaultsee"))
+        {
+            String[] args = message.split(" ");
+
+            String arguments = args.length > 2 ? " " + String.join(" ", Arrays.copyOfRange(args, 2, args.length)) : "";
+            event.setMessage(args[0] + " chest see" + arguments);
         }
     }
 

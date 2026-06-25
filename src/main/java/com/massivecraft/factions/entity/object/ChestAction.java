@@ -17,15 +17,19 @@ public class ChestAction
     private final ItemStack item;
     public ItemStack getItem() { return item; }
 
+    private final int page;
+    public int getPage() { return Math.max(page, 1); }
+
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public ChestAction(String playerId, long timestamp, ItemStack item)
+    public ChestAction(String playerId, long timestamp, ItemStack item, int page)
     {
         this.playerId = playerId;
         this.timestamp = timestamp;
         this.item = item;
+        this.page = page;
     }
 
 }

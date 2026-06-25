@@ -51,7 +51,8 @@ public class CmdFactionsChestLog extends FactionsCommand
             long timeRemaining = System.currentTimeMillis() - chestAction.getTimestamp();
             String timeSince = Txt.parse("<a>%s", TimeUtil.formatTime(timeRemaining, true));
 
-            Mson mson = mson(Txt.parse("%s <i>%s <h>%sx %s <i>%s ago", MPlayer.get(chestAction.getPlayerId()).describeTo(msender, true), chestAction.getItem().getAmount() < 0 ? "took" : "put", Math.abs(chestAction.getItem().getAmount()), Txt.getItemName(chestAction.getItem()), timeSince));
+            String chestLabel = chestAction.getPage() > 1 ? Txt.parse(" <i>(chest #%s)", chestAction.getPage()) : "";
+            Mson mson = mson(Txt.parse("%s <i>%s <h>%sx %s%s <i>%s ago", MPlayer.get(chestAction.getPlayerId()).describeTo(msender, true), chestAction.getItem().getAmount() < 0 ? "took" : "put", Math.abs(chestAction.getItem().getAmount()), Txt.getItemName(chestAction.getItem()), chestLabel, timeSince));
             // TODO: Make the tooltip show all the item's properties
             mson = mson.tooltip(Txt.parse("<k>%s", date));
 

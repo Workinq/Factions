@@ -41,7 +41,7 @@ public class EngineChest extends Engine
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event)
     {
-        if ( ! event.getView().getTitle().endsWith(" - Faction Chest")) return;
+        if ( ! this.isFactionChest(event.getView().getTitle())) return;
 
         Faction faction = this.getFactionFromTitle(event.getView().getTitle());
         if (faction == null) return;
@@ -52,11 +52,13 @@ public class EngineChest extends Engine
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event)
     {
-        if ( ! event.getView().getTitle().endsWith(" - Faction Chest")) return;
+        if ( ! this.isFactionChest(event.getView().getTitle())) return;
 
         Faction faction = this.getFactionFromTitle(event.getView().getTitle());
         if (faction == null) return;
-        faction.saveInventory();
+
+        int page = this.getPageFromTitle(event.getView().getTitle());
+        faction.saveChest(page);
 
         HumanEntity player = event.getPlayer();
         ItemStack[] before = containers.get(player);
@@ -67,7 +69,7 @@ public class EngineChest extends Engine
         ItemStack[] compareInventories = this.compareInventories(before, after);
         for (ItemStack item : compareInventories)
         {
-            faction.addChestAction(new ChestAction(player.getUniqueId().toString(), System.currentTimeMillis(), item));
+            faction.addChestAction(new ChestAction(player.getUniqueId().toString(), System.currentTimeMillis(), item, page));
 
             // Mirror the transaction into the unified audit log (negative amount = taken out).
             int amount = item.getAmount();
@@ -76,6 +78,7 @@ public class EngineChest extends Engine
                 AuditUtil.details()
                     .put("item", Txt.getItemName(item))
                     .put("amount", String.valueOf(Math.abs(amount)))
+                    .put("page", String.valueOf(page))
                     .map());
         }
 
@@ -85,15 +88,22 @@ public class EngineChest extends Engine
     @EventHandler
     public void onFactionNameChange(EventFactionsNameChange event)
     {
-        for (HumanEntity entity : event.getFaction().getInventory().getViewers())
-        {
-            entity.closeInventory();
-        }
+        Faction faction = event.getFaction();
 
-        Inventory old = event.getFaction().getInventory();
-        event.getFaction().setInventory(Bukkit.createInventory(null, old.getSize(), Txt.parse("<gray>%s - Faction Chest", event.getNewName())));
-        event.getFaction().getInventory().setContents(old.getContents());
-        old.clear();
+        for (int page = 1; page <= faction.getChestCount(); page++)
+        {
+            Inventory old = faction.getChest(page);
+
+            for (HumanEntity entity : old.getViewers()) entity.closeInventory();
+
+            String title = Txt.parse("<gray>%s - Faction Chest", event.getNewName());
+            if (page > 1) title += " #" + page;
+
+            Inventory renamed = Bukkit.createInventory(null, old.getSize(), title);
+            renamed.setContents(old.getContents());
+            faction.setChest(page, renamed);
+            old.clear();
+        }
     }
 
     private class ItemStackComparator implements Comparator<ItemStack>
@@ -218,6 +228,27 @@ public class EngineChest extends Engine
         catch (Exception e)
         {
             return null;
+        }
+    }
+
+    private boolean isFactionChest(String title)
+    {
+        if (title == null) return false;
+        return ChatColor.stripColor(title).contains(" - Faction Chest");
+    }
+
+    private int getPageFromTitle(String title)
+    {
+        String stripped = ChatColor.stripColor(title);
+        int hashIndex = stripped.lastIndexOf('#');
+        if (hashIndex < 0) return 1;
+        try
+        {
+            return Integer.parseInt(stripped.substring(hashIndex + 1).trim());
+        }
+        catch (NumberFormatException e)
+        {
+            return 1;
         }
     }
 

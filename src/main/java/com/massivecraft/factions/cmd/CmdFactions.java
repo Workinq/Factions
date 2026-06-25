@@ -79,7 +79,6 @@ public class CmdFactions extends FactionsCommand
 	public CmdFactionsClean cmdFactionsClean = new CmdFactionsClean();
 	public CmdFactionsTnt cmdFactionsTnt = new CmdFactionsTnt();
 	public CmdFactionsChest cmdFactionsChest = new CmdFactionsChest();
-	public CmdFactionsVault cmdFactionsVault = new CmdFactionsVault();
 	public CmdFactionsStealth cmdFactionsStealth = new CmdFactionsStealth();
 	public CmdFactionsFly cmdFactionsFly = new CmdFactionsFly();
 	public CmdFactionsWarp cmdFactionsWarp = new CmdFactionsWarp();

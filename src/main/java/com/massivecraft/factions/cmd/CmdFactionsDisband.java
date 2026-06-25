@@ -66,16 +66,19 @@ public class CmdFactionsDisband extends FactionsCommand
 			msg("<i>You disbanded <h>%s<i>." , faction.describeTo(msender));
 		}
 
-		// Remove everything from faction chest
-		Inventory inventory = faction.getInventory();
-		for (HumanEntity entity : inventory.getViewers()) entity.closeInventory();
-
-		for (int i = 0; i < inventory.getSize(); i++)
+		// Remove everything from every faction chest page
+		for (int page = 1; page <= faction.getChestCount(); page++)
 		{
-			if (inventory.getItem(i) == null) continue;
+			Inventory inventory = faction.getChest(page);
+			for (HumanEntity entity : inventory.getViewers()) entity.closeInventory();
 
-			me.getWorld().dropItemNaturally(me.getLocation(), inventory.getItem(i));
-			inventory.setItem(i, null);
+			for (int i = 0; i < inventory.getSize(); i++)
+			{
+				if (inventory.getItem(i) == null) continue;
+
+				me.getWorld().dropItemNaturally(me.getLocation(), inventory.getItem(i));
+				inventory.setItem(i, null);
+			}
 		}
 		msender.msg("<i>As result of disbanding <h>%s<i>, all /f chest contents have been dropped at your feet.", new Object[] { faction.describeTo(this.msender) });
 		

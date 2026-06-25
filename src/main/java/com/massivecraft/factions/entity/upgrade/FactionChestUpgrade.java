@@ -2,7 +2,6 @@ package com.massivecraft.factions.entity.upgrade;
 
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MUpgrade;
-import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -50,21 +49,24 @@ public class FactionChestUpgrade extends AbstractUpgrade
    @Override
    public void onUpgrade(Faction faction)
    {
-      // Verify
-      if (faction.getInventory() == null) return;
-
       // Args
-      int size = Integer.parseInt(MUpgrade.get().getUpgradeByName(MUpgrade.get().factionChestUpgrade.getUpgradeName()).getCurrentDescription()[faction.getLevel(MUpgrade.get().factionChestUpgrade.getUpgradeName()) - 1].split(" ")[0]);
+      int size = faction.getChestSize();
 
-      // Close
-      for (HumanEntity entity : faction.getInventory().getViewers()) entity.closeInventory();
+      // Resize every page
+      for (int page = 1; page <= faction.getChestCount(); page++)
+      {
+         Inventory old = faction.getChest(page);
 
-      // Upgrade
-      Inventory old = faction.getInventory();
-      faction.setInventory(Bukkit.createInventory(null, size, Txt.parse("<gray>%s - Faction Chest", faction.getName())));
-      faction.getInventory().setContents(old.getContents());
-      faction.saveInventory();
-      old.clear();
+         // Close
+         for (HumanEntity entity : old.getViewers()) entity.closeInventory();
+
+         // Upgrade
+         Inventory resized = Bukkit.createInventory(null, size, faction.getChestTitle(page));
+         resized.setContents(old.getContents());
+         faction.setChest(page, resized);
+         faction.saveChest(page);
+         old.clear();
+      }
    }
 
 }

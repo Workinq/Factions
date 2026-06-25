@@ -35,6 +35,7 @@ import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
@@ -96,7 +97,7 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// VERSION
 	// -------------------------------------------- //
 
-	public int version = 2;
+	public int version = 3;
 
 	// -------------------------------------------- //
 	// FIELDS: RAW
@@ -137,22 +138,13 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	// When a player uses /f tnt deposit <amount>, the tnt in the faction bank will increase.
 	private Integer tnt = null;
 
-	// Factions will have their own faction chest in which they can store contents.
-	// By default the chest will contain 27 slots however, the faction can upgrade this.
-	// When first creating a faction, the chest will be empty.
-	// Is transient as the Inventory object cannot be serialised.
-	// TODO: Maybe look into using MassiveCore's AdapterInventory class
-	private transient Inventory inventory = null;
+	// The live faction chests, one per page (page 1 is free, more via the chest-count upgrade).
+	// Transient because the Inventory objects cannot be serialised; cached and indexed by page - 1.
+	private transient List<Inventory> chests = new MassiveList<>();
 
-	// This is the serialized string for the inventories contents.
+	// The serialized contents of each chest, indexed by page minus one.
 	// This cannot corrupt in the slightest or the entire inventory will reset.
-	// Or worse, the server will spit errors non-stop.
-	private String inventorySerialized = null;
-
-	// The faction vault is a second storage container unlocked via the Faction Vault upgrade.
-	// It mirrors the faction chest: a transient Inventory plus its serialized contents.
-	private transient Inventory vault = null;
-	private String vaultSerialized = null;
+	private MassiveList<String> chestsSerialized = new MassiveList<>();
 
 	// This contains all the interactions that have been made with the faction chest.
 	// Whenever a player takes or adds an item to the chest, an action will be added.
@@ -589,26 +581,47 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 	}
 
 	// -------------------------------------------- //
-	// FIELD: inventory
+	// FIELD: chests
 	// -------------------------------------------- //
 
-	public void saveInventory()
+	public int getChestCount()
 	{
-		if (inventory == null) return;
-		this.setInventorySerialized(SerializationUtil.toBase64(inventory));
+		return 1 + this.getLevel(MUpgrade.get().chestCountUpgrade.getUpgradeName());
 	}
 
-	public Inventory getInventory()
+	public int getChestSize()
 	{
-		Inventory ret = inventory;
+		int size = 27 + 9 * this.getLevel(MUpgrade.get().factionChestUpgrade.getUpgradeName());
+		return Math.min(size, 54);
+	}
 
+	public String getChestTitle(int page)
+	{
+		String title = Txt.parse("<gray>%s - Faction Chest", this.getName());
+		return page <= 1 ? title : title + " #" + page;
+	}
+
+	public Inventory getChest(int page)
+	{
+		if (page < 1) page = 1;
+
+		while (this.chests.size() < page) this.chests.add(null);
+
+		Inventory ret = this.chests.get(page - 1);
 		if (ret == null)
 		{
-			String inventorySerialized = this.getInventorySerialized();
-			ret = SerializationUtil.fromBase64(inventorySerialized, Txt.parse("<gray>%s - Faction Chest", this.getName()));
+			String serialized = page - 1 < this.chestsSerialized.size() ? this.chestsSerialized.get(page - 1) : null;
+			if (serialized == null || serialized.trim().isEmpty())
+			{
+				ret = Bukkit.createInventory(null, this.getChestSize(), this.getChestTitle(page));
+			}
+			else
+			{
+				ret = SerializationUtil.fromBase64(serialized, this.getChestTitle(page));
+			}
 
-			// Set inventory.
-			this.inventory = ret;
+			// Set chest.
+			this.chests.set(page - 1, ret);
 
 			// Mark as changed
 			this.changed();
@@ -617,108 +630,27 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		return ret;
 	}
 
-	public void setInventory(Inventory inventory)
+	public void saveChest(int page)
 	{
-		// Detect no change
-		if (MUtil.equals(this.inventory, inventory)) return;
+		if (page < 1) return;
+		if (this.chests.size() < page) return;
 
-		// Apply
-		this.inventory = inventory;
+		Inventory chest = this.chests.get(page - 1);
+		if (chest == null) return;
+
+		while (this.chestsSerialized.size() < page) this.chestsSerialized.add(null);
+		this.chestsSerialized.set(page - 1, SerializationUtil.toBase64(chest));
 
 		// Mark as changed
 		this.changed();
 	}
 
-	// -------------------------------------------- //
-	// FIELD: inventorySerialized
-	// -------------------------------------------- //
-
-	public String getInventorySerialized()
+	public void setChest(int page, Inventory chest)
 	{
-		// Clean input
-		String ret = this.inventorySerialized;
-		if (ret == null) ret = "";
+		if (page < 1) return;
 
-		return ret;
-	}
-
-	public void setInventorySerialized(String inventorySerialized)
-	{
-		// Clean input
-		String target = inventorySerialized;
-		if (target == null || target.equals("")) target = null;
-
-		// Detect no change
-		if (MUtil.equals(this.inventorySerialized, target)) return;
-
-		// Apply
-		this.inventorySerialized = target;
-
-		// Mark as changed
-		this.changed();
-	}
-
-	// -------------------------------------------- //
-	// FIELD: vault
-	// -------------------------------------------- //
-
-	public void saveVault()
-	{
-		if (vault == null) return;
-		this.setVaultSerialized(SerializationUtil.toBase64(vault));
-	}
-
-	public Inventory getVault()
-	{
-		Inventory ret = vault;
-
-		if (ret == null)
-		{
-			String vaultSerialized = this.getVaultSerialized();
-			ret = SerializationUtil.fromBase64(vaultSerialized, Txt.parse("<gray>%s - Faction Vault", this.getName()));
-
-			// Set vault.
-			this.vault = ret;
-
-			// Mark as changed
-			this.changed();
-		}
-
-		return ret;
-	}
-
-	public void setVault(Inventory vault)
-	{
-		// Detect no change
-		if (MUtil.equals(this.vault, vault)) return;
-
-		// Apply
-		this.vault = vault;
-
-		// Mark as changed
-		this.changed();
-	}
-
-	public String getVaultSerialized()
-	{
-		// Clean input
-		String ret = this.vaultSerialized;
-		if (ret == null) ret = "";
-
-		return ret;
-	}
-
-	public void setVaultSerialized(String vaultSerialized)
-	{
-		// Clean input
-		String target = vaultSerialized;
-		if (target == null || target.equals("")) target = null;
-
-		// Detect no change
-		if (MUtil.equals(this.vaultSerialized, target)) return;
-
-		// Apply
-		this.vaultSerialized = target;
+		while (this.chests.size() < page) this.chests.add(null);
+		this.chests.set(page - 1, chest);
 
 		// Mark as changed
 		this.changed();
@@ -1161,9 +1093,6 @@ public class Faction extends Entity<Faction> implements FactionsParticipator
 		this.changed();
 	}
 
-	// Recompute the base region as the faction's claimed chunks within MConf.baseRegionRadius of the
-	// core chunk. If the core chunk is no longer claimed by this faction the core and region are cleared.
-	// Returns true if the region was cleared because the core chunk was lost.
 	public boolean recalculateBaseRegion()
 	{
 		PS core = this.getCoreChunk();

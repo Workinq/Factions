@@ -104,7 +104,7 @@ permissions:
   factions.chest: {description: manage the faction chest, default: false}
   factions.chest.open: {description: open the faction chest, default: false}
   factions.chest.log: {description: view faction chest logs, default: false}
-  factions.vault: {description: open the faction vault, default: false}
+  factions.chest.see: {description: view any faction's chest, default: op}
   factions.tnt: {description: manage faction tnt, default: false}
   factions.tnt.balance: {description: view faction tnt balance, default: false}
   factions.tnt.deposit: {description: add tnt to faction tnt bank, default: false}
@@ -307,7 +307,7 @@ permissions:
       factions.chest: true
       factions.chest.open: true
       factions.chest.log: true
-      factions.vault: true
+      factions.chest.see: true
       factions.tnt: true
       factions.tnt.balance: true
       factions.tnt.deposit: true
@@ -529,7 +529,6 @@ permissions:
       factions.chest: true
       factions.chest.open: true
       factions.chest.log: true
-      factions.vault: true
       factions.tnt: true
       factions.tnt.balance: true
       factions.tnt.deposit: true

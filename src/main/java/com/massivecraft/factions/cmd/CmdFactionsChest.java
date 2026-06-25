@@ -2,8 +2,6 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.massivecore.MassiveException;
 
-import java.util.ArrayList;
-
 public class CmdFactionsChest extends FactionsCommand
 {
     // -------------------------------------------- //
@@ -12,6 +10,7 @@ public class CmdFactionsChest extends FactionsCommand
 
     public CmdFactionsChestOpen cmdFactionsChestOpen = new CmdFactionsChestOpen();
     public CmdFactionsChestLog cmdFactionsChestLog = new CmdFactionsChestLog();
+    public CmdFactionsChestSee cmdFactionsChestSee = new CmdFactionsChestSee();
 
     // -------------------------------------------- //
     // CONSTRUCT
@@ -20,7 +19,10 @@ public class CmdFactionsChest extends FactionsCommand
     public CmdFactionsChest()
     {
         // Aliases
-        this.addAliases("pv");
+        this.addAliases("pv", "vault");
+
+        // Parameters
+        this.setOverflowSensitive(false);
     }
 
     // -------------------------------------------- //
@@ -30,7 +32,7 @@ public class CmdFactionsChest extends FactionsCommand
     @Override
     public void perform() throws MassiveException
     {
-        cmdFactionsChestOpen.execute(sender, new ArrayList<>());
+        cmdFactionsChestOpen.execute(sender, this.getArgs());
     }
 
 }
