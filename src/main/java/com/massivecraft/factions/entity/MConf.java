@@ -60,7 +60,7 @@ public class MConf extends Entity<MConf>
 	// VERSION
 	// -------------------------------------------- //
 
-	public int version = 4;
+	public int version = 5;
 
 	// -------------------------------------------- //
 	// AUDIT LOG
@@ -126,7 +126,7 @@ public class MConf extends Entity<MConf>
 	public double taskPlayerDataRemoveMinutes = 5;
 	public double taskEconLandRewardMinutes = 20;
 	public double taskRemindBaseRegionMinutes = 5;
-	public double taskRingFactionAlarmMinutes = 0.25;
+	public double taskRingFactionAlarmSeconds = 5;
 	public double taskRaidClaimExpireMinutes = 1;
 	public double taskRaidEndMinutes = 0.5;
 
