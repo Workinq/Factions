@@ -624,6 +624,12 @@ public class MConf extends Entity<MConf>
 	public int chunkAltRadius = 0;
 
 	// -------------------------------------------- //
+	// SCOREBOARD
+	// -------------------------------------------- //
+
+	public boolean scoreboardEnabled = true;
+
+	// -------------------------------------------- //
 	// COLORS
 	// -------------------------------------------- //
 

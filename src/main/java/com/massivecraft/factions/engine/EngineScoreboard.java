@@ -15,10 +15,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
+
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class EngineScoreboard extends Engine
 {
@@ -29,247 +36,287 @@ public class EngineScoreboard extends Engine
     private static EngineScoreboard i = new EngineScoreboard();
     public static EngineScoreboard get() { return i; }
 
+    // -------------------------------------------- //
+    // CONSTANTS
+    // -------------------------------------------- //
+
+    private static final String TEAM_ENEMY = "factions-enemy";
+    private static final String TEAM_ALLY = "factions-ally";
+    private static final String TEAM_TRUCE = "factions-truce";
+    private static final String TEAM_MEMBER = "factions-member";
+    private static final String TEAM_NEUTRAL = "factions-neutral";
+    private static final String TEAM_WILDERNESS = "factions-wilderness";
+    private static final String TEAM_FOCUSED = "factions-focused";
+
+    private static final long DELAY_JOIN = 20L;
+    private static final long DELAY_CHANGE = 3L;
+
+    // -------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------- //
+
+    private final Map<UUID, Scoreboard> managedBoards = new HashMap<>();
+
+    // -------------------------------------------- //
+    // ACTIVATE
+    // -------------------------------------------- //
+
+    @Override
+    public void setActiveInner(boolean active)
+    {
+        if ( ! active)
+        {
+            this.releaseBoards();
+            return;
+        }
+        if ( ! this.hasPlugin()) return;
+
+        // Adopt players already online (eg on a reload), who never fire a join.
+        Bukkit.getScheduler().runTaskLater(Factions.get(), () ->
+        {
+            for (Player player : Bukkit.getOnlinePlayers())
+            {
+                this.ensureManaged(player);
+                this.resendTab(player);
+            }
+        }, DELAY_JOIN);
+    }
+
+    // -------------------------------------------- //
+    // LISTENERS
+    // -------------------------------------------- //
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-        // Task
-        new BukkitRunnable()
+        Player player = event.getPlayer();
+        Bukkit.getScheduler().runTaskLater(Factions.get(), () ->
         {
-            @Override
-            public void run()
-            {
-                // Resend
-                resendTab(event.getPlayer());
-            }
-        }.runTaskLater(Factions.get(), 20L);
-
-        // Update
-        this.updateTab(event.getPlayer());
-    }
-
-    @EventHandler
-    public void onFactionCreate(EventFactionsCreate event)
-    {
-        // Verify
-        if (event.getMPlayer().getPlayer() == null) return;
-
-        // Update
-        this.updateTab(event.getMPlayer().getPlayer());
-
-        // Resend
-        this.resendTab(event.getMPlayer().getPlayer());
-    }
-
-    @EventHandler
-    public void onFactionDisband(EventFactionsDisband event)
-    {
-        MPlayer mplayer = event.getMPlayer();
-        if (mplayer != null && mplayer.getPlayer() != null)
-        {
-            // Update
-            this.updateTab(mplayer.getPlayer());
-        }
-
-        // Loop - Players
-        for (Player player : event.getFaction().getOnlinePlayers())
-        {
-            // Update
+            this.ensureManaged(player);
+            this.resendTab(player);
             this.updateTab(player);
+        }, DELAY_JOIN);
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event)
+    {
+        Player player = event.getPlayer();
+        this.managedBoards.remove(player.getUniqueId());
+
+        String name = player.getName();
+        for (Map.Entry<UUID, Scoreboard> entry : this.managedBoards.entrySet())
+        {
+            Player owner = Bukkit.getPlayer(entry.getKey());
+            if (owner == null || owner.getScoreboard() != entry.getValue()) continue;
+
+            Team team = entry.getValue().getEntryTeam(name);
+            if (team != null) team.removeEntry(name);
         }
     }
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event)
     {
-        // Resend
         this.resendTab(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onFactionCreate(EventFactionsCreate event)
+    {
+        Player player = event.getMPlayer().getPlayer();
+        if (player == null) return;
+
+        Bukkit.getScheduler().runTaskLater(Factions.get(), () ->
+        {
+            this.ensureManaged(player);
+            this.updateTab(player);
+            this.resendTab(player);
+        }, DELAY_CHANGE);
+    }
+
+    @EventHandler
+    public void onFactionDisband(EventFactionsDisband event)
+    {
+        List<Player> members = event.getFaction().getOnlinePlayers();
+        Bukkit.getScheduler().runTaskLater(Factions.get(), () ->
+        {
+            for (Player member : members) this.updateTab(member);
+        }, DELAY_CHANGE);
     }
 
     @EventHandler
     public void onPlayerMembershipChange(EventFactionsMembershipChange event)
     {
-        // Task
-        new BukkitRunnable()
+        Player player = event.getMPlayer().getPlayer();
+        Faction newFaction = event.getNewFaction();
+        Bukkit.getScheduler().runTaskLater(Factions.get(), () ->
         {
-            @Override
-            public void run()
-            {
-                // Resend
-                resendTab(event.getMPlayer().getPlayer());
-
-                // Loop - Players
-                for (Player player : event.getNewFaction().getOnlinePlayers())
-                {
-                    // Update
-                    updateTab(player);
-                }
-            }
-        }.runTaskLater(Factions.get(), 3L);
+            this.resendTab(player);
+            for (Player member : newFaction.getOnlinePlayers()) this.updateTab(member);
+        }, DELAY_CHANGE);
     }
 
     @EventHandler
     public void onRelationChange(EventFactionsRelationChange event)
     {
-        // Task
-        new BukkitRunnable()
+        Faction faction = event.getFaction();
+        Faction other = event.getOtherFaction();
+        Bukkit.getScheduler().runTaskLater(Factions.get(), () ->
         {
-            @Override
-            public void run()
-            {
-                // Loop - Faction
-                for (Player player : event.getFaction().getOnlinePlayers())
-                {
-                    updateTab(player);
-                }
-
-                // Loop - Other faction
-                for (Player player : event.getOtherFaction().getOnlinePlayers())
-                {
-                    updateTab(player);
-                }
-            }
-        }.runTaskLater(Factions.get(), 3L);
+            for (Player player : faction.getOnlinePlayers()) this.updateTab(player);
+            for (Player player : other.getOnlinePlayers()) this.updateTab(player);
+        }, DELAY_CHANGE);
     }
+
+    // -------------------------------------------- //
+    // OWNERSHIP
+    // -------------------------------------------- //
+
+    private void ensureManaged(Player player)
+    {
+        if ( ! MConf.get().scoreboardEnabled) return;
+        if (player == null || ! player.isOnline()) return;
+        if (this.ownsBoard(player)) return;
+
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        if (manager == null) return;
+
+        // Only take over a pristine main scoreboard, so we never wipe another plugin's display.
+        Scoreboard main = manager.getMainScoreboard();
+        if (player.getScoreboard() != main) return;
+        if ( ! main.getObjectives().isEmpty() || ! main.getTeams().isEmpty()) return;
+
+        Scoreboard board = manager.getNewScoreboard();
+        player.setScoreboard(board);
+        this.managedBoards.put(player.getUniqueId(), board);
+    }
+
+    private boolean ownsBoard(Player player)
+    {
+        Scoreboard ours = this.managedBoards.get(player.getUniqueId());
+        if (ours == null) return false;
+        if (ours != player.getScoreboard())
+        {
+            this.managedBoards.remove(player.getUniqueId());
+            return false;
+        }
+        return true;
+    }
+
+    private void releaseBoards()
+    {
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        Scoreboard main = manager == null ? null : manager.getMainScoreboard();
+        for (Map.Entry<UUID, Scoreboard> entry : this.managedBoards.entrySet())
+        {
+            Player player = Bukkit.getPlayer(entry.getKey());
+            if (main != null && player != null && player.getScoreboard() == entry.getValue())
+            {
+                player.setScoreboard(main);
+            }
+        }
+        this.managedBoards.clear();
+    }
+
+    // -------------------------------------------- //
+    // COLORING
+    // -------------------------------------------- //
 
     public void updateTab(Player player)
     {
-        // Verify
-        if (player == null || !player.isOnline()) return;
+        if ( ! MConf.get().scoreboardEnabled) return;
+        if (player == null || ! player.isOnline()) return;
 
-        // Args
         Faction faction = MPlayer.get(player).getFaction();
+        UUID id = player.getUniqueId();
+        String name = player.getName();
 
-        // Loop
-        for (Player target : Bukkit.getServer().getOnlinePlayers())
+        for (Player target : Bukkit.getOnlinePlayers())
         {
-            Scoreboard scoreboard = target.getScoreboard();
+            if (target == player || ! this.ownsBoard(target)) continue;
 
-            // Team
-            if (scoreboard != Bukkit.getScoreboardManager().getMainScoreboard() && target != player)
-            {
-                Faction targetFaction = MPlayer.get(target).getFaction();
-                Team enemy = this.getTeam(scoreboard, "factions-enemy", MConf.get().colorEnemy);
-                Team ally = this.getTeam(scoreboard, "factions-ally", MConf.get().colorAlly);
-                Team truce = this.getTeam(scoreboard, "factions-truce", MConf.get().colorTruce);
-                Team member = this.getTeam(scoreboard, "factions-member", MConf.get().colorMember);
-                Team neutral = this.getTeam(scoreboard, "factions-neutral", MConf.get().colorNeutral);
-                Team wilderness = this.getTeam(scoreboard, "factions-wilderness", MConf.get().colorWilderness);
-                Team focus = this.getTeam(scoreboard, "factions-focused", MConf.get().colorFocused);
-
-                if (targetFaction.isPlayerFocused(player.getUniqueId()))
-                {
-                    focus.addEntry(player.getName());
-                }
-                else if (faction == null || faction.isNone())
-                {
-                    wilderness.addEntry(player.getName());
-                }
-                else
-                {
-                    Rel relation = faction.getRelationTo(targetFaction);
-                    switch (relation)
-                    {
-                        case TRUCE:
-                            truce.addEntry(player.getName());
-                            continue;
-                        case ALLY:
-                            ally.addEntry(player.getName());
-                            continue;
-                        case ENEMY:
-                            enemy.addEntry(player.getName());
-                            continue;
-                        case NEUTRAL:
-                            neutral.addEntry(player.getName());
-                            continue;
-                        case MEMBER:
-                            member.addEntry(player.getName());
-                    }
-                }
-            }
+            Faction viewerFaction = MPlayer.get(target).getFaction();
+            this.teamsFor(target.getScoreboard()).teamFor(viewerFaction, faction, id).addEntry(name);
         }
     }
 
     public void resendTab(Player player)
     {
-        // Verify
-        if (player == null || !player.isOnline()) return;
+        if ( ! MConf.get().scoreboardEnabled) return;
+        if (player == null || ! player.isOnline()) return;
+        if ( ! this.ownsBoard(player)) return;
 
-        // Args
-        MPlayer mplayer = MPlayer.get(player);
-        Faction faction = mplayer.getFaction();
-        Scoreboard scoreboard = player.getScoreboard();
+        Faction viewerFaction = MPlayer.get(player).getFaction();
+        RelationTeams teams = this.teamsFor(player.getScoreboard());
 
-        // Team
-        if (scoreboard != Bukkit.getScoreboardManager().getMainScoreboard())
+        for (Player target : Bukkit.getOnlinePlayers())
         {
-            Team enemy = this.getTeam(scoreboard, "factions-enemy", MConf.get().colorEnemy);
-            Team ally = this.getTeam(scoreboard, "factions-ally", MConf.get().colorAlly);
-            Team truce = this.getTeam(scoreboard, "factions-truce", MConf.get().colorTruce);
-            Team member = this.getTeam(scoreboard, "factions-member", MConf.get().colorMember);
-            Team neutral = this.getTeam(scoreboard, "factions-neutral", MConf.get().colorNeutral);
-            Team wilderness = this.getTeam(scoreboard, "factions-wilderness", MConf.get().colorWilderness);
-            Team focus = this.getTeam(scoreboard, "factions-focused", MConf.get().colorFocused);
-
-            for (Player target : Bukkit.getOnlinePlayers())
+            Team team;
+            if (target == player)
             {
-                if (player == target)
-                {
-                    member.addEntry(target.getName());
-                }
-                else if (faction.isPlayerFocused(target.getUniqueId()))
-                {
-                    focus.addEntry(target.getName());
-                }
-                else
-                {
-                    Faction targetFaction = MPlayer.get(target).getFaction();
-                    if (targetFaction == null || targetFaction.isNone())
-                    {
-                        wilderness.addEntry(target.getName());
-                    }
-                    else
-                    {
-                        Rel relationTo = targetFaction.getRelationTo(faction);
-                        switch (relationTo)
-                        {
-                            case TRUCE:
-                                truce.addEntry(target.getName());
-                                continue;
-                            case ALLY:
-                                ally.addEntry(target.getName());
-                                continue;
-                            case ENEMY:
-                                enemy.addEntry(target.getName());
-                                continue;
-                            case NEUTRAL:
-                                neutral.addEntry(target.getName());
-                                continue;
-                            case MEMBER:
-                                member.addEntry(target.getName());
-                        }
-                    }
-                }
+                team = teams.member();
             }
+            else
+            {
+                Faction entityFaction = MPlayer.get(target).getFaction();
+                team = teams.teamFor(viewerFaction, entityFaction, target.getUniqueId());
+            }
+            team.addEntry(target.getName());
         }
     }
 
-    private Team getTeam(Scoreboard scoreboard, String teamName, ChatColor color)
+    // -------------------------------------------- //
+    // TEAMS
+    // -------------------------------------------- //
+
+    private RelationTeams teamsFor(Scoreboard board)
     {
-        // Args
-        Team team = scoreboard.getTeam(teamName);
+        MConf conf = MConf.get();
+        Map<Rel, Team> byRel = new EnumMap<>(Rel.class);
+        byRel.put(Rel.ENEMY, this.getTeam(board, TEAM_ENEMY, Rel.ENEMY.getColor()));
+        byRel.put(Rel.ALLY, this.getTeam(board, TEAM_ALLY, Rel.ALLY.getColor()));
+        byRel.put(Rel.TRUCE, this.getTeam(board, TEAM_TRUCE, Rel.TRUCE.getColor()));
+        byRel.put(Rel.MEMBER, this.getTeam(board, TEAM_MEMBER, Rel.MEMBER.getColor()));
+        byRel.put(Rel.NEUTRAL, this.getTeam(board, TEAM_NEUTRAL, Rel.NEUTRAL.getColor()));
+        Team wilderness = this.getTeam(board, TEAM_WILDERNESS, conf.colorWilderness);
+        Team focus = this.getTeam(board, TEAM_FOCUSED, conf.colorFocused);
+        return new RelationTeams(byRel, wilderness, focus);
+    }
 
-        // Verify
-        if (team == null)
+    private Team getTeam(Scoreboard board, String name, ChatColor color)
+    {
+        Team team = board.getTeam(name);
+        if (team == null) team = board.registerNewTeam(name);
+        String prefix = color.toString();
+        if ( ! prefix.equals(team.getPrefix())) team.setPrefix(prefix);
+        return team;
+    }
+
+    private static final class RelationTeams
+    {
+        private final Map<Rel, Team> byRel;
+        private final Team wilderness;
+        private final Team focus;
+
+        private RelationTeams(Map<Rel, Team> byRel, Team wilderness, Team focus)
         {
-            // Create
-            team = scoreboard.registerNewTeam(teamName);
-
-            // Apply
-            team.setPrefix(color.toString());
+            this.byRel = byRel;
+            this.wilderness = wilderness;
+            this.focus = focus;
         }
 
-        // Return
-        return team;
+        private Team member()
+        {
+            return this.byRel.get(Rel.MEMBER);
+        }
+
+        private Team teamFor(Faction viewerFaction, Faction entityFaction, UUID entityId)
+        {
+            if (viewerFaction.isPlayerFocused(entityId)) return this.focus;
+            if (entityFaction.isNone()) return this.wilderness;
+            return this.byRel.getOrDefault(entityFaction.getRelationTo(viewerFaction), this.byRel.get(Rel.NEUTRAL));
+        }
     }
 
 }
