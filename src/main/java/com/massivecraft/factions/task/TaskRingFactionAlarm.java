@@ -24,8 +24,7 @@ public class TaskRingFactionAlarm extends ModuloRepeatTask
     @Override
     public long getDelayMillis()
     {
-        // The interval is determined by the MConf rather than being set with setDelayMillis.
-        return (long) (MConf.get().taskRingFactionAlarmMinutes * TimeUnit.MILLIS_PER_MINUTE);
+        return (long) (MConf.get().taskRingFactionAlarmSeconds * TimeUnit.MILLIS_PER_SECOND);
     }
 
     @Override
@@ -38,19 +37,25 @@ public class TaskRingFactionAlarm extends ModuloRepeatTask
             if (faction.isSystemFaction()) continue;
             if (!faction.isAlarmEnabled()) continue;
 
-            // Loop - MPlayers
-            for (MPlayer mplayer : faction.getMPlayersWhereAlt(false))
-            {
-                // Verify
-                if (!mplayer.hasAlertNotifications()) continue;
+            // Alarm
+            sendFactionAlarmAlert(faction);
+        }
+    }
 
-                // Args
-                Player player = mplayer.getPlayer();
+    public void sendFactionAlarmAlert(Faction faction)
+    {
+        // Loop - MPlayers
+        for (MPlayer mplayer : faction.getMPlayersWhereOnline(true))
+        {
+            // Verify
+            if (!mplayer.hasAlertNotifications()) continue;
 
-                // Inform
-                mplayer.msg("<b><bold>ALERT: %s <i>has sounded the alarm, get to the walls!", faction.describeTo(mplayer, true));
-                if (player != null && MConf.get().alarmVolume > 0.0f) player.playSound(player.getLocation(), MConf.get().alarmSound, MConf.get().alarmVolume, MConf.get().alarmPitch);
-            }
+            // Args
+            Player player = mplayer.getPlayer();
+
+            // Inform
+            mplayer.msg("<b><bold>ALERT: %s <i>has sounded the alarm, get to the walls!", faction.describeTo(mplayer, true));
+            if (player != null && MConf.get().alarmVolume > 0.0f) player.playSound(player.getLocation(), MConf.get().alarmSound, MConf.get().alarmVolume, MConf.get().alarmPitch);
         }
     }
 

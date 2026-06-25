@@ -1,9 +1,11 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Perm;
+import com.massivecraft.factions.cmd.req.ReqHasFaction;
 import com.massivecraft.factions.cmd.type.TypeFaction;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPerm;
+import com.massivecraft.factions.task.TaskRingFactionAlarm;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.type.primitive.TypeBooleanYes;
 import com.massivecraft.massivecore.util.Txt;
@@ -16,6 +18,9 @@ public class CmdFactionsAlarm extends FactionsCommand
 
     public CmdFactionsAlarm()
     {
+        // Requirements
+        this.addRequirements(ReqHasFaction.get());
+
         // Parameters
         this.addParameter(TypeFaction.get(), "faction", "you");
         this.addParameter(TypeBooleanYes.get(), "on/off", "flip");
@@ -30,7 +35,7 @@ public class CmdFactionsAlarm extends FactionsCommand
     {
         // Args
         Faction faction = this.readArg(msenderFaction);
-        boolean target = this.readArg( ! faction.isAlarmEnabled() );
+        boolean target = this.readArg( ! faction.isAlarmEnabled());
 
         // Verify - Permission
         if (faction != msenderFaction && ! Perm.ALARM_ANY.has(sender, true)) return;
@@ -42,7 +47,7 @@ public class CmdFactionsAlarm extends FactionsCommand
         }
 
         // MPerm
-        if ( ! MPerm.getPermAlarm().has(msender, faction, true) ) return;
+        if ( ! MPerm.getPermAlarm().has(msender, faction, true)) return;
 
         // Apply
         faction.setAlarmEnabled(target);
@@ -51,6 +56,9 @@ public class CmdFactionsAlarm extends FactionsCommand
         String desc = Txt.parse(faction.isAlarmEnabled() ? "<g>ENABLED" : "<b>DISABLED");
         String messageFaction = Txt.parse("<i>%s %s <i>the faction alarm.", msender.describeTo(faction, true), desc);
         faction.msg(messageFaction);
+
+        // Send Alarm
+        TaskRingFactionAlarm.get().sendFactionAlarmAlert(faction);
     }
 
 }
