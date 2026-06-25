@@ -7,6 +7,7 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.factions.event.EventFactionsChunksChange;
 import com.massivecraft.factions.event.EventFactionsMembershipChange;
+import com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.ps.PS;
 import org.apache.commons.lang.StringUtils;
@@ -22,8 +23,6 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import static com.massivecraft.factions.event.EventFactionsMembershipChange.MembershipChangeReason;
 
 public class EngineExtras extends Engine
 {
@@ -137,12 +136,11 @@ public class EngineExtras extends Engine
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerDamage(EntityDamageByEntityEvent event)
     {
-        if ( ! (event.getDamager() instanceof Player) ) return;
-
-        Player damager = (Player) event.getDamager();
-        if (damager == null) return;
-
-        if (MPlayer.get(damager).isAlt()) event.setCancelled(true);
+        if ( ! (event.getDamager() instanceof Player damager) ) return;
+        if (MPlayer.get(damager).isAlt())
+        {
+            event.setCancelled(true);
+        }
     }
 
     // -------------------------------------------- //
@@ -203,12 +201,10 @@ public class EngineExtras extends Engine
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onLandChange(EventFactionsChunksChange event)
     {
-        // Collect the factions whose claims are changing: the new owner and all previous owners.
-        final Set<Faction> affected = new HashSet<>();
+        Set<Faction> affected = new HashSet<>();
         affected.add(event.getNewFaction());
         affected.addAll(event.getOldFactionChunks().keySet());
 
-        // Defer to the next tick so the board reflects the applied claim/unclaim, then recompute base regions.
         Bukkit.getScheduler().runTask(Factions.get(), () ->
         {
             for (Faction faction : affected)

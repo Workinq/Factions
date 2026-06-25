@@ -59,7 +59,6 @@ public abstract class AltEditMenu<T extends Alt<T>> extends StandardGui
         button(22, new ItemBuilder(Material.ARROW).name(Txt.parse("<i>Back")), ctx -> backMenu());
     }
 
-    // Rebuild so the toggle button reflects the new paused state.
     protected void refresh()
     {
         clearContent();

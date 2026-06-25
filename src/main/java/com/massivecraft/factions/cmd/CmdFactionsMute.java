@@ -50,7 +50,7 @@ public class CmdFactionsMute extends FactionsCommand
 
             if (mplayer.getFaction() != msenderFaction)
             {
-                msender.msg("%s<i> is not apart of the faction.",mplayer.describeTo(msenderFaction));
+                msender.msg("%s<i> is not a part of the faction.",mplayer.describeTo(msenderFaction));
                 continue;
             }
 
@@ -60,12 +60,17 @@ public class CmdFactionsMute extends FactionsCommand
                 continue;
             }
 
-            msenderFaction.msg("%s<i> muted %s<i>", msender.describeTo(msenderFaction, true), mplayer.describeTo(msenderFaction));
+            // Mute
             FactionMute factionMute = new FactionMute(msender.getId(), mplayer.getId(), System.currentTimeMillis());
             msenderFaction.mute(factionMute);
 
+            // Inform
+            msenderFaction.msg("%s<i> muted %s<i>", msender.describeTo(msenderFaction, true), mplayer.describeTo(msenderFaction));
+
+            // Audit
             AuditUtil.log(AuditCategory.MUTE, AuditAction.MUTE_ADD, sender, msenderFaction, mplayer.getId());
 
+            // Log
             if (MConf.get().logFactionMute)
             {
                 Factions.get().log(msender.getDisplayName(IdUtil.getConsole()) + " muted " + mplayer.getName() + " in the faction " + msenderFaction.getName());

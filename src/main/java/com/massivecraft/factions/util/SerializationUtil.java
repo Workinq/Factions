@@ -7,15 +7,10 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 public class SerializationUtil
 {
-
     // -------------------------------------------- //
     // INVENTORY SERIALIZING & DESERIALIZING
     // -------------------------------------------- //
 
-    // Serialises the contents to a Base64 string of raw NBT bytes. ItemStack's byte
-    // serialisation runs through Mojang's data converter, so unlike the old object
-    // stream it is lossless (data components, custom NBT, PDC) and migrates forward
-    // across Minecraft versions.
     public static String toBase64(Inventory inventory) throws IllegalStateException
     {
         return toBase64(inventory.getContents());
