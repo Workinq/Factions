@@ -1,7 +1,5 @@
 package com.massivecraft.factions.entity;
 
-import com.massivecraft.factions.entity.object.AuditCategory;
-import com.massivecraft.massivecore.collections.MassiveList;
 import com.massivecraft.massivecore.collections.MassiveMap;
 import com.massivecraft.massivecore.store.Coll;
 
@@ -19,25 +17,26 @@ public class AuditEntryColl extends Coll<AuditEntry>
 	private static AuditEntryColl i = new AuditEntryColl();
 	public static AuditEntryColl get() { return i; }
 
-	// Newest first. Reused by queries and pruning.
-	public static final Comparator<AuditEntry> NEWEST_FIRST =
-		Comparator.comparingLong(AuditEntry::getCreatedMillis).reversed();
-
 	// -------------------------------------------- //
-	// OVERRIDE: COLL
+	// OVERRIDE
 	// -------------------------------------------- //
 
 	@Override
 	public void setActive(boolean active)
 	{
-		super.setActive(active); // initLoadAllFromRemote loads every entry into memory
+		super.setActive(active);
 		if (!active) return;
-		// Load-time trim so steady-state memory matches the configured caps.
 		this.pruneAll();
 	}
 
 	// -------------------------------------------- //
-	// QUERIES (in-memory; n is bounded by retention)
+	// FIELDS
+	// -------------------------------------------- //
+
+	public static final Comparator<AuditEntry> NEWEST_FIRST = Comparator.comparingLong(AuditEntry::getCreatedMillis).reversed();
+
+	// -------------------------------------------- //
+	// QUERIES
 	// -------------------------------------------- //
 
 	public List<AuditEntry> getEntriesForFaction(String factionId)
@@ -61,7 +60,6 @@ public class AuditEntryColl extends Coll<AuditEntry>
 	// RETENTION / PRUNE
 	// -------------------------------------------- //
 
-	// Three rules applied in order. Each prune = entry.detach() (removes from memory + deletes the file).
 	public int pruneAll()
 	{
 		MConf conf = MConf.get();
@@ -72,7 +70,7 @@ public class AuditEntryColl extends Coll<AuditEntry>
 
 		int removed = 0;
 
-		// RULE 1: age.
+		// Age retention
 		if (conf.auditRetentionDays > 0)
 		{
 			for (AuditEntry entry : new ArrayList<>(this.getAll()))
@@ -83,7 +81,7 @@ public class AuditEntryColl extends Coll<AuditEntry>
 			}
 		}
 
-		// RULE 2: per-faction cap (keep newest perFactionCap each).
+		// Per-faction cap
 		if (perFactionCap > 0)
 		{
 			Map<String, List<AuditEntry>> byFaction = new MassiveMap<>();
@@ -103,7 +101,7 @@ public class AuditEntryColl extends Coll<AuditEntry>
 			}
 		}
 
-		// RULE 3: global cap (keep newest globalCap).
+		// Global cap
 		if (globalCap > 0)
 		{
 			List<AuditEntry> survivors = this.getAll(NEWEST_FIRST);
@@ -117,7 +115,6 @@ public class AuditEntryColl extends Coll<AuditEntry>
 		return removed;
 	}
 
-	// Trim a single faction back to the per-faction cap. Called at write time.
 	public void trimFaction(String factionId)
 	{
 		int cap = MConf.get().auditMaxEntriesPerFaction;
@@ -125,4 +122,5 @@ public class AuditEntryColl extends Coll<AuditEntry>
 		List<AuditEntry> mine = this.getEntriesForFaction(factionId); // newest first
 		for (int idx = cap; idx < mine.size(); idx++) mine.get(idx).detach();
 	}
+
 }
