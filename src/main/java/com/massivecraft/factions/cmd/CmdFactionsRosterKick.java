@@ -7,13 +7,13 @@ import com.massivecraft.factions.entity.MPerm;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.MassiveException;
 
-public class CmdFactionsRosterRemove extends FactionsCommand
+public class CmdFactionsRosterKick extends FactionsCommand
 {
     // -------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------- //
 
-    public CmdFactionsRosterRemove()
+    public CmdFactionsRosterKick()
     {
         // Parameters
         this.addParameter(TypeMPlayer.get(), "player");
